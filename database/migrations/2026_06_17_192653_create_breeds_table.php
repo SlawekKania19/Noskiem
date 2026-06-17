@@ -17,6 +17,7 @@ return new class extends Migration
             // nazwy rasy
             $table->string('breed_pl'); // np. Owczarek niemiecki
             $table->string('breed_en')->nullable(); // na przyszłość
+            $table->unsignedBigInteger('species_id');
 
             $table->timestamps();
 
