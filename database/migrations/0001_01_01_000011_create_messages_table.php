@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moderation_logs', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('animal_id');
+            $table->string('name');
+            $table->string('email');
+            $table->text('message');
             $table->timestamps();
+            $table->foreign('animal_id')
+                ->references('id')
+                ->on('animals')
+                ->onDelete('cascade');
         });
     }
 
@@ -22,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moderation_logs');
+        Schema::dropIfExists('messages');
     }
 };
