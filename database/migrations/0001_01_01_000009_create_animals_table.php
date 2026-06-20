@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Wykonaj migrację.
+     */
     public function up(): void
     {
         Schema::create('animals', function (Blueprint $table) {
@@ -52,9 +55,33 @@ return new class extends Migration
             $table->string('edit_token')->unique();
 
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('species_id')
+                ->references('id')
+                ->on('species')
+                ->onDelete('restrict');
+
+            $table->foreign('breed_id')
+                ->references('id')
+                ->on('breeds')
+                ->onDelete('restrict');
+
+            $table->foreign('voivodship_id')
+                ->references('id')
+                ->on('voivodships')
+                ->onDelete('restrict');
+
+            $table->foreign('city_id')
+                ->references('id')
+                ->on('cities')
+                ->onDelete('restrict');
         });
     }
 
+    /**
+     * Cofnij migrację.
+     */
     public function down(): void
     {
         Schema::dropIfExists('animals');

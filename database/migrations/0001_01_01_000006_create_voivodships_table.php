@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Wykonaj migrację.
+     */
     public function up(): void
     {
         Schema::create('voivodships', function (Blueprint $table) {
@@ -19,6 +22,9 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Cofnij migrację.
+     */
     public function down(): void
     {
         Schema::dropIfExists('voivodships');

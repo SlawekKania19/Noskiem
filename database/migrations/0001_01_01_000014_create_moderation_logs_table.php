@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Wykonaj migrację
+     */
     public function up(): void
     {
         Schema::create('moderation_logs', function (Blueprint $table) {
@@ -32,6 +35,9 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Cofnij migrację.
+     */
     public function down(): void
     {
         Schema::dropIfExists('moderation_logs');
