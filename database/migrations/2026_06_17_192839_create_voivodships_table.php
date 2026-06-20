@@ -13,7 +13,7 @@ return new class extends Migration
 
             // Nazwa województwa
             $table->string('name_pl'); // np. Śląskie
-            $table->string('name_en')->nullable(); // opcjonalnie na przyszłość
+            $table->string('name_en')->nullable(); // w języku angielskim, np. Silesian, opcjonalnie
 
             $table->timestamps();
         });

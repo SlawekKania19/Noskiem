@@ -8,16 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('species', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('name_pl'); // np. Pies, Kot, Inne
-            $table->string('name_en')->nullable(); // Nazwa angielska, np. Dog, Cat, Other
+
+            // Nazwa miasta
+            $table->string('name_pl'); // np. Kraków
+            $table->string('name_en')->nullable(); // w języku angielskim, np. Cracow, opcjonalnie
+
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('species');
+        Schema::dropIfExists('cities');
     }
 };
