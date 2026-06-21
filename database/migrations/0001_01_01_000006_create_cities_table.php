@@ -14,11 +14,20 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
 
+            // Powiązanie z województwem
+            $table->unsignedBigInteger('voivodship_id');
+
             // Nazwa miasta
             $table->string('name_pl'); // np. Kraków
-            $table->string('name_en')->nullable(); // w języku angielskim, np. Cracow, opcjonalnie
+            $table->string('name_en')->nullable(); // np. Cracow
 
             $table->timestamps();
+
+            // Klucz obcy
+            $table->foreign('voivodship_id')
+                ->references('id')
+                ->on('voivodships')
+                ->onDelete('restrict');
         });
     }
 

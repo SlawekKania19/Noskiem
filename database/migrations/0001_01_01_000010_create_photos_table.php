@@ -6,29 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Wykonaj migrację.
-     */
     public function up(): void
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('animal_id');
+
+            // Zdjęcie może należeć do opublikowanego ogłoszenia
+            $table->unsignedBigInteger('animal_id')->nullable();
+
+            // ...lub do pending edycji
+            $table->unsignedBigInteger('animal_edit_id')->nullable();
+
             $table->string('path');
-            $table->timestamps();
             $table->boolean('is_main')->default(false);
+            $table->timestamps();
 
-
+            // FK do animals
             $table->foreign('animal_id')
                 ->references('id')
                 ->on('animals')
                 ->onDelete('cascade');
+
+            // FK do animal_edits
+            $table->foreign('animal_edit_id')
+                ->references('id')
+                ->on('animal_edits')
+                ->onDelete('cascade');
         });
     }
 
-    /**
-     * Cofnij migrację.
-     */
     public function down(): void
     {
         Schema::dropIfExists('photos');

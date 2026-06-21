@@ -15,7 +15,11 @@ return new class extends Migration
             $table->unsignedBigInteger('animal_id');
             $table->unsignedBigInteger('color_id');
 
+            // Composite primary to prevent duplicate pairs
             $table->primary(['animal_id', 'color_id']);
+
+            // Optional timestamps to track when relation was created/updated
+            $table->timestamps();
 
             $table->foreign('animal_id')
                 ->references('id')
