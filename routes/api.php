@@ -16,7 +16,7 @@ use App\Http\Controllers\ModerationController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('throttle:30,1')->group(function () {
+Route::middleware('throttle:4,1')->group(function () {
 
     // PUBLICZNE API
     Route::get('/animals', [AnimalController::class, 'index']);
