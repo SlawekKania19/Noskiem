@@ -38,7 +38,9 @@ return new class extends Migration
             $table->date('date_event');
 
             // Lokalizacja
+
             $table->unsignedBigInteger('voivodeship_id');
+
             $table->unsignedBigInteger('city_id');
             $table->string('location_text');
 
@@ -70,6 +72,7 @@ return new class extends Migration
             $table->foreign('voivodeship_id')
                 ->references('id')
                 ->on('voivodeships')
+
                 ->onDelete('restrict');
 
             $table->foreign('city_id')
