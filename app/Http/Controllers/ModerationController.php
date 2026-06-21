@@ -31,7 +31,7 @@ class ModerationController extends Controller
                     'species_id'    => $edit->species_id,
                     'breed_id'      => $edit->breed_id,
                     'date_event'    => $edit->date_event,
-                    'voivodship_id' => $edit->voivodship_id,
+                    'voivodeship_id' => $edit->voivodeship_id,
                     'city_id'       => $edit->city_id,
                     'location_text' => $edit->location_text,
                     'latitude'      => $edit->latitude,
@@ -74,7 +74,7 @@ class ModerationController extends Controller
                 'species_id'    => $edit->species_id,
                 'breed_id'      => $edit->breed_id,
                 'date_event'    => $edit->date_event,
-                'voivodship_id' => $edit->voivodship_id,
+                'voivodeship_id' => $edit->voivodeship_id,
                 'city_id'       => $edit->city_id,
                 'location_text' => $edit->location_text,
                 'latitude'      => $edit->latitude,
@@ -141,7 +141,7 @@ class ModerationController extends Controller
         $fields = [
             'status', 'title', 'description', 'animal_name', 'ident_marks',
             'chip_present', 'chip_number', 'species_id', 'breed_id',
-            'date_event', 'voivodship_id', 'city_id', 'location_text',
+            'date_event', 'voivodeship_id', 'city_id', 'location_text',
             'latitude', 'longitude', 'contact_name', 'contact_email', 'contact_phone'
         ];
 

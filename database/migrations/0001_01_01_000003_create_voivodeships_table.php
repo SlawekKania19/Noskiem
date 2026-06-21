@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('voivodships', function (Blueprint $table) {
+        Schema::create('voivodeships', function (Blueprint $table) {
             $table->id();
 
             // Nazwa województwa
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voivodships');
+        Schema::dropIfExists('voivodeships');
     }
 };

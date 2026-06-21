@@ -13,7 +13,7 @@ class AnimalEditController extends Controller
     public function indexPending()
     {
         return AnimalEdit::where('mod_status', 'pending')
-            ->with(['species', 'breed', 'voivodship', 'city', 'animal'])
+            ->with(['species', 'breed', 'voivodeship', 'city', 'animal'])
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -26,7 +26,7 @@ class AnimalEditController extends Controller
         return $animalEdit->load([
             'species',
             'breed',
-            'voivodship',
+            'voivodeship',
             'city',
             'animal',
             'photos'
@@ -50,7 +50,7 @@ class AnimalEditController extends Controller
             'species_id'    => 'required|exists:species,id',
             'breed_id'      => 'required|exists:breeds,id',
             'date_event'    => 'required|date',
-            'voivodship_id' => 'required|exists:voivodships,id',
+            'voivodeship_id' => 'required|exists:voivodeships,id',
             'city_id'       => 'required|exists:cities,id',
             'location_text' => 'required|string|max:255',
             'latitude'      => 'required|numeric',

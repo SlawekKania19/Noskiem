@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // Model reprezentujący województwo, które może mieć wiele miast i zwierząt.
 
-class Voivodship extends Model
+class Voivodeship extends Model
 {
     protected $fillable = [
         'name_pl',

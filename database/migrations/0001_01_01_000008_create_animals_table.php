@@ -38,7 +38,7 @@ return new class extends Migration
             $table->date('date_event');
 
             // Lokalizacja
-            $table->unsignedBigInteger('voivodship_id');
+            $table->unsignedBigInteger('voivodeship_id');
             $table->unsignedBigInteger('city_id');
             $table->string('location_text');
 
@@ -67,9 +67,9 @@ return new class extends Migration
                 ->on('breeds')
                 ->onDelete('restrict');
 
-            $table->foreign('voivodship_id')
+            $table->foreign('voivodeship_id')
                 ->references('id')
-                ->on('voivodships')
+                ->on('voivodeships')
                 ->onDelete('restrict');
 
             $table->foreign('city_id')

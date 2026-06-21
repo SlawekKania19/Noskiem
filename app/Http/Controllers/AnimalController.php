@@ -12,7 +12,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        return Animal::with(['species', 'breed', 'voivodship', 'city', 'photos'])
+        return Animal::with(['species', 'breed', 'voivodeship', 'city', 'photos'])
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -25,7 +25,7 @@ class AnimalController extends Controller
         return $animal->load([
             'species',
             'breed',
-            'voivodship',
+            'voivodeship',
             'city',
             'photos'
         ]);

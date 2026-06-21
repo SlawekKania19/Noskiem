@@ -24,7 +24,7 @@ class AnimalEdit extends Model
         'species_id',
         'breed_id',
         'date_event',
-        'voivodship_id',
+        'voivodeship_id',
         'city_id',
         'location_text',
         'latitude',
@@ -63,9 +63,9 @@ class AnimalEdit extends Model
         return $this->belongsTo(Breed::class);
     }
 
-    public function voivodship(): BelongsTo
+    public function voivodeship(): BelongsTo
     {
-        return $this->belongsTo(Voivodship::class);
+        return $this->belongsTo(Voivodeship::class);
     }
 
     public function city(): BelongsTo

@@ -13,7 +13,7 @@ class City extends Model
     protected $fillable = [
         'name_pl',
         'name_en',
-        'voivodship_id',
+        'voivodeship_id',
     ];
 
     /*
@@ -22,9 +22,9 @@ class City extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function voivodship(): BelongsTo
+    public function voivodeship(): BelongsTo
     {
-        return $this->belongsTo(Voivodship::class);
+        return $this->belongsTo(Voivodeship::class);
     }
 
     public function animals(): HasMany

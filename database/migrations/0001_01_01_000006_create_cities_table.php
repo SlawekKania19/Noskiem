@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             // Powiązanie z województwem
-            $table->unsignedBigInteger('voivodship_id');
+            $table->unsignedBigInteger('voivodeship_id');
 
             // Nazwa miasta
             $table->string('name_pl'); // np. Kraków
@@ -24,9 +24,9 @@ return new class extends Migration
             $table->timestamps();
 
             // Klucz obcy
-            $table->foreign('voivodship_id')
+            $table->foreign('voivodeship_id')
                 ->references('id')
-                ->on('voivodships')
+                ->on('voivodeships')
                 ->onDelete('restrict');
         });
     }
