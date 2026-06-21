@@ -1,0 +1,1722 @@
+voivodeship_id,city_PL,city_EN
+1,Wrocław,Wrocław
+1,Wałbrzych,Wałbrzych
+1,Legnica,Legnica
+1,Jelenia Góra,Jelenia Góra
+1,Lubin,Lubin
+1,Głogów,Głogów
+1,Świdnica,Świdnica
+1,Bolesławiec,Bolesławiec
+1,Oleśnica,Oleśnica
+1,Oława,Oława
+1,Jawor,Jawor
+1,Zgorzelec,Zgorzelec
+1,Polkowice,Polkowice
+1,Dzierżoniów,Dzierżoniów
+1,Kłodzko,Kłodzko
+1,Nowa Ruda,Nowa Ruda
+1,Trzebnica,Trzebnica
+1,Strzelin,Strzelin
+1,Milicz,Milicz
+1,Świebodzice,Świebodzice
+1,Ząbkowice Śląskie,Ząbkowice Śląskie
+1,Lubań,Lubań
+1,Kamienna Góra,Kamienna Góra
+1,Bielawa,Bielawa
+1,Chojnów,Chojnów
+1,Bystrzyca Kłodzka,Bystrzyca Kłodzka
+1,Brzeg Dolny,Brzeg Dolny
+1,Boguszów-Gorce,Boguszów-Gorce
+1,Oborniki Śląskie,Oborniki Śląskie
+1,Siechnice,Siechnice
+1,Kąty Wrocławskie,Kąty Wrocławskie
+1,Środa Śląska,Środa Śląska
+1,Wołów,Wołów
+1,Miękinia,Miękinia
+1,Czernica,Czernica
+1,Długołęka,Długołęka
+1,Kobierzyce,Kobierzyce
+1,Żórawina,Żórawina
+1,Jordanów Śląski,Jordanów Śląski
+1,Smolec,Smolec
+1,Kamieniec Wrocławski,Kamieniec Wrocławski
+1,Bielany Wrocławskie,Bielany Wrocławskie
+1,Tyniec Mały,Tyniec Mały
+1,Mirków,Mirków
+1,Chrząstawa Mała,Chrząstawa Mała
+1,Chrząstawa Wielka,Chrząstawa Wielka
+1,Radwanice,Radwanice
+1,Święta Katarzyna,Święta Katarzyna
+1,Żerniki Wrocławskie,Żerniki Wrocławskie
+1,Łagiewniki,Łagiewniki
+1,Niemcza,Niemcza
+1,Piława Górna,Piława Górna
+1,Żmigród,Żmigród
+1,Prusice,Prusice
+1,Syców,Syców
+1,Twardogóra,Twardogóra
+1,Wińsko,Wińsko
+1,Przeworno,Przeworno
+1,Kondratowice,Kondratowice
+1,Ciepłowody,Ciepłowody
+1,Ziębice,Ziębice
+1,Zawonia,Zawonia
+1,Żórawina,Żórawina
+1,Marcinkowice,Marcinkowice
+1,Domaniow,Domaniow
+1,Łagiewniki Śląskie,Łagiewniki Śląskie
+2,Bydgoszcz,Bydgoszcz
+2,Toruń,Toruń
+2,Włocławek,Włocławek
+2,Grudziądz,Grudziądz
+2,Inowrocław,Inowrocław
+2,Brodnica,Brodnica
+2,Świecie,Świecie
+2,Chełmno,Chełmno
+2,Chełmża,Chełmża
+2,Solec Kujawski,Solec Kujawski
+2,Żnin,Żnin
+2,Mogilno,Mogilno
+2,Radziejów,Radziejów
+2,Lipno,Lipno
+2,Rypin,Rypin
+2,Tuchola,Tuchola
+2,Nakło nad Notecią,Nakło nad Notecią
+2,Sępólno Krajeńskie,Sępólno Krajeńskie
+2,Janikowo,Janikowo
+2,Pakość,Pakość
+2,Kruszwica,Kruszwica
+2,Barcin,Barcin
+2,Łabiszyn,Łabiszyn
+2,Koronowo,Koronowo
+2,Solec Kujawski,Solec Kujawski
+2,Nowe,Nowe
+2,Śliwice,Śliwice
+2,Cekcyn,Cekcyn
+2,Kęsowo,Kęsowo
+2,Osielsko,Osielsko
+2,Białe Błota,Białe Błota
+2,Łochowo,Łochowo
+2,Łochowice,Łochowice
+2,Brzoza,Brzoza
+2,Tryszczyn,Tryszczyn
+2,Żołędowo,Żołędowo
+2,Niemcz,Niemcz
+2,Strzelce Górne,Strzelce Górne
+2,Strzelce Dolne,Strzelce Dolne
+2,Pruszcz,Pruszcz
+2,Dobrcz,Dobrcz
+2,Wtelno,Wtelno
+2,Sicienko,Sicienko
+2,Mrocza,Mrocza
+2,Kcynia,Kcynia
+2,Więcbork,Więcbork
+2,Kamień Krajeński,Kamień Krajeński
+2,Skórcz,Skórcz
+2,Topólka,Topólka
+2,Chodecz,Chodecz
+2,Izbica Kujawska,Izbica Kujawska
+2,Brześć Kujawski,Brześć Kujawski
+2,Kowal,Kowal
+2,Chrostkowo,Chrostkowo
+2,Skrwilno,Skrwilno
+2,Brzuze,Brzuze
+2,Rogowo,Rogowo
+2,Golub-Dobrzyń,Golub-Dobrzyń
+2,Dobrzyń nad Wisłą,Dobrzyń nad Wisłą
+2,Zbójno,Zbójno
+2,Ciechocin,Ciechocin
+2,Obrowo,Obrowo
+2,Lubicz,Lubicz
+2,Wielka Nieszawka,Wielka Nieszawka
+2,Mała Nieszawka,Mała Nieszawka
+2,Łysomice,Łysomice
+2,Papowo Toruńskie,Papowo Toruńskie
+2,Turzno,Turzno
+2,Chełmża (wieś),Chełmża (wieś)
+2,Kijewo Królewskie,Kijewo Królewskie
+2,Unisław,Unisław
+2,Gruta,Gruta
+2,Radzyn Chełmiński,Radzyn Chełmiński
+2,Łasin,Łasin
+2,Jabłonowo Pomorskie,Jabłonowo Pomorskie
+2,Bartniczka,Bartniczka
+2,Zbiczno,Zbiczno
+2,Osiek,Osiek
+2,Świekatowo,Świekatowo
+2,Dragacz,Dragacz
+2,Jeżewo,Jeżewo
+2,Pruszcz (kujawsko-pomorskie),Pruszcz (kujawsko-pomorskie)
+2,Nowe Marzy,Nowe Marzy
+2,Gruczno,Gruczno
+2,Lnian,Lnian
+2,Osięciny,Osięciny
+2,Topólka,Topólka
+2,Piotrków Kujawski,Piotrków Kujawski
+2,Dąbrowa Biskupia,Dąbrowa Biskupia
+2,Złotniki Kujawskie,Złotniki Kujawskie
+2,Rojewo,Rojewo
+2,Inowrocław (wieś),Inowrocław (wieś)
+2,Pakość (wieś),Pakość (wieś)
+2,Barcin (wieś),Barcin (wieś)
+2,Janowiec Wielkopolski,Janowiec Wielkopolski
+2,Gąsawa,Gąsawa
+2,Rogowo (żniński),Rogowo (żniński)
+2,Damasławek,Damasławek
+2,Mogilno (wieś),Mogilno (wieś)
+2,Strzelno,Strzelno
+2,Radziejów (wieś),Radziejów (wieś)
+2,Bytoń,Bytoń
+2,Piotrków Kujawski (wieś),Piotrków Kujawski (wieś)
+3,Lublin,Lublin
+3,Chełm,Chełm
+3,Zamość,Zamość
+3,Biała Podlaska,Biała Podlaska
+3,Puławy,Puławy
+3,Kraśnik,Kraśnik
+3,Świdnik,Świdnik
+3,Łuków,Łuków
+3,Biłgoraj,Biłgoraj
+3,Tomaszów Lubelski,Tomaszów Lubelski
+3,Łęczna,Łęczna
+3,Opole Lubelskie,Opole Lubelskie
+3,Parczew,Parczew
+3,Ryki,Ryki
+3,Radzyń Podlaski,Radzyń Podlaski
+3,Janów Lubelski,Janów Lubelski
+3,Hrubieszów,Hrubieszów
+3,Włodawa,Włodawa
+3,Krasnystaw,Krasnystaw
+3,Międzyrzec Podlaski,Międzyrzec Podlaski
+3,Terespól,Terespól
+3,Rejowiec Fabryczny,Rejowiec Fabryczny
+3,Frampol,Frampol
+3,Szczebrzeszyn,Szczebrzeszyn
+3,Turobin,Turobin
+3,Józefów nad Wisłą,Józefów nad Wisłą
+3,Annopol,Annopol
+3,Niemce,Niemce
+3,Jastków,Jastków
+3,Konopnica,Konopnica
+3,Garbów,Garbów
+3,Bełżyce,Bełżyce
+3,Piaski,Piaski
+3,Mełgiew,Mełgiew
+3,Urzędów,Urzędów
+3,Wilkołaz,Wilkołaz
+3,Trzydnik Duży,Trzydnik Duży
+3,Dzierzkowice,Dzierzkowice
+3,Modliborzyce,Modliborzyce
+3,Godziszów,Godziszów
+3,Potok Wielki,Potok Wielki
+3,Janów (wieś),Janów (wieś)
+3,Łaziska,Łaziska
+3,Końskowola,Końskowola
+3,Kazimierz Dolny,Kazimierz Dolny
+3,Nałęczów,Nałęczów
+3,Wąwolnica,Wąwolnica
+3,Markuszów,Markuszów
+3,Żyrzyn,Żyrzyn
+3,Baranów,Baranów
+3,Kłoczew,Kłoczew
+3,Stężyca,Stężyca
+3,Ułęż,Ułęż
+3,Dęblin,Dęblin
+3,Kock,Kock
+3,Czemierniki,Czemierniki
+3,Ulan-Majorat,Ulan-Majorat
+3,Kąkolewnica,Kąkolewnica
+3,Komarówka Podlaska,Komarówka Podlaska
+3,Wohyń,Wohyń
+3,Parczew (wieś),Parczew (wieś)
+3,Jabłoń,Jabłoń
+3,Dębowa Kłoda,Dębowa Kłoda
+3,Sawin,Sawin
+3,Rejowiec,Rejowiec
+3,Rejowiec Fabryczny (wieś),Rejowiec Fabryczny (wieś)
+3,Leśniowice,Leśniowice
+3,Żmudź,Żmudź
+3,Wojsławice,Wojsławice
+3,Białopole,Białopole
+3,Chełm (wieś),Chełm (wieś)
+3,Łopiennik Górny,Łopiennik Górny
+3,Fajsławice,Fajsławice
+3,Siennica Różana,Siennica Różana
+3,Izbica,Izbica
+3,Krasnystaw (wieś),Krasnystaw (wieś)
+3,Turobin (wieś),Turobin (wieś)
+3,Grabowiec,Grabowiec
+3,Miączyn,Miączyn
+3,Skierbieszów,Skierbieszów
+3,Sitno,Sitno
+3,Łabunie,Łabunie
+3,Komarów-Osada,Komarów-Osada
+3,Kotlice,Kotlice
+3,Radecznica,Radecznica
+3,Szczebrzeszyn (wieś),Szczebrzeszyn (wieś)
+3,Nielisz,Nielisz
+3,Sułów,Sułów
+3,Adamów (zamojski),Adamów (zamojski)
+3,Zwierzyniec,Zwierzyniec
+3,Tereszpol,Tereszpol
+3,Biłgoraj (wieś),Biłgoraj (wieś)
+3,Potok Górny,Potok Górny
+3,Księżpol,Księżpol
+3,Tarnogród,Tarnogród
+3,Obsza,Obsza
+3,Lubycza Królewska,Lubycza Królewska
+3,Bełżec,Bełżec
+3,Narol,Narol
+3,Horyniec-Zdrój,Horyniec-Zdrój
+3,Cieszanów,Cieszanów
+3,Jarczów,Jarczów
+3,Tomaszów Lubelski (wieś),Tomaszów Lubelski (wieś)
+3,Rachanie,Rachanie
+3,Tyszowce,Tyszowce
+3,Ulhówek,Ulhówek
+3,Włodawa (wieś),Włodawa (wieś)
+3,Hanna,Hanna
+3,Sławatycze,Sławatycze
+3,Wyryki,Wyryki
+3,Stary Brus,Stary Brus
+3,Urszulin,Urszulin
+3,Hańsk,Hańsk
+3,Łęczna (wieś),Łęczna (wieś)
+3,Puchaczów,Puchaczów
+3,Cyców,Cyców
+3,Milejów,Milejów
+3,Spiczyn,Spiczyn
+3,Ludwin,Ludwin
+3,Jabłonna,Jabłonna
+3,Głusk,Głusk
+3,Wólka,Wólka
+3,Niedrzwica Duża,Niedrzwica Duża
+3,Strzyżewice,Strzyżewice
+3,Bychawa,Bychawa
+3,Wysokie,Wysokie
+3,Krzczonów,Krzczonów
+3,Jabłonna (wieś),Jabłonna (wieś)
+4,Gorzów Wielkopolski,Gorzów Wielkopolski
+4,Zielona Góra,Zielona Góra
+4,Nowa Sól,Nowa Sól
+4,Żary,Żary
+4,Żagań,Żagań
+4,Świebodzin,Świebodzin
+4,Międzyrzecz,Międzyrzecz
+4,Sulechów,Sulechów
+4,Kostrzyn nad Odrą,Kostrzyn nad Odrą
+4,Strzelce Krajeńskie,Strzelce Krajeńskie
+4,Drezdenko,Drezdenko
+4,Skwierzyna,Skwierzyna
+4,Wschowa,Wschowa
+4,Słubice,Słubice
+4,Krosno Odrzańskie,Krosno Odrzańskie
+4,Gubin,Gubin
+4,Lubsko,Lubsko
+4,Bytom Odrzański,Bytom Odrzański
+4,Kożuchów,Kożuchów
+4,Cybinka,Cybinka
+4,Rzepin,Rzepin
+4,Ośno Lubuskie,Ośno Lubuskie
+4,Torzym,Torzym
+4,Łagów,Łagów
+4,Trzciel,Trzciel
+4,Pszczew,Pszczew
+4,Bledzew,Bledzew
+4,Przytoczna,Przytoczna
+4,Pszczew,Pszczew
+4,Deszczno,Deszczno
+4,Kłodawa,Kłodawa
+4,Santok,Santok
+4,Bogdaniec,Bogdaniec
+4,Lubiszyn,Lubiszyn
+4,Kłodawa (wieś),Kłodawa (wieś)
+4,Zabór,Zabór
+4,Czerwieńsk,Czerwieńsk
+4,Babimost,Babimost
+4,Kargowa,Kargowa
+4,Siedlisko,Siedlisko
+4,Otyń,Otyń
+4,Nowogród Bobrzański,Nowogród Bobrzański
+4,Brzeźnica,Brzeźnica
+4,Małomice,Małomice
+4,Niegosławice,Niegosławice
+4,Szprotawa,Szprotawa
+4,Wymiarki,Wymiarki
+4,Jasień,Jasień
+4,Lipinki Łużyckie,Lipinki Łużyckie
+4,Brody,Brody
+4,Tuplice,Tuplice
+4,Trzebiel,Trzebiel
+4,Gozdnica,Gozdnica
+4,Iłowa,Iłowa
+4,Witnica,Witnica
+4,Białcz,Białcz
+4,Marwice,Marwice
+4,Nowe Miasteczko,Nowe Miasteczko
+4,Konotop,Konotop
+4,Kolsko,Kolsko
+4,Bojadła,Bojadła
+4,Trzebiechów,Trzebiechów
+4,Szczaniec,Szczaniec
+4,Zbąszynek,Zbąszynek
+4,Zbąszynek (wieś),Zbąszynek (wieś)
+4,Krzeszyce,Krzeszyce
+4,Krzeszyce (wieś),Krzeszyce (wieś)
+4,Maszewo,Maszewo
+4,Dąbie,Dąbie
+4,Gubin (wieś),Gubin (wieś)
+4,Brójce,Brójce
+4,Łęknica,Łęknica
+4,Przewóz,Przewóz
+4,Nowe Czaple,Nowe Czaple
+4,Grabik,Grabik
+4,Kunice,Kunice
+4,Stary Kisielin,Stary Kisielin
+4,Nowy Kisielin,Nowy Kisielin
+4,Przylep,Przylep
+4,Ochla,Ochla
+4,Drzonków,Drzonków
+4,Racula,Racula
+4,Zawada,Zawada
+4,Stary Staw,Stary Staw
+4,Łężyca,Łężyca
+5,Łódź,Łódź
+5,Piotrków Trybunalski,Piotrków Trybunalski
+5,Skierniewice,Skierniewice
+5,Bełchatów,Bełchatów
+5,Pabianice,Pabianice
+5,Zgierz,Zgierz
+5,Tomaszów Mazowiecki,Tomaszów Mazowiecki
+5,Radomsko,Radomsko
+5,Kutno,Kutno
+5,Zduńska Wola,Zduńska Wola
+5,Sieradz,Sieradz
+5,Łowicz,Łowicz
+5,Opoczno,Opoczno
+5,Wieluń,Wieluń
+5,Łask,Łask
+5,Koluszki,Koluszki
+5,Ozorków,Ozorków
+5,Konstantynów Łódzki,Konstantynów Łódzki
+5,Brzeziny,Brzeziny
+5,Rawa Mazowiecka,Rawa Mazowiecka
+5,Poddębice,Poddębice
+5,Uniejów,Uniejów
+5,Łęczyca,Łęczyca
+5,Żychlin,Żychlin
+5,Głowno,Głowno
+5,Parzęczew,Parzęczew
+5,Aleksandrów Łódzki,Aleksandrów Łódzki
+5,Andrespol,Andrespol
+5,Rzgów,Rzgów
+5,Tuszyn,Tuszyn
+5,Brójce,Brójce
+5,Nowosolna,Nowosolna
+5,Dalików,Dalików
+5,Lutomiersk,Lutomiersk
+5,Pabianice (wieś),Pabianice (wieś)
+5,Dobroń,Dobroń
+5,Widawa,Widawa
+5,Sędziejowice,Sędziejowice
+5,Zelów,Zelów
+5,Kluki,Kluki
+5,Kleszczów,Kleszczów
+5,Szczerców,Szczerców
+5,Rusiec,Rusiec
+5,Drużbice,Drużbice
+5,Bełchatów (wieś),Bełchatów (wieś)
+5,Kamieńsk,Kamieńsk
+5,Gomunice,Gomunice
+5,Kobiele Wielkie,Kobiele Wielkie
+5,Masłowice,Masłowice
+5,Przedbórz,Przedbórz
+5,Radomsko (wieś),Radomsko (wieś)
+5,Ładzice,Ładzice
+5,Kodrąb,Kodrąb
+5,Żytno,Żytno
+5,Sulejów,Sulejów
+5,Wolbórz,Wolbórz
+5,Rozprza,Rozprza
+5,Gorzkowice,Gorzkowice
+5,Wola Krzysztoporska,Wola Krzysztoporska
+5,Grabica,Grabica
+5,Moszczenica,Moszczenica
+5,Piątek,Piątek
+5,Góra Świętej Małgorzaty,Góra Świętej Małgorzaty
+5,Daszyna,Daszyna
+5,Świnice Warckie,Świnice Warckie
+5,Łęczyca (wieś),Łęczyca (wieś)
+5,Kutno (wieś),Kutno (wieś)
+5,Strzelce,Strzelce
+5,Oporów,Oporów
+5,Bedlno,Bedlno
+5,Krośniewice,Krośniewice
+5,Chodów,Chodów
+5,Żychlin (wieś),Żychlin (wieś)
+5,Skierniewice (wieś),Skierniewice (wieś)
+5,Godzianów,Godzianów
+5,Słupia,Słupia
+5,Jeżów,Jeżów
+5,Dmosin,Dmosin
+5,Głowno (wieś),Głowno (wieś)
+5,Łyszkowice,Łyszkowice
+5,Nieborów,Nieborów
+5,Kiernozia,Kiernozia
+5,Bielawy,Bielawy
+5,Łowicz (wieś),Łowicz (wieś)
+5,Opoczno (wieś),Opoczno (wieś)
+5,Drzewica,Drzewica
+5,Paradyż,Paradyż
+5,Sławno,Sławno
+5,Mniszków,Mniszków
+5,Żarnów,Żarnów
+5,Rawa Mazowiecka (wieś),Rawa Mazowiecka (wieś)
+5,Cielądz,Cielądz
+5,Regnów,Regnów
+5,Sadkowice,Sadkowice
+5,Wieluń (wieś),Wieluń (wieś)
+5,Ostrówek,Ostrówek
+5,Biała,Biała
+5,Mokrsko,Mokrsko
+5,Skomlin,Skomlin
+5,Czarnożyły,Czarnożyły
+5,Widawa (wieś),Widawa (wieś)
+5,Zduńska Wola (wieś),Zduńska Wola (wieś)
+5,Zadzim,Zadzim
+5,Poddębice (wieś),Poddębice (wieś)
+5,Uniejów (wieś),Uniejów (wieś)
+5,Wartkowice,Wartkowice
+5,Konstantynów Łódzki (wieś),Konstantynów Łódzki (wieś)
+6,Kraków,Kraków
+6,Tarnów,Tarnów
+6,Nowy Sącz,Nowy Sącz
+6,Oświęcim,Oświęcim
+6,Chrzanów,Chrzanów
+6,Bochnia,Bochnia
+6,Brzesko,Brzesko
+6,Wadowice,Wadowice
+6,Myślenice,Myślenice
+6,Nowy Targ,Nowy Targ
+6,Gorlice,Gorlice
+6,Skawina,Skawina
+6,Wieliczka,Wieliczka
+6,Andrychów,Andrychów
+6,Kęty,Kęty
+6,Trzebinia,Trzebinia
+6,Libiąż,Libiąż
+6,Krzeszowice,Krzeszowice
+6,Sucha Beskidzka,Sucha Beskidzka
+6,Jordanów,Jordanów
+6,Kalwaria Zebrzydowska,Kalwaria Zebrzydowska
+6,Proszowice,Proszowice
+6,Miechów,Miechów
+6,Wolbrom,Wolbrom
+6,Limnawa,Limnawa
+6,Rabka-Zdrój,Rabka-Zdrój
+6,Szczawnica,Szczawnica
+6,Krynica-Zdrój,Krynica-Zdrój
+6,Muszyna,Muszyna
+6,Stary Sącz,Stary Sącz
+6,Chełmek,Chełmek
+6,Zator,Zator
+6,Alwernia,Alwernia
+6,Liszki,Liszki
+6,Zabierzów,Zabierzów
+6,Wielka Wieś,Wielka Wieś
+6,Mogilany,Mogilany
+6,Świątniki Górne,Świątniki Górne
+6,Iwanowice,Iwanowice
+6,Skała,Skała
+6,Słomniki,Słomniki
+6,Kocmyrzów-Luborzyca,Kocmyrzów-Luborzyca
+6,Michałowice,Michałowice
+6,Sułoszowa,Sułoszowa
+6,Gołcza,Gołcza
+6,Racławice,Racławice
+6,Książ Wielki,Książ Wielki
+6,Charsznica,Charsznica
+6,Słaboszów,Słaboszów
+6,Proszowice (wieś),Proszowice (wieś)
+6,Koszyce,Koszyce
+6,Nowe Brzesko,Nowe Brzesko
+6,Gnojnik,Gnojnik
+6,Iwkowa,Iwkowa
+6,Czchów,Czchów
+6,Lipnica Murowana,Lipnica Murowana
+6,Trzciana,Trzciana
+6,Żegocina,Żegocina
+6,Łapanów,Łapanów
+6,Rzezawa,Rzezawa
+6,Bochnia (wieś),Bochnia (wieś)
+6,Dębno,Dębno
+6,Szczurowa,Szczurowa
+6,Borzęcin,Borzęcin
+6,Brzesko (wieś),Brzesko (wieś)
+6,Radłów,Radłów
+6,Wierzchosławice,Wierzchosławice
+6,Pleśna,Pleśna
+6,Tarnów (wieś),Tarnów (wieś)
+6,Lisia Góra,Lisia Góra
+6,Żabno,Żabno
+6,Skrzyszów,Skrzyszów
+6,Wietrzychowice,Wietrzychowice
+6,Czarna,Czarna
+6,Dąbrowa Tarnowska,Dąbrowa Tarnowska
+6,Radgoszcz,Radgoszcz
+6,Szczucin,Szczucin
+6,Mędrzechów,Mędrzechów
+6,Olesno,Olesno
+6,Gręboszów,Gręboszów
+6,Bolesław,Bolesław
+6,Kazimierza Wielka,Kazimierza Wielka
+6,Skalbmierz,Skalbmierz
+6,Bejsce,Bejsce
+6,Opatowiec,Opatowiec
+6,Nowy Targ (wieś),Nowy Targ (wieś)
+6,Raba Wyżna,Raba Wyżna
+6,Czarny Dunajec,Czarny Dunajec
+6,Szaflary,Szaflary
+6,Biały Dunajec,Biały Dunajec
+6,Poronin,Poronin
+6,Bukowina Tatrzańska,Bukowina Tatrzańska
+6,Krościenko nad Dunajcem,Krościenko nad Dunajcem
+6,Ochotnica Dolna,Ochotnica Dolna
+6,Łapsze Niżne,Łapsze Niżne
+6,Jabłonka,Jabłonka
+6,Lipnica Wielka,Lipnica Wielka
+6,Zawoja,Zawoja
+6,Stryszawa,Stryszawa
+6,Jordanów (wieś),Jordanów (wieś)
+6,Budzów,Budzów
+6,Sucha Beskidzka (wieś),Sucha Beskidzka (wieś)
+6,Osielec,Osielec
+6,Spytkowice (wadowickie),Spytkowice (wadowickie)
+6,Wadowice (wieś),Wadowice (wieś)
+6,Tomice,Tomice
+6,Wieprz,Wieprz
+6,Andrychów (wieś),Andrychów (wieś)
+6,Inwałd,Inwałd
+6,Kęty (wieś),Kęty (wieś)
+6,Porąbka,Porąbka
+6,Czaniec,Czaniec
+6,Zembrzyce,Zembrzyce
+6,Stryszów,Stryszów
+6,Mucharz,Mucharz
+6,Lanckorona,Lanckorona
+6,Kalwaria Zebrzydowska (wieś),Kalwaria Zebrzydowska (wieś)
+6,Przeciszów,Przeciszów
+6,Polanka Wielka,Polanka Wielka
+6,Osiek (oświęcimski),Osiek (oświęcimski)
+6,Oświęcim (wieś),Oświęcim (wieś)
+6,Brzeszcze,Brzeszcze
+6,Kęty (wieś),Kęty (wieś)
+6,Chełmek (wieś),Chełmek (wieś)
+6,Babice,Babice
+6,Libiąż (wieś),Libiąż (wieś)
+6,Trzebinia (wieś),Trzebinia (wieś)
+6,Krzeszowice (wieś),Krzeszowice (wieś)
+6,Zabierzów (wieś),Zabierzów (wieś)
+6,Wieliczka (wieś),Wieliczka (wieś)
+6,Niepołomice,Niepołomice
+6,Kłaj,Kłaj
+6,Biskupice,Biskupice
+6,Gdów,Gdów
+6,Łapanów (wieś),Łapanów (wieś)
+6,Limanowa,Limanowa
+6,Mszana Dolna,Mszana Dolna
+6,Dobra,Dobra
+6,Jodłownik,Jodłownik
+6,Laskowa,Laskowa
+6,Tymbark,Tymbark
+6,Słopnice,Słopnice
+6,Niedźwiedź,Niedźwiedź
+7,Warszawa,Warszawa
+7,Radom,Radom
+7,Płock,Płock
+7,Siedlce,Siedlce
+7,Ostrołęka,Ostrołęka
+7,Pruszków,Pruszków
+7,Piaseczno,Piaseczno
+7,Legionowo,Legionowo
+7,Otwock,Otwock
+7,Wołomin,Wołomin
+7,Marki,Marki
+7,Ząbki,Ząbki
+7,Mińsk Mazowiecki,Mińsk Mazowiecki
+7,Nowy Dwór Mazowiecki,Nowy Dwór Mazowiecki
+7,Grodzisk Mazowiecki,Grodzisk Mazowiecki
+7,Sochaczew,Sochaczew
+7,Żyrardów,Żyrardów
+7,Ciechanów,Ciechanów
+7,Mława,Mława
+7,Płońsk,Płońsk
+7,Ostrów Mazowiecka,Ostrów Mazowiecka
+7,Wyszków,Wyszków
+7,Sokołów Podlaski,Sokołów Podlaski
+7,Garwolin,Garwolin
+7,Grójec,Grójec
+7,Kozienice,Kozienice
+7,Białobrzegi,Białobrzegi
+7,Lipsko,Lipsko
+7,Przasnysz,Przasnysz
+7,Pułtusk,Pułtusk
+7,Sierpc,Sierpc
+7,Żuromin,Żuromin
+7,Gostynin,Gostynin
+7,Łosice,Łosice
+7,Węgrów,Węgrów
+7,Zwoleń,Zwoleń
+7,Piastów,Piastów
+7,Ursus,Ursus
+7,Ursynów,Ursynów
+7,Wilanów,Wilanów
+7,Bemowo,Bemowo
+7,Targówek,Targówek
+7,Białołęka,Białołęka
+7,Wesoła,Wesoła
+7,Rembertów,Rembertów
+7,Józefów,Józefów
+7,Ożarów Mazowiecki,Ożarów Mazowiecki
+7,Błonie,Błonie
+7,Łomianki,Łomianki
+7,Izabelin,Izabelin
+7,Stare Babice,Stare Babice
+7,Raszyn,Raszyn
+7,Nadarzyn,Nadarzyn
+7,Lesznowola,Lesznowola
+7,Konstancin-Jeziorna,Konstancin-Jeziorna
+7,Góra Kalwaria,Góra Kalwaria
+7,Karczew,Karczew
+7,Wiązowna,Wiązowna
+7,Celestynów,Celestynów
+7,Jabłonna,Jabłonna
+7,Wieliszew,Wieliszew
+7,Serock,Serock
+7,Radzymin,Radzymin
+7,Kobyłka,Kobyłka
+7,Zielonka,Zielonka
+7,Tłuszcz,Tłuszcz
+7,Klembów,Klembów
+7,Dąbrówka,Dąbrówka
+7,Strachówka,Strachówka
+7,Poświętne,Poświętne
+7,Halinów,Halinów
+7,Dębe Wielkie,Dębe Wielkie
+7,Sulejówek,Sulejówek
+7,Kałuszyn,Kałuszyn
+7,Latowicz,Latowicz
+7,Mrozy,Mrozy
+7,Siennica,Siennica
+7,Stanisławów,Stanisławów
+7,Baranów,Baranów
+7,Jaktorów,Jaktorów
+7,Żabia Wola,Żabia Wola
+7,Radziejowice,Radziejowice
+7,Puszcza Mariańska,Puszcza Mariańska
+7,Mszczonów,Mszczonów
+7,Wiskitki,Wiskitki
+7,Teresin,Teresin
+7,Iłów,Iłów
+7,Rybno,Rybno
+7,Młodzieszyn,Młodzieszyn
+7,Brochów,Brochów
+7,Mała Wieś,Mała Wieś
+7,Bodzanów,Bodzanów
+7,Słupno,Słupno
+7,Staroźreby,Staroźreby
+7,Bielsk,Bielsk
+7,Radzanowo,Radzanowo
+7,Sońsk,Sońsk
+7,Glinojeck,Glinojeck
+7,Ojrzeń,Ojrzeń
+7,Regimin,Regimin
+7,Gołymin-Gołymin
+7,Opinogóra Górna,Opinogóra Górna
+7,Krasne,Krasne
+7,Czerwonka,Czerwonka
+7,Karniewo,Karniewo
+7,Szelków,Szelków
+7,Różan,Różan
+7,Maków Mazowiecki,Maków Mazowiecki
+7,Płoniawy-Bramura,Płoniawy-Bramura
+7,Młynarze,Młynarze
+7,Rzewnie,Rzewnie
+7,Sypniewo,Sypniewo
+7,Pułtusk (wieś),Pułtusk (wieś)
+7,Obryte,Obryte
+7,Winnica,Winnica
+7,Gzy,Gzy
+7,Świercze,Świercze
+7,Pokrzywnica,Pokrzywnica
+7,Zatory,Zatory
+7,Wyszków (wieś),Wyszków (wieś)
+7,Długosiodło,Długosiodło
+7,Rząśnik,Rząśnik
+7,Somianka,Somianka
+7,Brańszczyk,Brańszczyk
+7,Małkinia Górna,Małkinia Górna
+7,Brok,Brok
+7,Andrzejewo,Andrzejewo
+7,Szulborze Wielkie,Szulborze Wielkie
+7,Stary Lubotyń,Stary Lubotyń
+7,Ostrów Mazowiecka (wieś),Ostrów Mazowiecka (wieś)
+7,Zaręby Kościelne,Zaręby Kościelne
+7,Wąsewo,Wąsewo
+7,Troszyn,Troszyn
+7,Goworowo,Goworowo
+7,Rzekuń,Rzekuń
+7,Lelis,Lelis
+7,Kadzidło,Kadzidło
+7,Czarnia,Czarnia
+7,Myszyniec,Myszyniec
+7,Czerwin,Czerwin
+7,Łyse,Łyse
+7,Lipowiec Kościelny,Lipowiec Kościelny
+7,Stupsk,Stupsk
+7,Szydłowo,Szydłowo
+7,Wieczfnia Kościelna,Wieczfnia Kościelna
+7,Strzegowo,Strzegowo
+7,Raciąż,Raciąż
+7,Baboszewo,Baboszewo
+7,Sochocin,Sochocin
+7,Naruszewo,Naruszewo
+7,Załuski,Załuski
+7,Żuromin (wieś),Żuromin (wieś)
+7,Lutocin,Lutocin
+7,Bieżuń,Bieżuń
+7,Kuczbork-Osada,Kuczbork-Osada
+7,Lubowidz,Lubowidz
+7,Sierpc (wieś),Sierpc (wieś)
+7,Zawidz,Zawidz
+7,Gozdowo,Gozdowo
+7,Mochowo,Mochowo
+7,Rościszewo,Rościszewo
+7,Łosice (wieś),Łosice (wieś)
+7,Olszanka,Olszanka
+7,Huszlew,Huszlew
+7,Platerów,Platerów
+7,Sarnaki,Sarnaki
+7,Stara Kornica,Stara Kornica
+7,Węgrów (wieś),Węgrów (wieś)
+7,Korytnica,Korytnica
+7,Liw,Liw
+7,Grębków,Grębków
+7,Miedzna,Miedzna
+7,Sadowne,Sadowne
+7,Zabrodzie,Zabrodzie
+7,Zwoleń (wieś),Zwoleń (wieś)
+7,Kazanów,Kazanów
+7,Policzna,Policzna
+7,Tczów,Tczów
+7,Pionki,Pionki
+7,Jedlnia-Letnisko,Jedlnia-Letnisko
+7,Jastrzębia,Jastrzębia
+7,Kowala,Kowala
+7,Skaryszew,Skaryszew
+7,Iłża,Iłża
+7,Mirzec,Mirzec
+7,Lipsko (wieś),Lipsko (wieś)
+7,Solec nad Wisłą,Solec nad Wisłą
+7,Ciepielów,Ciepielów
+7,Sienno,Sienno
+8,Opole,Opole
+8,Kędzierzyn-Koźle,Kędzierzyn-Koźle
+8,Nysa,Nysa
+8,Brzeg,Brzeg
+8,Kluczbork,Kluczbork
+8,Strzelce Opolskie,Strzelce Opolskie
+8,Prudnik,Prudnik
+8,Krapkowice,Krapkowice
+8,Olesno,Olesno
+8,Głubczyce,Głubczyce
+8,Ozimek,Ozimek
+8,Zdzieszowice,Zdzieszowice
+8,Kolonowskie,Kolonowskie
+8,Leśnica,Leśnica
+8,Gogolin,Gogolin
+8,Tułowice,Tułowice
+8,Niemodlin,Niemodlin
+8,Grodków,Grodków
+8,Pakosławice,Pakosławice
+8,Skoroszyce,Skoroszyce
+8,Lewin Brzeski,Lewin Brzeski
+8,Olszanka,Olszanka
+8,Lubsza,Lubsza
+8,Dobrzeń Wielki,Dobrzeń Wielki
+8,Chrząstowice,Chrząstowice
+8,Turawa,Turawa
+8,Łubniany,Łubniany
+8,Popielów,Popielów
+8,Murowana Goślina,Murowana Goślina
+8,Komprachcice,Komprachcice
+8,Prószków,Prószków
+8,Tarnów Opolski,Tarnów Opolski
+8,Izbicko,Izbicko
+8,Jemielnica,Jemielnica
+8,Ujazd,Ujazd
+8,Zawadzkie,Zawadzkie
+8,Kolonowskie (wieś),Kolonowskie (wieś)
+8,Lasowice Wielkie,Lasowice Wielkie
+8,Rudniki,Rudniki
+8,Gorzów Śląski,Gorzów Śląski
+8,Praszka,Praszka
+8,Dobrodzień,Dobrodzień
+8,Zębowice,Zębowice
+8,Radłów,Radłów
+8,Baborów,Baborów
+8,Kietrz,Kietrz
+8,Branice,Branice
+8,Pawłowiczki,Pawłowiczki
+8,Reńska Wieś,Reńska Wieś
+8,Cisek,Cisek
+8,Bierawa,Bierawa
+8,Walce,Walce
+8,Głuchołazy,Głuchołazy
+8,Korfantów,Korfantów
+8,Lędziny,Lędziny
+8,Pakosławice (wieś),Pakosławice (wieś)
+8,Łambinowice,Łambinowice
+8,Kamiennik,Kamiennik
+8,Otmuchów,Otmuchów
+8,Paczków,Paczków
+8,Prudnik (wieś),Prudnik (wieś)
+8,Lubrza,Lubrza
+8,Biała,Biała
+8,Strzeleczki,Strzeleczki
+8,Krapkowice (wieś),Krapkowice (wieś)
+8,Zdzieszowice (wieś),Zdzieszowice (wieś)
+8,Chrząstowice (wieś),Chrząstowice (wieś)
+8,Turawa (wieś),Turawa (wieś)
+8,Łubniany (wieś),Łubniany (wieś)
+8,Popielów (wieś),Popielów (wieś)
+8,Opole (wieś),Opole (wieś)
+9,Rzeszów,Rzeszów
+9,Przemyśl,Przemyśl
+9,Tarnobrzeg,Tarnobrzeg
+9,Krosno,Krosno
+9,Mielec,Mielec
+9,Stalowa Wola,Stalowa Wola
+9,Jarosław,Jarosław
+9,Sanok,Sanok
+9,Dębica,Dębica
+9,Jasło,Jasło
+9,Łańcut,Łańcut
+9,Leżajsk,Leżajsk
+9,Przeworsk,Przeworsk
+9,Strzyżów,Strzyżów
+9,Kolbuszowa,Kolbuszowa
+9,Nisko,Nisko
+9,Brzozów,Brzozów
+9,Lesko,Lesko
+9,Ustrzyki Dolne,Ustrzyki Dolne
+9,Ropczyce,Ropczyce
+9,Sędziszów Małopolski,Sędziszów Małopolski
+9,Boguchwała,Boguchwała
+9,Głogów Małopolski,Głogów Małopolski
+9,Tyczyn,Tyczyn
+9,Trzebownisko,Trzebownisko
+9,Świlcza,Świlcza
+9,Czarna (łańcucka),Czarna (łańcucka)
+9,Białobrzegi,Białobrzegi
+9,Markowa,Markowa
+9,Rakszawa,Rakszawa
+9,Żołynia,Żołynia
+9,Nowa Sarzyna,Nowa Sarzyna
+9,Grodków,Grodków
+9,Kuryłówka,Kuryłówka
+9,Leżajsk (wieś),Leżajsk (wieś)
+9,Tryńcza,Tryńcza
+9,Gać,Gać
+9,Jawornik Polski,Jawornik Polski
+9,Kańczuga,Kańczuga
+9,Sieniawa,Sieniawa
+9,Adamówka,Adamówka
+9,Przeworsk (wieś),Przeworsk (wieś)
+9,Chłopice,Chłopice
+9,Laszki,Laszki
+9,Wiązownica,Wiązownica
+9,Radymno,Radymno
+9,Orły,Orły
+9,Żurawica,Żurawica
+9,Krasiczyn,Krasiczyn
+9,Krzywcza,Krzywcza
+9,Bircza,Bircza
+9,Dubiecko,Dubiecko
+9,Przemyśl (wieś),Przemyśl (wieś)
+9,Medynia Głogowska,Medynia Głogowska
+9,Łukawiec,Łukawiec
+9,Chmielnik,Chmielnik
+9,Hyżne,Hyżne
+9,Dynów,Dynów
+9,Dubiecko (wieś),Dubiecko (wieś)
+9,Niebylec,Niebylec
+9,Frysztak,Frysztak
+9,Wisłok Wielki,Wisłok Wielki
+9,Komańcza,Komańcza
+9,Baligród,Baligród
+9,Cisna,Cisna
+9,Olszanica,Olszanica
+9,Solina,Solina
+9,Lesko (wieś),Lesko (wieś)
+9,Zagórz,Zagórz
+9,Sanok (wieś),Sanok (wieś)
+9,Besko,Besko
+9,Zarszyn,Zarszyn
+9,Brzozów (wieś),Brzozów (wieś)
+9,Dydnia,Dydnia
+9,Nozdrzec,Nozdrzec
+9,Jasło (wieś),Jasło (wieś)
+9,Kołaczyce,Kołaczyce
+9,Brzyska,Brzyska
+9,Skołyszyn,Skołyszyn
+9,Tarnowiec,Tarnowiec
+9,Osiek Jasielski,Osiek Jasielski
+9,Krempna,Krempna
+9,Nowy Żmigród,Nowy Żmigród
+9,Dębica (wieś),Dębica (wieś)
+9,Jodłowa,Jodłowa
+9,Brzostek,Brzostek
+9,Pilzno,Pilzno
+9,Czarna (dębicka),Czarna (dębicka)
+9,Żyraków,Żyraków
+9,Ropczyce (wieś),Ropczyce (wieś)
+9,Ostrów,Ostrów
+9,Iwierzyce,Iwierzyce
+9,Sędziszów Małopolski (wieś),Sędziszów Małopolski (wieś)
+9,Nisko (wieś),Nisko (wieś)
+9,Harasiuki,Harasiuki
+9,Jarocin,Jarocin
+9,Krzeszów,Krzeszów
+9,Rudnik nad Sanem,Rudnik nad Sanem
+9,Ulanów,Ulanów
+9,Jeżowe,Jeżowe
+9,Kamień,Kamień
+9,Nowa Dęba,Nowa Dęba
+9,Baranów Sandomierski,Baranów Sandomierski
+9,Majdan Królewski,Majdan Królewski
+9,Bojanów,Bojanów
+9,Zaleszany,Zaleszany
+9,Gorzyce,Gorzyce
+9,Grębów,Grębów
+9,Kolbuszowa (wieś),Kolbuszowa (wieś)
+9,Niwiska,Niwiska
+9,Raniżów,Raniżów
+9,Dzikowiec,Dzikowiec
+9,Kolbuszowa Dolna,Kolbuszowa Dolna
+9,Mielec (wieś),Mielec (wieś)
+9,Czermin,Czermin
+9,Wadowice Górne,Wadowice Górne
+9,Radomyśl Wielki,Radomyśl Wielki
+9,Przecław,Przecław
+9,Borowa,Borowa
+9,Gawłuszowice,Gawłuszowice
+10,Białystok,Białystok
+10,Suwałki,Suwałki
+10,Łomża,Łomża
+10,Augustów,Augustów
+10,Grajewo,Grajewo
+10,Zambrów,Zambrów
+10,Hajnówka,Hajnówka
+10,Bielsk Podlaski,Bielsk Podlaski
+10,Sokółka,Sokółka
+10,Siemiatycze,Siemiatycze
+10,Mońki,Mońki
+10,Wysokie Mazowieckie,Wysokie Mazowieckie
+10,Kolno,Kolno
+10,Sejny,Sejny
+10,Dąbrowa Białostocka,Dąbrowa Białostocka
+10,Krypno,Krypno
+10,Knyszyn,Knyszyn
+10,Jasionówka,Jasionówka
+10,Trzcianne,Trzcianne
+10,Goniądz,Goniądz
+10,Jaświły,Jaświły
+10,Sokółka (wieś),Sokółka (wieś)
+10,Korycin,Korycin
+10,Suchowola,Suchowola
+10,Janów,Janów
+10,Kuźnica,Kuźnica
+10,Lipsk,Lipsk
+10,Sidra,Sidra
+10,Nowy Dwór,Nowy Dwór
+10,Krynki,Krynki
+10,Gródek,Gródek
+10,Michałowo,Michałowo
+10,Zabłudów,Zabłudów
+10,Choroszcz,Choroszcz
+10,Juchnowiec Kościelny,Juchnowiec Kościelny
+10,Turośń Kościelna,Turośń Kościelna
+10,Zabłudów (wieś),Zabłudów (wieś)
+10,Łapy,Łapy
+10,Suraż,Suraż
+10,Poświętne (podlaskie),Poświętne (podlaskie)
+10,Brańsk,Brańsk
+10,Orla,Orla
+10,Rudka,Rudka
+10,Wyszki,Wyszki
+10,Bielsk Podlaski (wieś),Bielsk Podlaski (wieś)
+10,Ciechanowiec,Ciechanowiec
+10,Klukowo,Klukowo
+10,Nowe Piekuty,Nowe Piekuty
+10,Sokoły,Sokoły
+10,Kobylin-Borzymy,Kobylin-Borzymy
+10,Łomża (wieś),Łomża (wieś)
+10,Piątnica,Piątnica
+10,Wizna,Wizna
+10,Jedwabne,Jedwabne
+10,Przytuły,Przytuły
+10,Śniadowo,Śniadowo
+10,Zambrów (wieś),Zambrów (wieś)
+10,Kołaki Kościelne,Kołaki Kościelne
+10,Rutki,Rutki
+10,Miastkowo,Miastkowo
+10,Kolno (wieś),Kolno (wieś)
+10,Stawiski,Stawiski
+10,Mały Płock,Mały Płock
+10,Turośl,Turośl
+10,Grajewo (wieś),Grajewo (wieś)
+10,Rajgród,Rajgród
+10,Szczuczyn,Szczuczyn
+10,Wąsosz,Wąsosz
+10,Radziłów,Radziłów
+10,Sejny (wieś),Sejny (wieś)
+10,Płaska,Płaska
+10,Giby,Giby
+10,Krasnopol,Krasnopol
+10,Puńsk,Puńsk
+10,Suwałki (wieś),Suwałki (wieś)
+10,Bakałarzewo,Bakałarzewo
+10,Filipów,Filipów
+10,Jeleniewo,Jeleniewo
+10,Przerośl,Przerośl
+10,Raczki,Raczki
+10,Szypliszki,Szypliszki
+10,Nowinka,Nowinka
+10,Augustów (wieś),Augustów (wieś)
+10,Bargłów Kościelny,Bargłów Kościelny
+10,Giby (wieś),Giby (wieś)
+10,Lipsk (wieś),Lipsk (wieś)
+11,Gdańsk,Gdańsk
+11,Gdynia,Gdynia
+11,Sopot,Sopot
+11,Słupsk,Słupsk
+11,Tczew,Tczew
+11,Starogard Gdański,Starogard Gdański
+11,Wejherowo,Wejherowo
+11,Rumia,Rumia
+11,Reda,Reda
+11,Lębork,Lębork
+11,Kościerzyna,Kościerzyna
+11,Chojnice,Chojnice
+11,Człuchów,Człuchów
+11,Bytów,Bytów
+11,Kartuzy,Kartuzy
+11,Puck,Puck
+11,Hel,Hel
+11,Władysławowo,Władysławowo
+11,Jastarnia,Jastarnia
+11,Łeba,Łeba
+11,Ustka,Ustka
+11,Pruszcz Gdański,Pruszcz Gdański
+11,Żukowo,Żukowo
+11,Sierakowice,Sierakowice
+11,Somonino,Somonino
+11,Stężyca,Stężyca
+11,Kartuzy (wieś),Kartuzy (wieś)
+11,Chmielno,Chmielno
+11,Przodkowo,Przodkowo
+11,Linia,Linia
+11,Luzino,Luzino
+11,Wejherowo (wieś),Wejherowo (wieś)
+11,Łęczyce,Łęczyce
+11,Choczewo,Choczewo
+11,Puck (wieś),Puck (wieś)
+11,Krokowa,Krokowa
+11,Słupsk (wieś),Słupsk (wieś)
+11,Kobylnica,Kobylnica
+11,Dębnica Kaszubska,Dębnica Kaszubska
+11,Damnica,Damnica
+11,Główczyce,Główczyce
+11,Potęgowo,Potęgowo
+11,Czarna Dąbrówka,Czarna Dąbrówka
+11,Bytów (wieś),Bytów (wieś)
+11,Tuchomie,Tuchomie
+11,Studzienice,Studzienice
+11,Parchowo,Parchowo
+11,Kołczygłowy,Kołczygłowy
+11,Miastko,Miastko
+11,Koczała,Koczała
+11,Rzeczenica,Rzeczenica
+11,Człuchów (wieś),Człuchów (wieś)
+11,Przechlewo,Przechlewo
+11,Debrzno,Debrzno
+11,Koniecpol,Koniecpol
+11,Chojnice (wieś),Chojnice (wieś)
+11,Konarzyny,Konarzyny
+11,Brusy,Brusy
+11,Czersk,Czersk
+11,Stara Kiszewa,Stara Kiszewa
+11,Kościerzyna (wieś),Kościerzyna (wieś)
+11,Nowa Karczma,Nowa Karczma
+11,Lipusz,Lipusz
+11,Dziemiany,Dziemiany
+11,Stężyca (wieś),Stężyca (wieś)
+11,Sulęczyno,Sulęczyno
+11,Żukowo (wieś),Żukowo (wieś)
+11,Kolbudy,Kolbudy
+11,Pruszcz Gdański (wieś),Pruszcz Gdański (wieś)
+11,Cedry Wielkie,Cedry Wielkie
+11,Suchy Dąb,Suchy Dąb
+11,Trąbki Wielkie,Trąbki Wielkie
+11,Pszczółki,Pszczółki
+11,Skarszewy,Skarszewy
+11,Skórcz,Skórcz
+11,Smętowo Graniczne,Smętowo Graniczne
+11,Osiek,Osiek
+11,Bobowo,Bobowo
+11,Zblewo,Zblewo
+11,Kaliska,Kaliska
+11,Lubichowo,Lubichowo
+11,Starogard Gdański (wieś),Starogard Gdański (wieś)
+11,Nowy Staw,Nowy Staw
+11,Nowy Dwór Gdański,Nowy Dwór Gdański
+11,Stegna,Stegna
+11,Sztutowo,Sztutowo
+11,Ostaszewo,Ostaszewo
+11,Lichnowy,Lichnowy
+11,Malbork,Malbork
+11,Stare Pole,Stare Pole
+11,Mikołajki Pomorskie,Mikołajki Pomorskie
+11,Dzierzgoń,Dzierzgoń
+11,Rychliki,Rychliki
+11,Stary Dzierzgoń,Stary Dzierzgoń
+11,Susz,Susz
+11,Kisielice,Kisielice
+11,Iława,Iława
+11,Zalewo,Zalewo
+12,Katowice,Katowice
+12,Częstochowa,Częstochowa
+12,Sosnowiec,Sosnowiec
+12,Gliwice,Gliwice
+12,Zabrze,Zabrze
+12,Bytom,Bytom
+12,Ruda Śląska,Ruda Śląska
+12,Rybnik,Rybnik
+12,Tychy,Tychy
+12,Dąbrowa Górnicza,Dąbrowa Górnicza
+12,Chorzów,Chorzów
+12,Jaworzno,Jaworzno
+12,Jastrzębie-Zdrój,Jastrzębie-Zdrój
+12,Mysłowice,Mysłowice
+12,Siemianowice Śląskie,Siemianowice Śląskie
+12,Żory,Żory
+12,Piekary Śląskie,Piekary Śląskie
+12,Świętochłowice,Świętochłowice
+12,Bielsko-Biała,Bielsko-Biała
+12,Czechowice-Dziedzice,Czechowice-Dziedzice
+12,Cieszyn,Cieszyn
+12,Ustroń,Ustroń
+12,Skoczów,Skoczów
+12,Żywiec,Żywiec
+12,Wodzisław Śląski,Wodzisław Śląski
+12,Racibórz,Racibórz
+12,Kłobuck,Kłobuck
+12,Lubliniec,Lubliniec
+12,Tarnowskie Góry,Tarnowskie Góry
+12,Mikołów,Mikołów
+12,Łaziska Górne,Łaziska Górne
+12,Orzesze,Orzesze
+12,Knurów,Knurów
+12,Pyskowice,Pyskowice
+12,Strzelce Opolskie,Strzelce Opolskie
+12,Zawiercie,Zawiercie
+12,Poręba,Poręba
+12,Siewierz,Siewierz
+12,Wojkowice,Wojkowice
+12,Będzin,Będzin
+12,Czeladź,Czeladź
+12,Radzionków,Radzionków
+12,Tarnowskie Góry (wieś),Tarnowskie Góry (wieś)
+12,Kalety,Kalety
+12,Miasteczko Śląskie,Miasteczko Śląskie
+12,Woźniki,Woźniki
+12,Lubliniec (wieś),Lubliniec (wieś)
+12,Herby,Herby
+12,Boronów,Boronów
+12,Koszęcin,Koszęcin
+12,Konopiska,Konopiska
+12,Blachownia,Blachownia
+12,Koniecpol,Koniecpol
+12,Wręczyca Wielka,Wręczyca Wielka
+12,Przystajń,Przystajń
+12,Krzepice,Krzepice
+12,Popów,Popów
+12,Lipie,Lipie
+12,Poczesna,Poczesna
+12,Kłobuck (wieś),Kłobuck (wieś)
+12,Poraj,Poraj
+12,Myszków,Myszków
+12,Żarki,Żarki
+12,Koziegłowy,Koziegłowy
+12,Niegowa,Niegowa
+12,Janów,Janów
+12,Starcza,Starcza
+12,Olsztyn,Olsztyn
+12,Mstów,Mstów
+12,Rędziny,Rędziny
+12,Kamińsk,Kamińsk
+12,Psary,Psary
+12,Bobrowniki,Bobrowniki
+12,Ożarowice,Ożarowice
+12,Siewierz (wieś),Siewierz (wieś)
+12,Sławków,Sławków
+12,Ogrodzieniec,Ogrodzieniec
+12,Pilica,Pilica
+12,Irządze,Irządze
+12,Kroczyce,Kroczyce
+12,Łazy,Łazy
+12,Zawiercie (wieś),Zawiercie (wieś)
+12,Poręba (wieś),Poręba (wieś)
+12,Żarnowiec,Żarnowiec
+12,Rybnik (wieś),Rybnik (wieś)
+12,Gaszowice,Gaszowice
+12,Lyski,Lyski
+12,Jejkowice,Jejkowice
+12,Świerklany,Świerklany
+12,Jankowice Rybnickie,Jankowice Rybnickie
+12,Czerwionka-Leszczyny,Czerwionka-Leszczyny
+12,Pawłowice,Pawłowice
+12,Suszec,Suszec
+12,Żory (wieś),Żory (wieś)
+12,Mszana,Mszana
+12,Godów,Godów
+12,Gorzyce,Gorzyce
+12,Wodzisław Śląski (wieś),Wodzisław Śląski (wieś)
+12,Racibórz (wieś),Racibórz (wieś)
+12,Kornowac,Kornowac
+12,Krzanowice,Krzanowice
+12,Krzanowice (wieś),Krzanowice (wieś)
+12,Nędza,Nędza
+12,Rudnik,Rudnik
+12,Pietrowice Wielkie,Pietrowice Wielkie
+12,Kuźnia Raciborska,Kuźnia Raciborska
+12,Sośnicowice,Sośnicowice
+12,Gierałtowice,Gierałtowice
+12,Pilchowice,Pilchowice
+12,Toszek,Toszek
+12,Rudziniec,Rudziniec
+12,Wielowieś,Wielowieś
+12,Pyskowice (wieś),Pyskowice (wieś)
+12,Gliwice (wieś),Gliwice (wieś)
+12,Ornontowice,Ornontowice
+12,Wyry,Wyry
+12,Kobiór,Kobiór
+12,Bieruń,Bieruń
+12,Imielin,Imielin
+12,Lędziny,Lędziny
+12,Bojszowy,Bojszowy
+12,Chełm Śląski,Chełm Śląski
+13,Kielce,Kielce
+13,Ostrowiec Świętokrzyski,Ostrowiec Świętokrzyski
+13,Starachowice,Starachowice
+13,Skarżysko-Kamienna,Skarżysko-Kamienna
+13,Sandomierz,Sandomierz
+13,Końskie,Końskie
+13,Busko-Zdrój,Busko-Zdrój
+13,Staszów,Staszów
+13,Jędrzejów,Jędrzejów
+13,Pińczów,Pińczów
+13,Kazimierza Wielka,Kazimierza Wielka
+13,Włoszczowa,Włoszczowa
+13,Opatów,Opatów
+13,Ożarów,Ożarów
+13,Ćmielów,Ćmielów
+13,Bodzechów,Bodzechów
+13,Bałtów,Bałtów
+13,Kunów,Kunów
+13,Pawłów,Pawłów
+13,Brody,Brody
+13,Wąchock,Wąchock
+13,Skarżysko Kościelne,Skarżysko Kościelne
+13,Bliżyn,Bliżyn
+13,Suchedniów,Suchedniów
+13,Zagnańsk,Zagnańsk
+13,Mniów,Mniów
+13,Piekoszów,Piekoszów
+13,Miedziana Góra,Miedziana Góra
+13,Masłów,Masłów
+13,Górno,Górno
+13,Bieliny,Bieliny
+13,Daleszyce,Daleszyce
+13,Morawica,Morawica
+13,Chmielnik,Chmielnik
+13,Pierzchnica,Pierzchnica
+13,Działoszyce,Działoszyce
+13,Kije,Kije
+13,Złota,Złota
+13,Wiślica,Wiślica
+13,Nowy Korczyn,Nowy Korczyn
+13,Pacanów,Pacanów
+13,Solec-Zdrój,Solec-Zdrój
+13,Tuczępy,Tuczępy
+13,Stopnica,Stopnica
+13,Połaniec,Połaniec
+13,Osiek,Osiek
+13,Rytwiany,Rytwiany
+13,Bogoria,Bogoria
+13,Szydłów,Szydłów
+13,Oleśnica,Oleśnica
+13,Łubnice,Łubnice
+13,Staszów (wieś),Staszów (wieś)
+13,Iwaniska,Iwaniska
+13,Sadowie,Sadowie
+13,Lipnik,Lipnik
+13,Tarłów,Tarłów
+13,Wojciechowice,Wojciechowice
+13,Opatów (wieś),Opatów (wieś)
+13,Obrazów,Obrazów
+13,Klimontów,Klimontów
+13,Wilczyce,Wilczyce
+13,Dwikozy,Dwikozy
+13,Samborzec,Samborzec
+13,Koprzywnica,Koprzywnica
+13,Łoniów,Łoniów
+13,Osiek (sandomierski),Osiek (sandomierski)
+13,Staszów (wieś),Staszów (wieś)
+13,Włoszczowa (wieś),Włoszczowa (wieś)
+13,Krasocin,Krasocin
+13,Radków,Radków
+13,Secemin,Secemin
+13,Kluczewsko,Kluczewsko
+13,Małogoszcz,Małogoszcz
+13,Oksa,Oksa
+13,Sędziszów,Sędziszów
+13,Imielno,Imielno
+13,Wodzisław,Wodzisław
+13,Jędrzejów (wieś),Jędrzejów (wieś)
+14,Olsztyn,Olsztyn
+14,Elbląg,Elbląg
+14,Ełk,Ełk
+14,Ostróda,Ostróda
+14,Iława,Iława
+14,Giżycko,Giżycko
+14,Kętrzyn,Kętrzyn
+14,Bartoszyce,Bartoszyce
+14,Mrągowo,Mrągowo
+14,Szczytno,Szczytno
+14,Pisz,Pisz
+14,Braniewo,Braniewo
+14,Działdowo,Działdowo
+14,Nidzica,Nidzica
+14,Lidzbark Warmiński,Lidzbark Warmiński
+14,Gołdap,Gołdap
+14,Węgorzewo,Węgorzewo
+14,Nowe Miasto Lubawskie,Nowe Miasto Lubawskie
+14,Pasłęk,Pasłęk
+14,Orneta,Orneta
+14,Morąg,Morąg
+14,Frombork,Frombork
+14,Młynary,Młynary
+14,Elbląg (wieś),Elbląg (wieś)
+14,Gronowo Elbląskie,Gronowo Elbląskie
+14,Markusy,Markusy
+14,Rychliki,Rychliki
+14,Godkowo,Godkowo
+14,Wilczęta,Wilczęta
+14,Płoskinia,Płoskinia
+14,Lelkowo,Lelkowo
+14,Pieniężno,Pieniężno
+14,Braniewo (wieś),Braniewo (wieś)
+14,Lidzbark Warmiński (wieś),Lidzbark Warmiński (wieś)
+14,Kiwity,Kiwity
+14,Lubomino,Lubomino
+14,Orneta (wieś),Orneta (wieś)
+14,Dobre Miasto,Dobre Miasto
+14,Jeziorany,Jeziorany
+14,Świątki,Świątki
+14,Barczewo,Barczewo
+14,Jonkowo,Jonkowo
+14,Stawiguda,Stawiguda
+14,Purda,Purda
+14,Olsztynek,Olsztynek
+14,Gietrzwałd,Gietrzwałd
+14,Pasym,Pasym
+14,Szczytno (wieś),Szczytno (wieś)
+14,Jedwabno,Jedwabno
+14,Świętajno (szczycieńskie),Świętajno (szczycieńskie)
+14,Wielbark,Wielbark
+14,Dźwierzuty,Dźwierzuty
+14,Mrągowo (wieś),Mrągowo (wieś)
+14,Piecki,Piecki
+14,Sorkwity,Sorkwity
+14,Mikołajki,Mikołajki
+14,Ryn,Ryn
+14,Giżycko (wieś),Giżycko (wieś)
+14,Wydminy,Wydminy
+14,Miłki,Miłki
+14,Kruklanki,Kruklanki
+14,Węgorzewo (wieś),Węgorzewo (wieś)
+14,Banie Mazurskie,Banie Mazurskie
+14,Pozezdrze,Pozezdrze
+14,Kętrzyn (wieś),Kętrzyn (wieś)
+14,Reszel,Reszel
+14,Korsze,Korsze
+14,Barciany,Barciany
+14,Srokowo,Srokowo
+14,Pisz (wieś),Pisz (wieś)
+14,Biała Piska,Biała Piska
+14,Orzysz,Orzysz
+14,Ruciane-Nida,Ruciane-Nida
+14,Świętajno (oleckie),Świętajno (oleckie)
+14,Ełk (wieś),Ełk (wieś)
+14,Prostki,Prostki
+14,Kalinowo,Kalinowo
+14,Olecko,Olecko
+14,Kowale Oleckie,Kowale Oleckie
+14,Wieliczki,Wieliczki
+14,Gołdap (wieś),Gołdap (wieś)
+14,Dubeninki,Dubeninki
+14,Iława (wieś),Iława (wieś)
+14,Lubawa,Lubawa
+14,Kisielice,Kisielice
+14,Zalewo,Zalewo
+14,Susz,Susz
+14,Nowe Miasto Lubawskie (wieś),Nowe Miasto Lubawskie (wieś)
+14,Grodziczno,Grodziczno
+14,Kurzętnik,Kurzętnik
+14,Działdowo (wieś),Działdowo (wieś)
+14,Płośnica,Płośnica
+14,Rybno,Rybno
+14,Lidzbark,Lidzbark
+15,Poznań,Poznań
+15,Kalisz,Kalisz
+15,Konin,Konin
+15,Leszno,Leszno
+15,Gniezno,Gniezno
+15,Piła,Piła
+15,Ostrów Wielkopolski,Ostrów Wielkopolski
+15,Września,Września
+15,Jarocin,Jarocin
+15,Ostrzeszów,Ostrzeszów
+15,Kępno,Kępno
+15,Kościan,Kościan
+15,Śrem,Śrem
+15,Środa Wielkopolska,Środa Wielkopolska
+15,Nowy Tomyśl,Nowy Tomyśl
+15,Grodzisk Wielkopolski,Grodzisk Wielkopolski
+15,Wolsztyn,Wolsztyn
+15,Międzychód,Międzychód
+15,Szamotuły,Szamotuły
+15,Oborniki,Oborniki
+15,Czarnków,Czarnków
+15,Trzcianka,Trzcianka
+15,Chodzież,Chodzież
+15,Wągrowiec,Wągrowiec
+15,Złotów,Złotów
+15,Rawicz,Rawicz
+15,Wągrowiec (wieś),Wągrowiec (wieś)
+15,Margonin,Margonin
+15,Rogoźno,Rogoźno
+15,Murowana Goślina,Murowana Goślina
+15,Swarzędz,Swarzędz
+15,Kostrzyn,Kostrzyn
+15,Pobiedziska,Pobiedziska
+15,Czerwonak,Czerwonak
+15,Suchy Las,Suchy Las
+15,Luboń,Luboń
+15,Puszczykowo,Puszczykowo
+15,Komorniki,Komorniki
+15,Dopiewo,Dopiewo
+15,Buk,Buk
+15,Stęszew,Stęszew
+15,Kórnik,Kórnik
+15,Rokietnica,Rokietnica
+15,Tarnowo Podgórne,Tarnowo Podgórne
+15,Kaźmierz,Kaźmierz
+15,Obrzycko,Obrzycko
+15,Ostroróg,Ostroróg
+15,Szamotuły (wieś),Szamotuły (wieś)
+15,Międzychód (wieś),Międzychód (wieś)
+15,Sieraków,Sieraków
+15,Kwilcz,Kwilcz
+15,Chrzypsko Wielkie,Chrzypsko Wielkie
+15,Wronki,Wronki
+15,Drawsko,Drawsko
+15,Czarnków (wieś),Czarnków (wieś)
+15,Połajewo,Połajewo
+15,Lubasz,Lubasz
+15,Trzcianka (wieś),Trzcianka (wieś)
+15,Krajenka,Krajenka
+15,Okonek,Okonek
+15,Jastrowie,Jastrowie
+15,Lipka,Lipka
+15,Złotów (wieś),Złotów (wieś)
+15,Koło,Koło
+15,Turek,Turek
+15,Słupca,Słupca
+15,Konin (wieś),Konin (wieś)
+15,Stare Miasto,Stare Miasto
+15,Golina,Golina
+15,Rychwał,Rychwał
+15,Ślesin,Ślesin
+15,Sompolno,Sompolno
+15,Kramsk,Kramsk
+15,Kleczew,Kleczew
+15,Wilczyn,Wilczyn
+15,Kościelec,Kościelec
+15,Babiak,Babiak
+15,Osiek Mały,Osiek Mały
+15,Koło (wieś),Koło (wieś)
+15,Turek (wieś),Turek (wieś)
+15,Przykona,Przykona
+15,Kawęczyn,Kawęczyn
+15,Dobra,Dobra
+15,Tuliszków,Tuliszków
+15,Malanów,Malanów
+15,Słupca (wieś),Słupca (wieś)
+15,Strzałkowo,Strzałkowo
+15,Lądek,Lądek
+15,Orchowo,Orchowo
+15,Zagórów,Zagórów
+15,Września (wieś),Września (wieś)
+15,Nekla,Nekla
+15,Kołaczkowo,Kołaczkowo
+15,Miłosław,Miłosław
+15,Pyzdry,Pyzdry
+15,Jarocin (wieś),Jarocin (wieś)
+15,Żerków,Żerków
+15,Nowe Miasto nad Wartą,Nowe Miasto nad Wartą
+15,Kotlin,Kotlin
+15,Golina (jarocińska),Golina (jarocińska)
+15,Ostrów Wielkopolski (wieś),Ostrów Wielkopolski (wieś)
+15,Nowe Skalmierzyce,Nowe Skalmierzyce
+15,Raszków,Raszków
+15,Sieroszewice,Sieroszewice
+15,Odolanów,Odolanów
+15,Przygodzice,Przygodzice
+15,Kępno (wieś),Kępno (wieś)
+15,Baranów,Baranów
+15,Łęka Opatowska,Łęka Opatowska
+15,Bralin,Bralin
+15,Perzów,Perzów
+15,Ostrzeszów (wieś),Ostrzeszów (wieś)
+15,Kobyla Góra,Kobyla Góra
+15,Mikstat,Mikstat
+15,Doruchów,Doruchów
+15,Grabów nad Prosną,Grabów nad Prosną
+15,Kościan (wieś),Kościan (wieś)
+15,Czempiń,Czempiń
+15,Śmigiel,Śmigiel
+15,Krzywiń,Krzywiń
+15,Śrem (wieś),Śrem (wieś)
+15,Książ Wielkopolski,Książ Wielkopolski
+15,Dolsk,Dolsk
+15,Brodnica,Brodnica
+15,Zaniemyśl,Zaniemyśl
+15,Środa Wielkopolska (wieś),Środa Wielkopolska (wieś)
+15,Nowe Miasto nad Wartą (wieś),Nowe Miasto nad Wartą (wieś)
+15,Nowy Tomyśl (wieś),Nowy Tomyśl (wieś)
+15,Zbąszyń,Zbąszyń
+15,Lwówek,Lwówek
+15,Miedzichowo,Miedzichowo
+15,Opalenica,Opalenica
+15,Kuślin,Kuślin
+15,Grodzisk Wielkopolski (wieś),Grodzisk Wielkopolski (wieś)
+15,Rakoniewice,Rakoniewice
+15,Wolsztyn (wieś),Wolsztyn (wieś)
+15,Siedlec,Siedlec
+15,Przemęt,Przemęt
+16,Szczecin,Szczecin
+16,Koszalin,Koszalin
+16,Kołobrzeg,Kołobrzeg
+16,Stargard,Stargard
+16,Świnoujście,Świnoujście
+16,Police,Police
+16,Goleniów,Goleniów
+16,Gryfino,Gryfino
+16,Gryfice,Gryfice
+16,Kamień Pomorski,Kamień Pomorski
+16,Świdwin,Świdwin
+16,Drawsko Pomorskie,Drawsko Pomorskie
+16,Wałcz,Wałcz
+16,Szczecinek,Szczecinek
+16,Białogard,Białogard
+16,Łobez,Łobez
+16,Myślibórz,Myślibórz
+16,Choszczno,Choszczno
+16,Barlinek,Barlinek
+16,Nowogard,Nowogard
+16,Resko,Resko
+16,Płoty,Płoty
+16,Karlino,Karlino
+16,Tychowo,Tychowo
+16,Połczyn-Zdrój,Połczyn-Zdrój
+16,Złocieniec,Złocieniec
+16,Czaplinek,Czaplinek
+16,Kalisz Pomorski,Kalisz Pomorski
+16,Międzyzdroje,Międzyzdroje
+16,Wolin,Wolin
+16,Dziwnów,Dziwnów
+16,Rewal,Rewal
+16,Karnice,Karnice
+16,Trzebiatów,Trzebiatów
+16,Kołobrzeg (wieś),Kołobrzeg (wieś)
+16,Ustronie Morskie,Ustronie Morskie
+16,Siemyśl,Siemyśl
+16,Rymań,Rymań
+16,Białogard (wieś),Białogard (wieś)
+16,Rąbino,Rąbino
+16,Tychowo (wieś),Tychowo (wieś)
+16,Świdwin (wieś),Świdwin (wieś)
+16,Sławoborze,Sławoborze
+16,Brzeżno,Brzeżno
+16,Łobez (wieś),Łobez (wieś)
+16,Węgorzyno,Węgorzyno
+16,Dobra,Dobra
+16,Radowo Małe,Radowo Małe
+16,Maszewo,Maszewo
+16,Przybiernów,Przybiernów
+16,Stepnica,Stepnica
+16,Nowogard (wieś),Nowogard (wieś)
+16,Osina,Osina
+16,Goleniów (wieś),Goleniów (wieś)
+16,Stargard (wieś),Stargard (wieś)
+16,Dobrzany,Dobrzany
+16,Chociwel,Chociwel
+16,Ińsko,Ińsko
+16,Suchań,Suchań
+16,Kobylanka,Kobylanka
+16,Marianowo,Marianowo
+16,Stare Czarnowo,Stare Czarnowo
+16,Gryfino (wieś),Gryfino (wieś)
+16,Banie,Banie
+16,Trzcińsko-Zdrój,Trzcińsko-Zdrój
+16,Lipiany,Lipiany
+16,Myślibórz (wieś),Myślibórz (wieś)
+16,Barlinek (wieś),Barlinek (wieś)
+16,Pełczyce,Pełczyce
+16,Krzęcin,Krzęcin
+16,Choszczno (wieś),Choszczno (wieś)
+16,Recz,Recz
+16,Kalisz Pomorski (wieś),Kalisz Pomorski (wieś)
+16,Drawsko Pomorskie (wieś),Drawsko Pomorskie (wieś)
+16,Ostrowice,Ostrowice
+16,Złocieniec (wieś),Złocieniec (wieś)
+16,Czaplinek (wieś),Czaplinek (wieś)
+16,Wałcz (wieś),Wałcz (wieś)
+16,Tuczno,Tuczno
+16,Człopa,Człopa
+16,Mirosławiec,Mirosławiec
+16,Szczecinek (wieś),Szczecinek (wieś)
+16,Biały Bór,Biały Bór
+16,Borne Sulinowo,Borne Sulinowo
+16,Grzmiąca,Grzmiąca
+16,Polanów,Polanów
+16,Bobolice,Bobolice
+16,Manowo,Manowo
+16,Będzino,Będzino
+16,Mielno,Mielno
+16,Sianów,Sianów
+16,Koszalin (wieś),Koszalin (wieś)
+
