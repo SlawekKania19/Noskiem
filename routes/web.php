@@ -52,3 +52,10 @@ Route::post('/moderation/{edit}/approve', [ModerationController::class, 'approve
 
 Route::post('/moderation/{edit}/reject', [ModerationController::class, 'reject'])
     ->name('moderation.reject');
+
+Route::get('/moderation/pending', [ModerationController::class, 'pending'])
+    ->name('moderation.pending');
+
+Route::get('/moderation/{edit}/diff', [ModerationController::class, 'diff'])
+    ->name('moderation.diff');
+
