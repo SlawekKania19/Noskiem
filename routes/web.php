@@ -39,10 +39,13 @@ Route::get('/moderation/{edit}', function (AnimalEdit $edit) {
     ->name('moderation.show');
 
 Route::post('/moderation/{edit}/approve', [ModerationController::class, 'approve'])
+    ->whereNumber('edit')
     ->name('moderation.approve');
 
 Route::post('/moderation/{edit}/reject', [ModerationController::class, 'reject'])
+    ->whereNumber('edit')
     ->name('moderation.reject');
+
 
 Route::get('/moderation/{edit}/diff', [ModerationController::class, 'diff'])
     ->name('moderation.diff');

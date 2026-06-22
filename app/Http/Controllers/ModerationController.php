@@ -7,50 +7,81 @@ use App\Models\AnimalEdit;
 use App\Models\ModerationLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+// ---------------------------
+// KONTROLER MODERACJI
+// ---------------------------
 
 class ModerationController extends Controller
 {
-    /**
-     * Zatwierdzenie zgłoszenia (nowe ogłoszenie lub edycja).
-     */
+    // ** Pobranie listy zgłoszeń oczekujących na moderację 
+        public function pending()
+    {
+        return AnimalEdit::where('mod_status', 'pending')
+            ->with(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }    
+
+    // ** Zatwierdzenie zgłoszenia (nowe ogłoszenie lub edycja istniejącego)
     public function approve(AnimalEdit $edit)
     {
         if ($edit->mod_status !== 'pending') {
             return response()->json([
                 'message' => 'To zgłoszenie zostało już rozpatrzone.'
-            ], 400);
+            ], 400); // Zapobiegamy ponownemu zatwierdzeniu lub odrzuceniu tego samego zgłoszenia
         }
 
         DB::transaction(function () use ($edit) {
 
-            // NOWE OGŁOSZENIE
-            if ($edit->animal_id === null) {
+            
 
-                $animal = Animal::create($edit->only([
-                    'status', 'title', 'description', 'animal_name', 'ident_marks',
-                    'chip_present', 'chip_number', 'species_id', 'breed_id',
-                    'date_event', 'voivodeship_id', 'city_id', 'location_text',
-                    'latitude', 'longitude', 'contact_name', 'contact_email', 'contact_phone'
-                ]));
+    // NOWE OGŁOSZENIE
+    if ($edit->animal_id === null) {
 
-                // Przeniesienie zdjęć
-                foreach ($edit->photos as $photo) {
-                    $photo->update([
-                        'animal_id' => $animal->id,
-                        'animal_edit_id' => null,
-                    ]);
-                }
+        $animal = Animal::create([
+            'status'         => $edit->status,
+            'title'          => $edit->title,
+            'description'    => $edit->description,
+            'animal_name'    => $edit->animal_name,
+            'ident_marks'    => $edit->ident_marks,
+            'chip_present'   => $edit->chip_present,
+            'chip_number'    => $edit->chip_number,
+            'species_id'     => $edit->species_id,
+            'breed_id'       => $edit->breed_id,
+            'date_event'     => $edit->date_event,
+            'voivodeship_id' => $edit->voivodeship_id,
+            'city_id'        => $edit->city_id,
+            'location_text'  => $edit->location_text,
+            'latitude'       => $edit->latitude,
+            'longitude'      => $edit->longitude,
+            'contact_name'   => $edit->contact_name,
+            'contact_email'  => $edit->contact_email,
+            'contact_phone'  => $edit->contact_phone,
+            'edit_token'     => $edit->edit_token ?? Str::uuid(),
+        ]);
 
-                $edit->update(['mod_status' => 'approved']);
+        // Przeniesienie zdjęć
+        foreach ($edit->photos as $photo) {
+            $photo->update([
+                'animal_id' => $animal->id,
+                'animal_edit_id' => null,
+            ]);
+        }
 
-                ModerationLog::create([
-                    'animal_id' => $animal->id,
-                    'animal_edit_id' => $edit->id,
-                    'action' => 'approved_new',
-                ]);
+        $edit->update(['mod_status' => 'approved']);
 
-                return;
-            }
+        ModerationLog::create([
+            'animal_id' => $animal->id,
+            'animal_edit_id' => $edit->id,
+            'action' => 'approved',
+            'user_id' => 1 // UWAGA!!! Tylko do testów, w prawdziwej aplikacji powinna być to ID moderatora, który zatwierdził zgłoszenie
+        ]);
+
+        return;
+    }
+
 
             // EDYCJA ISTNIEJĄCEGO OGŁOSZENIA
             $animal = $edit->animal;
@@ -79,9 +110,10 @@ class ModerationController extends Controller
             ]);
         });
 
-        return response()->json([
-            'message' => 'Zgłoszenie zostało zatwierdzone.',
-        ]);
+        return redirect()
+            ->route('moderation.pending')
+            ->with('success', 'Zgłoszenie zostało zatwierdzone.');
+
     }
 
     /**
@@ -111,9 +143,9 @@ class ModerationController extends Controller
             'details' => $request->reason,
         ]);
 
-        return response()->json([
-            'message' => 'Zgłoszenie zostało odrzucone.',
-        ]);
+        return redirect()
+            ->route('moderation.pending')
+            ->with('error', 'Zgłoszenie zostało odrzucone.');
     }
 
     /**
@@ -160,17 +192,6 @@ class ModerationController extends Controller
         }
 
         return $diff;
-    }
-
-    /**
-     * Lista zgłoszeń oczekujących na moderację.
-     */
-    public function pending()
-    {
-        return AnimalEdit::where('mod_status', 'pending')
-            ->with(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos'])
-            ->orderBy('created_at', 'desc')
-            ->get();
     }
 
 }

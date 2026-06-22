@@ -11,6 +11,18 @@
 
     <div class="max-w-5xl mx-auto py-10">
         @yield('content')
+        @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
+            {{ session('error') }}
+        </div>
+        @endif
+
     </div>
 
 </body>
