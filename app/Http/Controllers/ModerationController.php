@@ -161,4 +161,16 @@ class ModerationController extends Controller
 
         return $diff;
     }
+
+    /**
+     * Lista zgłoszeń oczekujących na moderację.
+     */
+    public function pending()
+    {
+        return AnimalEdit::where('mod_status', 'pending')
+            ->with(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
 }
