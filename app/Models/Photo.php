@@ -23,4 +23,9 @@ class Photo extends Model
     {
         return $this->belongsTo(Animal::class);
     }
+    public function animalEdit()
+    {
+        return $this->belongsTo(\App\Models\AnimalEdit::class, 'animal_edit_id');
+    }
+
 }

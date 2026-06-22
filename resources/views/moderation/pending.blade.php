@@ -1,0 +1,53 @@
+@extends('layouts.app')
+
+@section('content')
+
+<h1 class="text-3xl font-bold mb-6">Zgłoszenia oczekujące na moderację</h1>
+
+@if($edits->isEmpty())
+    <p class="text-gray-600">Brak zgłoszeń do moderacji.</p>
+@else
+    <div class="space-y-4">
+
+        @foreach($edits as $edit)
+            <div class="bg-white p-4 rounded shadow flex items-center justify-between">
+
+                <div>
+                    <h2 class="text-xl font-semibold">{{ $edit->title }}</h2>
+                    <p class="text-gray-600">
+                        {{ $edit->species->name }} •
+                        {{ $edit->breed->name }} •
+                        {{ $edit->city->name }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Dodano: {{ $edit->created_at->format('Y-m-d H:i') }}
+                    </p>
+                </div>
+
+                <div class="flex items-center space-x-3">
+
+                    {{-- Miniaturka zdjęcia --}}
+                    @if($edit->photos->first())
+                        <img src="{{ asset('storage/' . $edit->photos->first()->path) }}"
+                             class="w-20 h-20 object-cover rounded border">
+                    @else
+                        <div class="w-20 h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500">
+                            brak zdjęć
+                        </div>
+                    @endif
+
+                    {{-- Link do szczegółów --}}
+                    <a href="{{ url('/moderation/' . $edit->id) }}"
+                       class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Otwórz
+                    </a>
+
+                </div>
+
+            </div>
+        @endforeach
+
+    </div>
+@endif
+
+@endsection
