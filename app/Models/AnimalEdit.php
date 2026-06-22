@@ -72,4 +72,10 @@ class AnimalEdit extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(\App\Models\Photo::class, 'animal_edit_id');
+    }
+
 }
