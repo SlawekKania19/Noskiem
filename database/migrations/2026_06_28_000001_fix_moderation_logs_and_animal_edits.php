@@ -8,7 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Dodajemy animal_edit_id i czynimy user_id nullable w moderation_logs
+        // ** Dodajemy animal_edit_id i czynimy user_id nullable w moderation_logs
+
         Schema::table('moderation_logs', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->unsignedBigInteger('user_id')->nullable()->change();
@@ -18,7 +19,8 @@ return new class extends Migration
             $table->foreign('animal_edit_id')->references('id')->on('animal_edits')->onDelete('set null');
         });
 
-        // Dodajemy mod_reject_reason do animal_edits
+        // ** Dodajemy mod_reject_reason do animal_edits
+        
         Schema::table('animal_edits', function (Blueprint $table) {
             $table->text('mod_reject_reason')->nullable()->after('mod_status');
         });

@@ -63,6 +63,42 @@ Na rynku polskim brak centralnej platformy — jedynie chaotyczne grupy FB, OLX 
 - **Faza 3 — AI**: automatyczne dopasowania ogłoszeń, panel dla miast, SMS powiadomienia
 - **Faza 4 — Skala**: sponsorzy, umowy z miastami, skalowanie
 
+## Projekt wizualny (Figma)
+
+Plik: https://www.figma.com/design/cEtR0awrPfm553RxVm90ix/Noskiem.pl-—-Projekt-strony
+
+### Ekrany — Desktop
+
+| Frame | Nazwa | Node ID |
+|---|---|---|
+| Strona główna — Szukam | 🖥️ Desktop — Stan: Szukam | `22:210` |
+| Strona główna — Znalazłem | 🖥️ Desktop — Stan: Znalazłem | `22:318` |
+| Baza zwierząt | Desktop · Baza zwierzat | `33:130` |
+| Formularz zgłoszenia | Desktop · Formularz | `37:101` |
+| Blog | Desktop · Blog | `38:78` |
+
+### Ekrany — Mobile
+
+| Frame | Nazwa | Node ID |
+|---|---|---|
+| Strona główna — Szukam | 📱 Mobile — Stan: Szukam | `22:2` |
+| Strona główna — Znalazłem | 📱 Mobile — Stan: Znalazłem | `22:106` |
+| Baza zwierząt | Mobile · Baza zwierzat | `33:2` |
+| Formularz zgłoszenia | Mobile · Formularz | `37:2` |
+| Blog | Mobile · Blog | `38:2` |
+
+### Kluczowe komponenty (node IDs)
+
+- Navbar: `22:211`
+- Hero Section (desktop, szukam): `22:226`
+- Switcher Szukam/Znalazłem: `22:229`
+- Mapa lokalizacji: `22:238`
+- Karta ogłoszenia (Burek): `22:275`
+- Footer: `22:307`
+- Bottom Nav (mobile): `22:95`
+
+---
+
 ## Stack technologiczny
 
 - **Backend:** Laravel 11 + Filament Admin (panel admina)

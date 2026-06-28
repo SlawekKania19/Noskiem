@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// ---------------------------
 // Model reprezentujący zgłoszenie o widzeniu zwierzęcia
+// ---------------------------
 
 class Sighting extends Model
 {
@@ -29,11 +31,7 @@ class Sighting extends Model
         'longitude' => 'float',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function animal(): BelongsTo
     {

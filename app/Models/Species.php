@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ---------------------------
 // Model reprezentujący gatunek zwierzęcia. Zawiera informacje o nazwie gatunku w języku polskim i angielskim, a także relacje do ras i zwierząt należących do tego gatunku.
+// ---------------------------
 
 class Species extends Model
 {
@@ -14,11 +16,7 @@ class Species extends Model
         'name_en',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function breeds(): HasMany
     {

@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// ---------------------------
 // Model reprezentujący zdjęcie zwierzęcia.
+// ---------------------------
 
 class Photo extends Model
 {
@@ -15,9 +17,13 @@ class Photo extends Model
         'is_main',
     ];
 
+    // ** Casty
+
     protected $casts = [
         'is_main' => 'boolean',
     ];
+
+    // ** Relacje
 
     public function animal(): BelongsTo
     {

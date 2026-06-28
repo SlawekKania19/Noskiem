@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ---------------------------
 // Model reprezentujący województwo, które może mieć wiele miast i zwierząt.
+// ---------------------------
 
 class Voivodeship extends Model
 {
@@ -14,11 +16,7 @@ class Voivodeship extends Model
         'name_en',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function cities(): HasMany
     {

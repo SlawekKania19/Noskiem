@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ---------------------------
 // Model reprezentujący zwierzęta zgłaszane do systemu. Zawiera informacje o statusie, opisie, dacie zdarzenia, lokalizacji oraz kontakcie do zgłaszającego.
+// ---------------------------
 
 class Animal extends Model
 {
@@ -40,11 +42,7 @@ class Animal extends Model
         'longitude' => 'float',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function species(): BelongsTo
     {
