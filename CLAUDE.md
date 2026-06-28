@@ -1,3 +1,19 @@
+# Zasady komentowania kodu
+
+Komentarze w języku **polskim**, zwięzłe ale konkretne. Komentujemy wszystko co może być trudniejsze do odczytania.
+
+```
+// ---------------------------
+// Główny komentarz (funkcja, klasa, większy blok kodu)
+// ---------------------------
+
+// ** Mniejszy blok funkcjonalny
+
+// Komentarz inline
+```
+
+---
+
 # Noskiem.pl — kontekst projektu
 
 Platforma do zgłaszania i wyszukiwania zaginionych, znalezionych i widzianych zwierząt.
