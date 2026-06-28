@@ -22,7 +22,12 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $edits = AnimalEdit::where('mod_status', 'pending')
+            ->with(['species', 'breed', 'city', 'photos'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('dashboard', compact('edits'));
     })->middleware('verified')->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

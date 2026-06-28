@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             ColorsSeeder::class,
             VoivodeshipsSeeder::class,
             CitiesSeeder::class,
+            AnimalSeeder::class,
+            AnimalEditSeeder::class,
         ]);
     }
 }
