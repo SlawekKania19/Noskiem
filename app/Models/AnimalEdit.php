@@ -14,6 +14,7 @@ class AnimalEdit extends Model
     protected $fillable = [
         'animal_id',
         'mod_status',
+        'mod_reject_reason',
         'status',
         'title',
         'description',

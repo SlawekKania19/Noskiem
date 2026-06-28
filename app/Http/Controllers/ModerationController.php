@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class ModerationController extends Controller
 {
     // ** Pobranie listy zgłoszeń oczekujących na moderację 
-        public function pending()
+    public function pending()
     {
         return AnimalEdit::where('mod_status', 'pending')
             ->with(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos'])
@@ -34,56 +34,53 @@ class ModerationController extends Controller
         }
 
         DB::transaction(function () use ($edit) {
-
             
+        // Dodajemy nowe ogłoszenie, jeśli nie istnieje jeszcze Animal powiązany z tym zgłoszeniem
+            if ($edit->animal_id === null) {
 
-    // NOWE OGŁOSZENIE
-    if ($edit->animal_id === null) {
+                $animal = Animal::create([
+                    'status'         => $edit->status,
+                    'title'          => $edit->title,
+                    'description'    => $edit->description,
+                    'animal_name'    => $edit->animal_name,
+                    'ident_marks'    => $edit->ident_marks,
+                    'chip_present'   => $edit->chip_present,
+                    'chip_number'    => $edit->chip_number,
+                    'species_id'     => $edit->species_id,
+                    'breed_id'       => $edit->breed_id,
+                    'date_event'     => $edit->date_event,
+                    'voivodeship_id' => $edit->voivodeship_id,
+                    'city_id'        => $edit->city_id,
+                    'location_text'  => $edit->location_text,
+                    'latitude'       => $edit->latitude,
+                    'longitude'      => $edit->longitude,
+                    'contact_name'   => $edit->contact_name,
+                    'contact_email'  => $edit->contact_email,
+                    'contact_phone'  => $edit->contact_phone,
+                    'edit_token'     => $edit->edit_token ?? Str::uuid(),
+                ]);
 
-        $animal = Animal::create([
-            'status'         => $edit->status,
-            'title'          => $edit->title,
-            'description'    => $edit->description,
-            'animal_name'    => $edit->animal_name,
-            'ident_marks'    => $edit->ident_marks,
-            'chip_present'   => $edit->chip_present,
-            'chip_number'    => $edit->chip_number,
-            'species_id'     => $edit->species_id,
-            'breed_id'       => $edit->breed_id,
-            'date_event'     => $edit->date_event,
-            'voivodeship_id' => $edit->voivodeship_id,
-            'city_id'        => $edit->city_id,
-            'location_text'  => $edit->location_text,
-            'latitude'       => $edit->latitude,
-            'longitude'      => $edit->longitude,
-            'contact_name'   => $edit->contact_name,
-            'contact_email'  => $edit->contact_email,
-            'contact_phone'  => $edit->contact_phone,
-            'edit_token'     => $edit->edit_token ?? Str::uuid(),
-        ]);
+            // Przeniesienie zdjęć
+            foreach ($edit->photos as $photo) {
+                $photo->update([
+                    'animal_id' => $animal->id,
+                    'animal_edit_id' => null,
+                ]);
+            }
 
-        // Przeniesienie zdjęć
-        foreach ($edit->photos as $photo) {
-            $photo->update([
-                'animal_id' => $animal->id,
-                'animal_edit_id' => null,
+            $edit->update(['mod_status' => 'approved']);
+
+            ModerationLog::create([
+                'animal_id'      => $animal->id,
+                'animal_edit_id' => $edit->id,
+                'action'         => 'approved',
+                'user_id'        => auth()->id(),
             ]);
-        }
 
-        $edit->update(['mod_status' => 'approved']);
+            return;
+            }
 
-        ModerationLog::create([
-            'animal_id' => $animal->id,
-            'animal_edit_id' => $edit->id,
-            'action' => 'approved',
-            'user_id' => 1 // UWAGA!!! Tylko do testów, w prawdziwej aplikacji powinna być to ID moderatora, który zatwierdził zgłoszenie
-        ]);
-
-        return;
-    }
-
-
-            // EDYCJA ISTNIEJĄCEGO OGŁOSZENIA
+            // Edytujemy istniejące ogłoszenie, jeśli Animal już istnieje
             $animal = $edit->animal;
 
             $animal->update($edit->only([
@@ -104,9 +101,10 @@ class ModerationController extends Controller
             $edit->update(['mod_status' => 'approved']);
 
             ModerationLog::create([
-                'animal_id' => $animal->id,
+                'animal_id'      => $animal->id,
                 'animal_edit_id' => $edit->id,
-                'action' => 'approved_edit',
+                'action'         => 'approved',
+                'user_id'        => auth()->id(),
             ]);
         });
 
@@ -116,9 +114,7 @@ class ModerationController extends Controller
 
     }
 
-    /**
-     * Odrzucenie zgłoszenia.
-     */
+    // ** Odrzucenie ogłoszenia do publikacji
     public function reject(Request $request, AnimalEdit $edit)
     {
         if ($edit->mod_status !== 'pending') {
@@ -137,10 +133,11 @@ class ModerationController extends Controller
         ]);
 
         ModerationLog::create([
-            'animal_id' => $edit->animal_id,
+            'animal_id'      => $edit->animal_id,
             'animal_edit_id' => $edit->id,
-            'action' => 'rejected',
-            'details' => $request->reason,
+            'action'         => 'rejected',
+            'comment'        => $request->reason,
+            'user_id'        => auth()->id(),
         ]);
 
         return redirect()
