@@ -1,4 +1,4 @@
-# Nosekem
+# Noskiem
 
 Platforma do zgłaszania i wyszukiwania zaginionych, znalezionych i widzianych zwierząt.  
 Projekt oparty na **Laravel** i **Filament Admin**, zaprojektowany z myślą o prostocie, szybkości i realnej skuteczności.
