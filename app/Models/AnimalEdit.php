@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// ---------------------------
 // Model reprezentujący edycję zgłoszenia zwierzęcia.
+// ---------------------------
 
 class AnimalEdit extends Model
 {
@@ -14,6 +16,7 @@ class AnimalEdit extends Model
     protected $fillable = [
         'animal_id',
         'mod_status',
+        'mod_reject_reason',
         'status',
         'title',
         'description',
@@ -42,11 +45,7 @@ class AnimalEdit extends Model
         'longitude' => 'float',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function animal(): BelongsTo
     {

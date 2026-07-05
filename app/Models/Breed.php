@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ---------------------------
 // Model reprezentujący rasę zwierzęcia.
+// ---------------------------
 
 class Breed extends Model
 {
@@ -16,11 +18,7 @@ class Breed extends Model
         'breed_en',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function species(): BelongsTo
     {

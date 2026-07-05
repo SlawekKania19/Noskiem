@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ---------------------------
 // Model reprezentujący miasto, które może mieć wiele zwierząt.
+// ---------------------------
 
 class City extends Model
 {
@@ -16,11 +18,7 @@ class City extends Model
         'voivodeship_id',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function voivodeship(): BelongsTo
     {

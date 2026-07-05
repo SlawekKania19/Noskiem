@@ -5,31 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// ---------------------------
+// Model reprezentujący logi moderacji zwierząt. Zawiera informacje o akcji moderacyjnej, komentarzu oraz relacje do zwierzęcia i użytkownika, który wykonał akcję.
+// ---------------------------
+
 class ModerationLog extends Model
 {
-    // Model reprezentujący logi moderacji zwierząt. Zawiera informacje o akcji moderacyjnej, komentarzu oraz relacje do zwierzęcia i użytkownika, który wykonał akcję.
     protected $fillable = [
         'animal_id',
+        'animal_edit_id',
         'user_id',
         'action',
         'comment',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Casty
-    |--------------------------------------------------------------------------
-    */
+    // ** Casty 
 
     protected $casts = [
         'action' => 'string',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relacje
-    |--------------------------------------------------------------------------
-    */
+    // ** Relacje
 
     public function animal(): BelongsTo
     {
