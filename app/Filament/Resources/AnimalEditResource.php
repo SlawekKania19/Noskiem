@@ -27,6 +27,7 @@ class AnimalEditResource extends Resource
 {
     protected static ?string $model = AnimalEdit::class;
 
+    // Ustawienia menu w panelu administracyjnym
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clock';
     protected static ?string $navigationLabel = 'Moderacja';
     protected static ?string $modelLabel = 'zgłoszenie';

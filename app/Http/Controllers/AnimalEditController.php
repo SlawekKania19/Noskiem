@@ -7,8 +7,13 @@ use App\Models\AnimalEdit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+// ---------------------------
+// Kontroler do obsługi zgłoszeń edycji zwierząt (AnimalEdit)
+// ---------------------------
+
 class AnimalEditController extends Controller
 {
+    // Wyświetla listę zgłoszeń edycji zwierząt oczekujących na moderację
     public function indexPending()
     {
         return AnimalEdit::where('mod_status', 'pending')
@@ -17,16 +22,19 @@ class AnimalEditController extends Controller
             ->get();
     }
 
+    // Wyświetla szczegóły konkretnego zgłoszenia edycji zwierzęcia, w tym informacje o gatunku, rasie, województwie, mieście, powiązanym ogłoszeniu i zdjęciach. Zwraca dane w formacie JSON.
     public function show(AnimalEdit $animalEdit)
     {
         return $animalEdit->load(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos']);
     }
 
+    // Zatwierdza zgłoszenie edycji zwierzęcia, aktualizując powiązane ogłoszenie i ustawiając status moderacji na "approved". Zwraca odpowiedź w formacie JSON z komunikatem o powodzeniu operacji.
     public function create()
     {
         return view('animals.create');
     }
 
+    // Zapisuje nowe zgłoszenie edycji zwierzęcia, walidując dane wejściowe i ustawiając status moderacji na "pending". Generuje unikalny token edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -59,6 +67,7 @@ class AnimalEditController extends Controller
             ->with('success', 'Zgłoszenie zostało wysłane i oczekuje na moderację.');
     }
 
+    // Wyświetla formularz edycji konkretnego ogłoszenia zwierzęcia, sprawdzając poprawność tokenu edycji. Jeśli token jest nieprawidłowy, zwraca błąd 403. Zwraca widok z formularzem edycji.    
     public function edit(Animal $animal, Request $request)
     {
         if ($request->get('token') !== $animal->edit_token) {
@@ -68,6 +77,7 @@ class AnimalEditController extends Controller
         return view('animals.edit', compact('animal'));
     }
 
+    // Aktualizuje konkretne ogłoszenie zwierzęcia na podstawie zgłoszenia edycji, sprawdzając poprawność tokenu edycji. Jeśli token jest nieprawidłowy, zwraca błąd 403. Waliduje dane wejściowe, tworzy nowe zgłoszenie edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
     public function update(Request $request, Animal $animal)
     {
         if ($request->get('token') !== $animal->edit_token) {
