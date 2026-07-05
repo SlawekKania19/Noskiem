@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Ukrywa elementy Alpine.js przed inicjalizacją (zapobiega "miganiu" treści) */
+[x-cloak] {
+    display: none !important;
+}

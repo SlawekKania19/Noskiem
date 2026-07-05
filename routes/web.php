@@ -10,8 +10,8 @@ use App\Http\Controllers\ProfileController;
 // ---------------------------
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
 // ---------------------------
 // AUTH – panel admina i profil
