@@ -13,6 +13,7 @@ class Photo extends Model
 {
     protected $fillable = [
         'animal_id',
+        'animal_edit_id',
         'path',
         'is_main',
     ];
