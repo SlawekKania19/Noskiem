@@ -5,12 +5,11 @@
 @section('content')
 
     {{-- ---------------------------
-         Hero Section (Figma: desktop 22:226, mobile 22:2)
+         Hero Section 
          Stan "Szukam" jest domyślny, przełącznik zmienia treść bez przeładowania strony
          --------------------------- --}}
     <section x-data="{ mode: 'szukam' }" class="bg-[#fefae0]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
-
             {{-- ** Switcher Szukam / Znalazłem (Figma: node 22:229) --}}
             <div class="inline-flex items-center rounded-full bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
                 <button
@@ -30,7 +29,6 @@
                     Znalazłem
                 </button>
             </div>
-
             {{-- ** Nagłówek i opis — treść zależna od wybranego trybu --}}
             <h1 class="mt-8 text-[32px] sm:text-[44px] font-semibold leading-tight text-[#283618]">
                 <span x-show="mode === 'szukam'" x-cloak>Zaginął Ci pupil? Znajdziemy go noskiem.</span>
@@ -71,11 +69,10 @@
                 + Dodaj ogłoszenie o znalezionym zwierzaku
             </a>
         </div>
-
         {{-- ---------------------------
              Sekcja "Poszukiwane" (status=lost) — widoczna w trybie Szukam
              --------------------------- --}}
-        <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Poszukiwane</h2>
                 <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">
@@ -97,7 +94,7 @@
         {{-- ---------------------------
              Sekcja "Widziane" (status=found) — widoczna w trybie Znalazłem
              --------------------------- --}}
-        <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Widziane</h2>
                 <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">

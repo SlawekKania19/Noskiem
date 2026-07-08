@@ -17,14 +17,14 @@ class HomeController extends Controller
             ->where('status', 'lost')
             ->with(['species', 'breed', 'voivodeship', 'city', 'photos'])
             ->latest()
-            ->limit(6)
+            ->limit(6) // TODO: Rozważyć przeniesienie limitu do konfiguracji lub parametru
             ->get();
 
         $foundAnimals = Animal::where('mod_status', 'approved')
             ->where('status', 'found')
             ->with(['species', 'breed', 'voivodeship', 'city', 'photos'])
             ->latest()
-            ->limit(6)
+            ->limit(6)  // TODO: Rozważyć przeniesienie limitu do konfiguracji lub parametru
             ->get();
 
         return view('home', compact('lostAnimals', 'foundAnimals'));

@@ -10,18 +10,16 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Skrypty i style (Vite) -->
+        <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-['Inter'] antialiased text-[#283618] bg-white">
-
         {{-- ---------------------------
-             Navbar (Figma: node 22:211)
+             Navbar 
              --------------------------- --}}
         <header class="sticky top-0 z-40 bg-white shadow-[0px_2px_10px_0px_rgba(30,38,18,0.05)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex h-20 items-center justify-between">
-
                     {{-- Logo + nazwa marki --}}
                     <a href="{{ route('animals.index') }}" class="flex items-center gap-2 shrink-0">
                         <svg class="h-8 w-8 text-[#283618]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -33,7 +31,6 @@
                         </svg>
                         <span class="font-semibold text-[15px] text-[#283618]">noskiem.org</span>
                     </a>
-
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
                         <a href="{{ route('animals.index') }}" class="font-semibold text-[#283618]">Główna</a>
@@ -41,7 +38,6 @@
                         <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[#616657] hover:text-[#283618] transition-colors">Znalezione</a>
                         <a href="#" class="text-[#616657] hover:text-[#283618] transition-colors">Jak to działa</a>
                     </nav>
-
                     {{-- Przycisk dodania ogłoszenia --}}
                     <a
                         href="{{ route('animals.create') }}"
@@ -72,18 +68,16 @@
         </main>
 
         {{-- ---------------------------
-             Footer (Figma: node 22:307)
+             Footer
              --------------------------- --}}
         <footer class="bg-[#283618] text-[#fefae0]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-
                     {{-- Marka i slogan --}}
                     <div>
                         <span class="font-semibold text-[15px]">noskiem.org</span>
                         <p class="mt-3 text-[13px] text-[#c9cdb8]">„Znajdziemy go noskiem"</p>
                     </div>
-
                     {{-- Nawigacja --}}
                     <div>
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Nawigacja</p>
@@ -94,7 +88,6 @@
                             <li><a href="#" class="hover:underline">Blog</a></li>
                         </ul>
                     </div>
-
                     {{-- Informacje --}}
                     <div>
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Informacje</p>
@@ -104,7 +97,6 @@
                             <li><a href="#" class="hover:underline">Kontakt</a></li>
                         </ul>
                     </div>
-
                     {{-- Kontakt / social media --}}
                     <div>
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Kontakt</p>
@@ -113,19 +105,16 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="mt-10 border-t border-white/10 pt-6 text-[12px] text-[#c9cdb8]">
                     &copy; {{ date('Y') }} noskiem.org. Wszelkie prawa zastrzeżone.
                 </div>
             </div>
         </footer>
-
         {{-- ---------------------------
-             Bottom Nav — tylko mobile (Figma: node 22:95)
+             Bottom Nav (mobile) — widoczny tylko na urządzeniach mobilnych, zastępuje navbar
              --------------------------- --}}
         <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)]">
             <div class="grid grid-cols-5 items-end h-16">
-
                 {{-- Główna --}}
                 <a href="{{ route('animals.index') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -134,7 +123,6 @@
                     </svg>
                     Główna
                 </a>
-
                 {{-- Zaginione --}}
                 <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -143,7 +131,6 @@
                     </svg>
                     Zaginione
                 </a>
-
                 {{-- Dodaj ogłoszenie — wyróżniony, centralny przycisk --}}
                 <a href="{{ route('animals.create') }}" class="flex flex-col items-center justify-center -translate-y-3">
                     <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)]">
@@ -152,7 +139,6 @@
                         </svg>
                     </span>
                 </a>
-
                 {{-- Znalezione --}}
                 <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -160,7 +146,6 @@
                     </svg>
                     Znalezione
                 </a>
-
                 {{-- Więcej --}}
                 <a href="#" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
