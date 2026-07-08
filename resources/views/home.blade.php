@@ -73,17 +73,46 @@
         </div>
 
         {{-- ---------------------------
-             Lista ogłoszeń — placeholder na karty (podłączenie danych z bazy w kolejnym kroku)
+             Sekcja "Poszukiwane" (status=lost) — widoczna w trybie Szukam
              --------------------------- --}}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <h2 class="text-[20px] font-semibold text-[#283618]" x-text="mode === 'szukam' ? 'Poszukiwane' : 'Widziane'"></h2>
+        <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <div class="flex items-center justify-between">
+                <h2 class="text-[20px] font-semibold text-[#283618]">Poszukiwane</h2>
+                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">
+                    Zobacz wszystkie
+                </a>
+            </div>
 
             <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @for ($i = 0; $i < 6; $i++)
-                    <div class="flex h-64 items-center justify-center rounded-2xl border border-dashed border-[#c9cdb8] bg-white text-[13px] text-[#a3a795]">
-                        Miejsce na kartę ogłoszenia
-                    </div>
-                @endfor
+                @forelse ($lostAnimals as $animal)
+                    <x-animal-card :animal="$animal" />
+                @empty
+                    <p class="col-span-full text-center text-[14px] text-[#8f9485]">
+                        Brak zaginionych zwierząt w bazie.
+                    </p>
+                @endforelse
+            </div>
+        </div>
+
+        {{-- ---------------------------
+             Sekcja "Widziane" (status=found) — widoczna w trybie Znalazłem
+             --------------------------- --}}
+        <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <div class="flex items-center justify-between">
+                <h2 class="text-[20px] font-semibold text-[#283618]">Widziane</h2>
+                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">
+                    Zobacz wszystkie
+                </a>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @forelse ($foundAnimals as $animal)
+                    <x-animal-card :animal="$animal" />
+                @empty
+                    <p class="col-span-full text-center text-[14px] text-[#8f9485]">
+                        Brak znalezionych zwierząt w bazie.
+                    </p>
+                @endforelse
             </div>
         </div>
     </section>

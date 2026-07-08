@@ -17,8 +17,8 @@ use App\Http\Controllers\AnimalEditController;
 Route::middleware('throttle:4,1')->group(function () {
 
     // PUBLICZNE API
-    Route::get('/animals', [AnimalController::class, 'index']);
-    Route::get('/animals/{animal}', [AnimalController::class, 'show']);
+    Route::get('/animals', [AnimalController::class, 'indexJson']);
+    Route::get('/animals/{animal}', [AnimalController::class, 'showJson']);
 
     // TWORZENIE I EDYCJE
     Route::post('/animal-edits', [AnimalEditController::class, 'store']);
