@@ -3,15 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 
 // ---------------------------
 // STRONA GŁÓWNA
 // ---------------------------
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // ---------------------------
 // AUTH – panel admina i profil
@@ -49,6 +49,9 @@ Route::post('/animals', [AnimalEditController::class, 'store'])
 
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
     ->name('animals.show');
+
+Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
+    ->name('messages.store');
 
 Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])
     ->name('animals.edit');
