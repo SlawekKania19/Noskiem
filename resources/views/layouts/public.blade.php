@@ -22,17 +22,23 @@
                 <div class="flex h-20 items-center justify-between">
                     {{-- Logo + nazwa marki --}}
                     <a href="{{ route('animals.index') }}" class="flex items-center gap-2 shrink-0">
-                        <svg class="h-16 w-16 text-[#283618]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
-                            <!-- pinezka -->
-                            <path d="M 120 212 C 120 212 55 140 55 94 C 55 56 84 28 120 28 C 156 28 185 56 185 94 C 185 140 120 212 120 212 Z"
-                                    fill="none" stroke="#000" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <!-- łapka -->
-                            <g fill="#000">
-                                <circle cx="96" cy="82" r="10"/>
-                                <circle cx="120" cy="72" r="10"/>
-                                <circle cx="144" cy="82" r="10"/>
-                                <ellipse cx="120" cy="114" rx="19" ry="16"/>
-                            </g>
+                        <svg class="h-12 w-12 text-[#283618]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+                                <!-- pinezka -->
+                                <path d="M 120 212 C 120 212 55 140 55 94 C 55 56 84 28 120 28 C 156 28 185 56 185 94 C 185 140 120 212 120 212 Z"
+                                        fill="none" stroke="#000" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                                <!-- nos kota -->
+                                <path d="M 104 74 L 136 74 C 142 74 144 80 140 85 L 126 101 C 123 105 117 105 114 101 L 100 85 C 96 80 98 74 104 74 Z" fill="#000"/>
+                                <!-- pyszczek -->
+                                <g fill="none" stroke="#000" stroke-width="8" stroke-linecap="round">
+                                    <path d="M 120 104 L 120 112"/>
+                                    <path d="M 120 112 C 120 122 110 126 102 121"/>
+                                    <path d="M 120 112 C 120 122 130 126 138 121"/>
+                                    <!-- wąsy -->
+                                    <path d="M 70 78 L 90 82" stroke-width="7"/>
+                                    <path d="M 72 98 L 91 95" stroke-width="7"/>
+                                    <path d="M 170 78 L 150 82" stroke-width="7"/>
+                                    <path d="M 168 98 L 149 95" stroke-width="7"/>
+                                </g>
                             </svg>
                         <span class="font-light text-[20px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>

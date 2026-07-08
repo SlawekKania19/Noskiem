@@ -56,7 +56,7 @@
                     type="text"
                     name="q"
                     placeholder="Wpisz miasto, rasę lub imię zwierzaka..."
-                    class="flex-1 rounded-xl border border-[#e5e5dc] px-5 py-3 text-[14px] text-[#283618] placeholder:text-[#a3a795] focus:border-[#283618] focus:outline-none"
+                    class="flex-1 rounded-xl border border-[#e5e5dc] px-5 py-3 text-[14px] text-[#283618] placeholder:text-[#a3a795] focus:border-[#283618] focus:outline-hidden"
                 >
                 <button
                     type="submit"

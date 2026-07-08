@@ -33,7 +33,7 @@
                     <select
                         name="status"
                         required
-                        class="w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                         <option value="">Wybierz status</option>
                         <option value="lost" @selected(old('status') === 'lost')>Zaginiony</option>
@@ -59,7 +59,7 @@
                             name="animal_name"
                             value="{{ old('animal_name') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -71,7 +71,7 @@
                         <select
                             name="species_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz gatunek</option>
                             @foreach ($species as $s)
@@ -88,7 +88,7 @@
                         <select
                             name="breed_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz rasę</option>
                             @foreach ($breeds as $b)
@@ -108,7 +108,7 @@
                                 name="chip_present"
                                 value="1"
                                 x-model="chipPresent"
-                                class="h-4 w-4 rounded border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
+                                class="h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
                                 @if (old('chip_present')) checked @endif
                             >
                             Zwierzę ma chip
@@ -121,7 +121,7 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number') }}"
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -134,7 +134,7 @@
                     <textarea
                         name="ident_marks"
                         rows="3"
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('ident_marks') }}</textarea>
                     @error('ident_marks')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -155,7 +155,7 @@
                         name="title"
                         value="{{ old('title') }}"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('title')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -168,7 +168,7 @@
                         name="description"
                         rows="5"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('description') }}</textarea>
                     @error('description')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -182,7 +182,7 @@
                         name="date_event"
                         value="{{ old('date_event') }}"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('date_event')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -202,7 +202,7 @@
                         <select
                             name="voivodeship_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz województwo</option>
                             @foreach ($voivodeships as $v)
@@ -219,7 +219,7 @@
                         <select
                             name="city_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz miasto</option>
                             @foreach ($cities as $c)
@@ -240,7 +240,7 @@
                         value="{{ old('location_text') }}"
                         placeholder="np. Bronowice, Kraków"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('location_text')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -347,7 +347,7 @@
                             name="contact_name"
                             value="{{ old('contact_name') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -361,7 +361,7 @@
                             name="contact_email"
                             value="{{ old('contact_email') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_email')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -374,7 +374,7 @@
                             type="text"
                             name="contact_phone"
                             value="{{ old('contact_phone') }}"
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_phone')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
