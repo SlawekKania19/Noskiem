@@ -22,14 +22,19 @@
                 <div class="flex h-20 items-center justify-between">
                     {{-- Logo + nazwa marki --}}
                     <a href="{{ route('animals.index') }}" class="flex items-center gap-2 shrink-0">
-                        <svg class="h-8 w-8 text-[#283618]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M12 14c-3.3 0-6 2.2-6 5v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-2.8-2.7-5-6-5Z"/>
-                            <ellipse cx="4.5" cy="10" rx="2" ry="2.5"/>
-                            <ellipse cx="19.5" cy="10" rx="2" ry="2.5"/>
-                            <ellipse cx="8" cy="6" rx="2" ry="2.5"/>
-                            <ellipse cx="16" cy="6" rx="2" ry="2.5"/>
-                        </svg>
-                        <span class="font-semibold text-[15px] text-[#283618]">noskiem.org</span>
+                        <svg class="h-16 w-16 text-[#283618]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+                            <!-- pinezka -->
+                            <path d="M 120 212 C 120 212 55 140 55 94 C 55 56 84 28 120 28 C 156 28 185 56 185 94 C 185 140 120 212 120 212 Z"
+                                    fill="none" stroke="#000" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- łapka -->
+                            <g fill="#000">
+                                <circle cx="96" cy="82" r="10"/>
+                                <circle cx="120" cy="72" r="10"/>
+                                <circle cx="144" cy="82" r="10"/>
+                                <ellipse cx="120" cy="114" rx="19" ry="16"/>
+                            </g>
+                            </svg>
+                        <span class="font-light text-[20px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
@@ -98,10 +103,11 @@
                         </ul>
                     </div>
                     {{-- Kontakt / social media --}}
+                    @php($contactEmail = \App\Models\Setting::get('contact_email', 'kontakt@noskiem.pl'))
                     <div>
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Kontakt</p>
                         <ul class="mt-3 space-y-2 text-[14px]">
-                            <li><a href="mailto:kontakt@noskiem.pl" class="hover:underline">kontakt@noskiem.pl</a></li>
+                            <li><a href="mailto:{{ $contactEmail }}" class="hover:underline">{{ $contactEmail }}</a></li>
                         </ul>
                     </div>
                 </div>

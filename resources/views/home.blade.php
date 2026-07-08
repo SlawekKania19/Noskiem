@@ -1,3 +1,13 @@
+@php
+    // ---------------------------
+    // Teksty Hero i inne treści edytowalne z panelu Filament (App\Filament\Pages\Settings)
+    // ---------------------------
+    $heroHeadlineLost = \App\Models\Setting::get('hero_headline_lost', 'Zaginął Ci pupil? Znajdziemy go noskiem.');
+    $heroHeadlineFound = \App\Models\Setting::get('hero_headline_found', 'Znalazłeś zwierzaka? Pomóż mu wrócić do domu.');
+    $heroDescriptionLost = \App\Models\Setting::get('hero_description_lost', 'Przeszukaj bazę znalezionych i widzianych zwierząt z całej Polski, zanim dodasz własne ogłoszenie.');
+    $heroDescriptionFound = \App\Models\Setting::get('hero_description_found', 'Dodaj ogłoszenie o znalezionym zwierzaku, żeby jak najszybciej trafiło do właściciela.');
+@endphp
+
 @extends('layouts.public')
 
 @section('title', 'Noskiem.pl — Znajdziemy go noskiem')
@@ -8,7 +18,7 @@
          Hero Section 
          Stan "Szukam" jest domyślny, przełącznik zmienia treść bez przeładowania strony
          --------------------------- --}}
-    <section x-data="{ mode: 'szukam' }" class="bg-[#fefae0]">
+    <section x-data="{ mode: 'szukam' }" class="bg-[#FFFFFF]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
             {{-- ** Switcher Szukam / Znalazłem (Figma: node 22:229) --}}
             <div class="inline-flex items-center rounded-full bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
@@ -31,13 +41,13 @@
             </div>
             {{-- ** Nagłówek i opis — treść zależna od wybranego trybu --}}
             <h1 class="mt-8 text-[32px] sm:text-[44px] font-semibold leading-tight text-[#283618]">
-                <span x-show="mode === 'szukam'" x-cloak>Zaginął Ci pupil? Znajdziemy go noskiem.</span>
-                <span x-show="mode === 'znalazlem'" x-cloak>Znalazłeś zwierzaka? Pomóż mu wrócić do domu.</span>
+                <span x-show="mode === 'szukam'" x-cloak>{{ $heroHeadlineLost }}</span>
+                <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroHeadlineFound }}</span>
             </h1>
 
             <p class="mt-4 max-w-2xl mx-auto text-[15px] sm:text-[16px] text-[#616657]">
-                <span x-show="mode === 'szukam'" x-cloak>Przeszukaj bazę znalezionych i widzianych zwierząt z całej Polski, zanim dodasz własne ogłoszenie.</span>
-                <span x-show="mode === 'znalazlem'" x-cloak>Dodaj ogłoszenie o znalezionym zwierzaku, żeby jak najszybciej trafiło do właściciela.</span>
+                <span x-show="mode === 'szukam'" x-cloak>{{ $heroDescriptionLost }}</span>
+                <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroDescriptionFound }}</span>
             </p>
 
             {{-- ** Wyszukiwarka --}}
