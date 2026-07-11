@@ -50,34 +50,34 @@
                 <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroDescriptionFound }}</span>
             </p>
 
-            {{-- ** Wyszukiwarka --}}
-            <form action="{{ route('animals.index') }}" method="GET" class="mt-8 mx-auto flex max-w-xl flex-col gap-3 sm:flex-row">
+            {{-- ** Wyszukiwarka — grid z kolumnami [pole, przycisk], żeby podpowiedź pod spodem dało się wyśrodkować dokładnie względem pola --}}
+            <form action="{{ route('animals.index') }}" method="GET" class="mt-8 mx-auto grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
                 <input
                     type="text"
                     name="q"
                     placeholder="Wpisz miasto, rasę lub imię zwierzaka..."
-                    class="flex-1 rounded-xl border border-[#e5e5dc] px-5 py-3 text-[14px] text-[#283618] placeholder:text-[#a3a795] focus:border-[#283618] focus:outline-hidden"
+                    class="sm:col-start-1 sm:row-start-1 rounded-xl border border-[#e5e5dc] px-5 py-3 text-[14px] text-[#283618] placeholder:text-[#a3a795] focus:border-[#283618] focus:outline-hidden"
                 >
                 <button
                     type="submit"
-                    class="rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition-colors"
+                    class="sm:col-start-2 sm:row-start-1 rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition-colors"
                 >
                     Szukaj
                 </button>
-            </form>
 
-            {{-- ** Podpowiedź / CTA — inna treść w zależności od trybu --}}
-            <p class="mt-4 text-[13px] text-[#616657]" x-show="mode === 'szukam'" x-cloak>
-                Najpierw poszukaj, zanim dodasz ogłoszenie.
-            </p>
-            <a
-                href="{{ route('animals.create') }}"
-                class="mt-4 inline-flex text-[13px] font-semibold text-[#283618] underline underline-offset-2"
-                x-show="mode === 'znalazlem'"
-                x-cloak
-            >
-                + Dodaj ogłoszenie o znalezionym zwierzaku
-            </a>
+                {{-- ** Podpowiedź / CTA — w tej samej kolumnie co pole, więc wyśrodkowane względem niego, nie całego wiersza --}}
+                <p class="sm:col-start-1 sm:row-start-2 text-center text-[13px] text-[#616657]" x-show="mode === 'znalazlem'" x-cloak>
+                    Najpierw poszukaj, zanim dodasz ogłoszenie.
+                </p>
+                <a
+                    href="{{ route('animals.create') }}"
+                    class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition-colors"
+                    x-show="mode === 'szukam'"
+                    x-cloak
+                >
+                    Dodaj ogłoszenie o zaginionym zwierzaku
+                </a>
+            </form>
         </div>
         {{-- ---------------------------
              Sekcja "Poszukiwane" (status=lost) — widoczna w trybie Szukam
