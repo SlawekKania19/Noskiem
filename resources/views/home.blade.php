@@ -28,7 +28,7 @@
                     :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
                     class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                 >
-                    Szukam
+                    Szukam zwierzaka
                 </button>
                 <button
                     type="button"
@@ -36,7 +36,7 @@
                     :class="mode === 'znalazlem' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
                     class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                 >
-                    Znalazłem
+                    Znalazłem zwierzaka
                 </button>
             </div>
             {{-- ** Nagłówek i opis — treść zależna od wybranego trybu --}}

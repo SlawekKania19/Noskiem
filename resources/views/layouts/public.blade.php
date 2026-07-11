@@ -8,7 +8,9 @@
         <title>@yield('title', 'Noskiem.pl — Znajdziemy go noskiem')</title>
         
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+            <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.bunny.net">
+            <link href="https://fonts.bunny.net/css?family=barlow:400,600,900" rel="stylesheet" />
 
         <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,7 +23,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex h-20 items-center justify-between">
                     {{-- Logo + nazwa marki --}}
-                    <a href="{{ route('animals.index') }}" class="flex items-center gap-2 shrink-0">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
                         <svg class="h-12 w-12 text-[#283618]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
                                 <!-- pinezka -->
                                 <path d="M 120 212 C 120 212 55 140 55 94 C 55 56 84 28 120 28 C 156 28 185 56 185 94 C 185 140 120 212 120 212 Z"
@@ -40,7 +42,7 @@
                                     <path d="M 168 98 L 149 95" stroke-width="7"/>
                                 </g>
                             </svg>
-                        <span class="font-light text-[20px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
+                        <span class="font-['Barlow'] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
