@@ -10,9 +10,9 @@ class SpeciesSeeder extends Seeder
     public function run(): void
     {
         DB::table('species')->insert([
-            ['id' => 1, 'name_PL' => 'Pies'],
-            ['id' => 2, 'name_PL' => 'Kot'],
-            ['id' => 3, 'name_PL' => 'Inne'],
+            ['id' => 1, 'name_PL' => 'Pies', 'sortkey' => 1],
+            ['id' => 2, 'name_PL' => 'Kot', 'sortkey' => 2],
+            ['id' => 3, 'name_PL' => 'Inne', 'sortkey' => 3],
         ]);
     }
 }

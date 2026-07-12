@@ -6,6 +6,15 @@
     // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
     // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
     $initialStatus = old('status', request('status', ''));
+    $initialSpeciesId = old('species_id', '');
+    $initialBreedId = old('breed_id', '');
+
+    // Rasy do filtrowania po stronie klienta (Alpine) w zależności od wybranego gatunku
+    $breedsForJs = $breeds->map(fn ($b) => [
+        'id' => $b->id,
+        'species_id' => $b->species_id,
+        'breed_pl' => $b->breed_pl,
+    ])->values()->all();
 @endphp
 
 @extends('layouts.public')
@@ -29,7 +38,13 @@
             method="POST"
             action="{{ route('animals.store') }}"
             enctype="multipart/form-data"
-            x-data='{ chipPresent: {{ old('chip_present') ? 'true' : 'false' }}, status: @json($initialStatus) }'
+            x-data='{
+                chipPresent: {{ old('chip_present') ? 'true' : 'false' }},
+                status: @json($initialStatus),
+                speciesId: @json($initialSpeciesId),
+                breedId: @json($initialBreedId),
+                breedsList: @json($breedsForJs),
+            }'
             class="mt-8 space-y-8"
         >
             @csrf
@@ -91,12 +106,14 @@
                         <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</label>
                         <select
                             name="species_id"
+                            x-model="speciesId"
+                            @change="breedId = ''"
                             required
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz gatunek</option>
                             @foreach ($species as $s)
-                                <option value="{{ $s->id }}" @selected((int) old('species_id') === $s->id)>{{ $s->name_pl }}</option>
+                                <option value="{{ $s->id }}">{{ $s->name_pl }}</option>
                             @endforeach
                         </select>
                         @error('species_id')
@@ -108,13 +125,14 @@
                         <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</label>
                         <select
                             name="breed_id"
+                            x-model="breedId"
                             required
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz rasę</option>
-                            @foreach ($breeds as $b)
-                                <option value="{{ $b->id }}" @selected((int) old('breed_id') === $b->id)>{{ $b->breed_pl }}</option>
-                            @endforeach
+                            <template x-for="breed in breedsList.filter(b => !speciesId || String(b.species_id) === String(speciesId))" :key="breed.id">
+                                <option :value="breed.id" x-text="breed.breed_pl"></option>
+                            </template>
                         </select>
                         @error('breed_id')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>

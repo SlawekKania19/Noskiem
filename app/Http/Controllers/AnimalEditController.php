@@ -36,7 +36,7 @@ class AnimalEditController extends Controller
     public function create()
     {
         return view('animals.create', [
-            'species' => Species::orderBy('name_pl')->get(),
+            'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'cities' => City::orderBy('name_pl')->get(),
@@ -103,7 +103,7 @@ class AnimalEditController extends Controller
 
         return view('animals.edit', [
             'animal' => $animal,
-            'species' => Species::orderBy('name_pl')->get(),
+            'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'cities' => City::orderBy('name_pl')->get(),

@@ -30,6 +30,12 @@ class SpeciesResource extends Resource
             Section::make()->schema([
                 TextInput::make('name_pl')->label('Nazwa (PL)')->required()->maxLength(100),
                 TextInput::make('name_en')->label('Nazwa (EN)')->maxLength(100),
+                TextInput::make('sortkey')
+                    ->label('Kolejność sortowania')
+                    ->helperText('Mniejsza wartość = wyżej na liście. Decyduje o kolejności w formularzu zgłoszenia.')
+                    ->numeric()
+                    ->default(0)
+                    ->required(),
             ]),
         ]);
     }
@@ -38,6 +44,7 @@ class SpeciesResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('sortkey')->label('Kolejność')->sortable(),
                 Tables\Columns\TextColumn::make('name_pl')->label('Nazwa (PL)')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('name_en')->label('Nazwa (EN)')->searchable(),
                 Tables\Columns\TextColumn::make('breeds_count')
@@ -49,7 +56,7 @@ class SpeciesResource extends Resource
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
-            ->defaultSort('name_pl');
+            ->defaultSort('sortkey');
     }
 
     public static function getRelationManagers(): array

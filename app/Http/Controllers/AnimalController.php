@@ -36,7 +36,7 @@ class AnimalController extends Controller
         // ** Listy słownikowe do formularza filtrów
         return view('animals.index', [
             'animals' => $animals,
-            'species' => Species::orderBy('name_pl')->get(),
+            'species' => Species::orderBy('sortkey')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'cities' => City::orderBy('name_pl')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
