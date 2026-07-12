@@ -171,5 +171,63 @@
                 </a>
             </div>
         </nav>
+
+        {{-- ---------------------------
+             Baner zgody na ciasteczka — widoczny do momentu akceptacji, potem
+             flaga trzymana w sesji (nie w osobnym ciasteczku), więc obowiązuje
+             tylko do końca bieżącej sesji przeglądarki
+             --------------------------- --}}
+        @unless (session('cookie_consent'))
+            <div class="fixed inset-x-0 bottom-16 z-50 border-t border-[#e5e5dc] bg-white px-4 py-4 shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.08)] sm:px-6 md:bottom-0 lg:px-8">
+                <div class="mx-auto flex max-w-7xl flex-col items-center gap-4 md:flex-row md:justify-between">
+                    <p class="text-center text-[13px] text-[#616657] md:text-left">
+                        Używamy ciasteczek niezbędnych do działania strony (m.in. utrzymania sesji i ochrony formularzy przed nadużyciami).
+                    </p>
+                    <div class="flex shrink-0 flex-wrap items-center justify-center gap-3">
+                        {{-- Ukryte na razie — nie mamy jeszcze żadnych opcjonalnych ciasteczek,
+                             więc "wszystkie" i "wybrane" nie mają dziś sensu. Przywrócić, gdy
+                             pojawi się pierwsza kategoria ciasteczek opcjonalnych. --}}
+                        {{--
+                        <form action="{{ route('cookies.accept') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="level" value="all">
+                            <button
+                                type="submit"
+                                class="rounded-xl bg-[#283618] px-5 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition-colors"
+                            >
+                                Zaakceptuj wszystkie
+                            </button>
+                        </form>
+                        --}}
+                        <form action="{{ route('cookies.accept') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="level" value="necessary">
+                            <button
+                                type="submit"
+                                class="rounded-xl border border-[#283618] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#283618] hover:text-[#fefae0] transition-colors"
+                            >
+                                Zaakceptuj tylko niezbędne
+                            </button>
+                        </form>
+                        {{--
+                        <button
+                            type="button"
+                            disabled
+                            title="Obecnie nie używamy opcjonalnych ciasteczek"
+                            class="cursor-not-allowed rounded-xl border border-[#e5e5dc] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#a3a795]"
+                        >
+                            Zaakceptuj wybrane
+                        </button>
+                        --}}
+                        <a
+                            href="{{ route('pages.show', 'cookies') }}"
+                            class="rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-5 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition-colors"
+                        >
+                            Informacje o ciasteczkach
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endunless
     </body>
 </html>

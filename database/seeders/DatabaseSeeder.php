@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             CitiesSeeder::class,
             AnimalSeeder::class,
             AnimalEditSeeder::class,
+            PagesSeeder::class,
         ]);
     }
 }

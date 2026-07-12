@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
+use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 
 // ---------------------------
@@ -60,7 +62,22 @@ Route::post('/animals/{animal}/edit', [AnimalEditController::class, 'update'])
     ->name('animals.update');
 
 // ---------------------------
+// ZGODA NA CIASTECZKA — zapisywana w sesji, patrz CookieConsentController
+// ---------------------------
+
+Route::post('/cookies/accept', [CookieConsentController::class, 'accept'])
+    ->name('cookies.accept');
+
+// ---------------------------
 // BREEZE – trasy logowania/rejestracji
 // ---------------------------
 
 require __DIR__.'/auth.php';
+
+// ---------------------------
+// STATYCZNE PODSTRONY (np. /cookies) — treść z panelu Filament (App\Filament\Resources\PageResource)
+// MUSI być ostatnia trasa w pliku, żeby "catch-all" po slugu nie przechwytywał innych adresów
+// ---------------------------
+
+Route::get('/{page:slug}', [PageController::class, 'show'])
+    ->name('pages.show');
