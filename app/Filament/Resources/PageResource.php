@@ -8,10 +8,13 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 // ---------------------------
 // Resource statycznych podstron (np. "cookies", w przyszłości "regulamin").
@@ -31,7 +34,10 @@ class PageResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->components([
+        // Domyślnie strona edycji dzieli się na 2 kolumny (widoczne np. przy Ogłoszeniach
+        // z kilkoma sekcjami side-by-side) — wymuszamy 1, żeby jedyna sekcja formularza
+        // zajmowała całą szerokość zamiast tylko połowy
+        return $schema->columns(1)->components([
             Section::make()->schema([
                 TextInput::make('title')
                     ->label('Tytuł')
@@ -49,7 +55,18 @@ class PageResource extends Resource
 
                 MarkdownEditor::make('content')
                     ->label('Treść')
-                    ->required(),
+                    ->required()
+                    ->hintAction(
+                        Action::make('preview')
+                            ->label('Podgląd')
+                            ->icon('heroicon-o-eye')
+                            ->modalHeading('Podgląd treści')
+                            ->modalContent(fn (Get $get) => view('filament.pages.page-content-preview', [
+                                'html' => Str::markdown((string) $get('content')),
+                            ]))
+                            ->modalSubmitAction(false)
+                            ->modalCancelActionLabel('Zamknij')
+                    ),
             ]),
         ]);
     }
