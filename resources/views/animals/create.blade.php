@@ -1,3 +1,13 @@
+@php
+    // Teksty pod przełącznikiem Zaginiony/Znaleziony, edytowalne z panelu Filament (App\Filament\Pages\Settings)
+    $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.');
+    $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
+
+    // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
+    // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
+    $initialStatus = old('status', request('status', ''));
+@endphp
+
 @extends('layouts.public')
 
 @section('title', 'Dodaj ogłoszenie — Noskiem.pl')
@@ -19,7 +29,7 @@
             method="POST"
             action="{{ route('animals.store') }}"
             enctype="multipart/form-data"
-            x-data="{ chipPresent: {{ old('chip_present') ? 'true' : 'false' }} }"
+            x-data='{ chipPresent: {{ old('chip_present') ? 'true' : 'false' }}, status: @json($initialStatus) }'
             class="mt-8 space-y-8"
         >
             @csrf
@@ -29,20 +39,31 @@
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Typ zgłoszenia</h2>
-                <div class="mt-3">
-                    <select
-                        name="status"
-                        required
-                        class="w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                <div class="mt-3 inline-flex items-center rounded-full border border-[#e5e5dc] bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
+                    <button
+                        type="button"
+                        @click="status = 'lost'"
+                        :class="status === 'lost' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                     >
-                        <option value="">Wybierz status</option>
-                        <option value="lost" @selected(old('status') === 'lost')>Zaginiony</option>
-                        <option value="found" @selected(old('status') === 'found')>Znaleziony</option>
-                    </select>
-                    @error('status')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
+                        Zaginiony
+                    </button>
+                    <button
+                        type="button"
+                        @click="status = 'found'"
+                        :class="status === 'found' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                    >
+                        Znaleziony
+                    </button>
                 </div>
+                <input type="hidden" name="status" :value="status">
+                @error('status')
+                    <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                @enderror
+
+                <p class="mt-3 text-[13px] text-[#616657]" x-show="status === 'lost'" x-cloak>{{ $createFormHintLost }}</p>
+                <p class="mt-3 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $createFormHintFound }}</p>
             </section>
 
             {{-- ---------------------------

@@ -24,7 +24,7 @@
             <div class="inline-flex items-center rounded-full bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
                 <button
                     type="button"
-                    @click="mode = 'szukam'"
+                    @click="mode = 'szukam'; $store.petMode = 'szukam'"
                     :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
                     class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                 >
@@ -32,7 +32,7 @@
                 </button>
                 <button
                     type="button"
-                    @click="mode = 'znalazlem'"
+                    @click="mode = 'znalazlem'; $store.petMode = 'znalazlem'"
                     :class="mode === 'znalazlem' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
                     class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                 >
@@ -70,7 +70,7 @@
                     Najpierw poszukaj, zanim dodasz ogłoszenie.
                 </p>
                 <a
-                    href="{{ route('animals.create') }}"
+                    href="{{ route('animals.create', ['status' => 'lost']) }}"
                     class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition-colors"
                     x-show="mode === 'szukam'"
                     x-cloak

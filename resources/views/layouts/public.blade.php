@@ -15,7 +15,7 @@
         <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-['Inter'] antialiased text-[#283618] bg-white">
+    <body x-data="{}" class="font-['Inter'] antialiased text-[#283618] bg-white">
         {{-- ---------------------------
              Navbar 
              --------------------------- --}}
@@ -42,18 +42,19 @@
                                     <path d="M 168 98 L 149 95" stroke-width="7"/>
                                 </g>
                             </svg>
-                        <span class="font-['Barlow'] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
+                         <span class="font-['Barlow'] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
-                        <a href="{{ route('animals.index') }}" class="font-semibold text-[#283618]">Główna</a>
+                        <a href="{{ route('home') }}" class="font-semibold text-[#283618]">Główna</a>
                         <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[#616657] hover:text-[#283618] transition-colors">Zaginione</a>
                         <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[#616657] hover:text-[#283618] transition-colors">Znalezione</a>
                         <a href="#" class="text-[#616657] hover:text-[#283618] transition-colors">Jak to działa</a>
                     </nav>
-                    {{-- Przycisk dodania ogłoszenia --}}
+                    {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
                     <a
                         href="{{ route('animals.create') }}"
+                        :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
                         class="hidden sm:inline-flex items-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition-colors"
                     >
                         + Dodaj ogłoszenie
@@ -96,7 +97,7 @@
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Nawigacja</p>
                         <ul class="mt-3 space-y-2 text-[14px]">
                             <li><a href="{{ route('animals.index') }}" class="hover:underline">Baza zwierząt</a></li>
-                            <li><a href="{{ route('animals.create') }}" class="hover:underline">Dodaj ogłoszenie</a></li>
+                            <li><a href="{{ route('animals.create') }}" :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')" class="hover:underline">Dodaj ogłoszenie</a></li>
                             <li><a href="#" class="hover:underline">Jak to działa</a></li>
                             <li><a href="#" class="hover:underline">Blog</a></li>
                         </ul>
@@ -105,7 +106,7 @@
                     <div>
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Informacje</p>
                         <ul class="mt-3 space-y-2 text-[14px]">
-                            <li><a href="#" class="hover:underline">Regulamin</a></li>
+                            <li><a href="/regulamin" class="hover:underline">Regulamin</a></li>
                             <li><a href="#" class="hover:underline">Polityka prywatności</a></li>
                             <li><a href="#" class="hover:underline">Kontakt</a></li>
                         </ul>
@@ -146,7 +147,11 @@
                     Zaginione
                 </a>
                 {{-- Dodaj ogłoszenie — wyróżniony, centralny przycisk --}}
-                <a href="{{ route('animals.create') }}" class="flex flex-col items-center justify-center -translate-y-3">
+                <a
+                    href="{{ route('animals.create') }}"
+                    :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
+                    class="flex flex-col items-center justify-center -translate-y-3"
+                >
                     <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)]">
                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 5v14M5 12h14"/>
