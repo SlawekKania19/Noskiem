@@ -148,7 +148,7 @@
                             name="name"
                             value="{{ old('name') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -162,7 +162,7 @@
                             name="email"
                             value="{{ old('email') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('email')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -175,7 +175,7 @@
                             name="message"
                             rows="4"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >{{ old('message') }}</textarea>
                         @error('message')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>

@@ -14,6 +14,7 @@ class Species extends Model
     protected $fillable = [
         'name_pl',
         'name_en',
+        'sortkey',
     ];
 
     // ** Relacje

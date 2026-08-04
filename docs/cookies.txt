@@ -1,0 +1,2 @@
+_session_id - identyfikator sesji
+XSRF-TOKEN - zaszyfrowany token CSRF

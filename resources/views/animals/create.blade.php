@@ -1,3 +1,42 @@
+@php
+    // Teksty pod przełącznikiem Zaginiony/Znaleziony, edytowalne z panelu Filament (App\Filament\Pages\Settings)
+    $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.');
+    $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
+
+    // Podpowiedzi znaków szczególnych — edytowalne w panelu (Ustawienia), jedna fraza w linii.
+    // Wartość domyślna zgodna z App\Filament\Pages\Settings::mount()
+    $identMarksTagsDefault = implode("\n", [
+        'Blizna',
+        'Kulawizna',
+        'Zez',
+        'Brak ucha',
+        'Przycięty ogon',
+        'Łaciata sierść',
+        'Duża plama/znamię',
+        'Różnokolorowe oczy (heterochromia)',
+        'Obroża',
+        'Sterylizowany/kastrowany',
+    ]);
+    $identMarksTags = collect(explode("\n", \App\Models\Setting::get('create_form_ident_marks_tags', $identMarksTagsDefault)))
+        ->map(fn ($tag) => trim($tag))
+        ->filter()
+        ->values()
+        ->all();
+
+    // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
+    // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
+    $initialStatus = old('status', request('status', ''));
+    $initialSpeciesId = old('species_id', '');
+    $initialBreedId = old('breed_id', '');
+
+    // Rasy do filtrowania po stronie klienta (Alpine) w zależności od wybranego gatunku
+    $breedsForJs = $breeds->map(fn ($b) => [
+        'id' => $b->id,
+        'species_id' => $b->species_id,
+        'breed_pl' => $b->breed_pl,
+    ])->values()->all();
+@endphp
+
 @extends('layouts.public')
 
 @section('title', 'Dodaj ogłoszenie — Noskiem.pl')
@@ -19,7 +58,13 @@
             method="POST"
             action="{{ route('animals.store') }}"
             enctype="multipart/form-data"
-            x-data="{ chipPresent: {{ old('chip_present') ? 'true' : 'false' }} }"
+            x-data='{
+                chipPresent: {{ old('chip_present') ? 'true' : 'false' }},
+                status: @json($initialStatus),
+                speciesId: @json($initialSpeciesId),
+                breedId: @json($initialBreedId),
+                breedsList: @json($breedsForJs),
+            }'
             class="mt-8 space-y-8"
         >
             @csrf
@@ -29,20 +74,31 @@
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Typ zgłoszenia</h2>
-                <div class="mt-3">
-                    <select
-                        name="status"
-                        required
-                        class="w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                <div class="mt-3 inline-flex items-center rounded-full border border-[#e5e5dc] bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
+                    <button
+                        type="button"
+                        @click="status = 'lost'"
+                        :class="status === 'lost' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                     >
-                        <option value="">Wybierz status</option>
-                        <option value="lost" @selected(old('status') === 'lost')>Zaginiony</option>
-                        <option value="found" @selected(old('status') === 'found')>Znaleziony</option>
-                    </select>
-                    @error('status')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
+                        Zaginiony
+                    </button>
+                    <button
+                        type="button"
+                        @click="status = 'found'"
+                        :class="status === 'found' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                    >
+                        Znaleziony
+                    </button>
                 </div>
+                <input type="hidden" name="status" :value="status">
+                @error('status')
+                    <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                @enderror
+
+                <p class="mt-3 text-[13px] text-[#616657]" x-show="status === 'lost'" x-cloak>{{ $createFormHintLost }}</p>
+                <p class="mt-3 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $createFormHintFound }}</p>
             </section>
 
             {{-- ---------------------------
@@ -59,7 +115,7 @@
                             name="animal_name"
                             value="{{ old('animal_name') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -70,12 +126,14 @@
                         <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</label>
                         <select
                             name="species_id"
+                            x-model="speciesId"
+                            @change="breedId = ''"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz gatunek</option>
                             @foreach ($species as $s)
-                                <option value="{{ $s->id }}" @selected((int) old('species_id') === $s->id)>{{ $s->name_pl }}</option>
+                                <option value="{{ $s->id }}">{{ $s->name_pl }}</option>
                             @endforeach
                         </select>
                         @error('species_id')
@@ -87,13 +145,14 @@
                         <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</label>
                         <select
                             name="breed_id"
+                            x-model="breedId"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz rasę</option>
-                            @foreach ($breeds as $b)
-                                <option value="{{ $b->id }}" @selected((int) old('breed_id') === $b->id)>{{ $b->breed_pl }}</option>
-                            @endforeach
+                            <template x-for="breed in breedsList.filter(b => !speciesId || String(b.species_id) === String(speciesId))" :key="breed.id">
+                                <option :value="breed.id" x-text="breed.breed_pl"></option>
+                            </template>
                         </select>
                         @error('breed_id')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -108,7 +167,7 @@
                                 name="chip_present"
                                 value="1"
                                 x-model="chipPresent"
-                                class="h-4 w-4 rounded border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
+                                class="h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
                                 @if (old('chip_present')) checked @endif
                             >
                             Zwierzę ma chip
@@ -121,7 +180,7 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number') }}"
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -129,16 +188,38 @@
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4" x-data="{
+                    addTag(tag) {
+                        const el = this.$refs.identMarks;
+                        el.value = el.value.trim() ? el.value.trim() + ', ' + tag : tag;
+                        el.dispatchEvent(new Event('input'));
+                    },
+                }">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Znaki szczególne</label>
                     <textarea
                         name="ident_marks"
                         rows="3"
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        x-ref="identMarks"
+                        placeholder="Opisz znaki szczególne zwierzaka lub dodaj z listy poniżej"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('ident_marks') }}</textarea>
                     @error('ident_marks')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                     @enderror
+
+                    @if ($identMarksTags)
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            @foreach ($identMarksTags as $tag)
+                                <button
+                                    type="button"
+                                    @click="addTag(@js($tag))"
+                                    class="rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition-colors hover:border-[#283618] hover:text-[#283618]"
+                                >
+                                    {{ $tag }}
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </section>
 
@@ -155,7 +236,7 @@
                         name="title"
                         value="{{ old('title') }}"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('title')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -168,7 +249,7 @@
                         name="description"
                         rows="5"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('description') }}</textarea>
                     @error('description')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -182,7 +263,7 @@
                         name="date_event"
                         value="{{ old('date_event') }}"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('date_event')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -202,7 +283,7 @@
                         <select
                             name="voivodeship_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz województwo</option>
                             @foreach ($voivodeships as $v)
@@ -219,7 +300,7 @@
                         <select
                             name="city_id"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                             <option value="">Wybierz miasto</option>
                             @foreach ($cities as $c)
@@ -240,7 +321,7 @@
                         value="{{ old('location_text') }}"
                         placeholder="np. Bronowice, Kraków"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >
                     @error('location_text')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -347,7 +428,7 @@
                             name="contact_name"
                             value="{{ old('contact_name') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -361,7 +442,7 @@
                             name="contact_email"
                             value="{{ old('contact_email') }}"
                             required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_email')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -374,7 +455,7 @@
                             type="text"
                             name="contact_phone"
                             value="{{ old('contact_phone') }}"
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-none"
+                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('contact_phone')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
