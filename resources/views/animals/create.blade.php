@@ -3,6 +3,26 @@
     $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.');
     $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
 
+    // Podpowiedzi znaków szczególnych — edytowalne w panelu (Ustawienia), jedna fraza w linii.
+    // Wartość domyślna zgodna z App\Filament\Pages\Settings::mount()
+    $identMarksTagsDefault = implode("\n", [
+        'Blizna',
+        'Kulawizna',
+        'Zez',
+        'Brak ucha',
+        'Przycięty ogon',
+        'Łaciata sierść',
+        'Duża plama/znamię',
+        'Różnokolorowe oczy (heterochromia)',
+        'Obroża',
+        'Sterylizowany/kastrowany',
+    ]);
+    $identMarksTags = collect(explode("\n", \App\Models\Setting::get('create_form_ident_marks_tags', $identMarksTagsDefault)))
+        ->map(fn ($tag) => trim($tag))
+        ->filter()
+        ->values()
+        ->all();
+
     // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
     // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
     $initialStatus = old('status', request('status', ''));
@@ -168,16 +188,37 @@
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4" x-data="{
+                    addTag(tag) {
+                        const el = this.$refs.identMarks;
+                        el.value = el.value.trim() ? el.value.trim() + ', ' + tag : tag;
+                        el.dispatchEvent(new Event('input'));
+                    },
+                }">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Znaki szczególne</label>
                     <textarea
                         name="ident_marks"
                         rows="3"
+                        x-ref="identMarks"
                         class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('ident_marks') }}</textarea>
                     @error('ident_marks')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                     @enderror
+
+                    @if ($identMarksTags)
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            @foreach ($identMarksTags as $tag)
+                                <button
+                                    type="button"
+                                    @click="addTag(@js($tag))"
+                                    class="rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition-colors hover:border-[#283618] hover:text-[#283618]"
+                                >
+                                    {{ $tag }}
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </section>
 

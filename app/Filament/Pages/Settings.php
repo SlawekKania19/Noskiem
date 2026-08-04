@@ -41,6 +41,18 @@ class Settings extends Page implements HasForms
             'hero_description_found' => Setting::get('hero_description_found', 'Dodaj ogłoszenie o znalezionym zwierzaku, żeby jak najszybciej trafiło do właściciela.'),
             'create_form_hint_lost' => Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.'),
             'create_form_hint_found' => Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.'),
+            'create_form_ident_marks_tags' => Setting::get('create_form_ident_marks_tags', implode("\n", [
+                'Blizna',
+                'Kulawizna',
+                'Zez',
+                'Brak ucha',
+                'Przycięty ogon',
+                'Łaciata sierść',
+                'Duża plama/znamię',
+                'Różnokolorowe oczy (heterochromia)',
+                'Obroża',
+                'Sterylizowany/kastrowany',
+            ])),
         ]);
     }
 
@@ -91,6 +103,12 @@ class Settings extends Page implements HasForms
                             ->label('Tekst — status "Znaleziony"')
                             ->required()
                             ->rows(2),
+
+                        Textarea::make('create_form_ident_marks_tags')
+                            ->label('Znaki szczególne — podpowiedzi')
+                            ->helperText('Jedna fraza w linii — pojawi się jako przycisk pod polem "Znaki szczególne".')
+                            ->required()
+                            ->rows(6),
                     ]),
 
                 Section::make('Kontakt')
