@@ -73,11 +73,12 @@ class AnimalEditController extends Controller
             'contact_phone'  => 'nullable|string|max:20',
             'photos'         => 'nullable|array|max:6',
             'photos.*'       => 'image|max:5120',
+            'accept_terms'   => 'accepted',
         ]);
 
-        // ** Zdjęcia są obsługiwane osobno — nie należą do fillable AnimalEdit
+        // ** Zdjęcia i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
         $photos = $data['photos'] ?? [];
-        unset($data['photos']);
+        unset($data['photos'], $data['accept_terms']);
 
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';

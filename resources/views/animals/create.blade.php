@@ -384,6 +384,11 @@
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Dane kontaktowe</h2>
+                <p class="mt-1 text-[13px] text-[#616657]">
+                    Twoje imię i nazwisko oraz adres email nie zostaną udostępnione innym użytkownikom.
+                    Pokażemy tylko numer telefonu jeśli go podasz. Jeśli nie podasz numeru telefonu,
+                    jedyną formą kontaktu z Tobą będzie formularz kontaktowy.
+                </p>
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
@@ -428,6 +433,29 @@
                     </div>
                 </div>
             </section>
+
+            {{-- ---------------------------
+                 Akceptacja regulaminu i polityki prywatności — wymagana przed wysłaniem
+                 --------------------------- --}}
+            <div>
+                <label class="flex items-start gap-2 text-[13px] text-[#283618]">
+                    <input
+                        type="checkbox"
+                        name="accept_terms"
+                        value="1"
+                        required
+                        class="mt-0.5 h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
+                        @if (old('accept_terms')) checked @endif
+                    >
+                    <span>
+                        Akceptuję <a href="/regulamin" target="_blank" class="underline hover:text-[#616657]">regulamin</a>
+                        oraz <a href="/polityka-prywatnosci" target="_blank" class="underline hover:text-[#616657]">politykę prywatności</a>.
+                    </span>
+                </label>
+                @error('accept_terms')
+                    <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                @enderror
+            </div>
 
             <button
                 type="submit"
