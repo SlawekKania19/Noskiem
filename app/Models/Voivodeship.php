@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Voivodeship extends Model
 {
     protected $fillable = [
+        'teryt_code',
         'name_pl',
         'name_en',
     ];

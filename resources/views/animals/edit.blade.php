@@ -63,6 +63,8 @@
                             name="animal_name"
                             value="{{ old('animal_name', $animal->animal_name) }}"
                             required
+                            pattern="[\p{L}\s\-]+"
+                            title="Tylko litery"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
@@ -125,6 +127,9 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number', $animal->chip_number) }}"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            title="Tylko cyfry"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')
@@ -153,20 +158,6 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Ogłoszenie</h2>
 
                 <div class="mt-3">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Tytuł ogłoszenia</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value="{{ old('title', $animal->title) }}"
-                        required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                    >
-                    @error('title')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mt-4">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis</label>
                     <textarea
                         name="description"
@@ -201,39 +192,12 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Lokalizacja</h2>
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Województwo</label>
-                        <select
-                            name="voivodeship_id"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                            <option value="">Wybierz województwo</option>
-                            @foreach ($voivodeships as $v)
-                                <option value="{{ $v->id }}" @selected((int) old('voivodeship_id', $animal->voivodeship_id) === $v->id)>{{ $v->name_pl }}</option>
-                            @endforeach
-                        </select>
-                        @error('voivodeship_id')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Miasto</label>
-                        <select
-                            name="city_id"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                            <option value="">Wybierz miasto</option>
-                            @foreach ($cities as $c)
-                                <option value="{{ $c->id }}" @selected((int) old('city_id', $animal->city_id) === $c->id)>{{ $c->name_pl }}</option>
-                            @endforeach
-                        </select>
-                        @error('city_id')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-city-picker
+                        :voivodeships="$voivodeships"
+                        :selected-voivodeship-id="old('voivodeship_id', $animal->voivodeship_id)"
+                        :selected-city-id="old('city_id', $animal->city_id)"
+                        :selected-city-label="$selectedCityName"
+                    />
                 </div>
 
                 <div class="mt-4">
@@ -241,6 +205,7 @@
                     <input
                         type="text"
                         name="location_text"
+                        id="location-text-input"
                         value="{{ old('location_text', $animal->location_text) }}"
                         placeholder="np. Bronowice, Kraków"
                         required
@@ -277,6 +242,7 @@
                                 lng: @json(old('longitude', $animal->longitude)),
                                 latInputId: 'latitude-input',
                                 lngInputId: 'longitude-input',
+                                locationTextInputId: 'location-text-input',
                             });
                         });
                     </script>

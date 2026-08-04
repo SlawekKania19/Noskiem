@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class City extends Model
 {
     protected $fillable = [
+        'teryt_sym',
         'name_pl',
         'name_en',
         'voivodeship_id',

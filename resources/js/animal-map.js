@@ -87,6 +87,8 @@ export function initLocationPicker(elementId, options = {}) {
         if (lngInput) {
             lngInput.value = lng.toFixed(6);
         }
+
+        resolveLocation(lat, lng, options);
     };
 
     map.on('click', (e) => setPosition(e.latlng.lat, e.latlng.lng));
@@ -95,3 +97,39 @@ export function initLocationPicker(elementId, options = {}) {
 }
 
 window.initLocationPicker = initLocationPicker;
+
+// ---------------------------
+// Odwrotne geokodowanie pinezki (lat/lng -> województwo/miejscowość) przez Nominatim,
+// pośredniczy nasz backend (GET /location/reverse). Wynik trafia do pola "Opis lokalizacji"
+// oraz — przez zdarzenie DOM — do komponentu <x-city-picker> (osobny zakres Alpine).
+// Błędy są ciche: to tylko podpowiedź, formularz da się wypełnić ręcznie.
+// ---------------------------
+async function resolveLocation(lat, lng, options = {}) {
+    try {
+        const params = new URLSearchParams({ lat, lng });
+        const response = await fetch(`/location/reverse?${params}`, {
+            headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.resolved) {
+            return;
+        }
+
+        if (options.locationTextInputId && data.location_text_suggestion) {
+            const locationTextInput = document.getElementById(options.locationTextInputId);
+            if (locationTextInput) {
+                locationTextInput.value = data.location_text_suggestion;
+            }
+        }
+
+        window.dispatchEvent(new CustomEvent('location-resolved', { detail: data }));
+    } catch {
+        // ** Ciszej się nie da — to tylko podpowiedź, nie blokujemy formularza
+    }
+}

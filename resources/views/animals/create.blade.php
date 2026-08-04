@@ -2,6 +2,8 @@
     // Teksty pod przełącznikiem Zaginiony/Znaleziony, edytowalne z panelu Filament (App\Filament\Pages\Settings)
     $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.');
     $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
+    $locationHintLost = \App\Models\Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.');
+    $locationHintFound = \App\Models\Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.');
 
     // Podpowiedzi znaków szczególnych — edytowalne w panelu (Ustawienia), jedna fraza w linii.
     // Wartość domyślna zgodna z App\Filament\Pages\Settings::mount()
@@ -64,6 +66,12 @@
                 speciesId: @json($initialSpeciesId),
                 breedId: @json($initialBreedId),
                 breedsList: @json($breedsForJs),
+                getUnknownBreedId(speciesId) {
+                    const unknown = this.breedsList.find(
+                        (b) => String(b.species_id) === String(speciesId) && b.breed_pl === "Nie wiem"
+                    );
+                    return unknown ? String(unknown.id) : "";
+                },
             }'
             class="mt-8 space-y-8"
         >
@@ -115,6 +123,8 @@
                             name="animal_name"
                             value="{{ old('animal_name') }}"
                             required
+                            pattern="[\p{L}\s\-]+"
+                            title="Tylko litery"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
@@ -127,7 +137,7 @@
                         <select
                             name="species_id"
                             x-model="speciesId"
-                            @change="breedId = ''"
+                            @change="breedId = getUnknownBreedId(speciesId)"
                             required
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
@@ -180,6 +190,9 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number') }}"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            title="Tylko cyfry"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')
@@ -230,20 +243,6 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Ogłoszenie</h2>
 
                 <div class="mt-3">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Tytuł ogłoszenia</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value="{{ old('title') }}"
-                        required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                    >
-                    @error('title')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mt-4">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis</label>
                     <textarea
                         name="description"
@@ -276,41 +275,16 @@
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Lokalizacja</h2>
+                <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'lost'" x-cloak>{{ $locationHintLost }}</p>
+                <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $locationHintFound }}</p>
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Województwo</label>
-                        <select
-                            name="voivodeship_id"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                            <option value="">Wybierz województwo</option>
-                            @foreach ($voivodeships as $v)
-                                <option value="{{ $v->id }}" @selected((int) old('voivodeship_id') === $v->id)>{{ $v->name_pl }}</option>
-                            @endforeach
-                        </select>
-                        @error('voivodeship_id')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Miasto</label>
-                        <select
-                            name="city_id"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                            <option value="">Wybierz miasto</option>
-                            @foreach ($cities as $c)
-                                <option value="{{ $c->id }}" @selected((int) old('city_id') === $c->id)>{{ $c->name_pl }}</option>
-                            @endforeach
-                        </select>
-                        @error('city_id')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-city-picker
+                        :voivodeships="$voivodeships"
+                        :selected-voivodeship-id="old('voivodeship_id')"
+                        :selected-city-id="old('city_id')"
+                        :selected-city-label="$selectedCityName"
+                    />
                 </div>
 
                 <div class="mt-4">
@@ -318,6 +292,7 @@
                     <input
                         type="text"
                         name="location_text"
+                        id="location-text-input"
                         value="{{ old('location_text') }}"
                         placeholder="np. Bronowice, Kraków"
                         required
@@ -354,6 +329,7 @@
                                 lng: @json(old('longitude') ? (float) old('longitude') : null),
                                 latInputId: 'latitude-input',
                                 lngInputId: 'longitude-input',
+                                locationTextInputId: 'location-text-input',
                             });
                         });
                     </script>
@@ -419,6 +395,11 @@
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Dane kontaktowe</h2>
+                <p class="mt-1 text-[13px] text-[#616657]">
+                    Twoje imię i nazwisko oraz adres email nie zostaną udostępnione innym użytkownikom.
+                    Pokażemy tylko numer telefonu jeśli go podasz. Jeśli nie podasz numeru telefonu,
+                    jedyną formą kontaktu z Tobą będzie formularz kontaktowy.
+                </p>
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
@@ -463,6 +444,29 @@
                     </div>
                 </div>
             </section>
+
+            {{-- ---------------------------
+                 Akceptacja regulaminu i polityki prywatności — wymagana przed wysłaniem
+                 --------------------------- --}}
+            <div>
+                <label class="flex items-start gap-2 text-[13px] text-[#283618]">
+                    <input
+                        type="checkbox"
+                        name="accept_terms"
+                        value="1"
+                        required
+                        class="mt-0.5 h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
+                        @if (old('accept_terms')) checked @endif
+                    >
+                    <span>
+                        Akceptuję <a href="/regulamin" target="_blank" class="underline hover:text-[#616657]">regulamin</a>
+                        oraz <a href="/polityka-prywatnosci" target="_blank" class="underline hover:text-[#616657]">politykę prywatności</a>.
+                    </span>
+                </label>
+                @error('accept_terms')
+                    <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                @enderror
+            </div>
 
             <button
                 type="submit"

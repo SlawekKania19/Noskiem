@@ -15,7 +15,7 @@ class BreedsSeeder extends Seeder
             //  GATUNEK: PIES (species_id = 1)
             // ============================
 
-            ['species_id' => 1, 'breed_PL' => 'Nie znam', 'breed_EN' => 'Unknown'],
+            ['species_id' => 1, 'breed_PL' => 'Nie wiem', 'breed_EN' => 'Unknown'],
 
             // --- Grupa 1: Owczarki i psy pasterskie ---
             ['species_id' => 1, 'breed_PL' => 'Owczarek niemiecki', 'breed_EN' => 'German Shepherd'],
@@ -117,7 +117,7 @@ class BreedsSeeder extends Seeder
             // GATUNEK: KOT (species_id = 2)
             // ============================
 
-            ['species_id' => 2, 'breed_PL' => 'Nie znam', 'breed_EN' => 'Unknown'],
+            ['species_id' => 2, 'breed_PL' => 'Nie wiem', 'breed_EN' => 'Unknown'],
             ['species_id' => 2, 'breed_PL' => 'Dachowiec', 'breed_EN' => 'Domestic Shorthair'],
             ['species_id' => 2, 'breed_PL' => 'Maine Coon', 'breed_EN' => 'Maine Coon'],
             ['species_id' => 2, 'breed_PL' => 'Ragdoll', 'breed_EN' => 'Ragdoll'],
