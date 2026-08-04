@@ -41,6 +41,8 @@ class Settings extends Page implements HasForms
             'hero_description_found' => Setting::get('hero_description_found', 'Dodaj ogłoszenie o znalezionym zwierzaku, żeby jak najszybciej trafiło do właściciela.'),
             'create_form_hint_lost' => Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.'),
             'create_form_hint_found' => Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.'),
+            'create_form_location_hint_lost' => Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.'),
+            'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.'),
             'create_form_ident_marks_tags' => Setting::get('create_form_ident_marks_tags', implode("\n", [
                 'Blizna',
                 'Kulawizna',
@@ -109,6 +111,16 @@ class Settings extends Page implements HasForms
                             ->helperText('Jedna fraza w linii — pojawi się jako przycisk pod polem "Znaki szczególne".')
                             ->required()
                             ->rows(6),
+
+                        Textarea::make('create_form_location_hint_lost')
+                            ->label('Tekst pod "Lokalizacja" — status "Zaginiony"')
+                            ->required()
+                            ->rows(2),
+
+                        Textarea::make('create_form_location_hint_found')
+                            ->label('Tekst pod "Lokalizacja" — status "Znaleziony"')
+                            ->required()
+                            ->rows(2),
                     ]),
 
                 Section::make('Kontakt')

@@ -34,21 +34,18 @@
                 @endforeach
             </select>
 
-            {{-- ** Województwo --}}
-            <select name="voivodeship_id" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
-                <option value="">Województwo</option>
-                @foreach ($voivodeships as $v)
-                    <option value="{{ $v->id }}" @selected(request('voivodeship_id') == $v->id)>{{ $v->name_pl }}</option>
-                @endforeach
-            </select>
-
-            {{-- ** Miasto --}}
-            <select name="city_id" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
-                <option value="">Miasto</option>
-                @foreach ($cities as $c)
-                    <option value="{{ $c->id }}" @selected(request('city_id') == $c->id)>{{ $c->name_pl }}</option>
-                @endforeach
-            </select>
+            {{-- ** Województwo + Miasto (autouzupełnianie, filtrowane po województwie) --}}
+            <x-city-picker
+                :voivodeships="$voivodeships"
+                :selected-voivodeship-id="request('voivodeship_id')"
+                :selected-city-id="request('city_id')"
+                :selected-city-label="$selectedCityName"
+                :required="false"
+                :show-labels="false"
+                voivodeship-placeholder="Województwo"
+                city-placeholder="Miejscowość (min. 3 litery)"
+                field-class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+            />
 
             {{-- ** Status --}}
             <select name="status" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">

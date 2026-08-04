@@ -10,6 +10,7 @@ use App\Models\Species;
 use App\Models\Voivodeship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 // ---------------------------
 // Kontroler do obsługi zgłoszeń edycji zwierząt (AnimalEdit)
@@ -32,14 +33,16 @@ class AnimalEditController extends Controller
         return $animalEdit->load(['species', 'breed', 'voivodeship', 'city', 'animal', 'photos']);
     }
 
-    // Wyświetla formularz zgłoszenia nowego ogłoszenia wraz z listami słownikowymi do pól select
+    // Wyświetla formularz zgłoszenia nowego ogłoszenia wraz z listami słownikowymi do pól select.
+    // Miejscowości nie wczytujemy w całości (rejestr SIMC ma ~100 tys. rekordów) — pole
+    // podpowiada się przez GET /cities/search, tu dociągamy tylko nazwę ewentualnie już wybranej.
     public function create()
     {
         return view('animals.create', [
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'cities' => City::orderBy('name_pl')->get(),
+            'selectedCityName' => City::find(old('city_id'))?->name_pl,
         ]);
     }
 
@@ -58,7 +61,10 @@ class AnimalEditController extends Controller
             'breed_id'       => 'required|exists:breeds,id',
             'date_event'     => 'required|date',
             'voivodeship_id' => 'required|exists:voivodeships,id',
-            'city_id'        => 'required|exists:cities,id',
+            'city_id'        => [
+                'required',
+                Rule::exists('cities', 'id')->where('voivodeship_id', $request->input('voivodeship_id')),
+            ],
             'location_text'  => 'required|string|max:255',
             'latitude'       => 'required|numeric|between:-90,90',
             'longitude'      => 'required|numeric|between:-180,180',
@@ -101,12 +107,14 @@ class AnimalEditController extends Controller
 
         $animal->load('photos');
 
+        $selectedCityId = old('city_id', $animal->city_id);
+
         return view('animals.edit', [
             'animal' => $animal,
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'cities' => City::orderBy('name_pl')->get(),
+            'selectedCityName' => City::find($selectedCityId)?->name_pl,
         ]);
     }
 
@@ -129,7 +137,10 @@ class AnimalEditController extends Controller
             'breed_id'       => 'required|exists:breeds,id',
             'date_event'     => 'required|date',
             'voivodeship_id' => 'required|exists:voivodeships,id',
-            'city_id'        => 'required|exists:cities,id',
+            'city_id'        => [
+                'required',
+                Rule::exists('cities', 'id')->where('voivodeship_id', $request->input('voivodeship_id')),
+            ],
             'location_text'  => 'required|string|max:255',
             'latitude'       => 'required|numeric|between:-90,90',
             'longitude'      => 'required|numeric|between:-180,180',

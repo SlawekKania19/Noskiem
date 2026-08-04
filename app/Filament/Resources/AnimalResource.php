@@ -13,6 +13,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -116,19 +117,27 @@ class AnimalResource extends Resource
                         ->label('Województwo')
                         ->relationship('voivodeship', 'name_pl')
                         ->required()
-                        ->live(),
+                        ->live()
+                        ->afterStateUpdated(fn (Set $set) => $set('city_id', null)),
 
-                    // Miasta filtrowane po wybranym województwie
+                    // Miasta wyszukiwane na żądanie w obrębie wybranego województwa — rejestr
+                    // SIMC ma ~100 tys. rekordów, więc nie da się ich wczytać do selecta naraz
                     Select::make('city_id')
                         ->label('Miasto')
-                        ->options(function (Get $get) {
+                        ->searchable()
+                        ->getSearchResultsUsing(function (string $search, Get $get) {
                             $voivodeshipId = $get('voivodeship_id');
                             if (! $voivodeshipId) {
-                                return City::pluck('city_pl', 'id');
+                                return [];
                             }
-                            return City::where('voivodeship_id', $voivodeshipId)->pluck('city_pl', 'id');
+                            return City::where('voivodeship_id', $voivodeshipId)
+                                ->where('name_pl', 'like', "{$search}%")
+                                ->orderBy('name_pl')
+                                ->limit(20)
+                                ->pluck('name_pl', 'id');
                         })
-                        ->searchable(),
+                        ->getOptionLabelUsing(fn ($value) => City::find($value)?->name_pl)
+                        ->disabled(fn (Get $get) => ! $get('voivodeship_id')),
 
                     TextInput::make('location_text')
                         ->label('Adres / opis miejsca')

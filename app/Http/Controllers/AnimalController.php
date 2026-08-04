@@ -33,12 +33,14 @@ class AnimalController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // ** Listy słownikowe do formularza filtrów
+        // ** Listy słownikowe do formularza filtrów. Miejscowości nie wczytujemy w całości
+        // (rejestr SIMC ma ~100 tys. rekordów) — pole podpowiada się przez GET /cities/search,
+        // tu dociągamy tylko nazwę ewentualnie już wybranej (z query stringa filtra).
         return view('animals.index', [
             'animals' => $animals,
             'species' => Species::orderBy('sortkey')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'cities' => City::orderBy('name_pl')->get(),
+            'selectedCityName' => City::find($request->city_id)?->name_pl,
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'colors' => Color::orderBy('name')->get(),
         ]);
