@@ -200,6 +200,7 @@
                         name="ident_marks"
                         rows="3"
                         x-ref="identMarks"
+                        placeholder="Opisz znaki szczególne zwierzaka lub dodaj z listy poniżej"
                         class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                     >{{ old('ident_marks') }}</textarea>
                     @error('ident_marks')
