@@ -13,6 +13,24 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
         loading: false,
         debounceTimer: null,
 
+        // ** Nasłuch na wynik odwrotnego geokodowania pinezki z mapy (patrz animal-map.js).
+        // Zdarzenie globalne, bo mapa i to pole żyją w osobnych zakresach Alpine.
+        init() {
+            window.addEventListener('location-resolved', (event) => this.applyResolvedLocation(event.detail));
+        },
+
+        applyResolvedLocation(detail) {
+            if (!detail?.voivodeship_id) {
+                return;
+            }
+
+            this.voivodeshipId = String(detail.voivodeship_id);
+            this.cityId = detail.city_id ? String(detail.city_id) : '';
+            this.query = detail.city_name ?? '';
+            this.results = [];
+            this.open = false;
+        },
+
         // ** Zmiana województwa czyści wybraną miejscowość — lista wyników jej dotyczyła
         onVoivodeshipChange() {
             this.cityId = '';

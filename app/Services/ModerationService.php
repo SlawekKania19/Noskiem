@@ -40,6 +40,7 @@ class ModerationService
             // ** Nowe ogłoszenie — Animal jeszcze nie istnieje
             if ($edit->animal_id === null) {
                 $animal = Animal::create([
+                    'mod_status'     => 'approved',
                     'status'         => $edit->status,
                     'title'          => $edit->title,
                     'description'    => $edit->description,

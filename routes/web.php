@@ -6,6 +6,7 @@ use App\Http\Controllers\AnimalEditController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,11 @@ Route::get('/animals', [AnimalController::class, 'index'])
 Route::get('/cities/search', [CityController::class, 'search'])
     ->middleware('throttle:60,1')
     ->name('cities.search');
+
+// ** Odwrotne geokodowanie pinezki z mapy (lat/lng -> województwo/miejscowość)
+Route::get('/location/reverse', [LocationController::class, 'reverse'])
+    ->middleware('throttle:30,1')
+    ->name('location.reverse');
 
 // ---------------------------
 // TWORZENIE I EDYCJA – trafia do animal_edits

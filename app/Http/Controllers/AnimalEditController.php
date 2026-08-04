@@ -8,6 +8,7 @@ use App\Models\Breed;
 use App\Models\City;
 use App\Models\Species;
 use App\Models\Voivodeship;
+use App\Services\TitleGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -51,7 +52,6 @@ class AnimalEditController extends Controller
     {
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
-            'title'          => 'required|string|max:255',
             'description'    => 'required|string',
             'animal_name'    => 'required|string|max:255',
             'ident_marks'    => 'nullable|string',
@@ -79,6 +79,7 @@ class AnimalEditController extends Controller
         $photos = $data['photos'] ?? [];
         unset($data['photos']);
 
+        $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
         $data['edit_token'] = Str::uuid();
 
@@ -127,7 +128,6 @@ class AnimalEditController extends Controller
 
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
-            'title'          => 'required|string|max:255',
             'description'    => 'required|string',
             'animal_name'    => 'required|string|max:255',
             'ident_marks'    => 'nullable|string',
@@ -149,6 +149,7 @@ class AnimalEditController extends Controller
             'contact_phone'  => 'nullable|string|max:20',
         ]);
 
+        $data['title']      = $this->generateTitle($data);
         $data['animal_id']  = $animal->id;
         $data['mod_status'] = 'pending';
         $data['edit_token'] = $animal->edit_token;
@@ -157,5 +158,19 @@ class AnimalEditController extends Controller
 
         return redirect()->route('animals.show', $animal)
             ->with('success', 'Edycja została wysłana i oczekuje na moderację.');
+    }
+
+    // Wylicza tytuł ogłoszenia z szablonu w ustawieniach (App\Filament\Pages\Settings) —
+    // użytkownik formularza publicznego tytułu nie wpisuje samodzielnie
+    private function generateTitle(array $data): string
+    {
+        return TitleGenerator::generate([
+            'animal_name'      => $data['animal_name'],
+            'species_name'     => Species::find($data['species_id'])?->name_pl,
+            'breed_name'       => Breed::find($data['breed_id'])?->breed_pl,
+            'city_name'        => City::find($data['city_id'])?->name_pl,
+            'voivodeship_name' => Voivodeship::find($data['voivodeship_id'])?->name_pl,
+            'status'           => $data['status'],
+        ]);
     }
 }

@@ -232,20 +232,6 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Ogłoszenie</h2>
 
                 <div class="mt-3">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Tytuł ogłoszenia</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value="{{ old('title') }}"
-                        required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                    >
-                    @error('title')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mt-4">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis</label>
                     <textarea
                         name="description"
@@ -295,6 +281,7 @@
                     <input
                         type="text"
                         name="location_text"
+                        id="location-text-input"
                         value="{{ old('location_text') }}"
                         placeholder="np. Bronowice, Kraków"
                         required
@@ -331,6 +318,7 @@
                                 lng: @json(old('longitude') ? (float) old('longitude') : null),
                                 latInputId: 'latitude-input',
                                 lngInputId: 'longitude-input',
+                                locationTextInputId: 'location-text-input',
                             });
                         });
                     </script>
