@@ -53,10 +53,10 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            'animal_name'    => 'required|string|max:255',
+            'animal_name'    => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'chip_present'   => 'boolean',
-            'chip_number'    => 'nullable|string|max:50',
+            'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],
             'species_id'     => 'required|exists:species,id',
             'breed_id'       => 'required|exists:breeds,id',
             'date_event'     => 'required|date',
@@ -74,6 +74,9 @@ class AnimalEditController extends Controller
             'photos'         => 'nullable|array|max:6',
             'photos.*'       => 'image|max:5120',
             'accept_terms'   => 'accepted',
+        ], [
+            'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
+            'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
         ]);
 
         // ** Zdjęcia i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
@@ -130,10 +133,10 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            'animal_name'    => 'required|string|max:255',
+            'animal_name'    => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'chip_present'   => 'boolean',
-            'chip_number'    => 'nullable|string|max:50',
+            'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],
             'species_id'     => 'required|exists:species,id',
             'breed_id'       => 'required|exists:breeds,id',
             'date_event'     => 'required|date',
@@ -148,6 +151,9 @@ class AnimalEditController extends Controller
             'contact_name'   => 'required|string|max:255',
             'contact_email'  => 'required|email|max:255',
             'contact_phone'  => 'nullable|string|max:20',
+        ], [
+            'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
+            'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
         ]);
 
         $data['title']      = $this->generateTitle($data);

@@ -66,6 +66,12 @@
                 speciesId: @json($initialSpeciesId),
                 breedId: @json($initialBreedId),
                 breedsList: @json($breedsForJs),
+                getUnknownBreedId(speciesId) {
+                    const unknown = this.breedsList.find(
+                        (b) => String(b.species_id) === String(speciesId) && b.breed_pl === "Nie wiem"
+                    );
+                    return unknown ? String(unknown.id) : "";
+                },
             }'
             class="mt-8 space-y-8"
         >
@@ -117,6 +123,8 @@
                             name="animal_name"
                             value="{{ old('animal_name') }}"
                             required
+                            pattern="[\p{L}\s\-]+"
+                            title="Tylko litery"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
@@ -129,7 +137,7 @@
                         <select
                             name="species_id"
                             x-model="speciesId"
-                            @change="breedId = ''"
+                            @change="breedId = getUnknownBreedId(speciesId)"
                             required
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
@@ -182,6 +190,9 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number') }}"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            title="Tylko cyfry"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')

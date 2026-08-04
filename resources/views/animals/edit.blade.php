@@ -63,6 +63,8 @@
                             name="animal_name"
                             value="{{ old('animal_name', $animal->animal_name) }}"
                             required
+                            pattern="[\p{L}\s\-]+"
+                            title="Tylko litery"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('animal_name')
@@ -125,6 +127,9 @@
                             type="text"
                             name="chip_number"
                             value="{{ old('chip_number', $animal->chip_number) }}"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            title="Tylko cyfry"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
                         @error('chip_number')

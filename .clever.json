@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "app_id": "app_3d29b478-4353-44d4-a6f7-1aa8419a7876",
+      "org_id": "user_9458f71b-4f68-4a67-a44a-1c190b59e466",
+      "deploy_url": "https://github.com/SlawekKania19/Noskiem.git",
+      "git_ssh_url": "https://github.com/SlawekKania19/Noskiem.git",
+      "name": "Noskiem",
+      "alias": "Noskiem"
+    }
+  ]
+}

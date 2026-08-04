@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
 
     ->withMiddleware(function (Middleware $middleware): void {
+        // Clever Cloud kończy SSL na swoim reverse proxy i przekazuje ruch dalej
+        // zwykłym HTTP, ustawiając nagłówek X-Forwarded-Proto. Appka nie jest
+        // bezpośrednio dostępna z internetu inaczej niż przez to proxy, więc
+        // ufamy mu w całości, żeby Laravel poprawnie generował linki https://.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'api-key' => \App\Http\Middleware\ApiKeyMiddleware::class,
         ]);
