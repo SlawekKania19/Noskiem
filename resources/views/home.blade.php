@@ -67,7 +67,7 @@
 
                 {{-- ** Podpowiedź / CTA — w tej samej kolumnie co pole, więc wyśrodkowane względem niego, nie całego wiersza --}}
                 <p class="sm:col-start-1 sm:row-start-2 text-center text-[13px] text-[#616657]" x-show="mode === 'znalazlem'" x-cloak>
-                    Najpierw poszukaj, zanim dodasz ogłoszenie.
+                    Najpierw poszukaj, zanim dodasz ogłoszenie - być może ktoś już szuka tego zwierzaka.
                 </p>
                 <a
                     href="{{ route('animals.create', ['status' => 'lost']) }}"
