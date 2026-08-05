@@ -9,7 +9,7 @@
          --------------------------- --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <h1 class="text-[24px] font-semibold text-[#283618]">BBBBaza zwierząt</h1>
+        <h1 class="text-[24px] font-semibold text-[#283618]">Baza zwierząt</h1>
         <p class="mt-1 text-[14px] text-[#616657]">Liczba ogłoszeń: {{ $animals->count() }}</p>
 
         {{-- ---------------------------

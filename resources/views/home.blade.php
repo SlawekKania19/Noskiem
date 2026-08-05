@@ -28,7 +28,7 @@
                     :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
                     class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
                 >
-                    Szukam zwierzaka
+                    Szukam zwierzakaAAAA
                 </button>
                 <button
                     type="button"
