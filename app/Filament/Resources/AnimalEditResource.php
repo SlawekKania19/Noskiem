@@ -247,7 +247,18 @@ class AnimalEditResource extends Resource
                             ->label('')
                             ->disk('public')
                             ->width(200)
-                            ->height(150),
+                            ->height(150)
+                            ->extraImgAttributes(fn ($record) => [
+                                'style' => $record->is_main
+                                    ? 'box-shadow: 0 0 0 3px #f59e0b; border-radius: 0.5rem;'
+                                    : 'border-radius: 0.5rem;',
+                            ]),
+                        TextEntry::make('is_main')
+                            ->label('')
+                            ->formatStateUsing(fn ($state) => $state ? '★ Zdjęcie główne' : '')
+                            ->visible(fn ($record) => $record->is_main)
+                            ->color('warning')
+                            ->weight('bold'),
                     ])
                     ->columns(4),
             ]),

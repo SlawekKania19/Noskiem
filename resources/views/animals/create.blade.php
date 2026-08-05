@@ -368,35 +368,60 @@
                     photos: [],
                     maxPhotos: 6,
                     error: '',
-                    handleFiles(event) {
-                        const files = Array.from(event.target.files);
+                    mainIndex: 0,
+                    // ** Bez atrybutu multiple — z pojedynczym wyborem telefony pokazują
+                    // pełny wybór 'Aparat / Galeria', z multiple niektóre przeglądarki (Safari
+                    // na iOS) chowają opcję aparatu
+                    addFiles(event) {
+                        const newFiles = Array.from(event.target.files);
+                        event.target.value = ''; // ** reset, żeby wybranie tego samego pliku ponownie też odpaliło change
 
-                        if (files.length > this.maxPhotos) {
-                            this.error = 'Możesz dodać maksymalnie 6 zdjęć.';
-                            this.photos = [];
-                            event.target.value = '';
+                        if (this.photos.length + newFiles.length > this.maxPhotos) {
+                            this.error = `Możesz dodać maksymalnie ${this.maxPhotos} zdjęć (masz już ${this.photos.length}).`;
                             return;
                         }
 
                         this.error = '';
-                        this.photos = files.map((file) => ({
-                            name: file.name,
-                            url: URL.createObjectURL(file),
-                        }));
+                        newFiles.forEach((file) => {
+                            this.photos.push({ file, name: file.name, url: URL.createObjectURL(file) });
+                        });
+                        this.syncInput();
+                    },
+                    removePhoto(i) {
+                        URL.revokeObjectURL(this.photos[i].url);
+                        this.photos.splice(i, 1);
+
+                        if (i === this.mainIndex) {
+                            this.mainIndex = 0;
+                        } else if (i < this.mainIndex) {
+                            this.mainIndex--;
+                        }
+
+                        this.error = '';
+                        this.syncInput();
+                    },
+                    // ** Realny <input type=file> musi mieć skompletowaną listę plików do wysłania
+                    // formularza — odtwarzamy ją z naszej tablicy przez DataTransfer
+                    syncInput() {
+                        const dt = new DataTransfer();
+                        this.photos.forEach((photo) => dt.items.add(photo.file));
+                        this.$refs.fileInput.files = dt.files;
                     },
                 }"
             >
                 <h2 class="text-[16px] font-semibold text-[#283618]">Zdjęcia</h2>
-                <p class="mt-1 text-[12px] text-[#8f9485]">Maksymalnie 6 zdjęć.</p>
+                <p class="mt-1 text-[12px] text-[#8f9485]">Maksymalnie 6 zdjęć — dodawaj po kolei, klikając „Dodaj zdjęcie".</p>
 
                 <input
                     type="file"
                     name="photos[]"
-                    multiple
                     accept="image/*"
-                    @change="handleFiles($event)"
-                    class="mt-3 block w-full text-[14px] text-[#283618] file:mr-4 file:cursor-pointer file:rounded-xl file:border-0 file:bg-[#283618] file:px-4 file:py-2 file:text-[13px] file:font-semibold file:text-[#fefae0] hover:file:bg-[#1e2812] active:file:bg-[#161f0c]"
+                    x-ref="fileInput"
+                    @change="addFiles($event)"
+                    class="hidden"
                 >
+
+                <input type="hidden" name="main_photo_index" :value="mainIndex">
 
                 <p x-show="error" x-cloak class="mt-2 text-[12px] text-[#994d0a]" x-text="error"></p>
 
@@ -407,10 +432,45 @@
                     <p class="mt-2 text-[12px] text-[#994d0a]">{{ $message }}</p>
                 @enderror
 
-                <div x-show="photos.length > 0" x-cloak class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-6">
-                    <template x-for="photo in photos" :key="photo.url">
-                        <img :src="photo.url" :alt="photo.name" class="h-20 w-full rounded-xl object-cover">
+                <p x-show="photos.length > 1" x-cloak class="mt-3 text-[12px] text-[#8f9485]">
+                    Kliknij gwiazdkę, żeby wybrać zdjęcie główne — to ono pojawi się na karcie ogłoszenia.
+                </p>
+
+                <div class="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
+                    <template x-for="(photo, i) in photos" :key="photo.url">
+                        <div class="group relative">
+                            <img
+                                :src="photo.url"
+                                :alt="photo.name"
+                                class="h-20 w-full rounded-xl object-cover"
+                                :class="mainIndex === i ? 'ring-2 ring-[#283618] ring-offset-1' : ''"
+                            >
+                            <button
+                                type="button"
+                                @click="mainIndex = i"
+                                :title="mainIndex === i ? 'Zdjęcie główne' : 'Ustaw jako główne'"
+                                class="absolute right-1 top-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-[13px] transition"
+                                :class="mainIndex === i
+                                    ? 'bg-[#283618] text-[#fefae0]'
+                                    : 'bg-white/90 text-[#8f9485] opacity-0 group-hover:opacity-100'"
+                            >★</button>
+                            <button
+                                type="button"
+                                @click="removePhoto(i)"
+                                title="Usuń zdjęcie"
+                                class="absolute left-1 top-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[13px] text-[#994d0a] opacity-0 transition group-hover:opacity-100"
+                            >✕</button>
+                        </div>
                     </template>
+
+                    <button
+                        type="button"
+                        x-show="photos.length < maxPhotos"
+                        @click="$refs.fileInput.click()"
+                        class="flex h-20 w-full cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-[#e5e5dc] text-[#8f9485] transition hover:border-[#283618] hover:text-[#283618]"
+                    >
+                        <span class="text-[22px] leading-none">+</span>
+                    </button>
                 </div>
             </section>
 

@@ -47,19 +47,77 @@
         @endif
 
         {{-- ---------------------------
-             Galeria zdjęć (tabela photos)
+             Galeria zdjęć (tabela photos) — miniatury kwadratowe (mniej agresywny crop niż
+             stały h-40/h-48 przy zmiennej liczbie kolumn), klik otwiera lightbox z pełnym zdjęciem
+             (object-contain, bez obcinania) i nawigacją strzałkami
              --------------------------- --}}
-        <div class="mt-6">
+        <div
+            class="mt-6"
+            x-data="{
+                open: false,
+                index: 0,
+                photos: @js($photos->map(fn ($photo) => asset('storage/'.$photo->path))->values()),
+                show(i) { this.index = i; this.open = true },
+                next() { this.index = (this.index + 1) % this.photos.length },
+                prev() { this.index = (this.index - 1 + this.photos.length) % this.photos.length },
+            }"
+        >
             @if ($photos->isNotEmpty())
                 <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                    @foreach ($photos as $photo)
-                        <img
-                            src="{{ asset('storage/'.$photo->path) }}"
-                            alt="{{ $cardTitle }}"
-                            class="h-40 w-full rounded-2xl object-cover sm:h-48"
-                            loading="lazy"
+                    @foreach ($photos as $index => $photo)
+                        <button
+                            type="button"
+                            @click="show({{ $index }})"
+                            class="aspect-square cursor-zoom-in overflow-hidden rounded-2xl"
                         >
+                            <img
+                                src="{{ asset('storage/'.$photo->path) }}"
+                                alt="{{ $cardTitle }}"
+                                class="h-full w-full object-cover transition hover:scale-105"
+                                loading="lazy"
+                            >
+                        </button>
                     @endforeach
+                </div>
+
+                {{-- ** Lightbox — z-[1100], bo mapa Leaflet niżej na stronie używa z-index do 1000 --}}
+                <div
+                    x-show="open"
+                    x-cloak
+                    @click.self="open = false"
+                    @keydown.escape.window="open = false"
+                    @keydown.arrow-right.window="next()"
+                    @keydown.arrow-left.window="prev()"
+                    class="fixed inset-0 z-[1100] flex items-center justify-center bg-black/90 p-4"
+                >
+                    <button
+                        type="button"
+                        @click="open = false"
+                        class="absolute right-4 top-4 cursor-pointer text-[28px] text-white/80 hover:text-white"
+                        aria-label="Zamknij podgląd"
+                    >&times;</button>
+
+                    <button
+                        type="button"
+                        x-show="photos.length > 1"
+                        @click="prev()"
+                        class="absolute left-2 cursor-pointer p-2 text-[32px] text-white/80 hover:text-white sm:left-4"
+                        aria-label="Poprzednie zdjęcie"
+                    >&lsaquo;</button>
+
+                    <img
+                        :src="photos[index]"
+                        alt="{{ $cardTitle }}"
+                        class="max-h-[85vh] max-w-full rounded-xl object-contain"
+                    >
+
+                    <button
+                        type="button"
+                        x-show="photos.length > 1"
+                        @click="next()"
+                        class="absolute right-2 cursor-pointer p-2 text-[32px] text-white/80 hover:text-white sm:right-4"
+                        aria-label="Następne zdjęcie"
+                    >&rsaquo;</button>
                 </div>
             @else
                 <div class="flex h-56 items-center justify-center rounded-2xl bg-[#dbe3d1] text-[40px]">

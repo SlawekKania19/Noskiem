@@ -76,6 +76,7 @@ class AnimalEditController extends Controller
             'contact_phone'  => 'nullable|string|max:20',
             'photos'         => 'nullable|array|max:6',
             'photos.*'       => 'image|max:5120',
+            'main_photo_index' => 'nullable|integer|min:0',
             'colors'         => 'nullable|array',
             'colors.*'       => 'integer|exists:colors,id',
             'accept_terms'   => 'accepted',
@@ -87,7 +88,13 @@ class AnimalEditController extends Controller
         // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
         $photos = $data['photos'] ?? [];
         $colors = $data['colors'] ?? [];
-        unset($data['photos'], $data['colors'], $data['accept_terms']);
+        $mainPhotoIndex = (int) ($data['main_photo_index'] ?? 0);
+        unset($data['photos'], $data['colors'], $data['main_photo_index'], $data['accept_terms']);
+
+        // ** Spoza zakresu (np. przy manipulacji formularzem) — wraca do pierwszego zdjęcia
+        if ($mainPhotoIndex < 0 || $mainPhotoIndex >= count($photos)) {
+            $mainPhotoIndex = 0;
+        }
 
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
@@ -104,7 +111,7 @@ class AnimalEditController extends Controller
 
             $animalEdit->photos()->create([
                 'path' => $path,
-                'is_main' => $index === 0,
+                'is_main' => $index === $mainPhotoIndex,
             ]);
         }
 

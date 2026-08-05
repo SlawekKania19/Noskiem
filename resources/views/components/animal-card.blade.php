@@ -29,8 +29,10 @@
     href="{{ route('animals.show', $animal) }}"
     class="group block overflow-hidden rounded-2xl bg-white shadow-[0px_4px_14px_0px_rgba(30,38,18,0.07)] transition hover:shadow-[0px_6px_18px_0px_rgba(30,38,18,0.12)] active:transform-[scale(0.98)]"
 >
-    {{-- ** Miniaturka zdjęcia (główne z tabeli photos, placeholder gdy brak) --}}
-    <div class="relative h-[140px] w-full overflow-hidden bg-[#dbe3d1]">
+    {{-- ** Miniaturka zdjęcia (główne z tabeli photos, placeholder gdy brak) — aspect-square zamiast
+         stałej wysokości 140px, bo przy zmiennej szerokości karty w gridzie (1/2/3 kolumny) dawało to
+         bardzo płaskie kadry i obcinało dużą część zdjęcia (szczególnie pionowych, z telefonu) --}}
+    <div class="relative aspect-square w-full overflow-hidden bg-[#dbe3d1]">
         @if ($mainPhoto)
             <img
                 src="{{ asset('storage/'.$mainPhoto->path) }}"
