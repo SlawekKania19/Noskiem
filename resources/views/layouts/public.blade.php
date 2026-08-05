@@ -131,7 +131,7 @@
         <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)]">
             <div class="grid grid-cols-5 items-end h-16">
                 {{-- Główna --}}
-                <a href="{{ route('animals.index') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#283618] transition active:transform-[scale(0.95)] active:text-[#1e2812]">
+                <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#283618] transition active:transform-[scale(0.95)] active:text-[#1e2812]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M3 11.5 12 4l9 7.5"/>
                         <path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/>
