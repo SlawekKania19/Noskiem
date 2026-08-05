@@ -80,6 +80,8 @@ class ModerationService
                 ]);
             }
 
+            $animal->colors()->sync($edit->colors()->pluck('colors.id'));
+
             $edit->update(['mod_status' => 'approved']);
 
             ModerationLog::create([
@@ -166,6 +168,17 @@ class ModerationService
             $diff['photos'] = [
                 'old' => $animalPhotos,
                 'new' => $editPhotos,
+            ];
+        }
+
+        // Diff kolorów
+        $animalColors = $animal->colors->pluck('name')->sort()->values()->toArray();
+        $editColors   = $edit->colors->pluck('name')->sort()->values()->toArray();
+
+        if ($animalColors !== $editColors) {
+            $diff['colors'] = [
+                'old' => $animalColors,
+                'new' => $editColors,
             ];
         }
 

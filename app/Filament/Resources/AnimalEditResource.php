@@ -202,6 +202,11 @@ class AnimalEditResource extends Resource
                     TextEntry::make('species.name_pl')->label('Gatunek'),
                     TextEntry::make('breed.breed_pl')->label('Rasa'),
                     TextEntry::make('date_event')->label('Data zdarzenia')->date('d.m.Y'),
+                    TextEntry::make('colors.name')
+                        ->label('Kolory')
+                        ->badge()
+                        ->placeholder('Brak')
+                        ->columnSpan(2),
                     TextEntry::make('description')->label('Opis')->columnSpan(2),
                     TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
                     TextEntry::make('chip_present')
@@ -282,6 +287,7 @@ class AnimalEditResource extends Resource
                                 'contact_email'  => 'E-mail kontaktowy',
                                 'contact_phone'  => 'Telefon kontaktowy',
                                 'photos'         => 'Zdjęcia',
+                                'colors'         => 'Kolory',
                             ];
 
                             $rows = '';
@@ -290,6 +296,9 @@ class AnimalEditResource extends Resource
                                 if ($field === 'photos') {
                                     $old = count($change['old']) . ' szt.';
                                     $new = count($change['new']) . ' szt.';
+                                } elseif ($field === 'colors') {
+                                    $old = e($change['old'] ? implode(', ', $change['old']) : '—');
+                                    $new = e($change['new'] ? implode(', ', $change['new']) : '—');
                                 } else {
                                     $old = e((string) ($change['old'] ?? '—'));
                                     $new = e((string) ($change['new'] ?? '—'));

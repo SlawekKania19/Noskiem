@@ -58,7 +58,7 @@ class AnimalController extends Controller
     // Wyświetla szczegóły ogłoszenia (galeria, opis, kontakt, formularz wiadomości). Renderuje widok publiczny (animals.show).
     public function show(Animal $animal)
     {
-        $animal->load(['species', 'breed', 'voivodeship', 'city', 'photos']);
+        $animal->load(['species', 'breed', 'voivodeship', 'city', 'photos', 'colors']);
 
         return view('animals.show', compact('animal'));
     }
