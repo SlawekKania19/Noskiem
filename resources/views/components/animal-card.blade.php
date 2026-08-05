@@ -27,7 +27,7 @@
 
 <a
     href="{{ route('animals.show', $animal) }}"
-    class="group block overflow-hidden rounded-2xl bg-white shadow-[0px_4px_14px_0px_rgba(30,38,18,0.07)] transition-shadow hover:shadow-[0px_6px_18px_0px_rgba(30,38,18,0.12)]"
+    class="group block overflow-hidden rounded-2xl bg-white shadow-[0px_4px_14px_0px_rgba(30,38,18,0.07)] transition hover:shadow-[0px_6px_18px_0px_rgba(30,38,18,0.12)] active:scale-[0.98]"
 >
     {{-- ** Miniaturka zdjęcia (główne z tabeli photos, placeholder gdy brak) --}}
     <div class="relative h-[140px] w-full overflow-hidden bg-[#dbe3d1]">

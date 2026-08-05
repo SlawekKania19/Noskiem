@@ -65,13 +65,13 @@
             <div class="col-span-2 flex items-center gap-4 sm:col-span-3 lg:col-span-6">
                 <button
                     type="submit"
-                    class="rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition-colors hover:bg-[#1e2812]"
+                    class="cursor-pointer rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.97] active:bg-[#161f0c]"
                 >
                     Filtruj
                 </button>
 
                 @if (request()->hasAny(['species_id', 'breed_id', 'voivodeship_id', 'city_id', 'status', 'color_id']))
-                    <a href="{{ route('animals.index') }}" class="text-[13px] font-semibold text-[#616657] hover:text-[#283618]">
+                    <a href="{{ route('animals.index') }}" class="text-[13px] font-semibold text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">
                         Wyczyść filtry
                     </a>
                 @endif
