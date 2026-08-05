@@ -10,7 +10,7 @@
     $statusLabel = $statusLabels[$animal->status] ?? $animal->status;
     $statusStyle = $statusStyles[$animal->status] ?? 'bg-[#eee] text-[#616657]';
 
-    $cardTitle = $animal->animal_name ?: $animal->title;
+    $cardTitle = $animal->title;
     $locationLabel = $animal->location_text ?: ($animal->city->name_pl ?? null);
 
     // ** Zdjęcia — główne na pierwszym miejscu

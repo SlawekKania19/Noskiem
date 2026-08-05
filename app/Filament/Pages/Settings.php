@@ -46,7 +46,8 @@ class Settings extends Page implements HasForms
             'create_form_hint_found' => Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.'),
             'create_form_location_hint_lost' => Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.'),
             'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.'),
-            'animal_title_template' => Setting::get('animal_title_template', TitleGenerator::DEFAULT_TEMPLATE),
+            'animal_title_template_lost' => Setting::get('animal_title_template_lost', TitleGenerator::DEFAULT_TEMPLATE_LOST),
+            'animal_title_template_found' => Setting::get('animal_title_template_found', TitleGenerator::DEFAULT_TEMPLATE_FOUND),
             'create_form_ident_marks_tags' => Setting::get('create_form_ident_marks_tags', implode("\n", [
                 'Blizna',
                 'Kulawizna',
@@ -98,18 +99,29 @@ class Settings extends Page implements HasForms
                     ]),
 
                 Section::make('Tytuł ogłoszenia')
-                    ->description('Tytuł nie jest już wpisywany ręcznie przez użytkownika — generuje się automatycznie z poniższego szablonu')
+                    ->description('Tytuł nie jest już wpisywany ręcznie przez użytkownika — generuje się automatycznie z poniższego szablonu. Osobny szablon dla "Zaginiony" i "Znaleziony", bo przy znalezieniu imię zwierzaka prawie nigdy nie jest znane.')
                     ->schema([
-                        TextInput::make('animal_title_template')
-                            ->label('Szablon tytułu')
+                        TextInput::make('animal_title_template_lost')
+                            ->label('Szablon tytułu — status "Zaginiony"')
                             ->required()
                             ->maxLength(255)
                             ->live()
                             ->helperText('Dostępne tagi: '.implode(', ', array_keys(TitleGenerator::TAGS))),
 
-                        Placeholder::make('animal_title_template_preview')
+                        Placeholder::make('animal_title_template_lost_preview')
                             ->label('Podgląd (na przykładowych danych)')
-                            ->content(fn (Get $get) => TitleGenerator::example($get('animal_title_template') ?: TitleGenerator::DEFAULT_TEMPLATE)),
+                            ->content(fn (Get $get) => TitleGenerator::example($get('animal_title_template_lost') ?: TitleGenerator::DEFAULT_TEMPLATE_LOST, 'lost')),
+
+                        TextInput::make('animal_title_template_found')
+                            ->label('Szablon tytułu — status "Znaleziony"')
+                            ->required()
+                            ->maxLength(255)
+                            ->live()
+                            ->helperText('Dostępne tagi: '.implode(', ', array_keys(TitleGenerator::TAGS)).'. Unikaj [Imię] — przy zgłoszeniu znalezienia zwykle nieznane.'),
+
+                        Placeholder::make('animal_title_template_found_preview')
+                            ->label('Podgląd (na przykładowych danych)')
+                            ->content(fn (Get $get) => TitleGenerator::example($get('animal_title_template_found') ?: TitleGenerator::DEFAULT_TEMPLATE_FOUND, 'found')),
                     ]),
 
                 Section::make('Formularz zgłoszenia')

@@ -21,8 +21,8 @@
     // ** Lokalizacja — preferujemy tekst podany przez zgłaszającego, potem nazwę miasta
     $locationLabel = $animal->location_text ?: ($animal->city->name_pl ?? null);
 
-    // ** Tytuł karty — imię zwierzaka, a gdy brak (np. zwierzę bez chipa/imienia) — tytuł ogłoszenia
-    $cardTitle = $animal->animal_name ?: $animal->title;
+    // ** Tytuł karty — tytuł ogłoszenia (generowany automatycznie, osobny szablon dla lost/found)
+    $cardTitle = $animal->title;
 @endphp
 
 <a
