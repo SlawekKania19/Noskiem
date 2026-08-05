@@ -227,7 +227,8 @@
                         <a
                             href="{{ route('pages.show', 'cookies') }}"
                             class="rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#c9dec4] active:scale-[0.97] active:bg-[#bcd4b6]"
-                        >
+                            target="_blank"
+                            >
                             Informacje o ciasteczkach
                         </a>
                     </div>
