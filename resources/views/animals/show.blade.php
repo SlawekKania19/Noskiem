@@ -76,7 +76,7 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Lokalizacja</h2>
                 <div
                     id="animal-map"
-                    class="mt-2 h-72 w-full overflow-hidden rounded-2xl"
+                    class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl"
                 ></div>
             </div>
 
