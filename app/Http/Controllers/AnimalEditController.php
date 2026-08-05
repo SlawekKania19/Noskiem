@@ -8,6 +8,7 @@ use App\Models\Breed;
 use App\Models\City;
 use App\Models\Species;
 use App\Models\Voivodeship;
+use App\Services\ImageCompressor;
 use App\Services\TitleGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -90,8 +91,10 @@ class AnimalEditController extends Controller
         $animalEdit = AnimalEdit::create($data);
 
         // ** Zapis plików do storage/app/public (poza public/) + rekordy w tabeli photos
+        // Zdjęcia są przeskalowane i skompresowane (App\Services\ImageCompressor), żeby
+        // duże pliki z telefonów nie zapychały storage
         foreach ($photos as $index => $photo) {
-            $path = $photo->store('photos', 'public');
+            $path = ImageCompressor::store($photo, 'photos', 'public');
 
             $animalEdit->photos()->create([
                 'path' => $path,
