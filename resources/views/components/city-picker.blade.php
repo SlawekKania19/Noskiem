@@ -26,7 +26,7 @@
         cityName: @js($selectedCityLabel ?? ''),
     })"
 >
-    <div>
+    <div class="min-w-0">
         @if ($showLabels)
             <label class="{{ $labelClass }}">{{ $voivodeshipLabel }}</label>
         @endif
@@ -47,7 +47,7 @@
         @enderror
     </div>
 
-    <div class="relative">
+    <div class="relative min-w-0">
         @if ($showLabels)
             <label class="{{ $labelClass }}">{{ $cityLabel }}</label>
         @endif
