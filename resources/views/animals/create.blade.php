@@ -87,7 +87,7 @@
                         type="button"
                         @click="status = 'lost'"
                         :class="status === 'lost' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
-                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
+                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:transform-[scale(0.97)]"
                     >
                         Zaginiony
                     </button>
@@ -95,7 +95,7 @@
                         type="button"
                         @click="status = 'found'"
                         :class="status === 'found' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
-                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
+                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:transform-[scale(0.97)]"
                     >
                         Znaleziony
                     </button>
@@ -226,7 +226,7 @@
                                 <button
                                     type="button"
                                     @click="addTag(@js($tag))"
-                                    class="cursor-pointer rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition hover:border-[#283618] hover:text-[#283618] active:scale-[0.96] active:bg-[#f4f4ef]"
+                                    class="cursor-pointer rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition hover:border-[#283618] hover:text-[#283618] active:transform-[scale(0.96)] active:bg-[#f4f4ef]"
                                 >
                                     {{ $tag }}
                                 </button>
@@ -471,7 +471,7 @@
 
             <button
                 type="submit"
-                class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.98] active:bg-[#161f0c] sm:w-auto"
+                class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.98)] active:bg-[#161f0c] sm:w-auto"
             >
                 Wyślij zgłoszenie
             </button>

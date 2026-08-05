@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'Noskiem.pl — Znajdziemy go noskiem')</title>
+        <title>@yield('title', 'Noskiem.org — Znajdziemy go noskiem')</title>
         
         <link rel="preconnect" href="https://fonts.bunny.net">
             <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
@@ -16,8 +16,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body x-data="{}" class="font-['Inter'] antialiased text-[#283618] bg-white">
+        @php
+            // ---------------------------
+            // Aktywna sekcja nawigacji — podświetlamy link do strony, na której użytkownik faktycznie jest
+            // ---------------------------
+            $navIsHome = request()->routeIs('home');
+            $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
+            $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
+        @endphp
+
         {{-- ---------------------------
-             Navbar 
+             Navbar
              --------------------------- --}}
         <header class="sticky top-0 z-40 bg-white shadow-[0px_2px_10px_0px_rgba(30,38,18,0.05)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,16 +55,16 @@
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
-                        <a href="{{ route('home') }}" class="font-semibold text-[#283618]">Główna</a>
-                        <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Zaginione</a>
-                        <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Znalezione</a>
+                        <a href="{{ route('home') }}" class="{{ $navIsHome ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Główna</a>
+                        <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="{{ $navIsLost ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Zaginione</a>
+                        <a href="{{ route('animals.index', ['status' => 'found']) }}" class="{{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Znalezione</a>
                         <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
                     </nav>
                     {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
                     <a
                         href="{{ route('animals.create') }}"
                         :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
-                        class="hidden sm:inline-flex items-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.97] active:bg-[#161f0c]"
+                        class="hidden sm:inline-flex items-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                     >
                         + Dodaj ogłoszenie
                     </a>
@@ -128,10 +137,10 @@
         {{-- ---------------------------
              Bottom Nav (mobile) — widoczny tylko na urządzeniach mobilnych, zastępuje navbar
              --------------------------- --}}
-        <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)]">
+        <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)] will-change-transform">
             <div class="grid grid-cols-5 items-end h-16">
                 {{-- Główna --}}
-                <a href="{{ route('animals.index') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#283618] transition active:scale-95 active:text-[#1e2812]">
+                <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsHome ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#1e2812]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M3 11.5 12 4l9 7.5"/>
                         <path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/>
@@ -139,7 +148,7 @@
                     Główna
                 </a>
                 {{-- Zaginione --}}
-                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:scale-95 active:text-[#283618]">
+                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsLost ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <circle cx="11" cy="11" r="7"/>
                         <path d="m20 20-3.5-3.5"/>
@@ -150,7 +159,7 @@
                 <a
                     href="{{ route('animals.create') }}"
                     :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
-                    class="flex flex-col items-center justify-center -translate-y-3 transition active:scale-90"
+                    class="flex flex-col items-center justify-center -translate-y-3 transition active:transform-[scale(0.90)]"
                 >
                     <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)] transition active:bg-[#161f0c]">
                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -159,14 +168,14 @@
                     </span>
                 </a>
                 {{-- Znalezione --}}
-                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:scale-95 active:text-[#283618]">
+                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsFound ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/>
                     </svg>
                     Znalezione
                 </a>
                 {{-- Więcej --}}
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:scale-95 active:text-[#283618]">
+                <a href="#" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <circle cx="5" cy="12" r="1.5"/>
                         <circle cx="12" cy="12" r="1.5"/>
@@ -183,7 +192,14 @@
              tylko do końca bieżącej sesji przeglądarki
              --------------------------- --}}
         @unless (session('cookie_consent'))
-            <div class="fixed inset-x-0 bottom-16 z-50 border-t border-[#e5e5dc] bg-white px-4 py-4 shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.08)] sm:px-6 md:bottom-0 lg:px-8">
+            <div
+                x-data="{ visible: true, sending: false }"
+                x-show="visible"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-x-0 bottom-16 z-50 border-t border-[#e5e5dc] bg-white px-4 py-4 shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.08)] sm:px-6 md:bottom-0 lg:px-8"
+            >
                 <div class="mx-auto flex max-w-7xl flex-col items-center gap-4 md:flex-row md:justify-between">
                     <p class="text-center text-[13px] text-[#616657] md:text-left">
                         Używamy ciasteczek niezbędnych do działania strony (m.in. utrzymania sesji i ochrony formularzy przed nadużyciami).
@@ -204,12 +220,26 @@
                             </button>
                         </form>
                         --}}
-                        <form action="{{ route('cookies.accept') }}" method="POST">
+                        {{-- ** Wysyłka przez fetch, żeby zaakceptowanie ciasteczek nie przeładowywało całej strony
+                             (traci scroll, flash treści) — bez JS formularz nadal działa zwyczajnie (POST + redirect) --}}
+                        <form
+                            action="{{ route('cookies.accept') }}"
+                            method="POST"
+                            @submit.prevent="
+                                sending = true;
+                                fetch($el.action, {
+                                    method: 'POST',
+                                    headers: { Accept: 'application/json' },
+                                    body: new FormData($el),
+                                }).finally(() => { visible = false; sending = false; });
+                            "
+                        >
                             @csrf
                             <input type="hidden" name="level" value="necessary">
                             <button
                                 type="submit"
-                                class="cursor-pointer rounded-xl border border-[#283618] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:scale-[0.97] active:bg-[#1e2812]"
+                                :disabled="sending"
+                                class="cursor-pointer rounded-xl border border-[#283618] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812] disabled:cursor-wait disabled:opacity-70"
                             >
                                 Zaakceptuj tylko niezbędne
                             </button>
@@ -226,8 +256,9 @@
                         --}}
                         <a
                             href="{{ route('pages.show', 'cookies') }}"
-                            class="rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#c9dec4] active:scale-[0.97] active:bg-[#bcd4b6]"
-                        >
+                            class="rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#c9dec4] active:transform-[scale(0.97)] active:bg-[#bcd4b6]"
+                            target="_blank"
+                            >
                             Informacje o ciasteczkach
                         </a>
                     </div>

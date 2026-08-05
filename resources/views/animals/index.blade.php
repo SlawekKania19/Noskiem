@@ -19,7 +19,7 @@
         <form method="GET" action="{{ route('animals.index') }}" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
 
             {{-- ** Gatunek --}}
-            <select name="species_id" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
+            <select name="species_id" class="w-full min-w-0 truncate rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
                 <option value="">Gatunek</option>
                 @foreach ($species as $s)
                     <option value="{{ $s->id }}" @selected(request('species_id') == $s->id)>{{ $s->name_pl }}</option>
@@ -27,7 +27,7 @@
             </select>
 
             {{-- ** Rasa --}}
-            <select name="breed_id" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
+            <select name="breed_id" class="w-full min-w-0 truncate rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
                 <option value="">Rasa</option>
                 @foreach ($breeds as $b)
                     <option value="{{ $b->id }}" @selected(request('breed_id') == $b->id)>{{ $b->breed_pl }}</option>
@@ -44,18 +44,18 @@
                 :show-labels="false"
                 voivodeship-placeholder="Województwo"
                 city-placeholder="Miejscowość (min. 3 litery)"
-                field-class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                field-class="w-full min-w-0 truncate rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
             />
 
             {{-- ** Status --}}
-            <select name="status" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
+            <select name="status" class="w-full min-w-0 truncate rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
                 <option value="">Status</option>
                 <option value="lost" @selected(request('status') === 'lost')>Zaginione</option>
                 <option value="found" @selected(request('status') === 'found')>Znalezione</option>
             </select>
 
             {{-- ** Kolor dominujący --}}
-            <select name="color_id" class="rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
+            <select name="color_id" class="w-full min-w-0 truncate rounded-xl border border-[#e5e5dc] px-3 py-2 text-[13px] text-[#283618] focus:border-[#283618] focus:outline-hidden">
                 <option value="">Kolor dominujący</option>
                 @foreach ($colors as $c)
                     <option value="{{ $c->id }}" @selected(request('color_id') == $c->id)>{{ $c->name }}</option>
@@ -65,7 +65,7 @@
             <div class="col-span-2 flex items-center gap-4 sm:col-span-3 lg:col-span-6">
                 <button
                     type="submit"
-                    class="cursor-pointer rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.97] active:bg-[#161f0c]"
+                    class="cursor-pointer rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                 >
                     Filtruj
                 </button>

@@ -22,6 +22,10 @@ class CookieConsentController extends Controller
 
         $request->session()->put('cookie_consent', $level);
 
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'ok']);
+        }
+
         return back();
     }
 }
