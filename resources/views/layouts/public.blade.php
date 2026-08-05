@@ -192,7 +192,14 @@
              tylko do końca bieżącej sesji przeglądarki
              --------------------------- --}}
         @unless (session('cookie_consent'))
-            <div class="fixed inset-x-0 bottom-16 z-50 border-t border-[#e5e5dc] bg-white px-4 py-4 shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.08)] sm:px-6 md:bottom-0 lg:px-8">
+            <div
+                x-data="{ visible: true, sending: false }"
+                x-show="visible"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-x-0 bottom-16 z-50 border-t border-[#e5e5dc] bg-white px-4 py-4 shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.08)] sm:px-6 md:bottom-0 lg:px-8"
+            >
                 <div class="mx-auto flex max-w-7xl flex-col items-center gap-4 md:flex-row md:justify-between">
                     <p class="text-center text-[13px] text-[#616657] md:text-left">
                         Używamy ciasteczek niezbędnych do działania strony (m.in. utrzymania sesji i ochrony formularzy przed nadużyciami).
@@ -213,12 +220,26 @@
                             </button>
                         </form>
                         --}}
-                        <form action="{{ route('cookies.accept') }}" method="POST">
+                        {{-- ** Wysyłka przez fetch, żeby zaakceptowanie ciasteczek nie przeładowywało całej strony
+                             (traci scroll, flash treści) — bez JS formularz nadal działa zwyczajnie (POST + redirect) --}}
+                        <form
+                            action="{{ route('cookies.accept') }}"
+                            method="POST"
+                            @submit.prevent="
+                                sending = true;
+                                fetch($el.action, {
+                                    method: 'POST',
+                                    headers: { Accept: 'application/json' },
+                                    body: new FormData($el),
+                                }).finally(() => { visible = false; sending = false; });
+                            "
+                        >
                             @csrf
                             <input type="hidden" name="level" value="necessary">
                             <button
                                 type="submit"
-                                class="cursor-pointer rounded-xl border border-[#283618] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
+                                :disabled="sending"
+                                class="cursor-pointer rounded-xl border border-[#283618] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812] disabled:cursor-wait disabled:opacity-70"
                             >
                                 Zaakceptuj tylko niezbędne
                             </button>
