@@ -107,7 +107,7 @@
                 {{-- ** Zgłoszenie "widziałem" — formularz sightings dodamy w kolejnym kroku --}}
                 <a
                     href="#"
-                    class="mt-8 inline-flex items-center rounded-xl bg-[#283618] px-6 py-3 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.97] active:bg-[#161f0c]"
+                    class="mt-8 inline-flex items-center rounded-xl bg-[#283618] px-6 py-3 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                 >
                     Zgłoś, że widziałem
                 </a>
@@ -127,7 +127,7 @@
                             type="button"
                             @click="showPhone = true"
                             x-show="!showPhone"
-                            class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:scale-[0.97] active:bg-[#1e2812]"
+                            class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
                         >
                             Pokaż numer
                         </button>
@@ -184,7 +184,7 @@
 
                     <button
                         type="submit"
-                        class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.98] active:bg-[#161f0c]"
+                        class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.98)] active:bg-[#161f0c]"
                     >
                         Wyślij wiadomość
                     </button>

@@ -26,7 +26,7 @@
                     type="button"
                     @click="mode = 'szukam'; $store.petMode = 'szukam'"
                     :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
-                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
+                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:transform-[scale(0.97)]"
                 >
                     Szukam zwierzaka
                 </button>
@@ -34,7 +34,7 @@
                     type="button"
                     @click="mode = 'znalazlem'; $store.petMode = 'znalazlem'"
                     :class="mode === 'znalazlem' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
-                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
+                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:transform-[scale(0.97)]"
                 >
                     Znalazłem zwierzaka
                 </button>
@@ -60,7 +60,7 @@
                 >
                 <button
                     type="submit"
-                    class="sm:col-start-2 sm:row-start-1 cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition active:scale-[0.98] active:bg-[#161f0c]"
+                    class="sm:col-start-2 sm:row-start-1 cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition active:transform-[scale(0.98)] active:bg-[#161f0c]"
                 >
                     Szukaj
                 </button>
@@ -71,7 +71,7 @@
                 </p>
                 <a
                     href="{{ route('animals.create', ['status' => 'lost']) }}"
-                    class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition active:scale-[0.98] active:bg-[#bcd4b6]"
+                    class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition active:transform-[scale(0.98)] active:bg-[#bcd4b6]"
                     x-show="mode === 'szukam'"
                     x-cloak
                 >

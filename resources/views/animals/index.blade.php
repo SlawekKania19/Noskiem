@@ -65,7 +65,7 @@
             <div class="col-span-2 flex items-center gap-4 sm:col-span-3 lg:col-span-6">
                 <button
                     type="submit"
-                    class="cursor-pointer rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.97] active:bg-[#161f0c]"
+                    class="cursor-pointer rounded-xl bg-[#283618] px-6 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                 >
                     Filtruj
                 </button>
