@@ -278,38 +278,14 @@
                 <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'lost'" x-cloak>{{ $locationHintLost }}</p>
                 <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $locationHintFound }}</p>
 
-                <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <x-city-picker
-                        :voivodeships="$voivodeships"
-                        :selected-voivodeship-id="old('voivodeship_id')"
-                        :selected-city-id="old('city_id')"
-                        :selected-city-label="$selectedCityName"
-                    />
-                </div>
-
-                <div class="mt-4">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis lokalizacji</label>
-                    <input
-                        type="text"
-                        name="location_text"
-                        id="location-text-input"
-                        value="{{ old('location_text') }}"
-                        placeholder="np. Bronowice, Kraków"
-                        required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                    >
-                    @error('location_text')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <div class="mt-4">
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Wskaż lokalizację na mapie</label>
-                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia.</p>
+                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia — poniższe pola uzupełnią się automatycznie, sprawdź tylko czy są poprawne.</p>
 
+                    {{-- ** isolate — tworzy osobny kontekst stackowania, żeby z-index kontrolek Leaflet (do 1000) nie "wyciekał" nad elementy fixed (baner ciasteczek, dolna nawigacja mobilna) --}}
                     <div
                         id="location-picker-map"
-                        class="mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
+                        class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
                     ></div>
 
                     <input type="hidden" name="latitude" id="latitude-input" value="{{ old('latitude') }}">
@@ -333,6 +309,31 @@
                             });
                         });
                     </script>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <x-city-picker
+                        :voivodeships="$voivodeships"
+                        :selected-voivodeship-id="old('voivodeship_id')"
+                        :selected-city-id="old('city_id')"
+                        :selected-city-label="$selectedCityName"
+                    />
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis lokalizacji</label>
+                    <input
+                        type="text"
+                        name="location_text"
+                        id="location-text-input"
+                        value="{{ old('location_text') }}"
+                        placeholder="np. Bronowice, Kraków"
+                        required
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                    >
+                    @error('location_text')
+                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                    @enderror
                 </div>
             </section>
 
