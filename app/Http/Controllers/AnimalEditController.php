@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\Breed;
 use App\Models\City;
+use App\Models\Color;
 use App\Models\Species;
 use App\Models\Voivodeship;
 use App\Services\ImageCompressor;
@@ -44,6 +45,7 @@ class AnimalEditController extends Controller
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
+            'colors' => Color::orderBy('name')->get(),
             'selectedCityName' => City::find(old('city_id'))?->name_pl,
         ]);
     }
@@ -74,21 +76,25 @@ class AnimalEditController extends Controller
             'contact_phone'  => 'nullable|string|max:20',
             'photos'         => 'nullable|array|max:6',
             'photos.*'       => 'image|max:5120',
+            'colors'         => 'nullable|array',
+            'colors.*'       => 'integer|exists:colors,id',
             'accept_terms'   => 'accepted',
         ], [
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
         ]);
 
-        // ** Zdjęcia i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
+        // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
         $photos = $data['photos'] ?? [];
-        unset($data['photos'], $data['accept_terms']);
+        $colors = $data['colors'] ?? [];
+        unset($data['photos'], $data['colors'], $data['accept_terms']);
 
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
         $data['edit_token'] = Str::uuid();
 
         $animalEdit = AnimalEdit::create($data);
+        $animalEdit->colors()->sync($colors);
 
         // ** Zapis plików do storage/app/public (poza public/) + rekordy w tabeli photos
         // Zdjęcia są przeskalowane i skompresowane (App\Services\ImageCompressor), żeby
@@ -113,7 +119,7 @@ class AnimalEditController extends Controller
             abort(403, 'Nieprawidłowy token – brak dostępu do edycji.');
         }
 
-        $animal->load('photos');
+        $animal->load(['photos', 'colors']);
 
         $selectedCityId = old('city_id', $animal->city_id);
 
@@ -122,6 +128,7 @@ class AnimalEditController extends Controller
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
+            'colors' => Color::orderBy('name')->get(),
             'selectedCityName' => City::find($selectedCityId)?->name_pl,
         ]);
     }
@@ -154,17 +161,23 @@ class AnimalEditController extends Controller
             'contact_name'   => 'required|string|max:255',
             'contact_email'  => 'required|email|max:255',
             'contact_phone'  => 'nullable|string|max:20',
+            'colors'         => 'nullable|array',
+            'colors.*'       => 'integer|exists:colors,id',
         ], [
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
         ]);
+
+        $colors = $data['colors'] ?? [];
+        unset($data['colors']);
 
         $data['title']      = $this->generateTitle($data);
         $data['animal_id']  = $animal->id;
         $data['mod_status'] = 'pending';
         $data['edit_token'] = $animal->edit_token;
 
-        AnimalEdit::create($data);
+        $animalEdit = AnimalEdit::create($data);
+        $animalEdit->colors()->sync($colors);
 
         return redirect()->route('animals.show', $animal)
             ->with('success', 'Edycja została wysłana i oczekuje na moderację.');

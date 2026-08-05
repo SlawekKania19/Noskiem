@@ -93,7 +93,37 @@
                  Opis, data zdarzenia, znaki szczególne
                  --------------------------- --}}
             <div class="lg:col-span-2">
-                <h2 class="text-[16px] font-semibold text-[#283618]">Opis</h2>
+                {{-- ** Szczegóły — powtórzenie gatunku/rasy/lokalizacji z nagłówka + kolory, żeby
+                     były widoczne też w treści, a nie tylko w skróconej formie nad zdjęciami --}}
+                <h2 class="text-[16px] font-semibold text-[#283618]">Szczegóły</h2>
+                <dl class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    @if ($animal->species)
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->species->name_pl }}</dd>
+                        </div>
+                    @endif
+                    @if ($animal->breed)
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->breed->breed_pl }}</dd>
+                        </div>
+                    @endif
+                    @if ($locationLabel)
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Lokalizacja</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $locationLabel }}</dd>
+                        </div>
+                    @endif
+                    @if ($animal->colors->isNotEmpty())
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Kolory</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->colors->pluck('name')->implode(', ') }}</dd>
+                        </div>
+                    @endif
+                </dl>
+
+                <h2 class="mt-8 text-[16px] font-semibold text-[#283618]">Opis</h2>
                 <p class="mt-2 whitespace-pre-line text-[14px] leading-relaxed text-[#616657]">{{ $animal->description }}</p>
 
                 <h2 class="mt-8 text-[16px] font-semibold text-[#283618]">Data zdarzenia</h2>

@@ -234,6 +234,29 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="mt-4">
+                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Kolory (można wybrać kilka)</label>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        @foreach ($colors as $color)
+                            <label class="cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    name="colors[]"
+                                    value="{{ $color->id }}"
+                                    class="peer hidden"
+                                    @checked(in_array($color->id, old('colors', [])))
+                                >
+                                <span class="inline-flex rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition peer-checked:border-[#283618] peer-checked:bg-[#283618] peer-checked:text-[#fefae0]">
+                                    {{ $color->name }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('colors')
+                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                    @enderror
+                </div>
             </section>
 
             {{-- ---------------------------

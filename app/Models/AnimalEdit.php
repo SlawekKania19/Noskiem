@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 // ---------------------------
 // Model reprezentujący edycję zgłoszenia zwierzęcia.
@@ -77,4 +78,8 @@ class AnimalEdit extends Model
         return $this->hasMany(\App\Models\Photo::class, 'animal_edit_id');
     }
 
+    public function colors(): BelongsToMany
+    {
+        return $this->belongsToMany(Color::class, 'animal_edit_color');
+    }
 }
