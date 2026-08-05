@@ -137,7 +137,7 @@
         {{-- ---------------------------
              Bottom Nav (mobile) — widoczny tylko na urządzeniach mobilnych, zastępuje navbar
              --------------------------- --}}
-        <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)]">
+        <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)] will-change-transform">
             <div class="grid grid-cols-5 items-end h-16">
                 {{-- Główna --}}
                 <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsHome ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#1e2812]">
