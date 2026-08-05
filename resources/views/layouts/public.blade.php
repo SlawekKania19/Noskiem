@@ -16,8 +16,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body x-data="{}" class="font-['Inter'] antialiased text-[#283618] bg-white">
+        @php
+            // ---------------------------
+            // Aktywna sekcja nawigacji — podświetlamy link do strony, na której użytkownik faktycznie jest
+            // ---------------------------
+            $navIsHome = request()->routeIs('home');
+            $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
+            $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
+        @endphp
+
         {{-- ---------------------------
-             Navbar 
+             Navbar
              --------------------------- --}}
         <header class="sticky top-0 z-40 bg-white shadow-[0px_2px_10px_0px_rgba(30,38,18,0.05)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,9 +55,9 @@
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
-                        <a href="{{ route('home') }}" class="font-semibold text-[#283618]">Główna</a>
-                        <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Zaginione</a>
-                        <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Znalezione</a>
+                        <a href="{{ route('home') }}" class="{{ $navIsHome ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Główna</a>
+                        <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="{{ $navIsLost ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Zaginione</a>
+                        <a href="{{ route('animals.index', ['status' => 'found']) }}" class="{{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Znalezione</a>
                         <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
                     </nav>
                     {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
@@ -131,7 +140,7 @@
         <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)]">
             <div class="grid grid-cols-5 items-end h-16">
                 {{-- Główna --}}
-                <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#283618] transition active:transform-[scale(0.95)] active:text-[#1e2812]">
+                <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsHome ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#1e2812]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M3 11.5 12 4l9 7.5"/>
                         <path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/>
@@ -139,7 +148,7 @@
                     Główna
                 </a>
                 {{-- Zaginione --}}
-                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:transform-[scale(0.95)] active:text-[#283618]">
+                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsLost ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <circle cx="11" cy="11" r="7"/>
                         <path d="m20 20-3.5-3.5"/>
@@ -159,7 +168,7 @@
                     </span>
                 </a>
                 {{-- Znalezione --}}
-                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:transform-[scale(0.95)] active:text-[#283618]">
+                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsFound ? 'text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/>
                     </svg>
