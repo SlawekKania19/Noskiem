@@ -28,6 +28,7 @@ jobs:
           key: ${{ secrets.SEOHOST_SSH_KEY }}
           source: "public/build/"
           target: "domains/qa.noskiem.org/noskiem_app/public/build/"
+          strip_components: 2
 
       - name: Pull code + composer + migrate on server
         uses: appleboy/ssh-action@v1.0.0
