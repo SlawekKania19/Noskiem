@@ -25,16 +25,16 @@
                 <button
                     type="button"
                     @click="mode = 'szukam'; $store.petMode = 'szukam'"
-                    :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
-                    class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                    :class="mode === 'szukam' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
+                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
                 >
                     Szukam zwierzaka
                 </button>
                 <button
                     type="button"
                     @click="mode = 'znalazlem'; $store.petMode = 'znalazlem'"
-                    :class="mode === 'znalazlem' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
-                    class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                    :class="mode === 'znalazlem' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
+                    class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
                 >
                     Znalazłem zwierzaka
                 </button>
@@ -60,7 +60,7 @@
                 >
                 <button
                     type="submit"
-                    class="sm:col-start-2 sm:row-start-1 rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition-colors"
+                    class="sm:col-start-2 sm:row-start-1 cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] hover:bg-[#1e2812] transition active:scale-[0.98] active:bg-[#161f0c]"
                 >
                     Szukaj
                 </button>
@@ -71,7 +71,7 @@
                 </p>
                 <a
                     href="{{ route('animals.create', ['status' => 'lost']) }}"
-                    class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition-colors"
+                    class="sm:col-start-1 sm:row-start-2 inline-flex items-center justify-center rounded-xl border border-[#c3d6bf] bg-[#dbe9d8] px-6 py-2.5 text-[13px] font-semibold text-[#283618] hover:bg-[#c9dec4] transition active:scale-[0.98] active:bg-[#bcd4b6]"
                     x-show="mode === 'szukam'"
                     x-cloak
                 >
@@ -85,7 +85,7 @@
         <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Poszukiwane</h2>
-                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">
+                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
                     Zobacz wszystkie
                 </a>
             </div>
@@ -107,7 +107,7 @@
         <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Widziane</h2>
-                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] hover:underline">
+                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
                     Zobacz wszystkie
                 </a>
             </div>

@@ -86,16 +86,16 @@
                     <button
                         type="button"
                         @click="status = 'lost'"
-                        :class="status === 'lost' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
-                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                        :class="status === 'lost' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
+                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
                     >
                         Zaginiony
                     </button>
                     <button
                         type="button"
                         @click="status = 'found'"
-                        :class="status === 'found' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#616657]'"
-                        class="rounded-full px-6 py-2 text-[14px] font-semibold transition-colors"
+                        :class="status === 'found' ? 'bg-[#283618] text-[#fefae0] hover:bg-[#1e2812]' : 'text-[#616657] hover:bg-[#f4f4ef] hover:text-[#283618]'"
+                        class="cursor-pointer rounded-full px-6 py-2 text-[14px] font-semibold transition active:scale-[0.97]"
                     >
                         Znaleziony
                     </button>
@@ -226,7 +226,7 @@
                                 <button
                                     type="button"
                                     @click="addTag(@js($tag))"
-                                    class="rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition-colors hover:border-[#283618] hover:text-[#283618]"
+                                    class="cursor-pointer rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition hover:border-[#283618] hover:text-[#283618] active:scale-[0.96] active:bg-[#f4f4ef]"
                                 >
                                     {{ $tag }}
                                 </button>
@@ -371,7 +371,7 @@
                     multiple
                     accept="image/*"
                     @change="handleFiles($event)"
-                    class="mt-3 block w-full text-[14px] text-[#283618] file:mr-4 file:rounded-xl file:border-0 file:bg-[#283618] file:px-4 file:py-2 file:text-[13px] file:font-semibold file:text-[#fefae0] hover:file:bg-[#1e2812]"
+                    class="mt-3 block w-full text-[14px] text-[#283618] file:mr-4 file:cursor-pointer file:rounded-xl file:border-0 file:bg-[#283618] file:px-4 file:py-2 file:text-[13px] file:font-semibold file:text-[#fefae0] hover:file:bg-[#1e2812] active:file:bg-[#161f0c]"
                 >
 
                 <p x-show="error" x-cloak class="mt-2 text-[12px] text-[#994d0a]" x-text="error"></p>
@@ -470,7 +470,7 @@
 
             <button
                 type="submit"
-                class="w-full rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition-colors hover:bg-[#1e2812] sm:w-auto"
+                class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:scale-[0.98] active:bg-[#161f0c] sm:w-auto"
             >
                 Wyślij zgłoszenie
             </button>
