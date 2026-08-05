@@ -1,0 +1,44 @@
+name: Deploy QA (assets + sync)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload built assets to SEO Host
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: h88.seohost.pl
+          port: 57185
+          username: srv120601
+          key: ${{ secrets.SEOHOST_SSH_KEY }}
+          source: "public/build/"
+          target: "domains/qa.noskiem.org/noskiem_app/public/build/"
+
+      - name: Pull code + composer + migrate on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: h88.seohost.pl
+          port: 57185
+          username: srv120601
+          key: ${{ secrets.SEOHOST_SSH_KEY }}
+          script: |
+            cd domains/qa.noskiem.org/noskiem_app
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:clear
