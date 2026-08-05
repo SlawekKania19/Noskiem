@@ -222,7 +222,7 @@
 
                     <div
                         id="location-picker-map"
-                        class="mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
+                        class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
                     ></div>
 
                     <input type="hidden" name="latitude" id="latitude-input" value="{{ old('latitude', $animal->latitude) }}">
