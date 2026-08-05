@@ -10,7 +10,7 @@
 
 @extends('layouts.public')
 
-@section('title', 'Noskiem.pl — Znajdziemy go noskiem')
+@section('title', 'Noskiem.org — Znajdziemy go noskiem')
 
 @section('content')
 
