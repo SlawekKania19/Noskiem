@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/animals', [AnimalController::class, 'index'])
     ->name('animals.index');
 
+// ** Mapa wszystkich zatwierdzonych ogłoszeń z pinezkami (filtry po stronie przeglądarki)
+Route::get('/map', [AnimalController::class, 'map'])
+    ->name('map.index');
+
 // ** Autouzupełnianie miejscowości w formularzach (min. 3 znaki, filtrowane po województwie)
 Route::get('/cities/search', [CityController::class, 'search'])
     ->middleware('throttle:60,1')

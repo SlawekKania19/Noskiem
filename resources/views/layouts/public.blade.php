@@ -23,6 +23,7 @@
             $navIsHome = request()->routeIs('home');
             $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
             $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
+            $navIsMap = request()->routeIs('map.index');
         @endphp
 
         {{-- ---------------------------
@@ -58,6 +59,7 @@
                         <a href="{{ route('home') }}" class="{{ $navIsHome ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Główna</a>
                         <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="{{ $navIsLost ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Zaginione</a>
                         <a href="{{ route('animals.index', ['status' => 'found']) }}" class="{{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Znalezione</a>
+                        <a href="{{ route('map.index') }}" class="{{ $navIsMap ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Mapa</a>
                         <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
                     </nav>
                     {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
@@ -177,15 +179,14 @@
                     </svg>
                     Znalezione
                 </a>
-                {{-- Więcej --}}
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-[11px] text-[#616657] transition active:transform-[scale(0.95)] active:text-[#283618]">
-                    <span class="h-0.5 w-8 rounded-full bg-transparent"></span>
+                {{-- Mapa --}}
+                <a href="{{ route('map.index') }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsMap ? 'font-semibold text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
+                    <span class="h-0.5 w-8 rounded-full {{ $navIsMap ? 'bg-[#283618]' : 'bg-transparent' }}"></span>
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <circle cx="5" cy="12" r="1.5"/>
-                        <circle cx="12" cy="12" r="1.5"/>
-                        <circle cx="19" cy="12" r="1.5"/>
+                        <path stroke-linejoin="round" d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2Z"/>
+                        <path d="M9 4v14M15 6v14"/>
                     </svg>
-                    Więcej
+                    Mapa
                 </a>
             </div>
         </nav>

@@ -2,6 +2,7 @@ import Alpine from 'alpinejs';
 import L from 'leaflet';
 import './animal-map';
 import cityPicker from './city-picker';
+import animalsMap from './animals-map';
 
 window.Alpine = Alpine;
 window.L = L;
@@ -11,5 +12,6 @@ window.L = L;
 Alpine.store('petMode', 'szukam');
 
 Alpine.data('cityPicker', cityPicker);
+Alpine.data('animalsMap', animalsMap);
 
 Alpine.start();

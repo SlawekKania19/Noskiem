@@ -85,9 +85,14 @@
         <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Poszukiwane</h2>
-                <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                    Zobacz wszystkie
-                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
+                        Zobacz wszystkie
+                    </a>
+                    <a href="{{ route('map.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
+                        Zobacz na mapie
+                    </a>
+                </div>
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -107,9 +112,14 @@
         <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
                 <h2 class="text-[20px] font-semibold text-[#283618]">Widziane</h2>
-                <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                    Zobacz wszystkie
-                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
+                        Zobacz wszystkie
+                    </a>
+                    <a href="{{ route('map.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
+                        Zobacz na mapie
+                    </a>
+                </div>
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

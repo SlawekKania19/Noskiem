@@ -22,6 +22,17 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             window.addEventListener('location-resolving', () => { this.resolving = true; });
             window.addEventListener('location-resolved-end', () => { this.resolving = false; });
             window.addEventListener('location-resolved', (event) => this.applyResolvedLocation(event.detail));
+            // ** Reset "z zewnątrz" (np. przycisk "Wyczyść filtry" na stronie mapy) —
+            // komponent trzyma stan sam, więc rodzic nie może go po prostu nadpisać
+            window.addEventListener('city-picker-reset', () => this.reset());
+        },
+
+        reset() {
+            this.voivodeshipId = '';
+            this.cityId = '';
+            this.query = '';
+            this.results = [];
+            this.open = false;
         },
 
         applyResolvedLocation(detail) {
@@ -36,12 +47,15 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             this.open = false;
         },
 
-        // ** Zmiana województwa czyści wybraną miejscowość — lista wyników jej dotyczyła
+        // ** Zmiana województwa czyści wybraną miejscowość — lista wyników jej dotyczyła.
+        // Dispatch (bąbelkujący) pozwala rodzicowi (np. filtrom na stronie mapy) zareagować
+        // bez dwukierunkowego bindowania stanu między osobnymi zakresami Alpine.
         onVoivodeshipChange() {
             this.cityId = '';
             this.query = '';
             this.results = [];
             this.open = false;
+            this.$dispatch('city-picker-change', { voivodeshipId: this.voivodeshipId, cityId: this.cityId });
         },
 
         // ** Ręczna edycja tekstu unieważnia wcześniejszy wybór, dopóki użytkownik nie kliknie podpowiedzi
@@ -52,6 +66,7 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             if (!this.voivodeshipId || this.query.trim().length < 3) {
                 this.results = [];
                 this.open = false;
+                this.$dispatch('city-picker-change', { voivodeshipId: this.voivodeshipId, cityId: this.cityId });
                 return;
             }
 
@@ -85,6 +100,7 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             this.query = city.name_pl;
             this.results = [];
             this.open = false;
+            this.$dispatch('city-picker-change', { voivodeshipId: this.voivodeshipId, cityId: this.cityId });
         },
     };
 }

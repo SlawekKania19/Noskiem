@@ -46,6 +46,49 @@ class AnimalController extends Controller
         ]);
     }
 
+    // Wyświetla mapę wszystkich zatwierdzonych ogłoszeń z pinezkami (GET /map). Filtry działają
+    // po stronie przeglądarki (Alpine) — cały zbiór trafia do widoku od razu, dzięki temu zmiana
+    // filtra nie resetuje przybliżenia/przesunięcia mapy tak jak przeładowanie strony na /animals.
+    public function map(Request $request)
+    {
+        $animals = Animal::where('mod_status', 'approved')
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->with(['species', 'breed', 'voivodeship', 'city', 'photos', 'colors'])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function (Animal $animal) {
+                $mainPhoto = $animal->photos->firstWhere('is_main', true) ?? $animal->photos->first();
+
+                return [
+                    'id' => $animal->id,
+                    'lat' => (float) $animal->latitude,
+                    'lng' => (float) $animal->longitude,
+                    'status' => $animal->status,
+                    'title' => $animal->generated_title,
+                    'location' => $animal->location_text ?: ($animal->city->name_pl ?? null),
+                    'thumbnail' => $mainPhoto ? asset('storage/'.$mainPhoto->path) : null,
+                    'url' => route('animals.show', $animal),
+                    'species_id' => $animal->species_id,
+                    'breed_id' => $animal->breed_id,
+                    'voivodeship_id' => $animal->voivodeship_id,
+                    'city_id' => $animal->city_id,
+                    'color_ids' => $animal->colors->pluck('id')->all(),
+                ];
+            })
+            ->values();
+
+        return view('animals.map', [
+            'animals' => $animals,
+            'species' => Species::orderBy('sortkey')->get(),
+            'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
+            'breeds' => Breed::orderBy('breed_pl')->get(),
+            'colors' => Color::orderBy('name')->get(),
+            // ** Wstępny filtr statusu z query stringa — obsługuje link "Zobacz na mapie" ze strony głównej
+            'initialStatus' => $request->get('status', ''),
+        ]);
+    }
+
     // Zwraca listę zatwierdzonych ogłoszeń w formacie JSON — używane przez GET /api/animals.
     public function indexJson()
     {
