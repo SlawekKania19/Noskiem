@@ -93,10 +93,86 @@ export function initLocationPicker(elementId, options = {}) {
 
     map.on('click', (e) => setPosition(e.latlng.lat, e.latlng.lng));
 
+    if (options.locateButtonId) {
+        setupLocateButton(options.locateButtonId, options.locateErrorId, map, setPosition);
+    }
+
     return map;
 }
 
 window.initLocationPicker = initLocationPicker;
+
+// ---------------------------
+// Przycisk "Użyj mojej bieżącej lokalizacji" — przeglądarkowe Geolocation API.
+// Wymaga bezpiecznego originu (https lub localhost), więc na starcie sprawdzamy
+// tylko dostępność API — przycisk celowo nie jest ukrywany przy braku zgody,
+// błąd użytkownik zobaczy dopiero po kliknięciu (patrz locateErrorMessage).
+// ---------------------------
+function setupLocateButton(buttonId, errorId, map, setPosition) {
+    const button = document.getElementById(buttonId);
+
+    if (!button) {
+        return;
+    }
+
+    const errorEl = errorId ? document.getElementById(errorId) : null;
+    const defaultLabel = button.textContent;
+
+    const showError = (message) => {
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+    };
+
+    const hideError = () => {
+        if (errorEl) {
+            errorEl.classList.add('hidden');
+        }
+    };
+
+    if (!navigator.geolocation) {
+        button.disabled = true;
+        button.title = 'Twoja przeglądarka nie obsługuje geolokalizacji';
+        return;
+    }
+
+    button.addEventListener('click', () => {
+        hideError();
+        button.disabled = true;
+        button.textContent = 'Lokalizowanie...';
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                button.disabled = false;
+                button.textContent = defaultLabel;
+
+                const { latitude, longitude } = position.coords;
+                map.setView([latitude, longitude], 16);
+                setPosition(latitude, longitude);
+            },
+            (error) => {
+                button.disabled = false;
+                button.textContent = defaultLabel;
+                showError(locateErrorMessage(error));
+            },
+            { enableHighAccuracy: true, timeout: 10000 },
+        );
+    });
+}
+
+function locateErrorMessage(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            return 'Brak zgody na dostęp do lokalizacji — sprawdź uprawnienia witryny w przeglądarce.';
+        case error.POSITION_UNAVAILABLE:
+            return 'Nie udało się ustalić Twojej lokalizacji.';
+        case error.TIMEOUT:
+            return 'Upłynął limit czasu podczas ustalania lokalizacji, spróbuj ponownie.';
+        default:
+            return 'Nie udało się pobrać lokalizacji.';
+    }
+}
 
 // ---------------------------
 // Odwrotne geokodowanie pinezki (lat/lng -> województwo/miejscowość) przez Nominatim,

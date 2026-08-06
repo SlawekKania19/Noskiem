@@ -270,6 +270,15 @@
                     <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Wskaż lokalizację na mapie</label>
                     <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby zmienić pinezkę w miejscu zdarzenia.</p>
 
+                    <button
+                        type="button"
+                        id="locate-me-button"
+                        class="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[#e5e5dc] bg-white px-3 py-1.5 text-[12px] font-medium text-[#283618] transition hover:border-[#283618] active:transform-[scale(0.97)] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        📍 Użyj mojej bieżącej lokalizacji
+                    </button>
+                    <p id="locate-me-error" class="mt-1 hidden text-[12px] text-[#994d0a]"></p>
+
                     <div
                         id="location-picker-map"
                         class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
@@ -293,6 +302,8 @@
                                 latInputId: 'latitude-input',
                                 lngInputId: 'longitude-input',
                                 locationTextInputId: 'location-text-input',
+                                locateButtonId: 'locate-me-button',
+                                locateErrorId: 'locate-me-error',
                             });
                         });
                     </script>

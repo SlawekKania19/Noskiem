@@ -311,6 +311,15 @@
                 <div class="mt-4">
                     <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia — poniższe pola uzupełnią się automatycznie, <strong>upewnij się, że są poprawne.</strong></p>
 
+                    <button
+                        type="button"
+                        id="locate-me-button"
+                        class="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[#e5e5dc] bg-white px-3 py-1.5 text-[12px] font-medium text-[#283618] transition hover:border-[#283618] active:transform-[scale(0.97)] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        📍 Użyj mojej bieżącej lokalizacji
+                    </button>
+                    <p id="locate-me-error" class="mt-1 hidden text-[12px] text-[#994d0a]"></p>
+
                     {{-- ** isolate — tworzy osobny kontekst stackowania, żeby z-index kontrolek Leaflet (do 1000) nie "wyciekał" nad elementy fixed (baner ciasteczek, dolna nawigacja mobilna) --}}
                     <div
                         id="location-picker-map"
@@ -335,6 +344,8 @@
                                 latInputId: 'latitude-input',
                                 lngInputId: 'longitude-input',
                                 locationTextInputId: 'location-text-input',
+                                locateButtonId: 'locate-me-button',
+                                locateErrorId: 'locate-me-error',
                             });
                         });
                     </script>
