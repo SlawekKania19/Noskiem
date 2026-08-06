@@ -56,7 +56,8 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            'animal_name'    => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
+            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
+            'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'chip_present'   => 'boolean',
             'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],
@@ -150,7 +151,8 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            'animal_name'    => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
+            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
+            'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'chip_present'   => 'boolean',
             'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],

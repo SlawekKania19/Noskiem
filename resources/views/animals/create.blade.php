@@ -122,11 +122,15 @@
                             type="text"
                             name="animal_name"
                             value="{{ old('animal_name') }}"
-                            required
+                            :required="status === 'lost'"
                             pattern="[\p{L}\s\-]+"
                             title="Tylko litery"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >
+                        {{-- ** Przy "Znaleziony" imię prawie nigdy nie jest znane --}}
+                        <p class="mt-1 text-[12px] text-[#8f9485]" x-show="status === 'found'" x-cloak>
+                            Podaj tylko jeśli masz pewność - np. jeśli zwierzak ma zawieszkę lub obrożę z imieniem
+                        </p>
                         @error('animal_name')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                         @enderror
