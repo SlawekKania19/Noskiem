@@ -17,7 +17,15 @@ class ColorsSeeder extends Seeder
             ['name' => 'Rudy'],
             ['name' => 'Kremowy'],
             ['name' => 'Beżowy'],
+            ['name' => 'Szylkret'],
+            ['name' => 'Łaciaty'],
+            ['name' => 'Pręgowany'],
             ['name' => 'Złoty'],
+            ['name' => 'Zielony'],
+            ['name' => 'Niebieski'],
+            ['name' => 'Żółty'],
+            ['name' => 'Czerwony'],
+            ['name' => 'Inny'],
         ]);
     }
 }
