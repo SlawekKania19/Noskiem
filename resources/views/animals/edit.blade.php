@@ -231,8 +231,23 @@
                     />
                 </div>
 
-                <div class="mt-4">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis lokalizacji</label>
+                <div
+                    class="mt-4"
+                    x-data="{ resolving: false }"
+                    @location-resolving.window="resolving = true"
+                    @location-resolved-end.window="resolving = false"
+                >
+                    <label class="flex items-center gap-1.5 text-[12px] uppercase tracking-wide text-[#8f9485]">
+                        Opis lokalizacji
+                        {{-- ** Kręcący się spinner na czas odczytu miasta/województwa z kliknięcia na mapie --}}
+                        <span x-show="resolving" x-cloak class="inline-flex items-center gap-1 normal-case tracking-normal text-[#8f9485]">
+                            <svg class="h-3 w-3 animate-spin" viewBox="0 0 24 24" fill="none">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            Ustalam dokładną lokalizację pinezki...
+                        </span>
+                    </label>
                     <input
                         type="text"
                         name="location_text"

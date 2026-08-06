@@ -105,6 +105,10 @@ window.initLocationPicker = initLocationPicker;
 // Błędy są ciche: to tylko podpowiedź, formularz da się wypełnić ręcznie.
 // ---------------------------
 async function resolveLocation(lat, lng, options = {}) {
+    // ** Start/koniec zgłaszamy zawsze (finally) — formularz pokazuje spinner przy polu
+    // "Opis lokalizacji" na czas zapytania, patrz x-data w create/edit.blade.php
+    window.dispatchEvent(new CustomEvent('location-resolving'));
+
     try {
         const params = new URLSearchParams({ lat, lng });
         const response = await fetch(`/location/reverse?${params}`, {
@@ -131,5 +135,7 @@ async function resolveLocation(lat, lng, options = {}) {
         window.dispatchEvent(new CustomEvent('location-resolved', { detail: data }));
     } catch {
         // ** Ciszej się nie da — to tylko podpowiedź, nie blokujemy formularza
+    } finally {
+        window.dispatchEvent(new CustomEvent('location-resolved-end'));
     }
 }
