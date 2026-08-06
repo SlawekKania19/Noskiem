@@ -53,7 +53,10 @@ class AnimalEditResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Tytuł')
                     ->searchable()
-                    ->limit(45),
+                    ->limit(45)
+                    ->tooltip(fn ($record) => $record->title)
+                    // ** Stała szerokość + obcięcie CSS, żeby długie tytuły nie wymuszały scrolla poziomego tabeli
+                    ->extraAttributes(['class' => 'truncate max-w-[110px] block']),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('Typ')
@@ -112,13 +115,15 @@ class AnimalEditResource extends Resource
                     ->default('pending'),
             ])
             ->actions([
-                Actions\ViewAction::make()->label('Otwórz'),
+                // ** Same ikony zamiast przycisków z tekstem — oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
+                Actions\ViewAction::make()->label('Otwórz')->iconButton(),
 
                 // Szybkie zatwierdzenie z listy
                 Actions\Action::make('approve')
                     ->label('Zatwierdź')
                     ->icon('heroicon-o-check')
                     ->color('success')
+                    ->iconButton()
                     ->requiresConfirmation()
                     ->modalHeading('Zatwierdzić zgłoszenie?')
                     ->modalDescription('Ogłoszenie zostanie opublikowane na stronie.')
@@ -137,6 +142,7 @@ class AnimalEditResource extends Resource
                     ->label('Odrzuć')
                     ->icon('heroicon-o-x-mark')
                     ->color('danger')
+                    ->iconButton()
                     ->modalHeading('Odrzuć zgłoszenie')
                     ->form([
                         Textarea::make('reason')

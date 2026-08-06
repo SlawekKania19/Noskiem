@@ -186,7 +186,10 @@ class AnimalResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Tytuł')
                     ->searchable()
-                    ->limit(40),
+                    ->limit(45)
+                    ->tooltip(fn ($record) => $record->title)
+                    // ** Stała szerokość + obcięcie CSS, żeby długie tytuły nie wymuszały scrolla poziomego tabeli
+                    ->extraAttributes(['class' => 'truncate max-w-[160px] block']),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('Typ')
@@ -249,8 +252,9 @@ class AnimalResource extends Resource
                     ->relationship('species', 'name_pl'),
             ])
             ->actions([
-                Actions\ViewAction::make(),
-                Actions\EditAction::make(),
+                // ** Same ikony zamiast przycisków z tekstem — oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
+                Actions\ViewAction::make()->iconButton(),
+                Actions\EditAction::make()->iconButton(),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
