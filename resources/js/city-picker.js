@@ -11,11 +11,16 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
         results: [],
         open: false,
         loading: false,
+        resolving: false,
         debounceTimer: null,
 
         // ** Nasłuch na wynik odwrotnego geokodowania pinezki z mapy (patrz animal-map.js).
         // Zdarzenie globalne, bo mapa i to pole żyją w osobnych zakresach Alpine.
+        // Pola blokujemy na czas trwania zapytania, żeby użytkownik nie edytował ich
+        // w momencie, w którym zaraz zostaną nadpisane wynikiem geokodowania.
         init() {
+            window.addEventListener('location-resolving', () => { this.resolving = true; });
+            window.addEventListener('location-resolved-end', () => { this.resolving = false; });
             window.addEventListener('location-resolved', (event) => this.applyResolvedLocation(event.detail));
         },
 

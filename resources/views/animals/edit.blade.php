@@ -23,7 +23,10 @@
             x-data="{
                 chipPresent: {{ old('chip_present', $animal->chip_present) ? 'true' : 'false' }},
                 status: @json(old('status', $animal->status)),
+                locationResolving: false,
             }"
+            @location-resolving.window="locationResolving = true"
+            @location-resolved-end.window="locationResolving = false"
             class="mt-8 space-y-8"
         >
             @csrf
@@ -255,7 +258,8 @@
                         value="{{ old('location_text', $animal->location_text) }}"
                         placeholder="np. Bronowice, Kraków"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                        :disabled="resolving"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden disabled:cursor-not-allowed disabled:bg-[#f5f5f0]"
                     >
                     @error('location_text')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -370,7 +374,8 @@
 
             <button
                 type="submit"
-                class="w-full rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition-colors hover:bg-[#1e2812] sm:w-auto"
+                :disabled="locationResolving"
+                class="w-full rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition-colors hover:bg-[#1e2812] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
                 Zapisz zmiany
             </button>

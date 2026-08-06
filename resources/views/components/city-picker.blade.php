@@ -34,8 +34,9 @@
             name="{{ $voivodeshipName }}"
             x-model="voivodeshipId"
             @change="onVoivodeshipChange()"
+            :disabled="resolving"
             @if ($required) required @endif
-            class="{{ $fieldClass }}"
+            class="{{ $fieldClass }} disabled:cursor-not-allowed disabled:bg-[#f5f5f0]"
         >
             <option value="">{{ $voivodeshipPlaceholder }}</option>
             @foreach ($voivodeships as $v)
@@ -57,7 +58,7 @@
             @input="onQueryInput()"
             @focus="if (results.length) open = true"
             @click.outside="open = false"
-            :disabled="!voivodeshipId"
+            :disabled="!voivodeshipId || resolving"
             autocomplete="off"
             @if ($required) required @endif
             placeholder="{{ $cityPlaceholder }}"

@@ -66,6 +66,7 @@
                 speciesId: @json($initialSpeciesId),
                 breedId: @json($initialBreedId),
                 breedsList: @json($breedsForJs),
+                locationResolving: false,
                 getUnknownBreedId(speciesId) {
                     const unknown = this.breedsList.find(
                         (b) => String(b.species_id) === String(speciesId) && b.breed_pl === "Nie wiem"
@@ -73,6 +74,8 @@
                     return unknown ? String(unknown.id) : "";
                 },
             }'
+            @location-resolving.window="locationResolving = true"
+            @location-resolved-end.window="locationResolving = false"
             class="mt-8 space-y-8"
         >
             @csrf
@@ -370,7 +373,8 @@
                         value="{{ old('location_text') }}"
                         placeholder="np. Bronowice, Kraków"
                         required
-                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                        :disabled="resolving"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden disabled:cursor-not-allowed disabled:bg-[#f5f5f0]"
                     >
                     @error('location_text')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
@@ -572,7 +576,8 @@
 
             <button
                 type="submit"
-                class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.98)] active:bg-[#161f0c] sm:w-auto"
+                :disabled="locationResolving"
+                class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.98)] active:bg-[#161f0c] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
                 Wyślij zgłoszenie
             </button>
