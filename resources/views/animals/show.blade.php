@@ -173,6 +173,18 @@
                             <dd class="mt-1 text-[14px] text-[#283618]">{{ $locationLabel }}</dd>
                         </div>
                     @endif
+                    @if ($animal->city)
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Miejscowość</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->city->name_pl }}</dd>
+                        </div>
+                    @endif
+                    @if ($animal->voivodeship)
+                        <div>
+                            <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Województwo</dt>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->voivodeship->name_pl }}</dd>
+                        </div>
+                    @endif
                     @if ($animal->colors->isNotEmpty())
                         <div>
                             <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Kolory</dt>
