@@ -31,7 +31,7 @@ jobs:
           strip_components: 2
 
       - name: Pull code + composer + migrate on server
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: h88.seohost.pl
           port: 57185
