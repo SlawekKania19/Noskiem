@@ -59,8 +59,9 @@
             {{ $statusLabel }}
         </span>
 
-        {{-- ** Tytuł --}}
-        <p class="mt-2 truncate text-[15px] font-semibold text-[#1e2612]" title="{{ $cardTitle }}">
+        {{-- ** Tytuł — na mobile (bez hover) tooltip jest niedostępny, więc zawijamy do 2 wierszy;
+             od sm w górę wracamy do jednej linii z wielokropkiem i tooltipem po najechaniu --}}
+        <p class="mt-2 line-clamp-2 text-[15px] font-semibold text-[#1e2612] sm:truncate sm:line-clamp-none" title="{{ $cardTitle }}">
             {{ $cardTitle }}
         </p>
 
@@ -69,9 +70,10 @@
             <p class="truncate text-[12px] text-[#616657]">{{ $animal->breed->breed_pl }}</p>
         @endif
 
-        {{-- ** Lokalizacja — skrócona do dwóch ostatnich części, pełna w tooltipie --}}
+        {{-- ** Lokalizacja — skrócona do dwóch ostatnich części, pełna w tooltipie.
+             Na mobile (bez hover) zawijamy do 2 wierszy zamiast ucinać w jednej linii --}}
         @if ($locationLabel)
-            <p class="mt-1 truncate text-[11px] text-[#8f9485]" title="{{ $locationLabel }}">📍 {{ $cardLocationLabel }}</p>
+            <p class="mt-1 line-clamp-2 text-[11px] text-[#8f9485] sm:truncate sm:line-clamp-none" title="{{ $locationLabel }}">📍 {{ $cardLocationLabel }}</p>
         @endif
     </div>
 </a>
