@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\TitleGenerator;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -78,5 +80,20 @@ class Animal extends Model
     public function moderationLogs(): HasMany
     {
         return $this->hasMany(ModerationLog::class);
+    }
+
+    // ** Tytuł liczony na bieżąco z aktualnego szablonu (Ustawienia w panelu), a nie z kolumny
+    // `title` zapisanej przy zgłoszeniu/edycji — dzięki temu zmiana szablonu w panelu od razu
+    // widoczna jest na wszystkich ogłoszeniach, bez potrzeby ich ponownego zapisywania
+    protected function generatedTitle(): Attribute
+    {
+        return Attribute::get(fn () => TitleGenerator::generate([
+            'animal_name'      => $this->animal_name,
+            'species_name'     => $this->species?->name_pl,
+            'breed_name'       => $this->breed?->breed_pl,
+            'city_name'        => $this->city?->name_pl,
+            'voivodeship_name' => $this->voivodeship?->name_pl,
+            'status'           => $this->status,
+        ]));
     }
 }

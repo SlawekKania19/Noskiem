@@ -21,8 +21,16 @@
     // ** Lokalizacja — preferujemy tekst podany przez zgłaszającego, potem nazwę miasta
     $locationLabel = $animal->location_text ?: ($animal->city->name_pl ?? null);
 
-    // ** Tytuł karty — tytuł ogłoszenia (generowany automatycznie, osobny szablon dla lost/found)
-    $cardTitle = $animal->title;
+    // ** Na miniaturce mało miejsca na pełny adres — pokazujemy tylko dwie ostatnie części
+    // (np. "Skaryszewska 40, Wola, Warszawa" -> "Wola, Warszawa"), pełna wersja w tooltipie
+    $locationParts = $locationLabel ? array_map('trim', explode(',', $locationLabel)) : [];
+    $cardLocationLabel = count($locationParts) > 2
+        ? implode(', ', array_slice($locationParts, -2))
+        : $locationLabel;
+
+    // ** Tytuł karty liczony na bieżąco z aktualnego szablonu (Ustawienia), nie z zapisanej
+    // kolumny `title` — zmiana szablonu w panelu jest od razu widoczna na wszystkich kartach
+    $cardTitle = $animal->generated_title;
 @endphp
 
 <a
@@ -52,7 +60,7 @@
         </span>
 
         {{-- ** Tytuł --}}
-        <p class="mt-2 truncate text-[15px] font-semibold text-[#1e2612]">
+        <p class="mt-2 truncate text-[15px] font-semibold text-[#1e2612]" title="{{ $cardTitle }}">
             {{ $cardTitle }}
         </p>
 
@@ -61,9 +69,9 @@
             <p class="truncate text-[12px] text-[#616657]">{{ $animal->breed->breed_pl }}</p>
         @endif
 
-        {{-- ** Lokalizacja --}}
+        {{-- ** Lokalizacja — skrócona do dwóch ostatnich części, pełna w tooltipie --}}
         @if ($locationLabel)
-            <p class="mt-1 truncate text-[11px] text-[#8f9485]">📍 {{ $locationLabel }}</p>
+            <p class="mt-1 truncate text-[11px] text-[#8f9485]" title="{{ $locationLabel }}">📍 {{ $cardLocationLabel }}</p>
         @endif
     </div>
 </a>
