@@ -69,7 +69,7 @@
                 locationResolving: false,
                 getUnknownBreedId(speciesId) {
                     const unknown = this.breedsList.find(
-                        (b) => String(b.species_id) === String(speciesId) && b.breed_pl === "Nie wiem"
+                        (b) => String(b.species_id) === String(speciesId) && b.breed_pl === "Rasa nieznana"
                     );
                     return unknown ? String(unknown.id) : "";
                 },
