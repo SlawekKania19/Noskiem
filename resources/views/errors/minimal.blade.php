@@ -17,18 +17,44 @@
         </style>
     </head>
     <body class="antialiased bg-white text-black">
-        <div class="relative flex items-top justify-center min-h-screen bg-white text-black sm:items-center sm:pt-0" role="main">
-            <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
-                    <h1 class="px-4 text-lg text-black border-r border-gray-400">
-                        @yield('code')
-                    </h1>
+        {{-- ** Style inline zamiast klas Tailwind — ta strona nie przechodzi przez Vite (musi
+             renderować się nawet gdy build assetów jest uszkodzony), więc ma tylko wąski,
+             ręcznie wklejony zestaw klas utility powyżej --}}
+        <div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center;" role="main">
 
-                    <div class="ml-4 text-lg text-black">
-                        @yield('message')
-                    </div>
+            {{-- Logo + nazwa marki (jak w głównym layoucie, wyśrodkowane) --}}
+            <a href="/" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:40px; text-decoration:none;">
+                <svg style="height:56px; width:56px; color:#283618;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+                    <path d="M 120 212 C 120 212 55 140 55 94 C 55 56 84 28 120 28 C 156 28 185 56 185 94 C 185 140 120 212 120 212 Z"
+                        fill="none" stroke="#283618" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 104 74 L 136 74 C 142 74 144 80 140 85 L 126 101 C 123 105 117 105 114 101 L 100 85 C 96 80 98 74 104 74 Z" fill="#283618"/>
+                    <g fill="none" stroke="#283618" stroke-width="8" stroke-linecap="round">
+                        <path d="M 120 104 L 120 112"/>
+                        <path d="M 120 112 C 120 122 110 126 102 121"/>
+                        <path d="M 120 112 C 120 122 130 126 138 121"/>
+                        <path d="M 70 78 L 90 82" stroke-width="7"/>
+                        <path d="M 72 98 L 91 95" stroke-width="7"/>
+                        <path d="M 170 78 L 150 82" stroke-width="7"/>
+                        <path d="M 168 98 L 149 95" stroke-width="7"/>
+                    </g>
+                </svg>
+                <span style="font-size:24px; color:#283618;"><strong>noskiem</strong>.org</span>
+            </a>
+
+            <div style="display:flex; align-items:center;">
+                <h1 style="padding-right:16px; margin:0; font-size:18px; color:#000; border-right:1px solid #cbd5e0;">
+                    @yield('code')
+                </h1>
+
+                <div style="margin-left:16px; font-size:18px; color:#000;">
+                    @yield('message')
                 </div>
             </div>
+
+            {{-- Powrót na stronę główną --}}
+            <a href="/" style="margin-top:40px; font-size:14px; color:#283618; text-decoration:underline;">
+                Wróć do strony głównej
+            </a>
         </div>
     </body>
 </html>
