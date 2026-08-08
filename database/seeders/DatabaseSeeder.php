@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             SpeciesSeeder::class,
             BreedsSeeder::class,
             ColorsSeeder::class,
+            BehaviorsSeeder::class,
+            IdentMarksTagsSeeder::class,
             VoivodeshipsSeeder::class,
             CitiesSeeder::class,
             AnimalSeeder::class,

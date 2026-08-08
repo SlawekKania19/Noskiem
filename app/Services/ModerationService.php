@@ -46,6 +46,7 @@ class ModerationService
                     'description'    => $edit->description,
                     'animal_name'    => $edit->animal_name,
                     'ident_marks'    => $edit->ident_marks,
+                    'behavior'       => $edit->behavior,
                     'chip_present'   => $edit->chip_present,
                     'chip_number'    => $edit->chip_number,
                     'species_id'     => $edit->species_id,
@@ -65,7 +66,7 @@ class ModerationService
                 // ** Edycja istniejącego ogłoszenia
                 $animal = $edit->animal;
                 $animal->update($edit->only([
-                    'status', 'title', 'description', 'animal_name', 'ident_marks',
+                    'status', 'title', 'description', 'animal_name', 'ident_marks', 'behavior',
                     'chip_present', 'chip_number', 'species_id', 'breed_id',
                     'date_event', 'voivodeship_id', 'city_id', 'location_text',
                     'latitude', 'longitude', 'contact_name', 'contact_email', 'contact_phone',
@@ -143,7 +144,7 @@ class ModerationService
         $animal = $edit->animal;
 
         $fields = [
-            'status', 'title', 'description', 'animal_name', 'ident_marks',
+            'status', 'title', 'description', 'animal_name', 'ident_marks', 'behavior',
             'chip_present', 'chip_number', 'species_id', 'breed_id',
             'date_event', 'voivodeship_id', 'city_id', 'location_text',
             'latitude', 'longitude', 'contact_name', 'contact_email', 'contact_phone',

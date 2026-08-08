@@ -204,6 +204,11 @@
                     <p class="mt-2 whitespace-pre-line text-[14px] leading-relaxed text-[#616657]">{{ $animal->ident_marks }}</p>
                 @endif
 
+                @if ($animal->behavior)
+                    <h2 class="mt-8 text-[16px] font-semibold text-[#283618]">Zachowanie</h2>
+                    <p class="mt-2 whitespace-pre-line text-[14px] leading-relaxed text-[#616657]">{{ $animal->behavior }}</p>
+                @endif
+
                 {{-- ** Zgłoszenie "widziałem" — formularz sightings dodamy w kolejnym kroku --}}
                 <a
                     href="#"

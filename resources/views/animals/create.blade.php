@@ -5,26 +5,6 @@
     $locationHintLost = \App\Models\Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.');
     $locationHintFound = \App\Models\Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.');
 
-    // Podpowiedzi znaków szczególnych — edytowalne w panelu (Ustawienia), jedna fraza w linii.
-    // Wartość domyślna zgodna z App\Filament\Pages\Settings::mount()
-    $identMarksTagsDefault = implode("\n", [
-        'Blizna',
-        'Kulawizna',
-        'Zez',
-        'Brak ucha',
-        'Przycięty ogon',
-        'Łaciata sierść',
-        'Duża plama/znamię',
-        'Różnokolorowe oczy (heterochromia)',
-        'Obroża',
-        'Sterylizowany/kastrowany',
-    ]);
-    $identMarksTags = collect(explode("\n", \App\Models\Setting::get('create_form_ident_marks_tags', $identMarksTagsDefault)))
-        ->map(fn ($tag) => trim($tag))
-        ->filter()
-        ->values()
-        ->all();
-
     // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
     // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
     $initialStatus = old('status', request('status', ''));
@@ -227,15 +207,49 @@
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                     @enderror
 
-                    @if ($identMarksTags)
+                    @if ($identMarksTags->isNotEmpty())
                         <div class="mt-2 flex flex-wrap gap-2">
                             @foreach ($identMarksTags as $tag)
                                 <button
                                     type="button"
-                                    @click="addTag(@js($tag))"
+                                    @click="addTag(@js($tag->name))"
                                     class="cursor-pointer rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition hover:border-[#283618] hover:text-[#283618] active:transform-[scale(0.96)] active:bg-[#f4f4ef]"
                                 >
-                                    {{ $tag }}
+                                    {{ $tag->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <div class="mt-4" x-data="{
+                    addTag(tag) {
+                        const el = this.$refs.behavior;
+                        el.value = el.value.trim() ? el.value.trim() + ', ' + tag : tag;
+                        el.dispatchEvent(new Event('input'));
+                    },
+                }">
+                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Zachowanie (opcjonalnie)</label>
+                    <textarea
+                        name="behavior"
+                        rows="2"
+                        x-ref="behavior"
+                        placeholder="Opisz zachowanie zwierzaka lub dodaj z listy poniżej"
+                        class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                    >{{ old('behavior') }}</textarea>
+                    @error('behavior')
+                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                    @enderror
+
+                    @if ($behaviors->isNotEmpty())
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            @foreach ($behaviors as $b)
+                                <button
+                                    type="button"
+                                    @click="addTag(@js($b->name))"
+                                    class="cursor-pointer rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition hover:border-[#283618] hover:text-[#283618] active:transform-[scale(0.96)] active:bg-[#f4f4ef]"
+                                >
+                                    {{ $b->name }}
                                 </button>
                             @endforeach
                         </div>

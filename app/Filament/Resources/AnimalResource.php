@@ -102,6 +102,11 @@ class AnimalResource extends Resource
                         ->rows(2)
                         ->columnSpan(2),
 
+                    Textarea::make('behavior')
+                        ->label('Zachowanie')
+                        ->rows(2)
+                        ->columnSpan(2),
+
                     Toggle::make('chip_present')->label('Chip')->live()->columnSpan(2),
 
                     TextInput::make('chip_number')
@@ -308,6 +313,7 @@ class AnimalResource extends Resource
                     TextEntry::make('breed.breed_pl')->label('Rasa'),
                     TextEntry::make('description')->label('Opis')->columnSpan(2),
                     TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
+                    TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
                     IconEntry::make('chip_present')->label('Chip')->boolean(),
                     TextEntry::make('chip_number')->label('Numer chipa'),
                 ]),

@@ -48,18 +48,6 @@ class Settings extends Page implements HasForms
             'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.'),
             'animal_title_template_lost' => Setting::get('animal_title_template_lost', TitleGenerator::DEFAULT_TEMPLATE_LOST),
             'animal_title_template_found' => Setting::get('animal_title_template_found', TitleGenerator::DEFAULT_TEMPLATE_FOUND),
-            'create_form_ident_marks_tags' => Setting::get('create_form_ident_marks_tags', implode("\n", [
-                'Blizna',
-                'Kulawizna',
-                'Zez',
-                'Brak ucha',
-                'Przycięty ogon',
-                'Łaciata sierść',
-                'Duża plama/znamię',
-                'Różnokolorowe oczy (heterochromia)',
-                'Obroża',
-                'Sterylizowany/kastrowany',
-            ])),
         ]);
     }
 
@@ -136,12 +124,6 @@ class Settings extends Page implements HasForms
                             ->label('Tekst — status "Znaleziony"')
                             ->required()
                             ->rows(2),
-
-                        Textarea::make('create_form_ident_marks_tags')
-                            ->label('Znaki szczególne — podpowiedzi')
-                            ->helperText('Jedna fraza w linii — pojawi się jako przycisk pod polem "Znaki szczególne".')
-                            ->required()
-                            ->rows(6),
 
                         Textarea::make('create_form_location_hint_lost')
                             ->label('Tekst pod "Lokalizacja" — status "Zaginiony"')

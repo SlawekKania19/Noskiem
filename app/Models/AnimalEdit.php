@@ -23,6 +23,7 @@ class AnimalEdit extends Model
         'description',
         'animal_name',
         'ident_marks',
+        'behavior',
         'chip_present',
         'chip_number',
         'species_id',

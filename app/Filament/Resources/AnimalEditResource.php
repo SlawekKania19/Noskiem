@@ -215,6 +215,7 @@ class AnimalEditResource extends Resource
                         ->columnSpan(2),
                     TextEntry::make('description')->label('Opis')->columnSpan(2),
                     TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
+                    TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
                     TextEntry::make('chip_present')
                         ->label('Chip')
                         ->formatStateUsing(fn ($state) => $state ? 'Tak' : 'Nie'),
@@ -290,6 +291,7 @@ class AnimalEditResource extends Resource
                                 'description'    => 'Opis',
                                 'animal_name'    => 'Imię',
                                 'ident_marks'    => 'Znaki szczególne',
+                                'behavior'       => 'Zachowanie',
                                 'chip_present'   => 'Chip',
                                 'chip_number'    => 'Numer chipa',
                                 'species_id'     => 'Gatunek (ID)',

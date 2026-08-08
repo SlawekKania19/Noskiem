@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\AnimalEdit;
+use App\Models\Behavior;
 use App\Models\Breed;
 use App\Models\City;
 use App\Models\Color;
+use App\Models\IdentMarksTag;
 use App\Models\Species;
 use App\Models\Voivodeship;
 use App\Services\ImageCompressor;
@@ -46,6 +48,8 @@ class AnimalEditController extends Controller
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'colors' => Color::orderBy('name')->get(),
+            'behaviors' => Behavior::orderBy('name')->get(),
+            'identMarksTags' => IdentMarksTag::orderBy('name')->get(),
             'selectedCityName' => City::find(old('city_id'))?->name_pl,
         ]);
     }
@@ -59,6 +63,7 @@ class AnimalEditController extends Controller
             // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
             'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
+            'behavior'       => 'nullable|string',
             'chip_present'   => 'boolean',
             'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],
             'species_id'     => 'required|exists:species,id',
@@ -137,6 +142,8 @@ class AnimalEditController extends Controller
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'colors' => Color::orderBy('name')->get(),
+            'behaviors' => Behavior::orderBy('name')->get(),
+            'identMarksTags' => IdentMarksTag::orderBy('name')->get(),
             'selectedCityName' => City::find($selectedCityId)?->name_pl,
         ]);
     }
@@ -154,6 +161,7 @@ class AnimalEditController extends Controller
             // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
             'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
+            'behavior'       => 'nullable|string',
             'chip_present'   => 'boolean',
             'chip_number'    => ['nullable', 'max:50', 'regex:/^[0-9]*$/'],
             'species_id'     => 'required|exists:species,id',
