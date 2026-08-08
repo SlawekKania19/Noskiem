@@ -2,24 +2,28 @@
 
 namespace Database\Seeders;
 
+use App\Models\IdentMarksTag;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class IdentMarksTagsSeeder extends Seeder
 {
+    // ** firstOrCreate zamiast insert — seeder jest uruchamiany przy każdym deployu
+    // (deploy-qa.yml), więc musi być bezpieczny do wielokrotnego wykonania
     public function run(): void
     {
-        DB::table('ident_marks_tags')->insert([
-            ['name' => 'Blizna'],
-            ['name' => 'Kulawizna'],
-            ['name' => 'Zez'],
-            ['name' => 'Brak ucha'],
-            ['name' => 'Przycięty ogon'],
-            ['name' => 'Łaciata sierść'],
-            ['name' => 'Duża plama/znamię'],
-            ['name' => 'Różnokolorowe oczy (heterochromia)'],
-            ['name' => 'Obroża'],
-            ['name' => 'Sterylizowany/kastrowany'],
-        ]);
+        foreach ([
+            'Blizna',
+            'Kulawizna',
+            'Zez',
+            'Brak ucha',
+            'Przycięty ogon',
+            'Łaciata sierść',
+            'Duża plama/znamię',
+            'Różnokolorowe oczy (heterochromia)',
+            'Obroża',
+            'Sterylizowany/kastrowany',
+        ] as $name) {
+            IdentMarksTag::firstOrCreate(['name' => $name]);
+        }
     }
 }

@@ -42,4 +42,6 @@ jobs:
             git pull origin main
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
+            php artisan db:seed --class=BehaviorsSeeder --force
+            php artisan db:seed --class=IdentMarksTagsSeeder --force
             php artisan config:clear

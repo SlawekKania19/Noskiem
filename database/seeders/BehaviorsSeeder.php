@@ -2,21 +2,25 @@
 
 namespace Database\Seeders;
 
+use App\Models\Behavior;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BehaviorsSeeder extends Seeder
 {
+    // ** firstOrCreate zamiast insert — seeder jest uruchamiany przy każdym deployu
+    // (deploy-qa.yml), więc musi być bezpieczny do wielokrotnego wykonania
     public function run(): void
     {
-        DB::table('behaviors')->insert([
-            ['name' => 'Agresywny'],
-            ['name' => 'Płochliwy'],
-            ['name' => 'Reaguje na imię'],
-            ['name' => 'Nie reaguje na imię'],
-            ['name' => 'Głuchy'],
-            ['name' => 'Niewidomy'],
-            ['name' => 'Przyjazny'],
-        ]);
+        foreach ([
+            'Agresywny',
+            'Płochliwy',
+            'Reaguje na imię',
+            'Nie reaguje na imię',
+            'Głuchy',
+            'Niewidomy',
+            'Przyjazny',
+        ] as $name) {
+            Behavior::firstOrCreate(['name' => $name]);
+        }
     }
 }
