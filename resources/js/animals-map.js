@@ -194,7 +194,7 @@ function popupHtml(animal) {
                     </svg>
                     Przybliż
                 </button>
-                <a href="${escapeHtml(animal.url)}" target="_blank" rel="noopener noreferrer" class="text-[12px] font-semibold text-[#283618] underline hover:text-[#1e2812]">Zobacz pełne ogłoszenie →</a>
+                <a href="${escapeHtml(animal.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex cursor-pointer items-center gap-1 text-[12px] font-semibold text-[#616657] hover:text-[#283618]">Szczegóły</a>
             </div>
         </div>
     `;
