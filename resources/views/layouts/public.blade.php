@@ -29,6 +29,7 @@
             $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
             $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
             $navIsMap = request()->routeIs('map.index');
+            $navIsCreate = request()->routeIs('animals.create');
         @endphp
 
         {{-- ---------------------------
@@ -164,19 +165,40 @@
                     </svg>
                     Zaginione
                 </a>
-                {{-- Dodaj ogłoszenie — wyróżniony, centralny przycisk --}}
-                <a
-                    href="{{ route('animals.create') }}"
-                    :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
-                    aria-label="Dodaj ogłoszenie"
-                    class="flex flex-col items-center justify-center -translate-y-3 transition active:transform-[scale(0.90)]"
-                >
-                    <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)] transition active:bg-[#161f0c]">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14M5 12h14"/>
-                        </svg>
-                    </span>
-                </a>
+                @if ($navIsCreate)
+                    {{-- Na formularzu nowego ogłoszenia ten sam, najbardziej "klikalny" przycisk
+                         zamienia się w zapis formularza zamiast linku do /animals/create — użytkownicy
+                         odruchowo w niego klikają, a link do tej samej strony powodował pełne
+                         przeładowanie i utratę wpisanych danych. Walidacja/zapis to już sprawa formularza. --}}
+                    <button
+                        type="submit"
+                        form="animal-create-form"
+                        aria-label="Zapisz ogłoszenie"
+                        class="flex flex-col items-center justify-center -translate-y-3 transition active:transform-[scale(0.90)]"
+                    >
+                        <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)] transition active:bg-[#161f0c]">
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <path d="M17 21V13H7v8"/>
+                                <path d="M7 3v5h8"/>
+                            </svg>
+                        </span>
+                    </button>
+                @else
+                    {{-- Dodaj ogłoszenie — wyróżniony, centralny przycisk --}}
+                    <a
+                        href="{{ route('animals.create') }}"
+                        :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
+                        aria-label="Dodaj ogłoszenie"
+                        class="flex flex-col items-center justify-center -translate-y-3 transition active:transform-[scale(0.90)]"
+                    >
+                        <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)] transition active:bg-[#161f0c]">
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                        </span>
+                    </a>
+                @endif
                 {{-- Znalezione --}}
                 <a href="{{ route('animals.index', ['status' => 'found']) }}" class="flex flex-col items-center justify-center gap-1 text-[11px] {{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657]' }} transition active:transform-[scale(0.95)] active:text-[#283618]">
                     <span class="h-0.5 w-8 rounded-full {{ $navIsFound ? 'bg-[#283618]' : 'bg-transparent' }}"></span>

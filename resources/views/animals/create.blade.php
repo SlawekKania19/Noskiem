@@ -41,6 +41,7 @@
         </p>
 
         <form
+            id="animal-create-form"
             method="POST"
             action="{{ route('animals.store') }}"
             enctype="multipart/form-data"
