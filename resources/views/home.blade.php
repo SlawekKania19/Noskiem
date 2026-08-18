@@ -40,13 +40,16 @@
                 </button>
             </div>
             {{-- ** Nagłówek i opis — treść zależna od wybranego trybu --}}
+            {{-- ** Wariant "szukam" bez x-cloak — to domyślny stan `mode`, więc jest widoczny
+                 od pierwszego renderu (bez Alpine); dzięki temu h1/p nie startują puste i nie
+                 "wyskakują" na pełną wysokość dopiero po hydratacji (przyczyna złego CLS) --}}
             <h1 class="mt-8 text-[32px] sm:text-[44px] font-semibold leading-tight text-[#283618]">
-                <span x-show="mode === 'szukam'" x-cloak>{{ $heroHeadlineLost }}</span>
+                <span x-show="mode === 'szukam'">{{ $heroHeadlineLost }}</span>
                 <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroHeadlineFound }}</span>
             </h1>
 
             <p class="mt-4 max-w-2xl mx-auto text-[15px] sm:text-[16px] text-[#616657]">
-                <span x-show="mode === 'szukam'" x-cloak>{{ $heroDescriptionLost }}</span>
+                <span x-show="mode === 'szukam'">{{ $heroDescriptionLost }}</span>
                 <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroDescriptionFound }}</span>
             </p>
 
