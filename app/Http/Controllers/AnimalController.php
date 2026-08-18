@@ -16,11 +16,16 @@ use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
-    // Wyświetla listę zatwierdzonych ogłoszeń z obsługą filtrów (gatunek, rasa, województwo, miasto, status, kolor). Renderuje widok publiczny (animals.index).
+    // Wyświetla listę zatwierdzonych ogłoszeń z obsługą filtrów (gatunek, rasa, województwo, miasto, status, kolor) oraz wyszukiwarki tekstowej (q). Renderuje widok publiczny (animals.index).
     public function index(Request $request)
     {
+        $searchTerm = $request->filled('q') ? $this->toFulltextBooleanQuery((string) $request->input('q')) : '';
+
         $animals = Animal::where('mod_status', 'approved')
             ->with(['species', 'breed', 'voivodeship', 'city', 'photos'])
+            ->when($searchTerm !== '', fn ($q) => $q
+                ->whereRaw('MATCH(search_index) AGAINST(? IN BOOLEAN MODE)', [$searchTerm])
+                ->orderByRaw('MATCH(search_index) AGAINST(? IN BOOLEAN MODE) DESC', [$searchTerm]))
             ->when($request->filled('species_id'), fn ($q) => $q->where('species_id', $request->species_id))
             ->when($request->filled('breed_id'), fn ($q) => $q->where('breed_id', $request->breed_id))
             ->when($request->filled('voivodeship_id'), fn ($q) => $q->where('voivodeship_id', $request->voivodeship_id))
@@ -30,7 +35,7 @@ class AnimalController extends Controller
                 'colors',
                 fn ($q2) => $q2->where('colors.id', $request->color_id)
             ))
-            ->orderBy('created_at', 'desc')
+            ->when($searchTerm === '', fn ($q) => $q->orderBy('created_at', 'desc'))
             ->get();
 
         // ** Listy słownikowe do formularza filtrów. Miejscowości nie wczytujemy w całości
@@ -116,6 +121,18 @@ class AnimalController extends Controller
             'city',
             'photos',
         ]);
+    }
+
+    // Zamienia frazę wpisaną przez użytkownika na zapytanie MySQL BOOLEAN MODE: usuwa znaki
+    // specjalne tego trybu (+ - > < ( ) ~ * " @), żeby nie psuły składni, i dla każdego słowa
+    // dopisuje "+" (wymagane, żeby kilka słów zwężało wynik, nie rozszerzało) oraz "*" na końcu
+    // (dopasowanie po prefiksie, np. "labrad" -> "labrador").
+    private function toFulltextBooleanQuery(string $term): string
+    {
+        $cleaned = preg_replace('/[+\-><()~*"@]+/', ' ', $term);
+        $words = array_filter(preg_split('/\s+/', trim($cleaned)), fn ($w) => $w !== '');
+
+        return implode(' ', array_map(fn ($w) => '+'.$w.'*', $words));
     }
 
     // Usuwa konkretne ogłoszenie zwierzęcia wraz ze wszystkimi powiązanymi zdjęciami. Zwraca odpowiedź w formacie JSON z komunikatem o powodzeniu operacji.

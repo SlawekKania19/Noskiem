@@ -83,6 +83,10 @@ class ModerationService
 
             $animal->colors()->sync($edit->colors()->pluck('colors.id'));
 
+            // Kolory dołączone przez sync() nie przechodzą przez cykl zapisu modelu Animal,
+            // więc trzeba explicit odświeżyć search_index już z aktualnym stanem kolorów
+            $animal->load('colors')->syncSearchIndex();
+
             $edit->update(['mod_status' => 'approved']);
 
             ModerationLog::create([
