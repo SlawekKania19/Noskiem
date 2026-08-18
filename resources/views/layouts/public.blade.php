@@ -12,7 +12,7 @@
         <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body x-data="{}" class="font-['Inter'] antialiased text-[#283618] bg-white">
+    <body x-data="{}" class="font-[Inter,ui-sans-serif,system-ui,sans-serif] antialiased text-[#283618] bg-white">
         @php
             // ---------------------------
             // Aktywna sekcja nawigacji — podświetlamy link do strony, na której użytkownik faktycznie jest
@@ -49,7 +49,7 @@
                                     <path d="M 168 98 L 149 95" stroke-width="7"/>
                                 </g>
                             </svg>
-                         <span class="font-['Barlow'] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
+                         <span class="font-[Barlow,ui-sans-serif,system-ui,sans-serif] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>
                     {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
