@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 // Słownik zachowań (przyciski szybkiego dodawania w formularzu ogłoszenia)
 class BehaviorResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Behavior::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-face-smile';

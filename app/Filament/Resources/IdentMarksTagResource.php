@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 // Słownik podpowiedzi "znaków szczególnych" (przyciski szybkiego dodawania w formularzu ogłoszenia)
 class IdentMarksTagResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = IdentMarksTag::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';

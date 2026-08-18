@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 // Słownik gatunków zwierząt
 class SpeciesResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Species::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';

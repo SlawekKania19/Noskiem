@@ -24,6 +24,8 @@ use Illuminate\Support\Str;
 
 class PageResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Page::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';

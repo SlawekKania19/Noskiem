@@ -34,6 +34,20 @@ class AnimalEditResource extends Resource
     protected static ?string $pluralModelLabel = 'zgłoszenia';
     protected static ?int $navigationSort = 1;
 
+    // Moderacja — dostępna dla Admina i Moderatora (jedyny resource, do którego
+    // Moderator ma dostęp; resource ma tylko listę i podgląd, stąd tylko te dwie metody)
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+
+        return $user?->is_admin || $user?->is_moderator;
+    }
+
+    public static function canView($record): bool
+    {
+        return static::canViewAny();
+    }
+
     // ---------------------------
     // Tabela — lista zgłoszeń
     // ---------------------------

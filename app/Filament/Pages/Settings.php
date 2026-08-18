@@ -31,6 +31,11 @@ class Settings extends Page implements HasForms
     protected static ?string $navigationLabel = 'Ustawienia';
     protected static ?int $navigationSort = 100;
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->is_admin ?? false;
+    }
+
     public ?array $data = [];
 
     public function mount(): void

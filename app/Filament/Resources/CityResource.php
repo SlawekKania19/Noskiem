@@ -16,6 +16,8 @@ use Filament\Tables\Table;
 // Słownik miast — powiązane z województwem
 class CityResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = City::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-building-office';

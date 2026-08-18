@@ -33,6 +33,8 @@ use Filament\Tables\Table;
 
 class AnimalResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Animal::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';

@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 // Słownik województw
 class VoivodeshipResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Voivodeship::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-map';

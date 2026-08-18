@@ -16,6 +16,8 @@ use Filament\Tables\Table;
 // Słownik ras — powiązane z gatunkiem
 class BreedResource extends Resource
 {
+    use \App\Filament\Concerns\RestrictedToAdmin;
+
     protected static ?string $model = Breed::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-list-bullet';
