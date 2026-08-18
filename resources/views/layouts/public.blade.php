@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title', 'Noskiem.org — Znajdziemy go noskiem')</title>
+        <meta name="description" content="@yield('description', 'Zaginął Ci zwierzak lub znalazłeś zwierzaka? Noskiem.pl to ogólnopolska baza zgłoszeń zaginionych, znalezionych i widzianych zwierząt. Znajdziemy go noskiem.')">
 
         {{-- Fonty (Inter, Barlow) hostowane lokalnie — patrz resources/css/fonts.css --}}
 
