@@ -23,6 +23,10 @@
 
 @section('title', 'Dodaj ogłoszenie — Noskiem.pl')
 
+@push('styles')
+    @vite('resources/css/leaflet.css')
+@endpush
+
 @section('content')
 
     {{-- ---------------------------

@@ -1,0 +1,6 @@
+/*
+  Style Leaflet (mapa) — osobny wpis Vite, dociągany tylko na stronach z mapą
+  (animals/create, animals/edit, animals/show, animals/map), żeby strony bez
+  mapy (np. strona główna) nie płaciły za te ~14,5 KiB w swoim krytycznym CSS.
+*/
+@import 'leaflet/dist/leaflet.css' layer(base);

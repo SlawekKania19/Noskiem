@@ -11,6 +11,8 @@
 
         <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- Style dociągane tylko przez strony, które ich potrzebują (np. leaflet.css na stronach z mapą) --}}
+        @stack('styles')
     </head>
     <body x-data="{}" class="font-[Inter,ui-sans-serif,system-ui,sans-serif] antialiased text-[#283618] bg-white">
         @php
