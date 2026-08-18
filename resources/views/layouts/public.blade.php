@@ -9,10 +9,15 @@
 
         {{-- Fonty (Inter, Barlow) hostowane lokalnie — patrz resources/css/fonts.css --}}
 
+        {{-- Style/skrypty dociągane tylko przez strony, które ich potrzebują (np. Leaflet na
+             stronach z mapą) — MUSI stać przed głównym @vite() niżej: kolejność <script
+             type=module> w dokumencie decyduje o kolejności wykonania, a Alpine.data(...) z
+             tych wpisów musi się zarejestrować przed Alpine.start() z app.js (patrz komentarz
+             w resources/js/app.js) --}}
+        @stack('head-assets')
+
         <!-- Skrypty i style -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        {{-- Style dociągane tylko przez strony, które ich potrzebują (np. leaflet.css na stronach z mapą) --}}
-        @stack('styles')
     </head>
     <body x-data="{}" class="font-[Inter,ui-sans-serif,system-ui,sans-serif] antialiased text-[#283618] bg-white">
         @php

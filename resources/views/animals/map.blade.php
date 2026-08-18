@@ -12,8 +12,8 @@
 
 @section('title', 'Mapa zaginionych / odnalezionych zwierzaków — Noskiem.pl')
 
-@push('styles')
-    @vite('resources/css/leaflet.css')
+@push('head-assets')
+    @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
 @endpush
 
 @section('content')
