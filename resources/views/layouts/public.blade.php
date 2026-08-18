@@ -167,6 +167,7 @@
                 <a
                     href="{{ route('animals.create') }}"
                     :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
+                    aria-label="Dodaj ogłoszenie"
                     class="flex flex-col items-center justify-center -translate-y-3 transition active:transform-[scale(0.90)]"
                 >
                     <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#283618] text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.3)] transition active:bg-[#161f0c]">
