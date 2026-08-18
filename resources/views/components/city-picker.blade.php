@@ -28,9 +28,10 @@
 >
     <div class="min-w-0">
         @if ($showLabels)
-            <label class="{{ $labelClass }}">{{ $voivodeshipLabel }}</label>
+            <label for="{{ $voivodeshipName }}" class="{{ $labelClass }}">{{ $voivodeshipLabel }}</label>
         @endif
         <select
+            id="{{ $voivodeshipName }}"
             name="{{ $voivodeshipName }}"
             x-model="voivodeshipId"
             @change="onVoivodeshipChange()"
@@ -50,10 +51,11 @@
 
     <div class="relative min-w-0">
         @if ($showLabels)
-            <label class="{{ $labelClass }}">{{ $cityLabel }}</label>
+            <label for="{{ $cityName }}-query" class="{{ $labelClass }}">{{ $cityLabel }}</label>
         @endif
         <input
             type="text"
+            id="{{ $cityName }}-query"
             x-model="query"
             @input="onQueryInput()"
             @focus="if (results.length) open = true"

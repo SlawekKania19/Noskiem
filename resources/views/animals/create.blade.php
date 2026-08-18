@@ -100,9 +100,10 @@
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię zwierzaka</label>
+                        <label for="animal_name" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię zwierzaka</label>
                         <input
                             type="text"
+                            id="animal_name"
                             name="animal_name"
                             value="{{ old('animal_name') }}"
                             :required="status === 'lost'"
@@ -120,8 +121,9 @@
                     </div>
 
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</label>
+                        <label for="species_id" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</label>
                         <select
+                            id="species_id"
                             name="species_id"
                             x-model="speciesId"
                             @change="breedId = getUnknownBreedId(speciesId)"
@@ -139,8 +141,9 @@
                     </div>
 
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</label>
+                        <label for="breed_id" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</label>
                         <select
+                            id="breed_id"
                             name="breed_id"
                             x-model="breedId"
                             required
@@ -172,9 +175,10 @@
                     </div>
 
                     <div x-show="chipPresent" x-cloak>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Numer chipa</label>
+                        <label for="chip_number" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Numer chipa</label>
                         <input
                             type="text"
+                            id="chip_number"
                             name="chip_number"
                             value="{{ old('chip_number') }}"
                             pattern="[0-9]*"
@@ -195,8 +199,9 @@
                         el.dispatchEvent(new Event('input'));
                     },
                 }">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Znaki szczególne</label>
+                    <label for="ident_marks" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Znaki szczególne</label>
                     <textarea
+                        id="ident_marks"
                         name="ident_marks"
                         rows="3"
                         x-ref="identMarks"
@@ -229,8 +234,9 @@
                         el.dispatchEvent(new Event('input'));
                     },
                 }">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Zachowanie (opcjonalnie)</label>
+                    <label for="behavior" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Zachowanie (opcjonalnie)</label>
                     <textarea
+                        id="behavior"
                         name="behavior"
                         rows="2"
                         x-ref="behavior"
@@ -257,7 +263,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Kolory (można wybrać kilka)</label>
+                    <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Kolory (można wybrać kilka)</p>
                     <div class="mt-2 flex flex-wrap gap-2">
                         @foreach ($colors as $color)
                             <label class="cursor-pointer">
@@ -287,8 +293,9 @@
                 <h2 class="text-[16px] font-semibold text-[#283618]">Ogłoszenie</h2>
 
                 <div class="mt-3">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis</label>
+                    <label for="description" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Opis</label>
                     <textarea
+                        id="description"
                         name="description"
                         rows="5"
                         required
@@ -300,9 +307,10 @@
                 </div>
 
                 <div class="mt-4">
-                    <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Data zdarzenia</label>
+                    <label for="date_event" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Data zdarzenia</label>
                     <input
                         type="date"
+                        id="date_event"
                         name="date_event"
                         value="{{ old('date_event') }}"
                         required
@@ -380,7 +388,7 @@
                     @location-resolving.window="resolving = true"
                     @location-resolved-end.window="resolving = false"
                 >
-                    <label class="flex items-center gap-1.5 text-[12px] uppercase tracking-wide text-[#8f9485]">
+                    <label for="location-text-input" class="flex items-center gap-1.5 text-[12px] uppercase tracking-wide text-[#8f9485]">
                         Opis lokalizacji
                         {{-- ** Kręcący się spinner na czas odczytu miasta/województwa z kliknięcia na mapie --}}
                         <span x-show="resolving" x-cloak class="inline-flex items-center gap-1 normal-case tracking-normal text-[#8f9485]">
@@ -534,9 +542,10 @@
 
                 <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię i nazwisko</label>
+                        <label for="contact_name" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię i nazwisko</label>
                         <input
                             type="text"
+                            id="contact_name"
                             name="contact_name"
                             value="{{ old('contact_name') }}"
                             required
@@ -548,9 +557,10 @@
                     </div>
 
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">E-mail</label>
+                        <label for="contact_email" class="text-[12px] uppercase tracking-wide text-[#8f9485]">E-mail</label>
                         <input
                             type="email"
+                            id="contact_email"
                             name="contact_email"
                             value="{{ old('contact_email') }}"
                             required
@@ -562,9 +572,10 @@
                     </div>
 
                     <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon (opcjonalnie)</label>
+                        <label for="contact_phone" class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon (opcjonalnie)</label>
                         <input
                             type="text"
+                            id="contact_phone"
                             name="contact_phone"
                             value="{{ old('contact_phone') }}"
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
