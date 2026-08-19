@@ -11,9 +11,11 @@ use App\Models\Color;
 use App\Models\IdentMarksTag;
 use App\Models\Species;
 use App\Models\Voivodeship;
+use App\Mail\AnimalSubmissionReceived;
 use App\Services\ImageCompressor;
 use App\Services\TitleGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -120,6 +122,9 @@ class AnimalEditController extends Controller
                 'is_main' => $index === $mainPhotoIndex,
             ]);
         }
+
+        Mail::to($animalEdit->contact_email, $animalEdit->contact_name)
+            ->send(new AnimalSubmissionReceived($animalEdit));
 
         return redirect()->route('animals.index')
             ->with('success', 'Zgłoszenie zostało wysłane i oczekuje na moderację.');
