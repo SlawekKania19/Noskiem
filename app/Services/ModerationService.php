@@ -87,7 +87,7 @@ class ModerationService
             // więc trzeba explicit odświeżyć search_index już z aktualnym stanem kolorów
             $animal->load('colors')->syncSearchIndex();
 
-            $edit->update(['mod_status' => 'approved']);
+            $edit->update(['mod_status' => 'approved', 'approved_at' => now()]);
 
             ModerationLog::create([
                 'animal_id'      => $animal->id,

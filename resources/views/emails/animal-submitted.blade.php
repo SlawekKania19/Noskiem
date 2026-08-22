@@ -14,6 +14,12 @@
         wyślemy Ci wtedy kolejną wiadomość z linkiem do jego edycji.
     </p>
 
+    @if ($averageApprovalTime)
+        <p style="margin:0 0 16px; font-size:13px; line-height:1.6; color:#8f9485;">
+            Zatwierdzenie ogłoszenia średnio trwa ok. {{ $averageApprovalTime }} — postaramy się zrobić to jak najszybciej.
+        </p>
+    @endif
+
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4ef; border-radius:12px; margin:0 0 16px;">
         <tr>
             <td style="padding:20px;">

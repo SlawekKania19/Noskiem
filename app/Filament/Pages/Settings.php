@@ -53,6 +53,7 @@ class Settings extends Page implements HasForms
             'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.'),
             'animal_title_template_lost' => Setting::get('animal_title_template_lost', TitleGenerator::DEFAULT_TEMPLATE_LOST),
             'animal_title_template_found' => Setting::get('animal_title_template_found', TitleGenerator::DEFAULT_TEMPLATE_FOUND),
+            'approval_time_sample_size' => Setting::get('approval_time_sample_size', '10'),
         ]);
     }
 
@@ -139,6 +140,17 @@ class Settings extends Page implements HasForms
                             ->label('Tekst pod "Lokalizacja" — status "Znaleziony"')
                             ->required()
                             ->rows(2),
+                    ]),
+
+                Section::make('Czas moderacji')
+                    ->description('Średni czas zatwierdzenia (od zgłoszenia do zatwierdzenia) pokazywany w mailu potwierdzającym nowe zgłoszenie — liczony z ostatnich N zatwierdzonych ogłoszeń.')
+                    ->schema([
+                        TextInput::make('approval_time_sample_size')
+                            ->label('Liczba ostatnich zgłoszeń do liczenia średniej')
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(100)
+                            ->required(),
                     ]),
 
                 Section::make('Kontakt')

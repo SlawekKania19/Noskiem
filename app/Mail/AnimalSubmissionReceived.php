@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\AnimalEdit;
+use App\Services\ApprovalTimeEstimator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -29,6 +30,7 @@ class AnimalSubmissionReceived extends Mailable
         return $this
             ->subject('Otrzymaliśmy Twoje zgłoszenie — '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
+            ->with(['averageApprovalTime' => ApprovalTimeEstimator::humanAverage()])
             ->view('emails.animal-submitted');
     }
 }
