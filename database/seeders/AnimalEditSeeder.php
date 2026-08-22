@@ -216,7 +216,7 @@ class AnimalEditSeeder extends Seeder
         foreach ($edits as $data) {
             AnimalEdit::create(array_merge($data, [
                 'mod_status' => 'pending',
-                'edit_token' => Str::uuid(),
+                'edit_token' => (string) Str::uuid(),
             ]));
         }
     }

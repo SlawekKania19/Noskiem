@@ -216,7 +216,7 @@ class AnimalSeeder extends Seeder
         foreach ($animals as $data) {
             Animal::create(array_merge($data, [
                 'mod_status' => 'approved',
-                'edit_token' => Str::uuid(),
+                'edit_token' => (string) Str::uuid(),
             ]));
         }
     }

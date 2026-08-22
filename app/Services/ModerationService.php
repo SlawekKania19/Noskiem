@@ -63,7 +63,7 @@ class ModerationService
                     'contact_name'   => $edit->contact_name,
                     'contact_email'  => $edit->contact_email,
                     'contact_phone'  => $edit->contact_phone,
-                    'edit_token'     => $edit->edit_token ?? Str::uuid(),
+                    'edit_token'     => $edit->edit_token ?? (string) Str::uuid(),
                     'submitter_ip'   => $edit->submitter_ip,
                 ]);
             } else {

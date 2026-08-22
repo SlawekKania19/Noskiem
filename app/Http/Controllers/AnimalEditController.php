@@ -109,7 +109,10 @@ class AnimalEditController extends Controller
 
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
-        $data['edit_token'] = Str::uuid();
+        // ** (string) jest tu konieczne — Str::uuid() zwraca obiekt, a nie string. Przekazany
+        // bez rzutowania np. do route() (jak w AnimalSubmissionReceived) po cichu znika z
+        // query stringa zamiast się wystringować, więc link w mailu wychodzi bez tokenu.
+        $data['edit_token'] = (string) Str::uuid();
         $data['submitter_ip'] = $request->ip();
 
         $animalEdit = AnimalEdit::create($data);
