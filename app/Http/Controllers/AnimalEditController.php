@@ -12,6 +12,7 @@ use App\Models\IdentMarksTag;
 use App\Models\Species;
 use App\Models\User;
 use App\Models\Voivodeship;
+use App\Mail\AnimalDeletionConfirmed;
 use App\Mail\AnimalSubmissionReceived;
 use App\Mail\NewSubmissionForModeration;
 use App\Services\ImageCompressor;
@@ -250,11 +251,25 @@ class AnimalEditController extends Controller
             abort(403, 'Nieprawidłowy token – brak dostępu.');
         }
 
+        // ** Zbieramy dane do maila z potwierdzeniem PRZED usunięciem — jako zwykłe
+        // skalary, nie referencję do modelu, który za chwilę przestanie istnieć w bazie
+        $title = $animal->generated_title;
+        $animalId = $animal->id;
+        $contactName = $animal->contact_name;
+        $contactEmail = $animal->contact_email;
+
         foreach ($animal->photos as $photo) {
             \Storage::disk('public')->delete($photo->path);
         }
 
         $animal->delete();
+
+        try {
+            Mail::to($contactEmail, $contactName)
+                ->send(new AnimalDeletionConfirmed($title, $animalId, $contactName));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()->route('home')
             ->with('success', 'Ogłoszenie zostało usunięte.');
