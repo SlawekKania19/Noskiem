@@ -27,17 +27,19 @@
              nie powinien musieć przewijać całego formularza.
              --------------------------- --}}
         <div class="mt-4 flex flex-col gap-3 border-b border-[#e5e5dc] pb-6 sm:flex-row">
+            {{-- ** Etykieta zależna od typu ogłoszenia: "Zaginiony" -> zwierzak się znalazł,
+                 "Znaleziony" -> zwierzak trafił z powrotem do domu/właściciela --}}
             <form
                 method="POST"
                 action="{{ route('animals.resolve', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
-                onsubmit="return confirm('Czy na pewno zwierzak się znalazł? Ogłoszenie zniknie ze strony.');"
+                onsubmit="return confirm('{{ $animal->status === 'lost' ? 'Czy na pewno zwierzak się znalazł?' : 'Czy na pewno zwierzak trafił do domu?' }} Ogłoszenie zniknie ze strony.');"
             >
                 @csrf
                 <button
                     type="submit"
                     class="w-full cursor-pointer rounded-xl border border-[#3f6212] bg-[#dbe9d8] px-6 py-3 text-[14px] font-semibold text-[#3f6212] transition-colors hover:bg-[#c9dec4] sm:w-auto"
                 >
-                    Znaleziono zwierzaka
+                    {{ $animal->status === 'lost' ? 'Znaleziono zwierzaka' : 'Zwierzak trafił do domu' }}
                 </button>
             </form>
 
