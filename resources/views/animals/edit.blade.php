@@ -39,25 +39,28 @@
             <input type="hidden" name="token" value="{{ $animal->edit_token }}">
 
             {{-- ---------------------------
-                 Typ zgłoszenia
+                 Typ zgłoszenia — tylko podgląd, ten sam przełącznik co przy dodawaniu
+                 ogłoszenia, ale zablokowany: typu zgłoszenia nie da się zmienić po fakcie
                  --------------------------- --}}
             <section>
                 <h2 class="text-[16px] font-semibold text-[#283618]">Typ zgłoszenia</h2>
-                <div class="mt-3">
-                    <select
-                        name="status"
-                        x-model="status"
-                        required
-                        class="w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
+                <p class="mt-1 text-[12px] text-[#8f9485]">Typu zgłoszenia nie można zmienić po dodaniu ogłoszenia.</p>
+                <div class="mt-3 inline-flex items-center rounded-full border border-[#e5e5dc] bg-[#f4f4ef] p-1">
+                    <span
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold {{ old('status', $animal->status) === 'lost' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#a3a795]' }}"
                     >
-                        <option value="">Wybierz status</option>
-                        <option value="lost" @selected(old('status', $animal->status) === 'lost')>Zaginiony</option>
-                        <option value="found" @selected(old('status', $animal->status) === 'found')>Znaleziony</option>
-                    </select>
-                    @error('status')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
+                        Zaginiony
+                    </span>
+                    <span
+                        class="rounded-full px-6 py-2 text-[14px] font-semibold {{ old('status', $animal->status) === 'found' ? 'bg-[#283618] text-[#fefae0]' : 'text-[#a3a795]' }}"
+                    >
+                        Znaleziony
+                    </span>
                 </div>
+                <input type="hidden" name="status" value="{{ old('status', $animal->status) }}">
+                @error('status')
+                    <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                @enderror
             </section>
 
             {{-- ---------------------------
