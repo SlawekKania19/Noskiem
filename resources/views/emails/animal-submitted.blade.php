@@ -3,7 +3,8 @@
 @section('title', 'Otrzymaliśmy Twoje zgłoszenie')
 
 @section('content')
-    <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Dziękujemy, {{ $animalEdit->contact_name }}!</h1>
+    {{-- ** Samo imię — "Dziękujemy, Jan Kowalski!" wygląda sztywno, jeśli ktoś poda pełne imię i nazwisko --}}
+    <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Dziękujemy, {{ explode(' ', trim($animalEdit->contact_name))[0] }}!</h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Otrzymaliśmy Twoje zgłoszenie (#{{ $animalEdit->id }}) o {{ $animalEdit->status === 'lost' ? 'zaginionym' : 'znalezionym' }}
