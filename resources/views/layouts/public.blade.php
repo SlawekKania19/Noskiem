@@ -124,7 +124,7 @@
                         <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Informacje</p>
                         <ul class="mt-3 space-y-2 text-[14px]">
                             <li><a href="/regulamin" class="transition-colors hover:underline active:text-[#c9cdb8]">Regulamin</a></li>
-                            <li><a href="#" class="transition-colors hover:underline active:text-[#c9cdb8]">Polityka prywatności</a></li>
+                            <li><a href="/polityka-prywatnosci" class="transition-colors hover:underline active:text-[#c9cdb8]">Polityka prywatności</a></li>
                             <li><a href="#" class="transition-colors hover:underline active:text-[#c9cdb8]">Kontakt</a></li>
                         </ul>
                     </div>
