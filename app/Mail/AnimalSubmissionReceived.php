@@ -27,8 +27,8 @@ class AnimalSubmissionReceived extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Otrzymaliśmy Twoje zgłoszenie — {APP_NAME}')
-            ->replyTo('powiadomienia@noskiem.org', 'Noskiem.org')
+            ->subject('Otrzymaliśmy Twoje zgłoszenie — '.config('app.name'))
+            ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
             ->view('emails.animal-submitted');
     }
 }
