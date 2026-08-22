@@ -20,6 +20,42 @@
             Zmiany trafią do moderacji i zostaną opublikowane po zatwierdzeniu. Do tego czasu widoczna jest poprzednia wersja ogłoszenia.
         </p>
 
+        {{-- ---------------------------
+             Zarządzanie ogłoszeniem — poza głównym formularzem edycji, bo to osobne
+             akcje: działają od razu, bez moderacji (bezpośrednio przez edit_token).
+             Na górze, nie na dole — jeśli ktoś chce usunąć/oznaczyć jako znalezione,
+             nie powinien musieć przewijać całego formularza.
+             --------------------------- --}}
+        <div class="mt-4 flex flex-col gap-3 border-b border-[#e5e5dc] pb-6 sm:flex-row">
+            <form
+                method="POST"
+                action="{{ route('animals.resolve', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
+                onsubmit="return confirm('Czy na pewno zwierzak się znalazł? Ogłoszenie zniknie ze strony.');"
+            >
+                @csrf
+                <button
+                    type="submit"
+                    class="w-full cursor-pointer rounded-xl border border-[#3f6212] bg-[#dbe9d8] px-6 py-3 text-[14px] font-semibold text-[#3f6212] transition-colors hover:bg-[#c9dec4] sm:w-auto"
+                >
+                    Znaleziono zwierzaka
+                </button>
+            </form>
+
+            <form
+                method="POST"
+                action="{{ route('animals.selfDelete', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
+                onsubmit="return confirm('Czy na pewno chcesz usunąć to ogłoszenie? Tej operacji nie można cofnąć.');"
+            >
+                @csrf
+                <button
+                    type="submit"
+                    class="w-full cursor-pointer rounded-xl border border-[#994d0a] bg-white px-6 py-3 text-[14px] font-semibold text-[#994d0a] transition-colors hover:bg-[#fcecd1] sm:w-auto"
+                >
+                    Usuń ogłoszenie
+                </button>
+            </form>
+        </div>
+
         <form
             method="POST"
             action="{{ route('animals.update', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
@@ -454,40 +490,6 @@
                 Zapisz zmiany
             </button>
         </form>
-
-        {{-- ---------------------------
-             Zarządzanie ogłoszeniem — poza głównym formularzem edycji, bo to osobne
-             akcje: działają od razu, bez moderacji (bezpośrednio przez edit_token)
-             --------------------------- --}}
-        <div class="mt-6 flex flex-col gap-3 border-t border-[#e5e5dc] pt-6 sm:flex-row">
-            <form
-                method="POST"
-                action="{{ route('animals.resolve', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
-                onsubmit="return confirm('Czy na pewno zwierzak się znalazł? Ogłoszenie zniknie ze strony.');"
-            >
-                @csrf
-                <button
-                    type="submit"
-                    class="w-full cursor-pointer rounded-xl border border-[#3f6212] bg-[#dbe9d8] px-6 py-3 text-[14px] font-semibold text-[#3f6212] transition-colors hover:bg-[#c9dec4] sm:w-auto"
-                >
-                    Znaleziono zwierzaka
-                </button>
-            </form>
-
-            <form
-                method="POST"
-                action="{{ route('animals.selfDelete', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
-                onsubmit="return confirm('Czy na pewno chcesz usunąć to ogłoszenie? Tej operacji nie można cofnąć.');"
-            >
-                @csrf
-                <button
-                    type="submit"
-                    class="w-full cursor-pointer rounded-xl border border-[#994d0a] bg-white px-6 py-3 text-[14px] font-semibold text-[#994d0a] transition-colors hover:bg-[#fcecd1] sm:w-auto"
-                >
-                    Usuń ogłoszenie
-                </button>
-            </form>
-        </div>
     </div>
 
 @endsection
