@@ -29,6 +29,6 @@
     </table>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
-        Pozdrawiamy,<br>zespół noskiem.org
+        Pozdrawiamy,<br>Zespół noskiem.org
     </p>
 @endsection
