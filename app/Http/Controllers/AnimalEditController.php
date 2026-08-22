@@ -143,7 +143,7 @@ class AnimalEditController extends Controller
         }
 
         return redirect()->route('animals.index')
-            ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź skrzynkę e-mail i potwierdź adres, żeby ogłoszenie trafiło do moderacji.');
+            ->with('success', "Zgłoszenie zostało zapisane. Sprawdź skrzynkę {$animalEdit->contact_email} i potwierdź adres, żeby ogłoszenie trafiło do moderacji.");
     }
 
     // Potwierdza adres e-mail zgłaszającego (link z maila AnimalSubmissionReceived).
