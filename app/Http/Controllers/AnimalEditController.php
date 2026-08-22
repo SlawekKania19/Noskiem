@@ -10,8 +10,10 @@ use App\Models\City;
 use App\Models\Color;
 use App\Models\IdentMarksTag;
 use App\Models\Species;
+use App\Models\User;
 use App\Models\Voivodeship;
 use App\Mail\AnimalSubmissionReceived;
+use App\Mail\NewSubmissionForModeration;
 use App\Services\ImageCompressor;
 use App\Services\TitleGenerator;
 use Illuminate\Http\Request;
@@ -123,8 +125,29 @@ class AnimalEditController extends Controller
             ]);
         }
 
-        Mail::to($animalEdit->contact_email, $animalEdit->contact_name)
-            ->send(new AnimalSubmissionReceived($animalEdit));
+        // ** Zgłoszenie jest już zapisane w bazie — awaria wysyłki (zły adres, padły
+        // SMTP itp.) nie może zablokować odpowiedzi użytkownikowi, który realnie
+        // zgłoszenie dodał poprawnie. Błędy tylko logujemy.
+        try {
+            Mail::to($animalEdit->contact_email, $animalEdit->contact_name)
+                ->send(new AnimalSubmissionReceived($animalEdit));
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        // ** Osobno do każdego, nie jednym Mail::to([...]) — inaczej wszyscy moderatorzy
+        // widzieliby się nawzajem w nagłówku "Do" tej samej wiadomości. Też w try/catch,
+        // każdy z osobna — jeden zły adres nie może zablokować powiadomienia reszty.
+        $moderators = User::where('is_admin', true)->orWhere('is_moderator', true)->get();
+
+        foreach ($moderators as $moderator) {
+            try {
+                Mail::to($moderator->email, $moderator->name)
+                    ->send(new NewSubmissionForModeration($animalEdit));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
 
         return redirect()->route('animals.index')
             ->with('success', 'Zgłoszenie zostało wysłane i oczekuje na moderację.');
