@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Mail\AnimalSubmissionApproved;
+use App\Mail\AnimalSubmissionRejected;
 use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\ModerationLog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 // ---------------------------
@@ -35,7 +38,7 @@ class ModerationService
             throw new \RuntimeException('To zgłoszenie zostało już rozpatrzone.');
         }
 
-        return DB::transaction(function () use ($edit, $moderatorId): Animal {
+        $animal = DB::transaction(function () use ($edit, $moderatorId): Animal {
 
             // ** Nowe ogłoszenie — Animal jeszcze nie istnieje
             if ($edit->animal_id === null) {
@@ -98,6 +101,17 @@ class ModerationService
 
             return $animal;
         });
+
+        // ** Poza transakcją — mail nie może pójść, gdyby transakcja się jednak wycofała.
+        // W try/catch: nieudana wysyłka nie może zepsuć moderatorowi kliknięcia "Zatwierdź".
+        try {
+            Mail::to($animal->contact_email, $animal->contact_name)
+                ->send(new AnimalSubmissionApproved($animal));
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        return $animal;
     }
 
     // ---------------------------
@@ -128,6 +142,13 @@ class ModerationService
             'comment'        => $reason,
             'user_id'        => $moderatorId,
         ]);
+
+        try {
+            Mail::to($edit->contact_email, $edit->contact_name)
+                ->send(new AnimalSubmissionRejected($edit));
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 
     // ---------------------------

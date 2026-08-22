@@ -77,6 +77,14 @@ Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])
 Route::post('/animals/{animal}/edit', [AnimalEditController::class, 'update'])
     ->name('animals.update');
 
+// ** Bez moderacji — bezpośrednio przez zgłaszającego (token), zgodnie z zasadą,
+// że zmiana statusu / usunięcie własnego ogłoszenia nie wymaga zatwierdzenia
+Route::post('/animals/{animal}/resolve', [AnimalEditController::class, 'markResolved'])
+    ->name('animals.resolve');
+
+Route::post('/animals/{animal}/delete', [AnimalEditController::class, 'destroySelf'])
+    ->name('animals.selfDelete');
+
 // ---------------------------
 // ZGODA NA CIASTECZKA — zapisywana w sesji, patrz CookieConsentController
 // ---------------------------

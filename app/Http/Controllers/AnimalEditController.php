@@ -228,6 +228,38 @@ class AnimalEditController extends Controller
             ->with('success', 'Edycja została wysłana i oczekuje na moderację.');
     }
 
+    // Oznacza ogłoszenie jako rozwiązane ("Znaleziono zwierzaka") — bezpośrednio przez
+    // zgłaszającego (token), bez moderacji. Ogłoszenie znika z publicznych list, bo te
+    // filtrują po mod_status="approved" — "resolved" tam już nie pasuje.
+    public function markResolved(Animal $animal, Request $request)
+    {
+        if ($request->get('token') !== $animal->edit_token) {
+            abort(403, 'Nieprawidłowy token – brak dostępu.');
+        }
+
+        $animal->update(['mod_status' => 'resolved']);
+
+        return redirect()->route('home')
+            ->with('success', 'Super! Cieszymy się, że zwierzak się znalazł. Ogłoszenie zostało zdjęte ze strony.');
+    }
+
+    // Usuwa własne ogłoszenie — bezpośrednio przez zgłaszającego (token), bez moderacji
+    public function destroySelf(Animal $animal, Request $request)
+    {
+        if ($request->get('token') !== $animal->edit_token) {
+            abort(403, 'Nieprawidłowy token – brak dostępu.');
+        }
+
+        foreach ($animal->photos as $photo) {
+            \Storage::disk('public')->delete($photo->path);
+        }
+
+        $animal->delete();
+
+        return redirect()->route('home')
+            ->with('success', 'Ogłoszenie zostało usunięte.');
+    }
+
     // Wylicza tytuł ogłoszenia z szablonu w ustawieniach (App\Filament\Pages\Settings) —
     // użytkownik formularza publicznego tytułu nie wpisuje samodzielnie
     private function generateTitle(array $data): string
