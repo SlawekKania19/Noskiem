@@ -1,6 +1,6 @@
 @extends('emails.layout')
 
-@section('title', 'Otrzymaliśmy Twoje zgłoszenie')
+@section('title', 'Potwierdź adres e-mail')
 
 @section('content')
     {{-- ** Samo imię — "Dziękujemy, Jan Kowalski!" wygląda sztywno, jeśli ktoś poda pełne imię i nazwisko --}}
@@ -8,8 +8,27 @@
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Otrzymaliśmy Twoje zgłoszenie (#{{ $animalEdit->id }}) o {{ $animalEdit->status === 'lost' ? 'zaginionym' : 'znalezionym' }}
-        zwierzaku i trafiło ono do skrzynki moderatora. <br>
-        {{ $animalEdit->status === 'lost' ? 'Jest nam bardzo przykro że zaginął Ci zwierzak, ale zrobimy co w naszej mocy aby Ci pomóc.' : 'Bardzo się cieszymy, że udało Ci się znaleźć zwierzaka i chcesz pomóc go odnaleźć!' }}<br>
+        zwierzaku. {{ $animalEdit->status === 'lost' ? 'Jest nam bardzo przykro że zaginął Ci zwierzak, ale zrobimy co w naszej mocy aby Ci pomóc.' : 'Bardzo się cieszymy, że udało Ci się znaleźć zwierzaka i chcesz pomóc go odnaleźć!' }}
+    </p>
+
+    <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
+        <strong>Zanim zgłoszenie trafi do moderatorów, potwierdź proszę swój adres e-mail:</strong>
+    </p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+        <tr>
+            <td style="border-radius:10px; background-color:#283618;">
+                <a
+                    href="{{ $confirmUrl }}"
+                    style="display:inline-block; padding:12px 24px; color:#fefae0; font-size:14px; font-weight:600; text-decoration:none;"
+                >
+                    Potwierdź adres e-mail
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Gdy tylko zatwierdzimy Twoje ogłoszenie, pojawi się ono na stronie —
         wyślemy Ci wtedy kolejną wiadomość z linkiem do jego edycji.
     </p>

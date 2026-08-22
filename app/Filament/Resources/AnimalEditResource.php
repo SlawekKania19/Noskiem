@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AnimalEditResource\Pages;
 use App\Models\AnimalEdit;
 use App\Services\ModerationService;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -46,6 +47,18 @@ class AnimalEditResource extends Resource
     public static function canView($record): bool
     {
         return static::canViewAny();
+    }
+
+    // Ukrywa przed moderatorami nowe zgłoszenia, których zgłaszający jeszcze nie
+    // potwierdził adresu e-mail (patrz AnimalEditController::confirmEmail) — nie
+    // dotyczy edycji już zatwierdzonych ogłoszeń (animal_id != null), te nie
+    // przechodzą przez bramkę potwierdzenia maila.
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where(fn (Builder $query) => $query
+                ->whereNotNull('animal_id')
+                ->orWhereNotNull('email_verified_at'));
     }
 
     // ---------------------------

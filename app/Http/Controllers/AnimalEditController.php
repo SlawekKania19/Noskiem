@@ -130,6 +130,8 @@ class AnimalEditController extends Controller
         // ** Zgłoszenie jest już zapisane w bazie — awaria wysyłki (zły adres, padły
         // SMTP itp.) nie może zablokować odpowiedzi użytkownikowi, który realnie
         // zgłoszenie dodał poprawnie. Błędy tylko logujemy.
+        // Moderatorzy dostaną powiadomienie dopiero po potwierdzeniu maila —
+        // patrz confirmEmail() — więc tu wysyłamy tylko to jedno, z linkiem do potwierdzenia.
         try {
             Mail::to($animalEdit->contact_email, $animalEdit->contact_name)
                 ->send(new AnimalSubmissionReceived($animalEdit));
@@ -137,22 +139,40 @@ class AnimalEditController extends Controller
             report($e);
         }
 
-        // ** Osobno do każdego, nie jednym Mail::to([...]) — inaczej wszyscy moderatorzy
-        // widzieliby się nawzajem w nagłówku "Do" tej samej wiadomości. Też w try/catch,
-        // każdy z osobna — jeden zły adres nie może zablokować powiadomienia reszty.
-        $moderators = User::where('is_admin', true)->orWhere('is_moderator', true)->get();
+        return redirect()->route('animals.index')
+            ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź skrzynkę e-mail i potwierdź adres, żeby ogłoszenie trafiło do moderacji.');
+    }
 
-        foreach ($moderators as $moderator) {
-            try {
-                Mail::to($moderator->email, $moderator->name)
-                    ->send(new NewSubmissionForModeration($animalEdit));
-            } catch (\Throwable $e) {
-                report($e);
+    // Potwierdza adres e-mail zgłaszającego (link z maila AnimalSubmissionReceived).
+    // Dopiero po tym moderatorzy dostają powiadomienie o nowym zgłoszeniu — ochrona
+    // przed botami i fałszywymi adresami. Idempotentne: ponowne kliknięcie nie wysyła
+    // powiadomień drugi raz.
+    public function confirmEmail(AnimalEdit $animalEdit, Request $request)
+    {
+        if ($request->get('token') !== $animalEdit->edit_token) {
+            abort(403, 'Nieprawidłowy token – brak dostępu.');
+        }
+
+        if ($animalEdit->email_verified_at === null) {
+            $animalEdit->update(['email_verified_at' => now()]);
+
+            // ** Osobno do każdego, nie jednym Mail::to([...]) — inaczej wszyscy moderatorzy
+            // widzieliby się nawzajem w nagłówku "Do" tej samej wiadomości. Też w try/catch,
+            // każdy z osobna — jeden zły adres nie może zablokować powiadomienia reszty.
+            $moderators = User::where('is_admin', true)->orWhere('is_moderator', true)->get();
+
+            foreach ($moderators as $moderator) {
+                try {
+                    Mail::to($moderator->email, $moderator->name)
+                        ->send(new NewSubmissionForModeration($animalEdit));
+                } catch (\Throwable $e) {
+                    report($e);
+                }
             }
         }
 
         return redirect()->route('animals.index')
-            ->with('success', 'Zgłoszenie zostało wysłane i oczekuje na moderację.');
+            ->with('success', 'Dziękujemy za potwierdzenie! Twoje zgłoszenie trafiło do moderacji.');
     }
 
     // Wyświetla formularz edycji konkretnego ogłoszenia zwierzęcia, sprawdzając poprawność tokenu edycji. Jeśli token jest nieprawidłowy, zwraca błąd 403. Zwraca widok z formularzem edycji.

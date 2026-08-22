@@ -19,6 +19,7 @@ class AnimalEdit extends Model
         'mod_status',
         'mod_reject_reason',
         'approved_at',
+        'email_verified_at',
         'status',
         'title',
         'description',
@@ -58,6 +59,7 @@ class AnimalEdit extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'approved_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     // ** Relacje

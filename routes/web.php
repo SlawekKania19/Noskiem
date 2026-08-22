@@ -85,6 +85,11 @@ Route::post('/animals/{animal}/resolve', [AnimalEditController::class, 'markReso
 Route::post('/animals/{animal}/delete', [AnimalEditController::class, 'destroySelf'])
     ->name('animals.selfDelete');
 
+// ** Potwierdzenie adresu e-mail nowego zgłoszenia — dopiero po tym moderatorzy
+// dostają powiadomienie (patrz AnimalEditController::confirmEmail)
+Route::get('/animal-edits/{animalEdit}/confirm', [AnimalEditController::class, 'confirmEmail'])
+    ->name('animal-edits.confirm');
+
 // ---------------------------
 // ZGODA NA CIASTECZKA — zapisywana w sesji, patrz CookieConsentController
 // ---------------------------
