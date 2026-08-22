@@ -39,6 +39,17 @@ class AnimalEdit extends Model
         'contact_email',
         'contact_phone',
         'edit_token',
+        'submitter_ip',
+    ];
+
+    // ** Nigdy w JSON (m.in. publiczne /api/animal-edits/*) — edit_token daje pełny
+    // dostęp do edycji/usunięcia ogłoszenia bez logowania, submitter_ip/kontakt to
+    // dane wrażliwe zgłaszającego, który czeka na moderację.
+    protected $hidden = [
+        'edit_token',
+        'submitter_ip',
+        'contact_email',
+        'contact_phone',
     ];
 
     protected $casts = [

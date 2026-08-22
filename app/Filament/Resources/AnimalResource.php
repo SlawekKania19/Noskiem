@@ -339,6 +339,14 @@ class AnimalResource extends Resource
                 ]),
             ]),
 
+            Section::make('Dane techniczne')
+                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                ->schema([
+                    TextEntry::make('submitter_ip')
+                        ->label('Adres IP zgłaszającego')
+                        ->placeholder('Brak danych'),
+                ]),
+
             Section::make('Zdjęcia')->schema([
                 RepeatableEntry::make('photos')
                     ->label('')

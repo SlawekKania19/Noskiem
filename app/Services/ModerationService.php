@@ -64,6 +64,7 @@ class ModerationService
                     'contact_email'  => $edit->contact_email,
                     'contact_phone'  => $edit->contact_phone,
                     'edit_token'     => $edit->edit_token ?? Str::uuid(),
+                    'submitter_ip'   => $edit->submitter_ip,
                 ]);
             } else {
                 // ** Edycja istniejącego ogłoszenia
@@ -73,6 +74,7 @@ class ModerationService
                     'chip_present', 'chip_number', 'species_id', 'breed_id',
                     'date_event', 'voivodeship_id', 'city_id', 'location_text',
                     'latitude', 'longitude', 'contact_name', 'contact_email', 'contact_phone',
+                    'submitter_ip',
                 ]));
             }
 

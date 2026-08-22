@@ -38,6 +38,18 @@ class Animal extends Model
         'contact_email',
         'contact_phone',
         'edit_token',
+        'submitter_ip',
+    ];
+
+    // ** Nigdy w JSON (m.in. publiczne /api/animals) — edit_token daje pełny dostęp
+    // do edycji/usunięcia ogłoszenia bez logowania, submitter_ip/kontakt to dane
+    // wrażliwe. search_index to wewnętrzny szczegół implementacji wyszukiwarki.
+    protected $hidden = [
+        'edit_token',
+        'submitter_ip',
+        'contact_email',
+        'contact_phone',
+        'search_index',
     ];
 
     protected $casts = [

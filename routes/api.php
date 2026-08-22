@@ -22,7 +22,5 @@ Route::middleware('throttle:4,1')->group(function () {
 
     // TWORZENIE I EDYCJE
     Route::post('/animal-edits', [AnimalEditController::class, 'store']);
-    Route::get('/animal-edits/pending', [AnimalEditController::class, 'indexPending']);
-    Route::get('/animal-edits/{animalEdit}', [AnimalEditController::class, 'show']);
 });
 

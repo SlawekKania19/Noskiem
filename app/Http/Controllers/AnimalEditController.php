@@ -110,6 +110,7 @@ class AnimalEditController extends Controller
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
         $data['edit_token'] = Str::uuid();
+        $data['submitter_ip'] = $request->ip();
 
         $animalEdit = AnimalEdit::create($data);
         $animalEdit->colors()->sync($colors);
@@ -217,10 +218,11 @@ class AnimalEditController extends Controller
         $colors = $data['colors'] ?? [];
         unset($data['colors']);
 
-        $data['title']      = $this->generateTitle($data);
-        $data['animal_id']  = $animal->id;
-        $data['mod_status'] = 'pending';
-        $data['edit_token'] = $animal->edit_token;
+        $data['title']        = $this->generateTitle($data);
+        $data['animal_id']    = $animal->id;
+        $data['mod_status']   = 'pending';
+        $data['edit_token']   = $animal->edit_token;
+        $data['submitter_ip'] = $request->ip();
 
         $animalEdit = AnimalEdit::create($data);
         $animalEdit->colors()->sync($colors);
