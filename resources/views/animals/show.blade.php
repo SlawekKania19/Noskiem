@@ -250,6 +250,13 @@
                 <form method="POST" action="{{ route('messages.store', $animal) }}" class="mt-6 space-y-3">
                     @csrf
 
+                    {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+                         każde pole formularza; wypełnione = spam (patrz MessageController::store) --}}
+                    <div style="position:absolute; left:-9999px;" aria-hidden="true">
+                        <label for="website">Strona www</label>
+                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <div>
                         <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię i nazwisko</label>
                         <input

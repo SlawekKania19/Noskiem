@@ -68,7 +68,9 @@ Route::post('/animals', [AnimalEditController::class, 'store'])
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
     ->name('animals.show');
 
+// ** Limit na wypadek ataku botów — legalny użytkownik nie wysyła kilkunastu wiadomości w kilka minut
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
+    ->middleware('throttle:5,10')
     ->name('messages.store');
 
 Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])

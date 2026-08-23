@@ -18,6 +18,13 @@ class MessageController extends Controller
     // autora ogłoszenia i przekierowuje z powrotem do szczegółów ogłoszenia
     public function store(Request $request, Animal $animal)
     {
+        // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
+        // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
+        if ($request->filled('website')) {
+            return redirect()->route('animals.show', $animal)
+                ->with('success', 'Wiadomość została wysłana do zgłaszającego.');
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
