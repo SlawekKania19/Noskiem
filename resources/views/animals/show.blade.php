@@ -241,7 +241,7 @@
                             Pokaż numer
                         </button>
                         <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
-                            {{ $animal->contact_phone }}
+                            {{ $animal->formatted_phone }}
                         </p>
                     </div>
                 @endif
