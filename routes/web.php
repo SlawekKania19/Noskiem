@@ -62,17 +62,17 @@ Route::get('/location/reverse', [LocationController::class, 'reverse'])
 Route::get('/animals/create', [AnimalEditController::class, 'create'])
     ->name('animals.create');
 
-// ** Restrykcyjny limit — realny użytkownik nie zgłasza więcej niż jednego zaginięcia na 10 minut
+// ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals', [AnimalEditController::class, 'store'])
-    ->middleware('throttle:1,10')
+    ->middleware('throttle:animals-store')
     ->name('animals.store');
 
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
     ->name('animals.show');
 
-// ** Limit na wypadek ataku botów — legalny użytkownik nie wysyła kilkunastu wiadomości w kilka minut
+// ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
-    ->middleware('throttle:5,10')
+    ->middleware('throttle:messages-store')
     ->name('messages.store');
 
 Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])

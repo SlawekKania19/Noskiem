@@ -54,6 +54,8 @@ class Settings extends Page implements HasForms
             'animal_title_template_lost' => Setting::get('animal_title_template_lost', TitleGenerator::DEFAULT_TEMPLATE_LOST),
             'animal_title_template_found' => Setting::get('animal_title_template_found', TitleGenerator::DEFAULT_TEMPLATE_FOUND),
             'approval_time_sample_size' => Setting::get('approval_time_sample_size', '10'),
+            'rate_limit_animals_max' => Setting::get('rate_limit_animals_max', '1'),
+            'rate_limit_messages_max' => Setting::get('rate_limit_messages_max', '5'),
         ]);
     }
 
@@ -147,6 +149,24 @@ class Settings extends Page implements HasForms
                     ->schema([
                         TextInput::make('approval_time_sample_size')
                             ->label('Liczba ostatnich zgłoszeń do liczenia średniej')
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(100)
+                            ->required(),
+                    ]),
+
+                Section::make('Ochrona przed spamem')
+                    ->description('Limit liczby zgłoszeń na 10 minut z jednego adresu IP — ochrona przed botami.')
+                    ->schema([
+                        TextInput::make('rate_limit_animals_max')
+                            ->label('Zgłoszenia ogłoszeń / 10 min')
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(100)
+                            ->required(),
+
+                        TextInput::make('rate_limit_messages_max')
+                            ->label('Wiadomości do zgłaszającego / 10 min')
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(100)
