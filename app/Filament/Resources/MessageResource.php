@@ -113,6 +113,14 @@ class MessageResource extends Resource
                     ->prose(),
             ]),
 
+            Section::make('Dane techniczne')
+                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                ->schema([
+                    TextEntry::make('submitter_ip')
+                        ->label('Adres IP nadawcy')
+                        ->placeholder('Brak danych'),
+                ]),
+
             Section::make('Powiązane ogłoszenie')->schema([
                 Grid::make(2)->schema([
                     TextEntry::make('animal.title')->label('Tytuł ogłoszenia'),

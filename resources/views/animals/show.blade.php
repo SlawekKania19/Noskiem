@@ -276,6 +276,7 @@
                         @error('email')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                         @enderror
+                        <p class="mt-1 text-[12px] text-[#8f9485]">Twój adres email zostanie udostępniony wyłącznie autorowi ogłoszenia.</p>
                     </div>
 
                     <div>
@@ -287,6 +288,27 @@
                             class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
                         >{{ old('message') }}</textarea>
                         @error('message')
+                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- ** Akceptacja regulaminu i polityki prywatności + zgoda na udostępnienie danych autorowi ogłoszenia — wymagana przed wysłaniem --}}
+                    <div>
+                        <label class="flex items-start gap-2 text-[12px] text-[#616657]">
+                            <input
+                                type="checkbox"
+                                name="accept_terms"
+                                value="1"
+                                required
+                                class="mt-0.5 h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
+                            >
+                            <span>
+                                Akceptuję <a href="/regulamin" target="_blank" class="underline hover:text-[#283618]">regulamin</a>
+                                oraz <a href="/polityka-prywatnosci" target="_blank" class="underline hover:text-[#283618]">politykę prywatności</a>
+                                i zgadzam się na udostępnienie mojego imienia i nazwiska oraz adresu e-mail autorowi ogłoszenia w celu kontaktu.
+                            </span>
+                        </label>
+                        @error('accept_terms')
                             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
                         @enderror
                     </div>

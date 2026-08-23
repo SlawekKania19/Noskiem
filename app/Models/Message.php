@@ -16,6 +16,7 @@ class Message extends Model
         'name',
         'email',
         'message',
+        'submitter_ip',
     ];
 
     // ** Relacje
