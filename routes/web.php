@@ -10,6 +10,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SightingController;
 
 // ---------------------------
 // STRONA GŁÓWNA
@@ -74,6 +75,22 @@ Route::get('/animals/{animal}', [AnimalController::class, 'show'])
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
     ->middleware('throttle:messages-store')
     ->name('messages.store');
+
+// ** Zgłoszenie "też widziałem" pod ogłoszeniem (tylko status "found", patrz SightingController)
+Route::get('/animals/{animal}/sightings/create', [SightingController::class, 'create'])
+    ->name('sightings.create');
+
+Route::post('/animals/{animal}/sightings', [SightingController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('sightings.store');
+
+Route::get('/sightings/{sighting}/confirm', [SightingController::class, 'confirmEmail'])
+    ->name('sightings.confirm');
+
+// ** "Kontakt z autorem" w timeline — wiadomość do autora konkretnego zgłoszenia, nie ogłoszenia
+Route::post('/sightings/{sighting}/messages', [MessageController::class, 'storeForSighting'])
+    ->middleware('throttle:messages-store')
+    ->name('sightings.messages.store');
 
 Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])
     ->name('animals.edit');

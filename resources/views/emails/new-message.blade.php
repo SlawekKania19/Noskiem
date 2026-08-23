@@ -3,11 +3,22 @@
 @section('title', 'Nowa wiadomość w sprawie ogłoszenia')
 
 @section('content')
-    <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Nowa wiadomość w sprawie Twojego ogłoszenia</h1>
+    <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">
+        @if ($isSighting)
+            Nowa wiadomość w sprawie Twojego zgłoszenia
+        @else
+            Nowa wiadomość w sprawie Twojego ogłoszenia
+        @endif
+    </h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        {{ $contactMessage->name }} ({{ $contactMessage->email }}) napisał(a) w sprawie ogłoszenia
-        „{{ $animal->generated_title }}":
+        @if ($isSighting)
+            {{ $contactMessage->name }} ({{ $contactMessage->email }}) napisał(a) w sprawie Twojego zgłoszenia
+            "też widziałem" pod ogłoszeniem „{{ $animal->generated_title }}":
+        @else
+            {{ $contactMessage->name }} ({{ $contactMessage->email }}) napisał(a) w sprawie ogłoszenia
+            „{{ $animal->generated_title }}":
+        @endif
     </p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 16px; background-color:#f4f4ef; border-radius:10px;">

@@ -13,6 +13,7 @@ class Message extends Model
 {
     protected $fillable = [
         'animal_id',
+        'sighting_id',
         'name',
         'email',
         'message',
@@ -24,5 +25,10 @@ class Message extends Model
     public function animal(): BelongsTo
     {
         return $this->belongsTo(Animal::class);
+    }
+
+    public function sighting(): BelongsTo
+    {
+        return $this->belongsTo(Sighting::class);
     }
 }

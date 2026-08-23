@@ -28,7 +28,7 @@ class MessageResource extends Resource
     protected static ?string $navigationLabel = 'Wiadomości';
     protected static ?string $modelLabel = 'wiadomość';
     protected static ?string $pluralModelLabel = 'wiadomości';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     // Brak formularza — wiadomości są tylko do odczytu
     public static function form(Schema $schema): Schema

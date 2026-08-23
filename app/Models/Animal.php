@@ -97,6 +97,11 @@ class Animal extends Model
         return $this->hasMany(ModerationLog::class);
     }
 
+    public function sightings(): HasMany
+    {
+        return $this->hasMany(Sighting::class);
+    }
+
     // ** Wyszukiwanie pełnotekstowe
     //
     // `search_index` to zdenormalizowany tekst złożony z pól, po których ma sens szukać

@@ -149,6 +149,19 @@
             </script>
         @endif
 
+        {{-- ** Pasek informujący o zgłoszeniach "też widziałem" — widoczny tylko jeśli
+             takie istnieją, żeby ktoś przewijający stronę wiedział, że warto zjechać
+             niżej (patrz kotwica #sightings przy timeline) --}}
+        @if ($animal->status === 'found' && $animal->sightings->isNotEmpty())
+            <a
+                href="#sightings"
+                class="mt-4 flex items-center justify-between gap-2 rounded-xl bg-[#dbe9d8] px-4 py-3 text-[13px] font-medium text-[#3f6212] transition hover:bg-[#cde0c8]"
+            >
+                <span>👀 Inni użytkownicy też zgłosili, że widzieli tego zwierzaka</span>
+                <span>Zobacz &darr;</span>
+            </a>
+        @endif
+
         <div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3">
 
             {{-- ---------------------------
@@ -212,20 +225,12 @@
                     <h2 class="mt-8 text-[16px] font-semibold text-[#283618]">Zachowanie</h2>
                     <p class="mt-2 whitespace-pre-line text-[14px] leading-relaxed text-[#616657]">{{ $animal->behavior }}</p>
                 @endif
-
-                {{-- ** Zgłoszenie "widziałem" — formularz sightings dodamy w kolejnym kroku --}}
-                <a
-                    href="#"
-                    class="mt-8 inline-flex items-center rounded-xl bg-[#283618] px-6 py-3 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
-                >
-                    Zgłoś, że widziałem
-                </a>
             </div>
 
             {{-- ---------------------------
                  Kontakt do zgłaszającego
                  --------------------------- --}}
-            <div x-data="{ showPhone: false }" class="rounded-2xl border border-[#e5e5dc] p-5">
+            <div x-data="{ showPhone: false }" class="rounded-2xl border border-[#e5e5dc] p-5 lg:self-start">
                 <h2 class="text-[16px] font-semibold text-[#283618]">Kontakt</h2>
 
                 {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami) --}}
@@ -246,89 +251,171 @@
                     </div>
                 @endif
 
-                {{-- ** Formularz "napisz wiadomość" — zapis do tabeli messages --}}
-                <form method="POST" action="{{ route('messages.store', $animal) }}" class="mt-6 space-y-3">
-                    @csrf
-
-                    {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
-                         każde pole formularza; wypełnione = spam (patrz MessageController::store) --}}
-                    <div style="position:absolute; left:-9999px;" aria-hidden="true">
-                        <label for="website">Strona www</label>
-                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
-                    </div>
-
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Imię i nazwisko</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value="{{ old('name') }}"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                        @error('name')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">E-mail</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >
-                        @error('email')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                        <p class="mt-1 text-[12px] text-[#8f9485]">Twój adres email zostanie udostępniony wyłącznie autorowi ogłoszenia.</p>
-                    </div>
-
-                    <div>
-                        <label class="text-[12px] uppercase tracking-wide text-[#8f9485]">Wiadomość</label>
-                        <textarea
-                            name="message"
-                            rows="4"
-                            required
-                            class="mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden"
-                        >{{ old('message') }}</textarea>
-                        @error('message')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- ** Akceptacja regulaminu i polityki prywatności + zgoda na udostępnienie danych autorowi ogłoszenia — wymagana przed wysłaniem --}}
-                    <div>
-                        <label class="flex items-start gap-2 text-[12px] text-[#616657]">
-                            <input
-                                type="checkbox"
-                                name="accept_terms"
-                                value="1"
-                                required
-                                class="mt-0.5 h-4 w-4 rounded-sm border-[#e5e5dc] text-[#283618] focus:ring-[#283618]"
-                            >
-                            <span>
-                                Akceptuję <a href="/regulamin" target="_blank" class="underline hover:text-[#283618]">regulamin</a>
-                                oraz <a href="/polityka-prywatnosci" target="_blank" class="underline hover:text-[#283618]">politykę prywatności</a>
-                                i zgadzam się na udostępnienie mojego imienia i nazwiska oraz adresu e-mail autorowi ogłoszenia w celu kontaktu.
-                            </span>
-                        </label>
-                        @error('accept_terms')
-                            <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.98)] active:bg-[#161f0c]"
+                {{-- ** Zgłoszenie "też widziałem" — tylko dla ogłoszeń "Znaleziony"; dla
+                     "Zaginiony" formularz kontaktowy poniżej wystarcza (patrz SightingController) --}}
+                @if ($animal->status === 'found')
+                    <a
+                        href="{{ route('sightings.create', $animal) }}"
+                        class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                     >
-                        Wyślij wiadomość
-                    </button>
-                </form>
+                        Zgłoś, że też widziałem/widziałam
+                    </a>
+                @endif
+
+                {{-- ** Formularz "napisz wiadomość" — zapis do tabeli messages --}}
+                <div class="mt-6">
+                    @include('animals.partials.contact-form', ['action' => route('messages.store', $animal)])
+                </div>
             </div>
         </div>
+
+        {{-- ---------------------------
+             Timeline "też widziałem" — pełna szerokość pod ogłoszeniem (nie w kolumnie
+             głównej), tylko dla "Znaleziony" (patrz SightingController), zatwierdzone
+             zgłoszenia od najstarszego
+             --------------------------- --}}
+        @if ($animal->status === 'found' && $animal->sightings->isNotEmpty())
+            <div id="sightings" class="mt-10 scroll-mt-24">
+                <h2 class="text-[16px] font-semibold text-[#283618]">Też widzieli</h2>
+                <div class="mt-3 space-y-4">
+                    @foreach ($animal->sightings as $sighting)
+                        <div
+                            x-data="{
+                                contactOpen: false,
+                                lightboxOpen: false,
+                                lightboxIndex: 0,
+                                lightboxPhotos: @js($sighting->photos->map(fn ($photo) => asset('storage/'.$photo->path))->values()),
+                                showLightbox(i) { this.lightboxIndex = i; this.lightboxOpen = true },
+                                nextPhoto() { this.lightboxIndex = (this.lightboxIndex + 1) % this.lightboxPhotos.length },
+                                prevPhoto() { this.lightboxIndex = (this.lightboxIndex - 1 + this.lightboxPhotos.length) % this.lightboxPhotos.length },
+                            }"
+                            class="rounded-2xl border border-[#e5e5dc] p-4"
+                        >
+                            <p class="text-[14px] text-[#283618]">
+                                <strong>{{ $sighting->contact_name }}</strong> zgłosił(a), że też widział(a) tego zwierzaka
+                                {{ $sighting->date_seen?->locale('pl')->translatedFormat('d F Y') }}.
+                            </p>
+
+                            <p class="mt-2 whitespace-pre-line text-[14px] leading-relaxed text-[#616657]">{{ $sighting->description }}</p>
+
+                            @if ($sighting->location)
+                                <p class="mt-3 text-[12px] uppercase tracking-wide text-[#8f9485]">Lokalizacja</p>
+                                <p class="mt-1 text-[14px] text-[#616657]">{{ $sighting->location }}</p>
+                            @endif
+
+                            @if ($sighting->latitude && $sighting->longitude)
+                                <div
+                                    id="sighting-map-{{ $sighting->id }}"
+                                    class="isolate mt-2 h-48 w-full overflow-hidden rounded-xl"
+                                ></div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        window.initAnimalMap('sighting-map-{{ $sighting->id }}', {{ $sighting->latitude }}, {{ $sighting->longitude }}, { zoom: 13 });
+                                    });
+                                </script>
+                            @endif
+
+                            {{-- ** Miniatury stałej wielkości (nie skalują się z szerokością karty) —
+                                 klik otwiera ten sam lightbox co w głównej galerii zdjęć ogłoszenia --}}
+                            @if ($sighting->photos->isNotEmpty())
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    @foreach ($sighting->photos as $index => $photo)
+                                        <button
+                                            type="button"
+                                            @click="showLightbox({{ $index }})"
+                                            class="h-24 w-24 cursor-zoom-in overflow-hidden rounded-xl"
+                                        >
+                                            <img
+                                                src="{{ asset('storage/'.$photo->path) }}"
+                                                alt="Zdjęcie ze zgłoszenia z {{ $sighting->date_seen?->format('d.m.Y') }}"
+                                                class="h-full w-full object-cover transition hover:scale-105"
+                                                loading="lazy"
+                                            >
+                                        </button>
+                                    @endforeach
+                                </div>
+
+                                <div
+                                    x-show="lightboxOpen"
+                                    x-cloak
+                                    @click.self="lightboxOpen = false"
+                                    @keydown.escape.window="lightboxOpen = false"
+                                    @keydown.arrow-right.window="nextPhoto()"
+                                    @keydown.arrow-left.window="prevPhoto()"
+                                    class="fixed inset-0 z-[1100] flex items-center justify-center bg-black/90 p-4"
+                                >
+                                    <button
+                                        type="button"
+                                        @click="lightboxOpen = false"
+                                        class="absolute right-4 top-4 cursor-pointer text-[28px] text-white/80 hover:text-white"
+                                        aria-label="Zamknij podgląd"
+                                    >&times;</button>
+
+                                    <button
+                                        type="button"
+                                        x-show="lightboxPhotos.length > 1"
+                                        @click="prevPhoto()"
+                                        class="absolute left-2 cursor-pointer p-2 text-[32px] text-white/80 hover:text-white sm:left-4"
+                                        aria-label="Poprzednie zdjęcie"
+                                    >&lsaquo;</button>
+
+                                    <img
+                                        :src="lightboxPhotos[lightboxIndex]"
+                                        alt="Zdjęcie ze zgłoszenia"
+                                        class="max-h-[85vh] max-w-full rounded-xl object-contain"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        x-show="lightboxPhotos.length > 1"
+                                        @click="nextPhoto()"
+                                        class="absolute right-2 cursor-pointer p-2 text-[32px] text-white/80 hover:text-white sm:right-4"
+                                        aria-label="Następne zdjęcie"
+                                    >&rsaquo;</button>
+                                </div>
+                            @endif
+
+                            <button
+                                type="button"
+                                @click="contactOpen = true"
+                                class="mt-4 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
+                            >
+                                Kontakt z autorem
+                            </button>
+
+                            {{-- ** Modal z tym samym formularzem kontaktowym co karta Kontakt, ale do autora TEGO
+                                 zgłoszenia — szerokość dopasowana do karty Kontakt, wyraźne tło i obramowanie,
+                                 żeby nie zlewał się z resztą strony --}}
+                            <div
+                                x-show="contactOpen"
+                                x-cloak
+                                @click.self="contactOpen = false"
+                                @keydown.escape.window="contactOpen = false"
+                                class="fixed inset-0 z-[1100] flex items-center justify-center bg-black/50 p-4"
+                            >
+                                <div class="w-full max-w-sm max-h-[90vh] overflow-y-auto rounded-2xl border border-[#e5e5dc] bg-white p-5 shadow-2xl">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-[16px] font-semibold text-[#283618]">Kontakt z autorem zgłoszenia</h3>
+                                        <button
+                                            type="button"
+                                            @click="contactOpen = false"
+                                            class="cursor-pointer text-[20px] text-[#8f9485] hover:text-[#283618]"
+                                            aria-label="Zamknij"
+                                        >&times;</button>
+                                    </div>
+                                    <div class="mt-4">
+                                        @include('animals.partials.contact-form', [
+                                            'action' => route('sightings.messages.store', $sighting),
+                                            'recipientLabel' => 'autorowi zgłoszenia',
+                                        ])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 
 @endsection

@@ -14,6 +14,7 @@ class ModerationLog extends Model
     protected $fillable = [
         'animal_id',
         'animal_edit_id',
+        'sighting_id',
         'user_id',
         'action',
         'comment',
@@ -30,6 +31,11 @@ class ModerationLog extends Model
     public function animal(): BelongsTo
     {
         return $this->belongsTo(Animal::class);
+    }
+
+    public function sighting(): BelongsTo
+    {
+        return $this->belongsTo(Sighting::class);
     }
 
     public function user(): BelongsTo

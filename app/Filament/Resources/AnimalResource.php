@@ -41,7 +41,7 @@ class AnimalResource extends Resource
     protected static ?string $navigationLabel = 'Ogłoszenia';
     protected static ?string $modelLabel = 'ogłoszenie';
     protected static ?string $pluralModelLabel = 'ogłoszenia';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     // ---------------------------
     // Formularz edycji ogłoszenia

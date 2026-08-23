@@ -14,6 +14,7 @@ class Photo extends Model
     protected $fillable = [
         'animal_id',
         'animal_edit_id',
+        'sighting_id',
         'path',
         'is_main',
     ];
@@ -35,4 +36,8 @@ class Photo extends Model
         return $this->belongsTo(\App\Models\AnimalEdit::class, 'animal_edit_id');
     }
 
+    public function sighting(): BelongsTo
+    {
+        return $this->belongsTo(Sighting::class);
+    }
 }
