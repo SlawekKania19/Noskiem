@@ -65,6 +65,13 @@
         >
             @csrf
 
+            {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+                 każde pole formularza; wypełnione = spam (patrz AnimalEditController::store) --}}
+            <div style="position:absolute; left:-9999px;" aria-hidden="true">
+                <label for="website">Strona www</label>
+                <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+            </div>
+
             {{-- ---------------------------
                  Typ zgłoszenia
                  --------------------------- --}}

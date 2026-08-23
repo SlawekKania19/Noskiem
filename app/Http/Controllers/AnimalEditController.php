@@ -62,6 +62,13 @@ class AnimalEditController extends Controller
     // Zapisuje nowe zgłoszenie edycji zwierzęcia wraz ze zdjęciami, walidując dane wejściowe i ustawiając status moderacji na "pending". Generuje unikalny token edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
     public function store(Request $request)
     {
+        // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
+        // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
+        if ($request->filled('website')) {
+            return redirect()->route('animals.index')
+                ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź swoją skrzynkę e-mail i potwierdź adres, żeby ogłoszenie trafiło do moderacji.');
+        }
+
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',

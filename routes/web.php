@@ -62,7 +62,9 @@ Route::get('/location/reverse', [LocationController::class, 'reverse'])
 Route::get('/animals/create', [AnimalEditController::class, 'create'])
     ->name('animals.create');
 
+// ** Restrykcyjny limit — realny użytkownik nie zgłasza więcej niż jednego zaginięcia na 10 minut
 Route::post('/animals', [AnimalEditController::class, 'store'])
+    ->middleware('throttle:1,10')
     ->name('animals.store');
 
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
