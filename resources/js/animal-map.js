@@ -17,6 +17,11 @@ L.Icon.Default.mergeOptions({
 // ---------------------------
 // Inicjalizacja mapy Leaflet z pojedynczą, nieprzesuwalną pinezką (tryb tylko do odczytu).
 // Współdzielone między widokiem szczegółów ogłoszenia a formularzem zgłoszenia (Krok 8).
+//
+// options.sightings (opcjonalnie) — punkty zgłoszeń "też widziałem" ([{lat, lng, popup}]),
+// już posortowane wg daty zaobserwowania. Rysowane jako kropki w innym kolorze niż główna
+// pinezka + przerywana linia łącząca je w kolejności — przybliżona trasa zwierzaka, nie
+// prawdziwy tor GPS (patrz animals/show.blade.php).
 // ---------------------------
 export function initAnimalMap(elementId, lat, lng, options = {}) {
     const element = document.getElementById(elementId);
@@ -34,6 +39,36 @@ export function initAnimalMap(elementId, lat, lng, options = {}) {
 
     // ** Pinezka nieprzesuwalna — lokalizacja jest tu tylko prezentowana, nie edytowana
     L.marker([lat, lng], { draggable: false }).addTo(map);
+
+    const sightings = options.sightings ?? [];
+
+    if (sightings.length > 0) {
+        sightings.forEach((sighting) => {
+            const marker = L.circleMarker([sighting.lat, sighting.lng], {
+                radius: 8,
+                color: '#994d0a',
+                weight: 2,
+                fillColor: '#f0a04b',
+                fillOpacity: 0.9,
+            }).addTo(map);
+
+            if (sighting.popup) {
+                marker.bindPopup(sighting.popup);
+            }
+        });
+
+        const pathPoints = [[lat, lng], ...sightings.map((s) => [s.lat, s.lng])];
+
+        L.polyline(pathPoints, {
+            color: '#994d0a',
+            weight: 2,
+            dashArray: '6 6',
+            opacity: 0.7,
+        }).addTo(map);
+
+        // ** Dopasuj widok, żeby cała trasa była widoczna, nie tylko punkt startowy
+        map.fitBounds(L.latLngBounds(pathPoints), { padding: [24, 24] });
+    }
 
     return map;
 }

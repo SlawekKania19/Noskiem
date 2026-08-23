@@ -15,6 +15,17 @@
 
     // ** Zdjęcia — główne na pierwszym miejscu
     $photos = $animal->photos->sortByDesc('is_main')->values();
+
+    // ** Punkty zgłoszeń "też widziałem" do naniesienia na główną mapę — tylko z
+    // uzupełnioną lokalizacją, w kolejności dat (już posortowane w AnimalController)
+    $sightingMapPoints = $animal->sightings
+        ->filter(fn ($s) => $s->latitude && $s->longitude)
+        ->map(fn ($s) => [
+            'lat' => $s->latitude,
+            'lng' => $s->longitude,
+            'popup' => e($s->contact_name).' — '.($s->date_seen?->locale('pl')->translatedFormat('d.m.Y') ?? ''),
+        ])
+        ->values();
 @endphp
 
 @extends('layouts.public')
@@ -140,11 +151,19 @@
                     id="animal-map"
                     class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl"
                 ></div>
+                @if ($sightingMapPoints->isNotEmpty())
+                    <p class="mt-2 text-[12px] text-[#8f9485]">
+                        <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#f0a04b] align-middle"></span>
+                        Zgłoszenia „też widziałem" · przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
+                    </p>
+                @endif
             </div>
 
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
-                    window.initAnimalMap('animal-map', {{ $animal->latitude }}, {{ $animal->longitude }});
+                    window.initAnimalMap('animal-map', {{ $animal->latitude }}, {{ $animal->longitude }}, {
+                        sightings: @json($sightingMapPoints),
+                    });
                 });
             </script>
         @endif
