@@ -109,9 +109,12 @@ class AnimalController extends Controller
         $animal->load([
             'species', 'breed', 'voivodeship', 'city', 'photos', 'colors',
             // ** Timeline "też widziałem" pod ogłoszeniem — tylko zatwierdzone, od najstarszego
+            // ** Sortowanie po dacie zdarzenia, a przy remisie po kolejności zgłoszeń
+            // (created_at) — bez tego MySQL nie gwarantuje stabilnej kolejności remisów
             'sightings' => fn ($query) => $query->where('mod_status', 'approved')
                 ->with('photos')
-                ->orderBy('date_seen'),
+                ->orderBy('date_seen')
+                ->orderBy('created_at'),
         ]);
 
         return view('animals.show', compact('animal'));

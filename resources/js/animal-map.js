@@ -18,10 +18,14 @@ L.Icon.Default.mergeOptions({
 // Inicjalizacja mapy Leaflet z pojedynczą, nieprzesuwalną pinezką (tryb tylko do odczytu).
 // Współdzielone między widokiem szczegółów ogłoszenia a formularzem zgłoszenia (Krok 8).
 //
-// options.sightings (opcjonalnie) — punkty zgłoszeń "też widziałem" ([{lat, lng, popup}]),
-// już posortowane wg daty zaobserwowania. Rysowane jako kropki w innym kolorze niż główna
-// pinezka + przerywana linia łącząca je w kolejności — przybliżona trasa zwierzaka, nie
-// prawdziwy tor GPS (patrz animals/show.blade.php).
+// options.sightings (opcjonalnie) — punkty zgłoszeń "też widziałem" ([{lat, lng, popup, isLatest}]),
+// rysowane jako kropki w innym kolorze niż główna pinezka. Zgłoszenie z isLatest=true
+// (najpóźniejsza data zdarzenia spośród ogłoszenia i wszystkich zgłoszeń — liczona w Blade)
+// dostaje trzeci, wyróżniający kolor.
+//
+// options.path (opcjonalnie) — punkty ([{lat, lng}]) już posortowane wg RZECZYWISTEJ daty
+// zdarzenia (nie zakładamy, że ogłoszenie jest chronologicznie pierwsze) — łączone przerywaną
+// linią jako przybliżona trasa zwierzaka, nie prawdziwy tor GPS (patrz animals/show.blade.php).
 // ---------------------------
 export function initAnimalMap(elementId, lat, lng, options = {}) {
     const element = document.getElementById(elementId);
@@ -42,22 +46,24 @@ export function initAnimalMap(elementId, lat, lng, options = {}) {
 
     const sightings = options.sightings ?? [];
 
-    if (sightings.length > 0) {
-        sightings.forEach((sighting) => {
-            const marker = L.circleMarker([sighting.lat, sighting.lng], {
-                radius: 8,
-                color: '#994d0a',
-                weight: 2,
-                fillColor: '#f0a04b',
-                fillOpacity: 0.9,
-            }).addTo(map);
+    sightings.forEach((sighting) => {
+        const marker = L.circleMarker([sighting.lat, sighting.lng], {
+            radius: 8,
+            color: sighting.isLatest ? '#991b1b' : '#994d0a',
+            weight: 2,
+            fillColor: sighting.isLatest ? '#ef4444' : '#f0a04b',
+            fillOpacity: 0.9,
+        }).addTo(map);
 
-            if (sighting.popup) {
-                marker.bindPopup(sighting.popup);
-            }
-        });
+        if (sighting.popup) {
+            marker.bindPopup(sighting.popup);
+        }
+    });
 
-        const pathPoints = [[lat, lng], ...sightings.map((s) => [s.lat, s.lng])];
+    const path = options.path ?? [];
+
+    if (path.length > 1) {
+        const pathPoints = path.map((p) => [p.lat, p.lng]);
 
         L.polyline(pathPoints, {
             color: '#994d0a',

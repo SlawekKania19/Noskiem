@@ -18,13 +18,44 @@
 
     // ** Punkty zgłoszeń "też widziałem" do naniesienia na główną mapę — tylko z
     // uzupełnioną lokalizacją, w kolejności dat (już posortowane w AnimalController)
+    //
+    // ** Najnowsze zgłoszenie — to, którego data zdarzenia (date_seen) jest późniejsza
+    // niż data zdarzenia z ogłoszenia (date_event) i najpóźniejsza spośród wszystkich —
+    // dostaje osobny kolor na mapie, bo to ono pokazuje, gdzie zwierzaka widziano ostatnio
+    // (niebieska pinezka to zawsze lokalizacja z ogłoszenia, nie "ostatnia znana"). Przy
+    // remisie dat — tak jak w $mapPathPoints — decyduje kolejność zgłoszeń (created_at)
+    $latestSighting = $animal->sightings
+        ->filter(fn ($s) => $s->latitude && $s->longitude && $s->date_seen)
+        ->filter(fn ($s) => $animal->date_event === null || $s->date_seen->gt($animal->date_event))
+        ->sort(fn ($a, $b) => $b->date_seen <=> $a->date_seen ?: $b->created_at <=> $a->created_at)
+        ->first();
+
     $sightingMapPoints = $animal->sightings
         ->filter(fn ($s) => $s->latitude && $s->longitude)
         ->map(fn ($s) => [
             'lat' => $s->latitude,
             'lng' => $s->longitude,
             'popup' => e($s->contact_name).' — '.($s->date_seen?->locale('pl')->translatedFormat('d.m.Y') ?? ''),
+            'isLatest' => $latestSighting !== null && $s->is($latestSighting),
         ])
+        ->values();
+
+    // ** Trasa na mapie — punkty posortowane wg RZECZYWISTEJ daty zdarzenia (data_event
+    // ogłoszenia razem z date_seen zgłoszeń), nie wg kolejności w tabeli. Ogłoszenie nie
+    // zawsze jest chronologicznie pierwsze — ktoś mógł zgłosić "widziałem" ze starszą datą
+    // niż data zdarzenia z ogłoszenia. Przy remisie dat (częste — data to tylko dzień, bez
+    // godziny) drugie kryterium to kolejność zgłoszeń (created_at), żeby trasa nie "mieszała
+    // się" losowo między odświeżeniami strony
+    $mapPathPoints = collect([
+        ['lat' => $animal->latitude, 'lng' => $animal->longitude, 'date' => $animal->date_event, 'created_at' => $animal->created_at],
+    ])
+        ->concat(
+            $animal->sightings
+                ->filter(fn ($s) => $s->latitude && $s->longitude && $s->date_seen)
+                ->map(fn ($s) => ['lat' => $s->latitude, 'lng' => $s->longitude, 'date' => $s->date_seen, 'created_at' => $s->created_at])
+        )
+        ->sort(fn ($a, $b) => $a['date'] <=> $b['date'] ?: $a['created_at'] <=> $b['created_at'])
+        ->map(fn ($p) => ['lat' => $p['lat'], 'lng' => $p['lng']])
         ->values();
 @endphp
 
@@ -154,9 +185,15 @@
                 @if ($sightingMapPoints->isNotEmpty())
                     <p class="mt-2 text-[12px] text-[#8f9485]">
                         <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#3388ff] align-middle"></span>
-                        Niebieska pinezka wskazuje ostatnią znaną lokalizację zwierzaka ·
+                        niebieska pinezka to lokalizacja z ogłoszenia ·
                         <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#f0a04b] align-middle"></span>
-                        pomarańczowe kropki to zgłoszenia „też widziałem" — przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
+                        pomarańczowe kropki to zgłoszenia „też widziałem"
+                        @if ($latestSighting)
+                            ·
+                            <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#ef4444] align-middle"></span>
+                            czerwona kropka to najnowsze zgłoszenie (najpóźniejsza data zdarzenia) — tam zwierzaka widziano ostatnio
+                        @endif
+                        — przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
                     </p>
                 @endif
             </div>
@@ -165,6 +202,7 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     window.initAnimalMap('animal-map', {{ $animal->latitude }}, {{ $animal->longitude }}, {
                         sightings: @json($sightingMapPoints),
+                        path: @json($mapPathPoints),
                     });
                 });
             </script>
@@ -249,43 +287,45 @@
             </div>
 
             {{-- ---------------------------
-                 Kontakt do zgłaszającego
+                 Kontakt do zgłaszającego (+ przycisk "też widziałem" nad całym blokiem)
                  --------------------------- --}}
-            <div x-data="{ showPhone: false }" class="rounded-2xl border border-[#e5e5dc] p-5 lg:self-start">
-                <h2 class="text-[16px] font-semibold text-[#283618]">Kontakt</h2>
-
-                {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami) --}}
-                @if ($animal->contact_phone)
-                    <div class="mt-4">
-                        <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon</p>
-                        <button
-                            type="button"
-                            @click="showPhone = true"
-                            x-show="!showPhone"
-                            class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
-                        >
-                            Pokaż numer
-                        </button>
-                        <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
-                            {{ $animal->formatted_phone }}
-                        </p>
-                    </div>
-                @endif
-
+            <div class="lg:self-start">
                 {{-- ** Zgłoszenie "też widziałem" — tylko dla ogłoszeń "Znaleziony"; dla
                      "Zaginiony" formularz kontaktowy poniżej wystarcza (patrz SightingController) --}}
                 @if ($animal->status === 'found')
                     <a
                         href="{{ route('sightings.create', $animal) }}"
-                        class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
+                        class="mb-4 inline-flex w-full items-center justify-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
                     >
                         Zgłoś, że też widziałem/widziałam
                     </a>
                 @endif
 
-                {{-- ** Formularz "napisz wiadomość" — zapis do tabeli messages --}}
-                <div class="mt-6">
-                    @include('animals.partials.contact-form', ['action' => route('messages.store', $animal)])
+                <div x-data="{ showPhone: false }" class="rounded-2xl border border-[#e5e5dc] p-5">
+                    <h2 class="text-[16px] font-semibold text-[#283618]">Kontakt</h2>
+
+                    {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami) --}}
+                    @if ($animal->contact_phone)
+                        <div class="mt-4">
+                            <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon</p>
+                            <button
+                                type="button"
+                                @click="showPhone = true"
+                                x-show="!showPhone"
+                                class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
+                            >
+                                Pokaż numer
+                            </button>
+                            <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
+                                {{ $animal->formatted_phone }}
+                            </p>
+                        </div>
+                    @endif
+
+                    {{-- ** Formularz "napisz wiadomość" — zapis do tabeli messages --}}
+                    <div class="mt-6">
+                        @include('animals.partials.contact-form', ['action' => route('messages.store', $animal)])
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,7 +337,7 @@
              --------------------------- --}}
         @if ($animal->status === 'found' && $animal->sightings->isNotEmpty())
             <div id="sightings" class="mt-10 scroll-mt-24">
-                <h2 class="text-[16px] font-semibold text-[#283618]">Też widzieli</h2>
+                <h2 class="text-[16px] font-semibold text-[#283618]">Inni użytkownicy też widzieli tego zwierzaka:</h2>
                 <div class="mt-3 space-y-4">
                     @foreach ($animal->sightings as $sighting)
                         <div
