@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\HomeController;
@@ -117,6 +118,17 @@ Route::get('/animal-edits/{animalEdit}/confirm', [AnimalEditController::class, '
 
 Route::post('/cookies/accept', [CookieConsentController::class, 'accept'])
     ->name('cookies.accept');
+
+// ---------------------------
+// KONTAKT — treść nad formularzem edytowalna z panelu Ustawień (Markdown)
+// ---------------------------
+
+Route::get('/kontakt', [ContactController::class, 'show'])
+    ->name('contact.show');
+
+Route::post('/kontakt', [ContactController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('contact.store');
 
 // ---------------------------
 // BREEZE – trasy logowania/rejestracji

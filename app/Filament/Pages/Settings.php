@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Services\TitleGenerator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -56,6 +57,7 @@ class Settings extends Page implements HasForms
             'approval_time_sample_size' => Setting::get('approval_time_sample_size', '10'),
             'rate_limit_animals_max' => Setting::get('rate_limit_animals_max', '1'),
             'rate_limit_messages_max' => Setting::get('rate_limit_messages_max', '5'),
+            'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe."),
         ]);
     }
 
@@ -174,12 +176,16 @@ class Settings extends Page implements HasForms
                     ]),
 
                 Section::make('Kontakt')
-                    ->description('Dane wyświetlane w stopce publicznej strony')
+                    ->description('Dane wyświetlane w stopce publicznej strony oraz treść strony /kontakt')
                     ->schema([
                         TextInput::make('contact_email')
                             ->label('Adres e-mail kontaktowy')
                             ->email()
                             ->required(),
+
+                        MarkdownEditor::make('contact_page_intro')
+                            ->label('Tekst nad formularzem na stronie /kontakt')
+                            ->helperText('Obsługuje formatowanie Markdown (pogrubienia, listy, linki).'),
                     ]),
             ])
             ->statePath('data');
