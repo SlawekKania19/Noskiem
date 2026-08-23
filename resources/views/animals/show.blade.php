@@ -153,8 +153,10 @@
                 ></div>
                 @if ($sightingMapPoints->isNotEmpty())
                     <p class="mt-2 text-[12px] text-[#8f9485]">
+                        <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#3388ff] align-middle"></span>
+                        Niebieska pinezka wskazuje ostatnią znaną lokalizację zwierzaka ·
                         <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#f0a04b] align-middle"></span>
-                        Zgłoszenia „też widziałem" · przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
+                        pomarańczowe kropki to zgłoszenia „też widziałem" — przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
                     </p>
                 @endif
             </div>
