@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\PhoneFormatter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -65,5 +67,11 @@ class Sighting extends Model
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class);
+    }
+
+    // Numer telefonu w czytelnym formacie ("+48 600-123-456"), niezależnie od zapisu autora
+    protected function formattedPhone(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->contact_phone));
     }
 }

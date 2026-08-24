@@ -345,6 +345,7 @@
                                 contactOpen: false,
                                 lightboxOpen: false,
                                 lightboxIndex: 0,
+                                showPhone: false,
                                 lightboxPhotos: @js($sighting->photos->map(fn ($photo) => asset('storage/'.$photo->path))->values()),
                                 showLightbox(i) { this.lightboxIndex = i; this.lightboxOpen = true },
                                 nextPhoto() { this.lightboxIndex = (this.lightboxIndex + 1) % this.lightboxPhotos.length },
@@ -464,6 +465,24 @@
                                             aria-label="Zamknij"
                                         >&times;</button>
                                     </div>
+                                    {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami), tak samo jak w karcie Kontakt --}}
+                                    @if ($sighting->contact_phone)
+                                        <div class="mt-4">
+                                            <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon</p>
+                                            <button
+                                                type="button"
+                                                @click="showPhone = true"
+                                                x-show="!showPhone"
+                                                class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
+                                            >
+                                                Pokaż numer
+                                            </button>
+                                            <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
+                                                {{ $sighting->formatted_phone }}
+                                            </p>
+                                        </div>
+                                    @endif
+
                                     <div class="mt-4">
                                         @include('animals.partials.contact-form', [
                                             'action' => route('sightings.messages.store', $sighting),
