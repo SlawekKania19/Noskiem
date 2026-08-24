@@ -127,7 +127,9 @@ class UserResource extends Resource
                     }),
 
                 Actions\DeleteAction::make()
-                    ->visible(fn (User $record) => $record->id !== auth()->id()),
+                    ->visible(fn (User $record) => $record->id !== auth()->id())
+                    ->modalHeading('Usuń użytkownika')
+                    ->modalDescription(fn (User $record) => "Czy na pewno chcesz usunąć użytkownika {$record->email}? Tej operacji nie można cofnąć."),
             ]);
     }
 
