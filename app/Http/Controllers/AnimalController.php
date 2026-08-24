@@ -120,6 +120,16 @@ class AnimalController extends Controller
         return view('animals.show', compact('animal'));
     }
 
+    // Zwraca numer telefonu kontaktowego w formacie JSON — dociągany dopiero po kliknięciu
+    // "Pokaż numer" (patrz animals/show.blade.php), żeby nie siedział otwarcie w źródle HTML.
+    // Limit prób w routes/web.php (throttle:reveal-phone) chroni przed hurtowym zbieraniem numerów.
+    public function phone(Animal $animal)
+    {
+        abort_unless($animal->contact_phone, 404);
+
+        return response()->json(['phone' => $animal->formatted_phone]);
+    }
+
     // Zwraca szczegóły ogłoszenia w formacie JSON — używane przez GET /api/animals/{animal}.
     public function showJson(Animal $animal)
     {

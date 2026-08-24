@@ -301,24 +301,42 @@
                     </a>
                 @endif
 
-                <div x-data="{ showPhone: false }" class="rounded-2xl border border-[#e5e5dc] p-5">
+                <div
+                    x-data="{
+                        showPhone: false,
+                        phone: null,
+                        phoneError: false,
+                        async revealPhone() {
+                            this.phoneError = false;
+                            try {
+                                const response = await fetch('{{ route('animals.phone', $animal) }}');
+                                if (! response.ok) { this.phoneError = true; return; }
+                                this.phone = (await response.json()).phone;
+                                this.showPhone = true;
+                            } catch (e) {
+                                this.phoneError = true;
+                            }
+                        },
+                    }"
+                    class="rounded-2xl border border-[#e5e5dc] p-5"
+                >
                     <h2 class="text-[16px] font-semibold text-[#283618]">Kontakt</h2>
 
-                    {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami) --}}
+                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami — patrz
+                         AnimalController::phone; sam numer nie trafia do źródła HTML strony) --}}
                     @if ($animal->contact_phone)
                         <div class="mt-4">
                             <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon</p>
                             <button
                                 type="button"
-                                @click="showPhone = true"
+                                @click="revealPhone()"
                                 x-show="!showPhone"
                                 class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
                             >
                                 Pokaż numer
                             </button>
-                            <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
-                                {{ $animal->formatted_phone }}
-                            </p>
+                            <p x-show="showPhone" x-cloak x-text="phone" class="mt-1 text-[15px] font-semibold text-[#283618]"></p>
+                            <p x-show="phoneError" x-cloak class="mt-1 text-[13px] text-red-600">Nie udało się pobrać numeru. Spróbuj ponownie za chwilę.</p>
                         </div>
                     @endif
 
@@ -346,6 +364,19 @@
                                 lightboxOpen: false,
                                 lightboxIndex: 0,
                                 showPhone: false,
+                                phone: null,
+                                phoneError: false,
+                                async revealPhone() {
+                                    this.phoneError = false;
+                                    try {
+                                        const response = await fetch('{{ route('sightings.phone', $sighting) }}');
+                                        if (! response.ok) { this.phoneError = true; return; }
+                                        this.phone = (await response.json()).phone;
+                                        this.showPhone = true;
+                                    } catch (e) {
+                                        this.phoneError = true;
+                                    }
+                                },
                                 lightboxPhotos: @js($sighting->photos->map(fn ($photo) => asset('storage/'.$photo->path))->values()),
                                 showLightbox(i) { this.lightboxIndex = i; this.lightboxOpen = true },
                                 nextPhoto() { this.lightboxIndex = (this.lightboxIndex + 1) % this.lightboxPhotos.length },
@@ -465,21 +496,21 @@
                                             aria-label="Zamknij"
                                         >&times;</button>
                                     </div>
-                                    {{-- ** Telefon ukryty za przyciskiem (ochrona przed botami), tak samo jak w karcie Kontakt --}}
+                                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami — patrz
+                                         SightingController::phone; sam numer nie trafia do źródła HTML strony) --}}
                                     @if ($sighting->contact_phone)
                                         <div class="mt-4">
                                             <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Telefon</p>
                                             <button
                                                 type="button"
-                                                @click="showPhone = true"
+                                                @click="revealPhone()"
                                                 x-show="!showPhone"
                                                 class="mt-1 cursor-pointer rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
                                             >
                                                 Pokaż numer
                                             </button>
-                                            <p x-show="showPhone" x-cloak class="mt-1 text-[15px] font-semibold text-[#283618]">
-                                                {{ $sighting->formatted_phone }}
-                                            </p>
+                                            <p x-show="showPhone" x-cloak x-text="phone" class="mt-1 text-[15px] font-semibold text-[#283618]"></p>
+                                            <p x-show="phoneError" x-cloak class="mt-1 text-[13px] text-red-600">Nie udało się pobrać numeru. Spróbuj ponownie za chwilę.</p>
                                         </div>
                                     @endif
 

@@ -57,6 +57,7 @@ class Settings extends Page implements HasForms
             'approval_time_sample_size' => Setting::get('approval_time_sample_size', '10'),
             'rate_limit_animals_max' => Setting::get('rate_limit_animals_max', '1'),
             'rate_limit_messages_max' => Setting::get('rate_limit_messages_max', '5'),
+            'rate_limit_phone_max' => Setting::get('rate_limit_phone_max', '20'),
             'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe."),
         ]);
     }
@@ -172,6 +173,13 @@ class Settings extends Page implements HasForms
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(100)
+                            ->required(),
+
+                        TextInput::make('rate_limit_phone_max')
+                            ->label('Pokazania numeru telefonu / 10 min')
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(200)
                             ->required(),
                     ]),
 

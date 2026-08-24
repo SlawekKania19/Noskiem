@@ -53,5 +53,13 @@ class AppServiceProvider extends ServiceProvider
             10,
             (int) Setting::get('rate_limit_messages_max', '5')
         )->by($request->ip()));
+
+        // ** Pokazanie numeru telefonu (patrz AnimalController::phone, SightingController::phone) —
+        // bez tego numer i tak siedziałby w źródle HTML, tylko schowany za CSS, co nic nie daje
+        // przeciwko botom zbierającym numery hurtowo
+        RateLimiter::for('reveal-phone', fn (Request $request) => Limit::perMinutes(
+            10,
+            (int) Setting::get('rate_limit_phone_max', '20')
+        )->by($request->ip()));
     }
 }

@@ -83,6 +83,16 @@ class SightingController extends Controller
             ->with('success', "Zgłoszenie zostało zapisane. Sprawdź skrzynkę {$sighting->contact_email} i potwierdź adres, żeby trafiło do moderacji.");
     }
 
+    // Zwraca numer telefonu autora zgłoszenia w formacie JSON — dociągany dopiero po
+    // kliknięciu "Pokaż numer" w modalu kontaktu (patrz animals/show.blade.php), żeby nie
+    // siedział otwarcie w źródle HTML. Limit prób w routes/web.php (throttle:reveal-phone).
+    public function phone(Sighting $sighting)
+    {
+        abort_unless($sighting->mod_status === 'approved' && $sighting->contact_phone, 404);
+
+        return response()->json(['phone' => $sighting->formatted_phone]);
+    }
+
     // Potwierdza adres e-mail zgłaszającego (link z maila SightingSubmissionReceived).
     // Dopiero po tym moderatorzy dostają powiadomienie — ochrona przed botami i
     // fałszywymi adresami, tak samo jak przy zgłoszeniu ogłoszenia.

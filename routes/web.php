@@ -72,6 +72,12 @@ Route::post('/animals', [AnimalEditController::class, 'store'])
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
     ->name('animals.show');
 
+// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" — nie trafia do
+// źródła HTML strony. Limit edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
+Route::get('/animals/{animal}/phone', [AnimalController::class, 'phone'])
+    ->middleware('throttle:reveal-phone')
+    ->name('animals.phone');
+
 // ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
     ->middleware('throttle:messages-store')
@@ -87,6 +93,11 @@ Route::post('/animals/{animal}/sightings', [SightingController::class, 'store'])
 
 Route::get('/sightings/{sighting}/confirm', [SightingController::class, 'confirmEmail'])
     ->name('sightings.confirm');
+
+// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" — patrz animals.phone wyżej
+Route::get('/sightings/{sighting}/phone', [SightingController::class, 'phone'])
+    ->middleware('throttle:reveal-phone')
+    ->name('sightings.phone');
 
 // ** "Kontakt z autorem" w timeline — wiadomość do autora konkretnego zgłoszenia, nie ogłoszenia
 Route::post('/sightings/{sighting}/messages', [MessageController::class, 'storeForSighting'])
