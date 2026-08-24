@@ -81,12 +81,33 @@
         </header>
 
         {{-- ---------------------------
-             Komunikaty sesji (flash) — np. potwierdzenie wysłania wiadomości/zgłoszenia
+             Toast sukcesu (flash) — np. potwierdzenie wysłania zgłoszenia/wiadomości.
+             Floating i autoznikający (zamiast statycznego bloku nad treścią), żeby nie
+             ginął po przewinięciu. Kolorystyka jak główne CTA (ciemna zieleń + kremowy),
+             dla maksymalnego kontrastu.
              --------------------------- --}}
         @if (session('success'))
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-                <div class="rounded-xl bg-[#dbe9d8] px-4 py-3 text-[14px] text-[#3f6212]">
-                    {{ session('success') }}
+            <div
+                x-data="{ visible: true }"
+                x-init="setTimeout(() => visible = false, 10000)"
+                x-show="visible"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 -translate-y-3"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-3"
+                class="fixed right-4 top-24 z-50 max-w-[calc(100%-2rem)] sm:right-6 sm:max-w-sm"
+            >
+                <div class="flex items-start gap-4 rounded-xl bg-orange-500 px-5 py-4 text-white shadow-[0px_8px_24px_0px_rgba(40,54,24,0.35)]">
+                    <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="m8.5 12.5 2.5 2.5 4.5-5"/>
+                    </svg>
+                    <p class="flex-1 text-[14px] leading-snug">{{ session('success') }}</p>
+                    <button type="button" @click="visible = false" class="shrink-0 text-white/70 transition-colors hover:text-white" aria-label="Zamknij">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
                 </div>
             </div>
         @endif

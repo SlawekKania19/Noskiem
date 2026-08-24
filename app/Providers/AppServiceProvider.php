@@ -44,10 +44,10 @@ class AppServiceProvider extends ServiceProvider
     // ---------------------------
     protected function registerRateLimiters(): void
     {
-        RateLimiter::for('animals-store', fn (Request $request) => Limit::perMinutes(
-            10,
-            (int) Setting::get('rate_limit_animals_max', '1')
-        )->by($request->ip()));
+        // ** Zalogowani (np. admin/moderator testujący formularz) nie podlegają limitowi
+        RateLimiter::for('animals-store', fn (Request $request) => $request->user()
+            ? Limit::none()
+            : Limit::perMinutes(10, (int) Setting::get('rate_limit_animals_max', '1'))->by($request->ip()));
 
         RateLimiter::for('messages-store', fn (Request $request) => Limit::perMinutes(
             10,
