@@ -39,7 +39,7 @@
                     type="submit"
                     class="w-full cursor-pointer rounded-xl border border-[#3f6212] bg-[#dbe9d8] px-6 py-3 text-[14px] font-semibold text-[#3f6212] transition-colors hover:bg-[#c9dec4] sm:w-auto"
                 >
-                    {{ $animal->status === 'lost' ? 'Znaleziono zwierzaka' : 'Zwierzak trafił do domu' }}
+                    {{ $animal->status === 'lost' ? 'Potwierdź znalezienie zwierzaka' : 'Zwierzak trafił do domu' }}
                 </button>
             </form>
 
