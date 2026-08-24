@@ -11,12 +11,12 @@
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/typography": "^0.5.20",
         "@tailwindcss/vite": "^4.3.3",
-        "alpinejs": "^3.16.1",
-        "concurrently": "^10.0.4",
+        "alpinejs": "^3.16.2",
+        "concurrently": "^10.0.5",
         "laravel-vite-plugin": "^3.2",
         "postcss": "^8.5.26",
         "tailwindcss": "^4.3.2",
-        "vite": "^8.2.1"
+        "vite": "^8.2.2"
     },
     "dependencies": {
         "leaflet": "^1.9.4"
