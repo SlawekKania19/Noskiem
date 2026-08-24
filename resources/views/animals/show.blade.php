@@ -92,6 +92,8 @@
             <p class="mt-1 text-[14px] text-[#8f9485]">📍 {{ $locationLabel }}</p>
         @endif
 
+        <p class="mt-1 text-[13px] text-[#8f9485]">Dodano {{ $animal->created_at->locale('pl')->translatedFormat('d F Y') }}</p>
+
         {{-- ---------------------------
              Galeria zdjęć (tabela photos) — miniatury kwadratowe (mniej agresywny crop niż
              stały h-40/h-48 przy zmiennej liczbie kolumn), klik otwiera lightbox z pełnym zdjęciem
