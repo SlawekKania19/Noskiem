@@ -63,6 +63,19 @@ class AnimalEditResource extends Resource
                 ->orWhereNotNull('email_verified_at'));
     }
 
+    // Liczba oczekujących zgłoszeń — widoczna przy nazwie w menu, ukryta gdy brak (0)
+    public static function getNavigationBadge(): ?string
+    {
+        $count = static::getEloquentQuery()->where('mod_status', 'pending')->count();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     // ---------------------------
     // Tabela — lista zgłoszeń
     // ---------------------------
