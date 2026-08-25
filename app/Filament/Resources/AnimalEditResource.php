@@ -26,6 +26,8 @@ use Filament\Tables\Table;
 
 class AnimalEditResource extends Resource
 {
+    use \App\Filament\Concerns\HasRelatedSubmissionsSection;
+
     protected static ?string $model = AnimalEdit::class;
 
     // Ustawienia menu w panelu administracyjnym
@@ -199,103 +201,42 @@ class AnimalEditResource extends Resource
     {
         return $schema->components([
 
-            Section::make('Podstawowe dane')->schema([
-                Grid::make(2)->schema([
-                    TextEntry::make('title')->label('Tytuł')->columnSpan(2),
-                    TextEntry::make('status')
-                        ->label('Typ zgłoszenia')
-                        ->badge()
-                        ->color(fn ($state) => match ($state) {
-                            'lost'  => 'danger',
-                            'found' => 'success',
-                            default => 'gray',
-                        })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'lost'  => 'Zaginął',
-                            'found' => 'Znaleziony',
-                            default => $state,
-                        }),
-                    TextEntry::make('mod_status')
-                        ->label('Status moderacji')
-                        ->badge()
-                        ->color(fn ($state) => match ($state) {
-                            'pending'  => 'warning',
-                            'approved' => 'success',
-                            'rejected' => 'danger',
-                            default    => 'gray',
-                        })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'pending'  => 'Oczekuje',
-                            'approved' => 'Zatwierdzone',
-                            'rejected' => 'Odrzucone',
-                            'resolved' => 'Rozwiązane',
-                            default    => $state,
-                        }),
-                    TextEntry::make('animal_name')->label('Imię zwierzęcia'),
-                    TextEntry::make('species.name_pl')->label('Gatunek'),
-                    TextEntry::make('breed.breed_pl')->label('Rasa'),
-                    TextEntry::make('date_event')->label('Data zdarzenia')->date('d.m.Y'),
-                    TextEntry::make('colors.name')
-                        ->label('Kolory')
-                        ->badge()
-                        ->placeholder('Brak')
-                        ->columnSpan(2),
-                    TextEntry::make('description')->label('Opis')->columnSpan(2),
-                    TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
-                    TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
-                    TextEntry::make('chip_present')
-                        ->label('Chip')
-                        ->formatStateUsing(fn ($state) => $state ? 'Tak' : 'Nie'),
-                    TextEntry::make('chip_number')->label('Numer chipa'),
-                    // Powód odrzucenia — widoczny tylko gdy odrzucone
-                    TextEntry::make('mod_reject_reason')
-                        ->label('Powód odrzucenia')
-                        ->columnSpan(2)
-                        ->visible(fn ($record) => $record->mod_status === 'rejected' && $record->mod_reject_reason),
-                ]),
-            ]),
+            Grid::make(2)
+                ->columnSpanFull()
+                ->schema([
+                    static::podstawoweDaneSection(),
 
-            Section::make('Lokalizacja')->schema([
-                Grid::make(2)->schema([
-                    TextEntry::make('voivodeship.name_pl')->label('Województwo'),
-                    TextEntry::make('city.name_pl')->label('Miasto'),
-                    TextEntry::make('location_text')->label('Adres / opis miejsca')->columnSpan(2),
-                    TextEntry::make('latitude')->label('Szerokość geograficzna'),
-                    TextEntry::make('longitude')->label('Długość geograficzna'),
+                    Grid::make(1)->schema([
+                        static::lokalizacjaSection(),
+                        static::kontaktSection(),
+                    ]),
                 ]),
-            ]),
 
-            Section::make('Kontakt')->schema([
-                Grid::make(3)->schema([
-                    TextEntry::make('contact_name')->label('Imię i nazwisko'),
-                    TextEntry::make('contact_email')->label('E-mail'),
-                    TextEntry::make('contact_phone')->label('Telefon'),
+            Section::make('Zdjęcia')
+                ->columnSpanFull()
+                ->schema([
+                    RepeatableEntry::make('photos')
+                        ->label('')
+                        ->schema([
+                            ImageEntry::make('path')
+                                ->label('')
+                                ->disk('public')
+                                ->width(200)
+                                ->height(150)
+                                ->extraImgAttributes(fn ($record) => [
+                                    'style' => $record->is_main
+                                        ? 'box-shadow: 0 0 0 3px #f59e0b; border-radius: 0.5rem;'
+                                        : 'border-radius: 0.5rem;',
+                                ]),
+                            TextEntry::make('is_main')
+                                ->label('')
+                                ->formatStateUsing(fn ($state) => $state ? '★ Zdjęcie główne' : '')
+                                ->visible(fn ($record) => $record->is_main)
+                                ->color('warning')
+                                ->weight('bold'),
+                        ])
+                        ->columns(4),
                 ]),
-            ]),
-
-            Section::make('Zdjęcia')->schema([
-                RepeatableEntry::make('photos')
-                    ->label('')
-                    ->schema([
-                        ImageEntry::make('path')
-                            ->label('')
-                            ->disk('public')
-                            ->width(200)
-                            ->height(150)
-                            ->extraImgAttributes(fn ($record) => [
-                                'style' => $record->is_main
-                                    ? 'box-shadow: 0 0 0 3px #f59e0b; border-radius: 0.5rem;'
-                                    : 'border-radius: 0.5rem;',
-                            ]),
-                        TextEntry::make('is_main')
-                            ->label('')
-                            ->formatStateUsing(fn ($state) => $state ? '★ Zdjęcie główne' : '')
-                            ->visible(fn ($record) => $record->is_main)
-                            ->color('warning')
-                            ->weight('bold'),
-                    ])
-                    ->columns(4),
-            ]),
 
             // Diff — widoczny tylko dla edycji istniejącego ogłoszenia
             Section::make('Różnice względem oryginału')
@@ -369,6 +310,91 @@ class AnimalEditResource extends Resource
                         }),
                 ]),
 
+            static::relatedSubmissionsSection(),
+
+        ]);
+    }
+
+    protected static function podstawoweDaneSection(): Section
+    {
+        return Section::make('Podstawowe dane')->schema([
+                Grid::make(2)->schema([
+                    TextEntry::make('title')->label('Tytuł')->columnSpan(2),
+                    TextEntry::make('status')
+                        ->label('Typ zgłoszenia')
+                        ->badge()
+                        ->color(fn ($state) => match ($state) {
+                            'lost'  => 'danger',
+                            'found' => 'success',
+                            default => 'gray',
+                        })
+                        ->formatStateUsing(fn ($state) => match ($state) {
+                            'lost'  => 'Zaginął',
+                            'found' => 'Znaleziony',
+                            default => $state,
+                        }),
+                    TextEntry::make('mod_status')
+                        ->label('Status moderacji')
+                        ->badge()
+                        ->color(fn ($state) => match ($state) {
+                            'pending'  => 'warning',
+                            'approved' => 'success',
+                            'rejected' => 'danger',
+                            default    => 'gray',
+                        })
+                        ->formatStateUsing(fn ($state) => match ($state) {
+                            'pending'  => 'Oczekuje',
+                            'approved' => 'Zatwierdzone',
+                            'rejected' => 'Odrzucone',
+                            'resolved' => 'Rozwiązane',
+                            default    => $state,
+                        }),
+                    TextEntry::make('animal_name')->label('Imię zwierzęcia'),
+                    TextEntry::make('species.name_pl')->label('Gatunek'),
+                    TextEntry::make('breed.breed_pl')->label('Rasa'),
+                    TextEntry::make('date_event')->label('Data zdarzenia')->date('d.m.Y'),
+                    TextEntry::make('colors.name')
+                        ->label('Kolory')
+                        ->badge()
+                        ->placeholder('Brak')
+                        ->columnSpan(2),
+                    TextEntry::make('description')->label('Opis')->columnSpan(2),
+                    TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
+                    TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
+                    TextEntry::make('chip_present')
+                        ->label('Chip')
+                        ->formatStateUsing(fn ($state) => $state ? 'Tak' : 'Nie'),
+                    TextEntry::make('chip_number')->label('Numer chipa'),
+                    // Powód odrzucenia — widoczny tylko gdy odrzucone
+                    TextEntry::make('mod_reject_reason')
+                        ->label('Powód odrzucenia')
+                        ->columnSpan(2)
+                        ->visible(fn ($record) => $record->mod_status === 'rejected' && $record->mod_reject_reason),
+                ]),
+            ]);
+    }
+
+    protected static function lokalizacjaSection(): Section
+    {
+        return Section::make('Lokalizacja')->schema([
+            Grid::make(2)->schema([
+                TextEntry::make('voivodeship.name_pl')->label('Województwo'),
+                TextEntry::make('city.name_pl')->label('Miasto'),
+                TextEntry::make('location_text')->label('Adres / opis miejsca')->columnSpan(2),
+                TextEntry::make('latitude')->label('Szerokość geograficzna'),
+                TextEntry::make('longitude')->label('Długość geograficzna'),
+            ]),
+        ]);
+    }
+
+    protected static function kontaktSection(): Section
+    {
+        return Section::make('Kontakt')->schema([
+            Grid::make(3)->schema([
+                TextEntry::make('contact_name')->label('Imię i nazwisko'),
+                TextEntry::make('contact_email')->label('E-mail'),
+                TextEntry::make('contact_phone')->label('Telefon'),
+            ]),
         ]);
     }
 

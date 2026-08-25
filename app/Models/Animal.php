@@ -102,6 +102,14 @@ class Animal extends Model
         return $this->hasMany(Sighting::class);
     }
 
+    // ** Inne zgłoszenia z tego samego adresu e-mail (Animal + AnimalEdit) — pomocne
+    // przy moderacji, żeby wykryć próby "podbicia" pozycji przez wielokrotne dodawanie
+    // tego samego zwierzaka
+    public function relatedByContactEmail(int $limit = 5)
+    {
+        return \App\Services\RelatedSubmissionsFinder::find($this->contact_email, $this->id, null, $limit);
+    }
+
     // ** Wyszukiwanie pełnotekstowe
     //
     // `search_index` to zdenormalizowany tekst złożony z pól, po których ma sens szukać

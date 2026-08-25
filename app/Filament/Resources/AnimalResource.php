@@ -34,6 +34,7 @@ use Filament\Tables\Table;
 class AnimalResource extends Resource
 {
     use \App\Filament\Concerns\RestrictedToAdmin;
+    use \App\Filament\Concerns\HasRelatedSubmissionsSection;
 
     protected static ?string $model = Animal::class;
 
@@ -278,95 +279,119 @@ class AnimalResource extends Resource
     {
         return $schema->components([
 
-            Section::make('Podstawowe dane')->schema([
-                Grid::make(2)->schema([
-                    TextEntry::make('title')->label('Tytuł')->columnSpan(2),
-                    TextEntry::make('status')
-                        ->label('Typ')
-                        ->badge()
-                        ->color(fn ($state) => match ($state) {
-                            'lost'  => 'danger',
-                            'found' => 'success',
-                            default => 'gray',
-                        })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'lost'  => 'Zaginął',
-                            'found' => 'Znaleziony',
-                            default => $state,
-                        }),
-                    TextEntry::make('mod_status')
-                        ->label('Status moderacji')
-                        ->badge()
-                        ->color(fn ($state) => match ($state) {
-                            'pending'  => 'warning',
-                            'approved' => 'success',
-                            'rejected' => 'danger',
-                            default    => 'gray',
-                        })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'pending'  => 'Oczekuje',
-                            'approved' => 'Zatwierdzone',
-                            'rejected' => 'Odrzucone',
-                            default    => $state,
-                        }),
-                    TextEntry::make('animal_name')->label('Imię'),
-                    TextEntry::make('date_event')->label('Data zdarzenia')->date('d.m.Y'),
-                    TextEntry::make('species.name_pl')->label('Gatunek'),
-                    TextEntry::make('breed.breed_pl')->label('Rasa'),
-                    TextEntry::make('description')->label('Opis')->columnSpan(2),
-                    TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
-                    TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
-                    IconEntry::make('chip_present')->label('Chip')->boolean(),
-                    TextEntry::make('chip_number')->label('Numer chipa'),
-                ]),
-            ]),
-
-            Section::make('Lokalizacja')->schema([
-                Grid::make(2)->schema([
-                    TextEntry::make('voivodeship.name_pl')->label('Województwo'),
-                    TextEntry::make('city.name_pl')->label('Miasto'),
-                    TextEntry::make('location_text')->label('Adres / opis miejsca')->columnSpan(2),
-                    TextEntry::make('latitude')->label('Szer. geo.'),
-                    TextEntry::make('longitude')->label('Dług. geo.'),
-                ]),
-            ]),
-
-            Section::make('Kontakt')->schema([
-                Grid::make(3)->schema([
-                    TextEntry::make('contact_name')->label('Imię i nazwisko'),
-                    TextEntry::make('contact_email')->label('E-mail'),
-                    TextEntry::make('contact_phone')->label('Telefon'),
-                ]),
-            ]),
-
-            Section::make('Dane techniczne')
-                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+            Grid::make(2)
+                ->columnSpanFull()
                 ->schema([
-                    TextEntry::make('submitter_ip')
-                        ->label('Adres IP zgłaszającego')
-                        ->placeholder('Brak danych'),
+                    static::podstawoweDaneSection(),
+
+                    Grid::make(1)->schema([
+                        static::lokalizacjaSection(),
+                        static::kontaktSection(),
+
+                        Section::make('Dane techniczne')
+                            ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                            ->schema([
+                                TextEntry::make('submitter_ip')
+                                    ->label('Adres IP zgłaszającego')
+                                    ->placeholder('Brak danych'),
+                            ]),
+                    ]),
                 ]),
 
-            Section::make('Zdjęcia')->schema([
-                RepeatableEntry::make('photos')
-                    ->label('')
-                    ->schema([
-                        ImageEntry::make('path')
-                            ->label('')
-                            ->disk('public')
-                            ->width(200)
-                            ->height(150),
-                        IconEntry::make('is_main')
-                            ->label('Główne')
-                            ->boolean()
-                            ->trueIcon('heroicon-o-star')
-                            ->falseIcon('heroicon-o-star')
-                            ->trueColor('warning')
-                            ->falseColor('gray'),
-                    ])
-                    ->columns(4),
-            ]),
+            Section::make('Zdjęcia')
+                ->columnSpanFull()
+                ->schema([
+                    RepeatableEntry::make('photos')
+                        ->label('')
+                        ->schema([
+                            ImageEntry::make('path')
+                                ->label('')
+                                ->disk('public')
+                                ->width(200)
+                                ->height(150),
+                            IconEntry::make('is_main')
+                                ->label('Główne')
+                                ->boolean()
+                                ->trueIcon('heroicon-o-star')
+                                ->falseIcon('heroicon-o-star')
+                                ->trueColor('warning')
+                                ->falseColor('gray'),
+                        ])
+                        ->columns(4),
+                ]),
 
+            static::relatedSubmissionsSection(),
+
+        ]);
+    }
+
+    protected static function podstawoweDaneSection(): Section
+    {
+        return Section::make('Podstawowe dane')->schema([
+            Grid::make(2)->schema([
+                TextEntry::make('title')->label('Tytuł')->columnSpan(2),
+                TextEntry::make('status')
+                    ->label('Typ')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'lost'  => 'danger',
+                        'found' => 'success',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'lost'  => 'Zaginął',
+                        'found' => 'Znaleziony',
+                        default => $state,
+                    }),
+                TextEntry::make('mod_status')
+                    ->label('Status moderacji')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'pending'  => 'warning',
+                        'approved' => 'success',
+                        'rejected' => 'danger',
+                        default    => 'gray',
+                    })
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'pending'  => 'Oczekuje',
+                        'approved' => 'Zatwierdzone',
+                        'rejected' => 'Odrzucone',
+                        default    => $state,
+                    }),
+                TextEntry::make('animal_name')->label('Imię'),
+                TextEntry::make('date_event')->label('Data zdarzenia')->date('d.m.Y'),
+                TextEntry::make('species.name_pl')->label('Gatunek'),
+                TextEntry::make('breed.breed_pl')->label('Rasa'),
+                TextEntry::make('description')->label('Opis')->columnSpan(2),
+                TextEntry::make('ident_marks')->label('Znaki szczególne')->columnSpan(2),
+                TextEntry::make('behavior')->label('Zachowanie')->placeholder('Brak')->columnSpan(2),
+                IconEntry::make('chip_present')->label('Chip')->boolean(),
+                TextEntry::make('chip_number')->label('Numer chipa'),
+            ]),
+        ]);
+    }
+
+    protected static function lokalizacjaSection(): Section
+    {
+        return Section::make('Lokalizacja')->schema([
+            Grid::make(2)->schema([
+                TextEntry::make('voivodeship.name_pl')->label('Województwo'),
+                TextEntry::make('city.name_pl')->label('Miasto'),
+                TextEntry::make('location_text')->label('Adres / opis miejsca')->columnSpan(2),
+                TextEntry::make('latitude')->label('Szer. geo.'),
+                TextEntry::make('longitude')->label('Dług. geo.'),
+            ]),
+        ]);
+    }
+
+    protected static function kontaktSection(): Section
+    {
+        return Section::make('Kontakt')->schema([
+            Grid::make(3)->schema([
+                TextEntry::make('contact_name')->label('Imię i nazwisko'),
+                TextEntry::make('contact_email')->label('E-mail'),
+                TextEntry::make('contact_phone')->label('Telefon'),
+            ]),
         ]);
     }
 
