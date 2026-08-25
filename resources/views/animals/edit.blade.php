@@ -65,6 +65,7 @@
             x-data="{
                 chipPresent: {{ old('chip_present', $animal->chip_present) ? 'true' : 'false' }},
                 status: @json(old('status', $animal->status)),
+                colorIds: @json(collect(old('colors', $animal->colors->pluck('id')->all()))->map(fn ($id) => (string) $id)->values()->all()),
                 locationResolving: false,
             }"
             @location-resolving.window="locationResolving = true"
@@ -271,14 +272,25 @@
                                     type="checkbox"
                                     name="colors[]"
                                     value="{{ $color->id }}"
+                                    x-model="colorIds"
                                     class="peer hidden"
-                                    @checked(in_array($color->id, old('colors', $animal->colors->pluck('id')->all())))
                                 >
                                 <span class="inline-flex rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition peer-checked:border-[#283618] peer-checked:bg-[#283618] peer-checked:text-[#fefae0]">
                                     {{ $color->name }}
                                 </span>
                             </label>
                         @endforeach
+
+                        {{-- Niewidoczny checkbox — wykorzystuje natywną walidację przeglądarki, żeby
+                             pokazać dymek z komunikatem bez przeładowania strony (tak jak przy imieniu
+                             zwierzaka); prawdziwe kolory idą osobno jako colors[] powyżej --}}
+                        <input
+                            type="checkbox"
+                            class="sr-only"
+                            tabindex="-1"
+                            aria-hidden="true"
+                            x-effect="$el.setCustomValidity(colorIds.length > 0 ? '' : 'Wybierz przynajmniej jeden kolor zwierzaka.')"
+                        >
                     </div>
                     @error('colors')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>

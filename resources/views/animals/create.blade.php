@@ -10,6 +10,7 @@
     $initialStatus = old('status', request('status', ''));
     $initialSpeciesId = old('species_id', '');
     $initialBreedId = old('breed_id', '');
+    $initialColorIds = collect(old('colors', []))->map(fn ($id) => (string) $id)->values()->all();
 
     // Rasy do filtrowania po stronie klienta (Alpine) w zależności od wybranego gatunku
     $breedsForJs = $breeds->map(fn ($b) => [
@@ -51,6 +52,7 @@
                 speciesId: @json($initialSpeciesId),
                 breedId: @json($initialBreedId),
                 breedsList: @json($breedsForJs),
+                colorIds: @json($initialColorIds),
                 locationResolving: false,
                 getUnknownBreedId(speciesId) {
                     const unknown = this.breedsList.find(
@@ -283,14 +285,25 @@
                                     type="checkbox"
                                     name="colors[]"
                                     value="{{ $color->id }}"
+                                    x-model="colorIds"
                                     class="peer hidden"
-                                    @checked(in_array($color->id, old('colors', [])))
                                 >
                                 <span class="inline-flex rounded-full border border-[#e5e5dc] bg-white px-3 py-1 text-[12px] text-[#616657] transition peer-checked:border-[#283618] peer-checked:bg-[#283618] peer-checked:text-[#fefae0]">
                                     {{ $color->name }}
                                 </span>
                             </label>
                         @endforeach
+
+                        {{-- Niewidoczny checkbox — wykorzystuje natywną walidację przeglądarki, żeby
+                             pokazać dymek z komunikatem bez przeładowania strony (tak jak przy imieniu
+                             zwierzaka); prawdziwe kolory idą osobno jako colors[] powyżej --}}
+                        <input
+                            type="checkbox"
+                            class="sr-only"
+                            tabindex="-1"
+                            aria-hidden="true"
+                            x-effect="$el.setCustomValidity(colorIds.length > 0 ? '' : 'Wybierz przynajmniej jeden kolor zwierzaka.')"
+                        >
                     </div>
                     @error('colors')
                         <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>

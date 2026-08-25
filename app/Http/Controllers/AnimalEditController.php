@@ -95,12 +95,13 @@ class AnimalEditController extends Controller
             'photos'         => 'nullable|array|max:6',
             'photos.*'       => 'image|max:5120',
             'main_photo_index' => 'nullable|integer|min:0',
-            'colors'         => 'nullable|array',
+            'colors'         => 'required|array|min:1',
             'colors.*'       => 'integer|exists:colors,id',
             'accept_terms'   => 'accepted',
         ], [
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
+            'colors.required'   => 'Wybierz przynajmniej jeden kolor zwierzaka.',
         ]);
 
         // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
@@ -238,11 +239,12 @@ class AnimalEditController extends Controller
             'contact_name'   => 'required|string|max:255',
             'contact_email'  => 'required|email|max:255',
             'contact_phone'  => 'nullable|string|max:20',
-            'colors'         => 'nullable|array',
+            'colors'         => 'required|array|min:1',
             'colors.*'       => 'integer|exists:colors,id',
         ], [
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
+            'colors.required'   => 'Wybierz przynajmniej jeden kolor zwierzaka.',
         ]);
 
         $colors = $data['colors'] ?? [];
