@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\AnimalEditResource;
 use App\Models\Animal;
-use App\Models\AnimalEdit;
 use App\Models\Message;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -20,10 +20,12 @@ class StatsOverviewWidget extends BaseWidget
     protected function getStats(): array
     {
         // ** Liczniki według statusu moderacji — zgłoszenia (nowe i edycje) żyją w AnimalEdit,
-        // dopiero po zatwierdzeniu trafiają/aktualizują rekord w Animal (zawsze mod_status=approved)
-        $pending  = AnimalEdit::where('mod_status', 'pending')->count();
+        // dopiero po zatwierdzeniu trafiają/aktualizują rekord w Animal (zawsze mod_status=approved).
+        // Liczymy przez getEloquentQuery() resource'u, żeby pominąć zgłoszenia z niepotwierdzonym
+        // e-mailem — tak samo jak robi to lista moderacji, inaczej liczby by się nie zgadzały
+        $pending  = AnimalEditResource::getEloquentQuery()->where('mod_status', 'pending')->count();
         $approved = Animal::where('mod_status', 'approved')->count();
-        $rejected = AnimalEdit::where('mod_status', 'rejected')->count();
+        $rejected = AnimalEditResource::getEloquentQuery()->where('mod_status', 'rejected')->count();
 
         // ** Liczniki według typu zgłoszenia (tylko zatwierdzone)
         $lost  = Animal::where('mod_status', 'approved')->where('status', 'lost')->count();
