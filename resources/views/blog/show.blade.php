@@ -26,7 +26,7 @@
 
 @section('content')
 
-    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {{-- ** Baner podglądu — tylko dla admina/autora oglądającego nieopublikowany wpis --}}
         @unless ($post->isPublished())
@@ -62,10 +62,12 @@
         </p>
 
         @if ($post->cover_url)
+            {{-- ** Limit wysokości — przy szerokim kontenerze pionowa okładka potrafiła
+                 zająć cały ekran i zepchnąć treść poniżej zgięcia --}}
             <img
                 src="{{ $post->cover_url }}"
                 alt="{{ $post->title }}"
-                class="mt-6 w-full rounded-2xl object-cover"
+                class="mt-6 max-h-[420px] w-full rounded-2xl object-cover"
             >
         @endif
 
