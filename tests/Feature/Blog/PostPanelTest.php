@@ -3,6 +3,7 @@
 namespace Tests\Feature\Blog;
 
 use App\Filament\Resources\PostResource;
+use App\Filament\Resources\PostResource\Pages\CreatePost;
 use App\Filament\Resources\PostResource\Pages\EditPost;
 use App\Models\Post;
 use App\Models\User;
@@ -74,6 +75,40 @@ class PostPanelTest extends TestCase
 
         $this->assertFalse(PostResource::canViewAny());
         $this->actingAs($user)->get('/admin/posts')->assertForbidden();
+    }
+
+    public function test_typing_the_title_auto_fills_the_slug_on_create(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        Livewire::actingAs($admin)
+            ->test(CreatePost::class)
+            ->set('data.title', 'Mój Nowy Wpis')
+            ->assertFormSet(['slug' => 'moj-nowy-wpis'])
+            ->assertHasNoFormErrors();
+    }
+
+    public function test_admin_can_create_a_post_through_the_form(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        Livewire::actingAs($admin)
+            ->test(CreatePost::class)
+            ->fillForm([
+                'title' => 'Wpis utworzony testem',
+                'slug' => 'wpis-utworzony-testem',
+                'body' => '<p>Trochę treści do zapisania.</p>',
+                'status' => 'draft',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Wpis utworzony testem',
+            'slug' => 'wpis-utworzony-testem',
+            'user_id' => $admin->id,
+            'status' => 'draft',
+        ]);
     }
 
     public function test_author_cannot_reassign_own_post_to_another_author(): void

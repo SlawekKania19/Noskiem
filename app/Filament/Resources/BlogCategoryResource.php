@@ -6,8 +6,6 @@ use App\Filament\Resources\BlogCategoryResource\Pages;
 use App\Models\BlogCategory;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -44,7 +42,7 @@ class BlogCategoryResource extends Resource
                     ->maxLength(100)
                     // ** Auto-podpowiedź sluga tylko przy tworzeniu
                     ->live(onBlur: true)
-                    ->afterStateUpdated(function (string $operation, ?string $state, Set $set) {
+                    ->afterStateUpdated(function (string $operation, ?string $state, callable $set) {
                         if ($operation === 'create') {
                             $set('slug', Str::slug((string) $state));
                         }
