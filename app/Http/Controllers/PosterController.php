@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 // Plakat ogłoszenia w PDF.
 // Dostępny publicznie (także dla osób, które nie są autorem ogłoszenia —
 // ktoś, kto chce pomóc, też może chcieć wydrukować plakat). Tylko ogłoszenia
-// zatwierdzone. Wybór formatu (A4 / B5) przez parametr ?format=.
+// zatwierdzone. Wybór formatu (A4 / A5) przez parametr ?format=.
 // ---------------------------
 
 class PosterController extends Controller

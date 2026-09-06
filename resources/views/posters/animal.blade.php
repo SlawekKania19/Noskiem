@@ -4,14 +4,14 @@
 
      Formaty:
        - a4  → jeden plakat na całą kartkę A4
-       - b5  → ten sam plakat 2× na kartce A4 (do przecięcia na pół)
+       - a5  → ten sam plakat 2× na kartce A4 (do przecięcia na pół)
 
      Uwaga dompdf:
        * brak flexboxa/grida, transformacji CSS itp. — layout na blokach,
          tabelach i rozmiarach w mm,
        * marginesy strony ustawiamy przez @page (natywne, pewne) zamiast
          paddingiem na kontenerze — inaczej treść wychodzi poza prawy brzeg,
-       * w wariancie B5 obie połowy pozycjonujemy absolutnie, żeby nadwyżka
+       * w wariancie A5 obie połowy pozycjonujemy absolutnie, żeby nadwyżka
          treści w pierwszej połowie nie spychała drugiej na kolejną stronę.
        * font DejaVu Sans (config/dompdf.php) ma polskie znaki, ale NIE emoji.
      --------------------------- --}}
@@ -35,26 +35,26 @@
             page-break-inside: avoid;
         }
 
-        /* ** Wariant B5 — dwie identyczne połowy na jednej kartce A4.
+        /* ** Wariant A5 — dwie identyczne połowy na jednej kartce A4.
              Wrapper trzyma wysokość strony, połowy pozycjonowane absolutnie. */
-        .sheet-b5 {
+        .sheet-a5 {
             position: relative;
             width: 100%;
             height: 267mm;
         }
-        .sheet-b5 .poster {
+        .sheet-a5 .poster {
             position: absolute;
             left: 0;
             width: 100%;
             height: 131mm;
             overflow: hidden;
         }
-        .sheet-b5 .poster--top {
+        .sheet-a5 .poster--top {
             top: 0;
             padding-bottom: 4mm;
             border-bottom: 1px dashed #b9b9a8;
         }
-        .sheet-b5 .poster--bottom {
+        .sheet-a5 .poster--bottom {
             top: 136mm;
         }
 
@@ -70,7 +70,7 @@
             border-radius: 3mm;
         }
         .banner--found { background: #3f6212; }
-        .sheet-b5 .banner {
+        .sheet-a5 .banner {
             font-size: 17pt;
             padding: 2.5mm 0;
         }
@@ -82,8 +82,8 @@
             max-height: 95mm;
             border-radius: 3mm;
         }
-        .sheet-b5 .photo-wrap { margin-top: 2.5mm; }
-        .sheet-b5 .photo-wrap img { max-height: 38mm; }
+        .sheet-a5 .photo-wrap { margin-top: 2.5mm; }
+        .sheet-a5 .photo-wrap img { max-height: 38mm; }
 
         /* ** Imię / tytuł */
         .name {
@@ -91,14 +91,14 @@
             font-weight: bold;
             margin-top: 5mm;
         }
-        .sheet-b5 .name { font-size: 13pt; margin-top: 2mm; }
+        .sheet-a5 .name { font-size: 13pt; margin-top: 2mm; }
 
         .meta {
             font-size: 11pt;
             color: #616657;
             margin-top: 1.5mm;
         }
-        .sheet-b5 .meta { font-size: 7.5pt; margin-top: 1mm; }
+        .sheet-a5 .meta { font-size: 7.5pt; margin-top: 1mm; }
 
         /* ** Sekcje opisowe (znaki szczególne, opis) */
         .section {
@@ -114,8 +114,8 @@
             color: #8f9485;
             margin-bottom: 1mm;
         }
-        .sheet-b5 .section { font-size: 7.5pt; margin-top: 2mm; line-height: 1.3; }
-        .sheet-b5 .section .label { font-size: 6.5pt; }
+        .sheet-a5 .section { font-size: 7.5pt; margin-top: 2mm; line-height: 1.3; }
+        .sheet-a5 .section .label { font-size: 6.5pt; }
 
         /* ** Blok kontaktowy */
         .contact {
@@ -123,7 +123,7 @@
             border-top: 2px solid #283618;
             padding-top: 4mm;
         }
-        .sheet-b5 .contact { margin-top: 3mm; padding-top: 2mm; }
+        .sheet-a5 .contact { margin-top: 3mm; padding-top: 2mm; }
 
         .contact-table { width: 100%; }
         .contact-table td { vertical-align: middle; }
@@ -147,14 +147,14 @@
             margin-top: 1mm;
             word-break: break-all;
         }
-        .sheet-b5 .contact-label { font-size: 6.5pt; }
-        .sheet-b5 .contact-phone { font-size: 12pt; }
-        .sheet-b5 .contact-email { font-size: 9pt; }
+        .sheet-a5 .contact-label { font-size: 6.5pt; }
+        .sheet-a5 .contact-phone { font-size: 12pt; }
+        .sheet-a5 .contact-email { font-size: 9pt; }
 
         .qr { text-align: right; width: 34mm; }
         .qr img { width: 30mm; height: 30mm; }
-        .sheet-b5 .qr { width: 20mm; }
-        .sheet-b5 .qr img { width: 18mm; height: 18mm; }
+        .sheet-a5 .qr { width: 20mm; }
+        .sheet-a5 .qr img { width: 18mm; height: 18mm; }
 
         .foot {
             margin-top: 4mm;
@@ -162,12 +162,12 @@
             color: #8f9485;
         }
         .foot .url { color: #283618; font-weight: bold; }
-        .sheet-b5 .foot { font-size: 6.5pt; margin-top: 2mm; }
+        .sheet-a5 .foot { font-size: 6.5pt; margin-top: 2mm; }
     </style>
 </head>
 <body>
-    @if ($format === 'b5')
-        <div class="sheet-b5">
+    @if ($format === 'a5')
+        <div class="sheet-a5">
             @include('posters.partials.poster', ['position' => 'top'])
             @include('posters.partials.poster', ['position' => 'bottom'])
         </div>

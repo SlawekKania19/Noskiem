@@ -20,8 +20,8 @@ class PosterRenderer
 {
     // ** Dozwolone formaty:
     //  - 'a4' — jeden plakat na całą kartkę A4
-    //  - 'b5' — ten sam plakat 2× na kartce A4 (do przecięcia na pół)
-    public const FORMATS = ['a4', 'b5'];
+    //  - 'a5' — ten sam plakat 2× na kartce A4 (do przecięcia na pół)
+    public const FORMATS = ['a4', 'a5'];
 
     public function render(Animal $animal, string $format): PdfInstance
     {

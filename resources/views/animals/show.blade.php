@@ -153,9 +153,9 @@
                             <span class="text-[12px] text-[#616657]">Cały plakat na kartce A4</span>
                         </a>
 
-                        {{-- ** B5 — dwa identyczne plakaty na kartce A4 --}}
+                        {{-- ** A5 — dwa identyczne plakaty na kartce A4 --}}
                         <a
-                            href="{{ route('animals.poster', $animal) }}?format=b5"
+                            href="{{ route('animals.poster', $animal) }}?format=a5"
                             target="_blank"
                             rel="noopener"
                             @click="posterOpen = false"
@@ -169,7 +169,7 @@
                                 <rect x="9" y="35" width="17" height="6" rx="1" fill="#994d0a"/>
                                 <rect x="12" y="44" width="11" height="9" rx="1" fill="#dbe3d1"/>
                             </svg>
-                            <span class="text-[14px] font-semibold text-[#283618]">B5</span>
+                            <span class="text-[14px] font-semibold text-[#283618]">A5</span>
                             <span class="text-[12px] text-[#616657]">Dwa identyczne plakaty na kartce A4 — do przecięcia</span>
                         </a>
                     </div>

@@ -1,10 +1,10 @@
 @php
     // ---------------------------
-    // Pojedynczy plakat. Renderowany raz (A4) lub dwa razy (B5).
+    // Pojedynczy plakat. Renderowany raz (A4) lub dwa razy (A5).
     // Dane wejściowe: $animal, $photoData (base64|null), $qrData (base64), $showUrl, $position
     // ---------------------------
 
-    // ** Wariant kompaktowy — plakat B5 (renderowany 2× z $position 'top'/'bottom')
+    // ** Wariant kompaktowy — plakat A5 (renderowany 2× z $position 'top'/'bottom')
     $compact = $position !== null;
 
     $statusWord = $animal->status === 'found' ? 'ZNALEZIONO' : 'ZAGINĄŁ';
@@ -24,7 +24,7 @@
     $dateEvent = $animal->date_event?->locale('pl')->translatedFormat('d F Y');
 
     // ** Opis skracany — na plakacie i tak liczy się zdjęcie + kontakt.
-    // W wariancie B5 (mało miejsca) tniemy mocniej.
+    // W wariancie A5 (mało miejsca) tniemy mocniej.
     $description = \Illuminate\Support\Str::limit((string) $animal->description, $compact ? 150 : 320);
 
     // ** Adres ogłoszenia bez schematu (ładniej wygląda pod kodem QR)
