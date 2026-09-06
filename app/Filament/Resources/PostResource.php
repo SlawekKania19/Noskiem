@@ -129,7 +129,8 @@ class PostResource extends Resource
                     ->label('Zajawka')
                     ->helperText('Krótkie wprowadzenie — widoczne na liście wpisów i (gdy brak opisu SEO) w wynikach wyszukiwania.')
                     ->maxLength(320)
-                    ->rows(3),
+                    ->rows(3)
+                    ->live(onBlur: true),
 
                 Select::make('blog_category_id')
                     ->label('Kategoria')
@@ -192,20 +193,22 @@ class PostResource extends Resource
                     ->visible(fn () => ! (auth()->user()?->is_admin ?? false)),
             ])->columns(2),
 
-            Section::make('SEO')
-                ->description('Opcjonalne — jeśli puste, użyjemy tytułu i zajawki wpisu.')
+            Section::make('SEO — jak wpis wygląda w Google i w social mediach')
+                ->description('To, co widać w wynikach wyszukiwania Google oraz na podglądzie linku wklejonego na Facebooku czy w Messengerze. Oba pola są opcjonalne — zostaw puste, a użyjemy tytułu i zajawki wpisu. Wypełnij tylko, jeśli chcesz, żeby w wyszukiwarce brzmiały inaczej niż na stronie.')
                 ->collapsed()
                 ->schema([
                     TextInput::make('meta_title')
-                        ->label('Tytuł SEO')
+                        ->label('Tytuł w wyszukiwarce')
                         ->maxLength(60)
-                        ->helperText('Do ~60 znaków.'),
+                        ->placeholder(fn ($get) => $get('title') ?: 'np. Zaginął pies — pierwsze 24 godziny')
+                        ->helperText('Niebieski, klikalny nagłówek wyniku w Google i tytuł podglądu linku w social mediach. Google zwykle pokazuje pierwsze ~60 znaków — dłuższy zostanie ucięty. Jeśli puste, używamy tytułu wpisu.'),
 
                     Textarea::make('meta_description')
-                        ->label('Opis SEO')
+                        ->label('Opis w wyszukiwarce')
                         ->maxLength(160)
-                        ->rows(2)
-                        ->helperText('Do ~160 znaków.'),
+                        ->rows(3)
+                        ->placeholder(fn ($get) => $get('excerpt') ?: 'Krótkie streszczenie zachęcające do kliknięcia — 1–2 zdania.')
+                        ->helperText('Szary tekst pod tytułem w wynikach Google i opis pod linkiem w social mediach. Optymalnie 120–160 znaków; dłuższy zostanie ucięty. Jeśli puste, używamy zajawki wpisu.'),
                 ]),
         ]);
     }
