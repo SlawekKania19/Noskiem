@@ -74,7 +74,7 @@
         @if ($related->isNotEmpty())
             <div class="mt-14 border-t border-[#e5e5dc] pt-8">
                 <h2 class="text-[16px] font-semibold text-[#283618]">Zobacz też</h2>
-                <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
                     @foreach ($related as $item)
                         @include('blog.partials.card', ['post' => $item])
                     @endforeach

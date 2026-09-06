@@ -11,7 +11,6 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -109,7 +108,7 @@ class PostResource extends Resource
                     ->required()
                     ->maxLength(160)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(function (string $operation, ?string $state, Set $set) {
+                    ->afterStateUpdated(function (string $operation, ?string $state, callable $set) {
                         // ** Slug podpowiadamy tylko przy tworzeniu — po publikacji jest zablokowany
                         if ($operation === 'create') {
                             $set('slug', Str::slug((string) $state));
