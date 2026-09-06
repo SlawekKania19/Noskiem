@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -26,6 +28,19 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerRateLimiters();
         $this->registerPasswordDefaults();
+        $this->registerIcons();
+    }
+
+    // ---------------------------
+    // Nadpisania ikon Filamenta
+    // ---------------------------
+    protected function registerIcons(): void
+    {
+        // ** W edytorze WYSIWYG przycisk „załącznika” w 90% służy do wstawiania obrazków —
+        // pokazujemy ikonę obrazka zamiast domyślnego spinacza
+        FilamentIcon::register([
+            'forms:components.rich-editor.toolbar.attach-files' => Heroicon::OutlinedPhoto,
+        ]);
     }
 
     // ---------------------------
