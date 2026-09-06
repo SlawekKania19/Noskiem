@@ -48,7 +48,7 @@ class PostPanelTest extends TestCase
         $other = User::factory()->create(['is_author' => true]);
         $foreign = Post::factory()->create(['user_id' => $other->id]);
 
-        $this->actingAs($author)->get('/admin/posts/'.$foreign->id.'/edit')->assertNotFound();
+        $this->actingAs($author)->get('/admin/posts/'.$foreign->slug.'/edit')->assertNotFound();
     }
 
     public function test_author_can_open_edit_of_own_post(): void
@@ -56,7 +56,7 @@ class PostPanelTest extends TestCase
         $author = User::factory()->create(['is_author' => true]);
         $post = Post::factory()->create(['user_id' => $author->id]);
 
-        $this->actingAs($author)->get('/admin/posts/'.$post->id.'/edit')->assertOk();
+        $this->actingAs($author)->get('/admin/posts/'.$post->slug.'/edit')->assertOk();
     }
 
     public function test_admin_can_open_edit_of_any_post(): void
@@ -65,7 +65,7 @@ class PostPanelTest extends TestCase
         $author = User::factory()->create(['is_author' => true]);
         $post = Post::factory()->create(['user_id' => $author->id]);
 
-        $this->actingAs($admin)->get('/admin/posts/'.$post->id.'/edit')->assertOk();
+        $this->actingAs($admin)->get('/admin/posts/'.$post->slug.'/edit')->assertOk();
     }
 
     public function test_non_staff_user_cannot_view_posts_resource(): void
@@ -83,7 +83,7 @@ class PostPanelTest extends TestCase
         $post = Post::factory()->create(['user_id' => $author->id]);
 
         Livewire::actingAs($author)
-            ->test(EditPost::class, ['record' => $post->id])
+            ->test(EditPost::class, ['record' => $post->slug])
             ->fillForm(['user_id' => $other->id])
             ->call('save');
 

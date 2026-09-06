@@ -33,10 +33,6 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    // ** Model wiąże trasy po "slug" (frontend /blog/{slug}); w panelu chcemy jednak
-    // krótkie, stabilne adresy po id — slug bywa zmieniany/pusty w szkicu
-    protected static ?string $recordRouteKeyName = 'id';
-
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
     protected static string|\UnitEnum|null $navigationGroup = 'Blog';
     protected static ?string $navigationLabel = 'Wpisy';
