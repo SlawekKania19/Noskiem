@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Support\AuthorProfileFields;
 use Filament\Auth\Pages\EditProfile as BaseEditProfile;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 
 // ---------------------------
 // Strona „Edytuj profil" w panelu (menu w prawym górnym rogu). Rozszerza wbudowaną
@@ -15,6 +16,10 @@ use Filament\Schemas\Schema;
 
 class EditProfile extends BaseEditProfile
 {
+    // ** Domyślnie strona profilu jest wąska (jak logowanie) — poszerzamy, bo doszły
+    // pola profilu autora z edytorami WYSIWYG, którym ciasno w wąskiej kolumnie
+    protected Width|string|null $maxWidth = Width::FiveExtraLarge;
+
     public function form(Schema $schema): Schema
     {
         return $schema->components([
