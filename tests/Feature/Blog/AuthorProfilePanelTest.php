@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Blog;
 
+use App\Filament\Pages\EditProfile;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Models\User;
@@ -63,5 +64,44 @@ class AuthorProfilePanelTest extends TestCase
         $author->refresh();
         $this->assertSame('Behawiorystka', $author->headline);
         $this->assertSame('https://przyklad.test', $author->website_url);
+    }
+
+    public function test_author_sees_profile_section_on_the_edit_profile_page(): void
+    {
+        $author = User::factory()->author()->create();
+
+        Livewire::actingAs($author)
+            ->test(EditProfile::class)
+            ->assertFormFieldIsVisible('headline')
+            ->assertFormFieldIsVisible('bio')
+            ->assertFormFieldIsVisible('signature');
+    }
+
+    public function test_non_author_does_not_see_profile_section_on_the_edit_profile_page(): void
+    {
+        $moderator = User::factory()->create(['is_moderator' => true]);
+
+        Livewire::actingAs($moderator)
+            ->test(EditProfile::class)
+            ->assertFormFieldIsHidden('headline')
+            ->assertFormFieldIsHidden('bio');
+    }
+
+    public function test_author_can_update_own_profile_via_the_edit_profile_page(): void
+    {
+        $author = User::factory()->author()->create();
+
+        Livewire::actingAs($author)
+            ->test(EditProfile::class)
+            ->fillForm([
+                'headline' => 'Wolontariuszka schroniska',
+                'instagram_url' => 'https://instagram.com/mojprofil',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $author->refresh();
+        $this->assertSame('Wolontariuszka schroniska', $author->headline);
+        $this->assertSame('https://instagram.com/mojprofil', $author->instagram_url);
     }
 }
