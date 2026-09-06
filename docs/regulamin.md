@@ -14,6 +14,8 @@ Data ostatniej aktualizacji szkicu: 06.09.2026.
    42-584 Dobieszowice
    NIP: 498-024-17-88, REGON: 365574646
 
+   *[DO UZUPEŁNIENIA: proszę potwierdzić, czy podmiotem świadczącym usługę ma być ta sama działalność gospodarcza co administrator danych z Polityki Prywatności, czy odrębny podmiot (np. przyszła spółka) — patrz też otwarta kwestia nr 1 w Polityce Prywatności dot. formy prawnej.]*
+
 3. Kontakt z Usługodawcą możliwy jest pod adresem e-mail: **kontakt@noskiem.org**.
 4. Regulamin jest udostępniony nieodpłatnie na stronie Serwisu pod adresem [noskiem.org/regulamin](/regulamin) w formie umożliwiającej jego pozyskanie, odtwarzanie i utrwalanie, zgodnie z art. 8 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.
 5. Korzystanie z Serwisu, w tym dodanie jakiegokolwiek zgłoszenia lub wiadomości, oznacza akceptację niniejszego Regulaminu oraz [Polityki Prywatności](/polityka-prywatnosci).
@@ -37,7 +39,7 @@ Data ostatniej aktualizacji szkicu: 06.09.2026.
    - umożliwienie przeglądania i wyszukiwania Ogłoszeń opublikowanych w Serwisie (bazy ogłoszeń), w tym na mapie,
    - umożliwienie edycji i usunięcia własnego Ogłoszenia za pomocą Tokenu edycyjnego,
    - przesyłanie powiadomień e-mail związanych z obsługą Ogłoszenia (potwierdzenie dodania, link edycyjny, informacja o moderacji, informacja o nowej Wiadomości lub Zgłoszeniu obserwacji).
-2. Korzystanie z Serwisu jest bezpłatne dla Użytkowników.
+2. Korzystanie z Serwisu jest bezpłatne dla Użytkowników. *[DO UZUPEŁNIENIA: opisać docelowe usługi płatne/sponsorskie (panel dla miast, pakiety sponsorskie), jeśli i kiedy zostaną uruchomione — obecnie poza zakresem MVP, patrz Faza 3/4 w notatkach projektowych.]*
 3. Serwis nie wymaga zakładania konta przez osoby dodające Ogłoszenia — zarządzanie Ogłoszeniem odbywa się wyłącznie za pomocą Tokenu edycyjnego wysyłanego e-mailem.
 
 ## 4. Warunki techniczne korzystania z Serwisu
@@ -67,13 +69,15 @@ Usługodawca dokłada starań, aby korzystanie z Serwisu było możliwe dla wszy
 
 1. Token edycyjny jest przesyłany wyłącznie na adres e-mail podany przy dodawaniu Ogłoszenia i stanowi jedyny sposób samodzielnej edycji lub usunięcia Ogłoszenia przez Użytkownika.
 2. Użytkownik zobowiązany jest do zachowania Tokenu edycyjnego w poufności. Usługodawca nie ponosi odpowiedzialności za skutki udostępnienia Tokenu osobom trzecim przez Użytkownika ani za utratę dostępu do skrzynki e-mail, na którą Token został wysłany.
-3. W przypadku utraty dostępu do Tokenu edycyjnego Użytkownik może skontaktować się z Usługodawcą pod adresem **kontakt@noskiem.org** w celu weryfikacji i pomocy w zarządzaniu Ogłoszeniem. 
+3. W przypadku utraty dostępu do Tokenu edycyjnego Użytkownik może skontaktować się z Usługodawcą pod adresem **kontakt@noskiem.org** w celu weryfikacji i pomocy w zarządzaniu Ogłoszeniem. *[DO UZUPEŁNIENIA: ustalić dokładną procedurę weryfikacji tożsamości zgłaszającego w takim przypadku.]*
 
 ## 7. Własność intelektualna
 
-1. Zamieszczając zdjęcia i inne treści w Serwisie, Użytkownik udziela Usługodawcy niewyłącznej, nieodpłatnej licencji na ich wykorzystanie w zakresie niezbędnym do świadczenia usług Serwisu, w tym publikacji, wyświetlania i przechowywania w ramach Ogłoszenia, przez czas jego widoczności w Serwisie oraz przez okres archiwizacji, o którym mowa w Polityce Prywatności.
+1. Zamieszczając zdjęcia i inne treści w Serwisie, Użytkownik udziela Usługodawcy niewyłącznej, nieodpłatnej licencji na ich wykorzystanie w zakresie niezbędnym do świadczenia usług Serwisu, w tym publikacji, wyświetlania i przechowywania w ramach Ogłoszenia, generowania plakatu ogłoszenia (pkt 7.3 poniżej) oraz przechowywania przez okres archiwizacji, o którym mowa w Polityce Prywatności.
 2. Usługodawca nie rości sobie praw autorskich do treści zamieszczanych przez Użytkowników poza zakresem opisanym powyżej.
-3. Elementy graficzne, oprogramowanie oraz nazwa i logo Serwisu stanowią własność Usługodawcy lub są wykorzystywane na podstawie odpowiednich licencji i podlegają ochronie prawnej.
+3. Serwis udostępnia funkcję generowania plakatu ogłoszenia w formacie PDF (w wariantach A4/A5) na podstawie treści zatwierdzonego Ogłoszenia, w tym zdjęcia zwierzęcia oraz danych kontaktowych podanych przez osobę zgłaszającą. Plakat jest dostępny pod publicznym adresem powiązanym z Ogłoszeniem i może zostać pobrany oraz wydrukowany przez dowolnego Użytkownika — także innego niż osoba, która dodała Ogłoszenie — w celu wsparcia poszukiwań (np. rozwieszenia w okolicy zdarzenia).
+4. Dodając Ogłoszenie, Użytkownik wyraża zgodę na udostępnianie w ten sposób zamieszczonych przez siebie zdjęć oraz danych kontaktowych innym Użytkownikom Serwisu. Pobierając lub drukując plakat, Użytkownik zobowiązuje się wykorzystywać go wyłącznie w celu określonym w pkt 7.3 (pomoc w odnalezieniu/identyfikacji zwierzęcia), bez wprowadzania zmian w jego treści i bez wykorzystania komercyjnego.
+5. Elementy graficzne, oprogramowanie oraz nazwa i logo Serwisu stanowią własność Usługodawcy lub są wykorzystywane na podstawie odpowiednich licencji i podlegają ochronie prawnej.
 
 ## 8. Odpowiedzialność Usługodawcy
 
@@ -107,7 +111,21 @@ Zasady przetwarzania danych osobowych Użytkowników opisane są szczegółowo w
 ## 13. Postanowienia końcowe
 
 1. W sprawach nieuregulowanych niniejszym Regulaminem zastosowanie mają obowiązujące przepisy prawa polskiego, w szczególności Kodeksu cywilnego oraz ustawy o świadczeniu usług drogą elektroniczną.
-2. Ewentualne spory wynikające z korzystania z Serwisu będą rozstrzygane przez sąd właściwy zgodnie z obowiązującymi przepisami. 
-3. Regulamin wchodzi w życie z dniem 6 września 2026.
+2. Ewentualne spory wynikające z korzystania z Serwisu będą rozstrzygane przez sąd właściwy zgodnie z obowiązującymi przepisami. *[DO UZUPEŁNIENIA: rozważyć dodanie klauzuli o pozasądowym rozwiązywaniu sporów (np. platforma ODR UE), jeśli uznane za wymagane.]*
+3. Regulamin wchodzi w życie z dniem *[DO UZUPEŁNIENIA: data publikacji]*.
 
+---
 
+## Otwarte kwestie wymagające decyzji przed publikacją
+
+Oznaczone w dokumencie jako `[DO UZUPEŁNIENIA]`:
+
+1. Potwierdzenie podmiotu-Usługodawcy — ta sama forma prawna co administrator danych w Polityce Prywatności, czy inny podmiot (powiązane z otwartą kwestią formy prawnej projektu).
+2. Opis docelowych usług płatnych/sponsorskich (panel dla miast, sponsoring) — na razie pominięty jako poza zakresem MVP; do dodania przy wdrażaniu Fazy 3/4.
+3. Dokładna procedura weryfikacji tożsamości przy utracie Tokenu edycyjnego.
+4. Czy dodać klauzulę o pozasądowym rozstrzyganiu sporów / platformie ODR.
+5. Data wejścia w życie Regulaminu.
+6. Rozważyć (wspólnie z Polityką Prywatności) dodanie checkboxa akceptacji Regulaminu i Polityki Prywatności przy formularzu zgłoszenia — patrz otwarta kwestia nr 7 w `polityka-prywatnosci.md`.
+7. **Do weryfikacji z Polityką Prywatności:** plakat PDF (pkt 7.3–7.4) pokazuje numer telefonu zgłaszającego (jeśli podany), a plakat jest dostępny publicznie pod adresem `/animals/{id}/poster` bez logowania. Tymczasem `polityka-prywatnosci.md` (pkt 2.1) stwierdza, że „telefon nie jest publicznie widoczny na stronie ogłoszenia” — co jest prawdą tylko dla samej strony ogłoszenia, nie dla plakatu. Warto doprecyzować to zastrzeżenie w Polityce Prywatności, żeby nie wprowadzało w błąd co do faktycznej widoczności numeru telefonu.
+
+**Zastrzeżenie:** to jest roboczy szkic przygotowany jako punkt wyjścia do dalszej pracy, nie porada prawna. Przed publikacją serwisu warto skonsultować dokument z prawnikiem, zwłaszcza w zakresie odpowiedzialności Usługodawcy i zgodności z przepisami o świadczeniu usług drogą elektroniczną oraz ochronie danych osobowych.
