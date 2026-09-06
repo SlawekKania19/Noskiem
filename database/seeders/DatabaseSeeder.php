@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             AnimalSeeder::class,
             AnimalEditSeeder::class,
             PagesSeeder::class,
+            BlogSeeder::class,
         ]);
     }
 }

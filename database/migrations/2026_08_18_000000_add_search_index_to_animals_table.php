@@ -18,9 +18,14 @@ return new class extends Migration
             $table->text('search_index')->nullable()->after('longitude');
         });
 
-        Schema::table('animals', function (Blueprint $table) {
-            $table->fullText('search_index');
-        });
+        // ** Indeks FULLTEXT tylko na sterownikach, które go wspierają (MySQL/MariaDB).
+        // Baza testowa (SQLite) go nie zna — pomijamy; wyszukiwarka pełnotekstowa i tak
+        // działa wyłącznie na produkcyjnym MySQL (patrz AnimalController::index).
+        if ($this->supportsFullText()) {
+            Schema::table('animals', function (Blueprint $table) {
+                $table->fullText('search_index');
+            });
+        }
 
         // Wypełnienie pola dla istniejących ogłoszeń
         Animal::with(['species', 'breed', 'city', 'voivodeship', 'colors'])
@@ -33,8 +38,16 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('animals', function (Blueprint $table) {
-            $table->dropFullText(['search_index']);
+            if ($this->supportsFullText()) {
+                $table->dropFullText(['search_index']);
+            }
+
             $table->dropColumn('search_index');
         });
+    }
+
+    private function supportsFullText(): bool
+    {
+        return in_array(Schema::getConnection()->getDriverName(), ['mysql', 'mariadb'], true);
     }
 };

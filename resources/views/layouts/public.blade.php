@@ -29,6 +29,7 @@
             $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
             $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
             $navIsMap = request()->routeIs('map.index');
+            $navIsBlog = request()->routeIs('blog.*');
             $navIsCreate = request()->routeIs('animals.create');
         @endphp
 
@@ -66,6 +67,7 @@
                         <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="{{ $navIsLost ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Zaginione</a>
                         <a href="{{ route('animals.index', ['status' => 'found']) }}" class="{{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Znalezione</a>
                         <a href="{{ route('map.index') }}" class="{{ $navIsMap ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Mapa</a>
+                        <a href="{{ route('blog.index') }}" class="{{ $navIsBlog ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Blog</a>
                         <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
                     </nav>
                     {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
@@ -137,7 +139,7 @@
                             <li><a href="{{ route('animals.index') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Baza zwierząt</a></li>
                             <li><a href="{{ route('animals.create') }}" :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')" class="transition-colors hover:underline active:text-[#c9cdb8]">Dodaj ogłoszenie</a></li>
                             <li><a href="#" class="transition-colors hover:underline active:text-[#c9cdb8]">Jak to działa</a></li>
-                            <li><a href="#" class="transition-colors hover:underline active:text-[#c9cdb8]">Blog</a></li>
+                            <li><a href="{{ route('blog.index') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Blog</a></li>
                         </ul>
                     </div>
                     {{-- Informacje --}}

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CookieConsentController;
@@ -136,6 +137,26 @@ Route::get('/animal-edits/{animalEdit}/confirm', [AnimalEditController::class, '
 
 Route::post('/cookies/accept', [CookieConsentController::class, 'accept'])
     ->name('cookies.accept');
+
+// ---------------------------
+// BLOG — artykuły/porady. Wpisy opublikowane (Post::published). Trasy MUSZĄ być
+// przed "catch-all" po slugu na końcu pliku. Kolejność w obrębie /blog: bardziej
+// szczegółowe adresy (/blog/kategoria/...) przed docelowym /blog/{post:slug}.
+// ---------------------------
+
+Route::get('/blog', [BlogController::class, 'index'])
+    ->name('blog.index');
+
+// ** Kanał RSS — przed /blog/{post:slug}, inaczej "feed" złapałoby się jako slug wpisu
+Route::get('/blog/feed', [BlogController::class, 'feed'])
+    ->name('blog.feed');
+
+Route::get('/blog/kategoria/{category:slug}', [BlogController::class, 'category'])
+    ->name('blog.category');
+
+// ** Musi być po /blog/kategoria/... — slug wpisu to pojedynczy segment
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])
+    ->name('blog.show');
 
 // ---------------------------
 // KONTAKT — treść nad formularzem edytowalna z panelu Ustawień (Markdown)
