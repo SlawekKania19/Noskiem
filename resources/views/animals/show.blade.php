@@ -95,6 +95,89 @@
         <p class="mt-1 text-[13px] text-[#8f9485]">Dodano {{ $animal->created_at->locale('pl')->translatedFormat('d F Y') }}</p>
 
         {{-- ---------------------------
+             Wydrukuj plakat — dostępne dla każdego (nie tylko autora). Modal z wyborem
+             formatu; wejście na stronę z ?print=1 (link z maila o zatwierdzeniu) otwiera
+             modal od razu.
+             --------------------------- --}}
+        <div x-data="{ posterOpen: {{ request()->boolean('print') ? 'true' : 'false' }} }">
+            <button
+                type="button"
+                @click="posterOpen = true"
+                class="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#283618] px-4 py-2 text-[13px] font-semibold text-[#283618] transition hover:bg-[#283618] hover:text-[#fefae0] active:transform-[scale(0.97)] active:bg-[#1e2812]"
+            >
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9V2h12v7"/>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                    <path d="M6 14h12v8H6z"/>
+                </svg>
+                Wydrukuj plakat
+            </button>
+
+            {{-- ** Modal wyboru formatu — wzór jak pozostałe modale w tym widoku
+                 (fixed inset-0 z-[1100], zamykanie Esc / klik w tło) --}}
+            <div
+                x-show="posterOpen"
+                x-cloak
+                @click.self="posterOpen = false"
+                @keydown.escape.window="posterOpen = false"
+                class="fixed inset-0 z-[1100] flex items-center justify-center bg-black/50 p-4"
+            >
+                <div class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-[#e5e5dc] bg-white p-6 shadow-2xl">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-[16px] font-semibold text-[#283618]">Wybierz format plakatu</h3>
+                        <button
+                            type="button"
+                            @click="posterOpen = false"
+                            class="cursor-pointer text-[20px] text-[#8f9485] hover:text-[#283618]"
+                            aria-label="Zamknij"
+                        >&times;</button>
+                    </div>
+
+                    <p class="mt-1 text-[13px] text-[#8f9485]">Plakat wygeneruje się jako plik PDF gotowy do druku.</p>
+
+                    <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {{-- ** A4 — jeden plakat na całą kartkę --}}
+                        <a
+                            href="{{ route('animals.poster', $animal) }}?format=a4"
+                            target="_blank"
+                            rel="noopener"
+                            @click="posterOpen = false"
+                            class="flex flex-col items-center gap-2 rounded-xl border border-[#e5e5dc] p-4 text-center transition hover:border-[#283618] hover:bg-[#f4f4ef] active:transform-[scale(0.98)]"
+                        >
+                            <svg class="h-20 w-auto" viewBox="0 0 48 60" fill="none">
+                                <rect x="3" y="3" width="42" height="54" rx="3" fill="#fefae0" stroke="#283618" stroke-width="2"/>
+                                <rect x="9" y="9" width="30" height="13" rx="1.5" fill="#994d0a"/>
+                                <rect x="14" y="27" width="20" height="21" rx="1.5" fill="#dbe3d1"/>
+                            </svg>
+                            <span class="text-[14px] font-semibold text-[#283618]">A4</span>
+                            <span class="text-[12px] text-[#616657]">Cały plakat na kartce A4</span>
+                        </a>
+
+                        {{-- ** B5 — dwa identyczne plakaty na kartce A4 --}}
+                        <a
+                            href="{{ route('animals.poster', $animal) }}?format=b5"
+                            target="_blank"
+                            rel="noopener"
+                            @click="posterOpen = false"
+                            class="flex flex-col items-center gap-2 rounded-xl border border-[#e5e5dc] p-4 text-center transition hover:border-[#283618] hover:bg-[#f4f4ef] active:transform-[scale(0.98)]"
+                        >
+                            <svg class="h-20 w-auto" viewBox="0 0 48 60" fill="none">
+                                <rect x="3" y="3" width="42" height="54" rx="3" fill="#fefae0" stroke="#283618" stroke-width="2"/>
+                                <line x1="3" y1="30" x2="45" y2="30" stroke="#b9b9a8" stroke-width="1.5" stroke-dasharray="3 2"/>
+                                <rect x="9" y="8" width="17" height="6" rx="1" fill="#994d0a"/>
+                                <rect x="12" y="17" width="11" height="9" rx="1" fill="#dbe3d1"/>
+                                <rect x="9" y="35" width="17" height="6" rx="1" fill="#994d0a"/>
+                                <rect x="12" y="44" width="11" height="9" rx="1" fill="#dbe3d1"/>
+                            </svg>
+                            <span class="text-[14px] font-semibold text-[#283618]">B5</span>
+                            <span class="text-[12px] text-[#616657]">Dwa identyczne plakaty na kartce A4 — do przecięcia</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- ---------------------------
              Galeria zdjęć (tabela photos) — miniatury kwadratowe (mniej agresywny crop niż
              stały h-40/h-48 przy zmiennej liczbie kolumn), klik otwiera lightbox z pełnym zdjęciem
              (object-contain, bez obcinania) i nawigacją strzałkami

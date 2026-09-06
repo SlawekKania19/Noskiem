@@ -25,7 +25,12 @@ class AnimalSubmissionApproved extends Mailable
         return $this
             ->subject('Twoje ogłoszenie zostało zatwierdzone — '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
-            ->with(['editUrl' => route('animals.edit', ['animal' => $this->animal, 'token' => $this->animal->edit_token])])
+            ->with([
+                'editUrl' => route('animals.edit', ['animal' => $this->animal, 'token' => $this->animal->edit_token]),
+                // ** Link do strony ogłoszenia z ?print=1 — otwiera od razu modal wyboru
+                // formatu plakatu (patrz resources/views/animals/show.blade.php)
+                'posterUrl' => route('animals.show', $this->animal).'?print=1',
+            ])
             ->view('emails.animal-approved');
     }
 }

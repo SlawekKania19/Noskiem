@@ -36,6 +36,23 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
+        Chcesz rozwiesić plakat w okolicy? Kliknij poniżej — wybierzesz format (A4 lub dwa na kartkę) i pobierzesz gotowy PDF.
+    </p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+        <tr>
+            <td style="border-radius:10px; border:1px solid #283618;">
+                <a
+                    href="{{ $posterUrl }}"
+                    style="display:inline-block; padding:12px 24px; color:#283618; font-size:14px; font-weight:600; text-decoration:none;"
+                >
+                    Wydrukuj plakat
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Raz w miesiący wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
     </p>
 

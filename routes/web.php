@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SightingController;
 
@@ -77,6 +78,12 @@ Route::get('/animals/{animal}', [AnimalController::class, 'show'])
 Route::get('/animals/{animal}/phone', [AnimalController::class, 'phone'])
     ->middleware('throttle:reveal-phone')
     ->name('animals.phone');
+
+// ** Plakat PDF ogłoszenia (A4 lub B5 przez ?format=) — publiczny, generowanie
+// obciąża CPU, więc pod throttle
+Route::get('/animals/{animal}/poster', [PosterController::class, 'show'])
+    ->middleware('throttle:30,1')
+    ->name('animals.poster');
 
 // ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
