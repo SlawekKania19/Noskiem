@@ -149,14 +149,9 @@
                             <li><a href="{{ route('contact.show') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Kontakt</a></li>
                         </ul>
                     </div>
-                    {{-- Kontakt / social media --}}
-                    @php($contactEmail = \App\Models\Setting::get('contact_email', 'kontakt@noskiem.pl'))
-                    <div>
-                        <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Kontakt</p>
-                        <ul class="mt-3 space-y-2 text-[14px]">
-                            <li><a href="mailto:{{ $contactEmail }}" class="hover:underline">{{ $contactEmail }}</a></li>
-                        </ul>
-                    </div>
+                    {{-- Wolna kolumna — link do kontaktu jest w kolumnie „Informacje".
+                         Zostawiamy pusty slot do wykorzystania w przyszłości (np. social media). --}}
+                    <div></div>
                 </div>
                 <div class="mt-10 border-t border-white/10 pt-6 text-[12px] text-[#c9cdb8]">
                     &copy; {{ date('Y') }} noskiem.org. Wszelkie prawa zastrzeżone.
