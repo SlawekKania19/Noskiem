@@ -72,9 +72,13 @@
         <table class="contact-table">
             <tr>
                 <td>
-                    <div class="contact-name">Kontakt: {{ $animal->contact_name }}</div>
+                    {{-- ** Bez imienia/nazwiska — na plakacie tylko dane do kontaktu.
+                         Telefon jako główny kontakt; gdy autor go nie podał — sam e-mail. --}}
+                    <div class="contact-label">Kontakt</div>
                     @if ($animal->formatted_phone)
                         <div class="contact-phone">{{ $animal->formatted_phone }}</div>
+                    @elseif ($animal->contact_email)
+                        <div class="contact-email">{{ $animal->contact_email }}</div>
                     @endif
                 </td>
                 <td class="qr">

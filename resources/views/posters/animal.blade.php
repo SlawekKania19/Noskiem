@@ -128,15 +128,28 @@
         .contact-table { width: 100%; }
         .contact-table td { vertical-align: middle; }
 
-        .contact-name { font-size: 12pt; font-weight: bold; }
+        .contact-label {
+            text-transform: uppercase;
+            font-size: 8.5pt;
+            letter-spacing: 1px;
+            color: #8f9485;
+        }
         .contact-phone {
             font-size: 22pt;
             font-weight: bold;
             color: #994d0a;
             margin-top: 1mm;
         }
-        .sheet-b5 .contact-name { font-size: 8.5pt; }
+        .contact-email {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #994d0a;
+            margin-top: 1mm;
+            word-break: break-all;
+        }
+        .sheet-b5 .contact-label { font-size: 6.5pt; }
         .sheet-b5 .contact-phone { font-size: 12pt; }
+        .sheet-b5 .contact-email { font-size: 9pt; }
 
         .qr { text-align: right; width: 34mm; }
         .qr img { width: 30mm; height: 30mm; }
