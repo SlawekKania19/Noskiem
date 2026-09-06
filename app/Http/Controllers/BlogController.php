@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogCategory;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,39 @@ class BlogController extends Controller
             : collect();
 
         return view('blog.show', compact('post', 'related'));
+    }
+
+    // Strona autora — profil + jego opublikowane artykuły
+    public function author(User $user)
+    {
+        abort_unless($user->hasPublicAuthorProfile(), 404);
+
+        $posts = $user->posts()
+            ->published()
+            ->with('category')
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('blog.author', [
+            'author' => $user,
+            'posts' => $posts,
+            'articlesLabel' => $this->polishArticleCount($posts->total()),
+        ]);
+    }
+
+    // ** Poprawna polska odmiana: "1 opublikowany artykuł" / "3 opublikowane artykuły"
+    // / "5 opublikowanych artykułów" (z obsługą 12–14)
+    private function polishArticleCount(int $n): string
+    {
+        if ($n === 1) {
+            return '1 opublikowany artykuł';
+        }
+
+        $mod10 = $n % 10;
+        $mod100 = $n % 100;
+        $few = $mod10 >= 2 && $mod10 <= 4 && ! ($mod100 >= 12 && $mod100 <= 14);
+
+        return $n.($few ? ' opublikowane artykuły' : ' opublikowanych artykułów');
     }
 
     // ** Zapytanie bazowe listy — opublikowane, z autorem i kategorią, od najnowszych

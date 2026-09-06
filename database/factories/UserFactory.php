@@ -42,4 +42,18 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Konto autora bloga z wypełnionym profilem (slug dolicza się w modelu).
+     */
+    public function author(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_author' => true,
+            'headline' => fake()->sentence(4),
+            'bio' => '<p>'.fake()->paragraph().'</p>',
+            'signature' => '<p>'.fake()->sentence().'</p>',
+            'website_url' => 'https://'.fake()->domainName(),
+        ]);
+    }
 }

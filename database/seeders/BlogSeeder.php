@@ -17,7 +17,7 @@ class BlogSeeder extends Seeder
 {
     public function run(): void
     {
-        // ** Autor wpisów
+        // ** Autor wpisów — z wypełnionym profilem (strona /blog/autor/{slug})
         $author = User::updateOrCreate(
             ['email' => 'redakcja@noskiem.org'],
             [
@@ -25,6 +25,12 @@ class BlogSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
                 'is_author' => true,
+                'headline' => 'Zespół redakcyjny Noskiem.pl',
+                'bio' => '<p>Piszemy praktyczne poradniki dla opiekunów zwierząt — o tym, jak reagować na zaginięcie, jak zadbać o bezpieczeństwo pupila i jak przejść przez pierwsze dni po adopcji.</p><p>Materiały powstają we współpracy z zewnętrznymi autorami działającymi pro bono.</p>',
+                'signature' => '<p><strong>Masz temat na artykuł albo chcesz do nas pisać?</strong> Odezwij się przez formularz kontaktowy — chętnie damy Ci miejsce i podlinkujemy Twoją działalność.</p>',
+                'website_url' => 'https://noskiem.org',
+                'facebook_url' => 'https://facebook.com/noskiem',
+                'instagram_url' => 'https://instagram.com/noskiem',
             ],
         );
 

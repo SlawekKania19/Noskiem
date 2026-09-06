@@ -48,11 +48,14 @@
 
         <h1 class="mt-2 text-[32px] font-semibold leading-tight text-[#283618]">{{ $post->title }}</h1>
 
-        <p class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-[#8f9485]">
-            @if ($post->author)
-                <span>{{ $post->author->name }}</span>
-                <span aria-hidden="true">·</span>
-            @endif
+        {{-- ** Wyróżniony autor pod tytułem — miniatura + nazwa, klikalne do strony autora --}}
+        @if ($post->author)
+            <div class="mt-4">
+                @include('blog.partials.author-badge', ['author' => $post->author, 'size' => 'sm'])
+            </div>
+        @endif
+
+        <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-[#8f9485]">
             <span>{{ $post->published_at?->locale('pl')->translatedFormat('d F Y') ?? 'wersja robocza' }}</span>
             <span aria-hidden="true">·</span>
             <span>{{ $post->reading_time }} min czytania</span>
@@ -70,6 +73,18 @@
         <div class="prose prose-neutral mt-8 max-w-none prose-headings:text-[#283618] prose-a:text-[#283618]">
             {!! $post->body_html !!}
         </div>
+
+        {{-- ---------------------------
+             Stopka autora — skonfigurowana przez autora, wyraźnie oddzielona od treści
+             --------------------------- --}}
+        @if ($post->author && $post->author->signature_html)
+            <div class="mt-12 rounded-2xl border border-[#e5e5dc] bg-[#f8f8f4] p-6">
+                @include('blog.partials.author-badge', ['author' => $post->author, 'size' => 'sm'])
+                <div class="prose prose-sm prose-neutral mt-4 max-w-none prose-headings:text-[#283618] prose-a:text-[#283618]">
+                    {!! $post->author->signature_html !!}
+                </div>
+            </div>
+        @endif
 
         @if ($related->isNotEmpty())
             <div class="mt-14 border-t border-[#e5e5dc] pt-8">

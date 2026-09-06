@@ -6,6 +6,9 @@ use App\Filament\Concerns\RestrictedToAdmin;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Actions;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
@@ -65,8 +68,61 @@ class UserResource extends Resource
                     ->helperText('Dostęp do moderacji zgłoszeń.'),
                 Toggle::make('is_author')
                     ->label('Autor')
-                    ->helperText('Docelowo: pisanie artykułów (funkcja jeszcze niedostępna).'),
+                    ->helperText('Pisanie artykułów na blogu + publiczna strona autora.')
+                    ->live(),
             ]),
+
+            Section::make('Profil autora (blog)')
+                ->description('Dane widoczne publicznie — na stronie autora (/blog/autor/…) i pod jego wpisami.')
+                ->visible(fn ($get) => (bool) $get('is_author'))
+                ->schema([
+                    TextInput::make('slug')
+                        ->label('Adres strony autora (slug)')
+                        ->helperText('Końcówka adresu: /blog/autor/TWÓJ-SLUG. Zostaw puste — wygenerujemy z imienia i nazwiska.')
+                        ->maxLength(255)
+                        ->alphaDash()
+                        ->unique(ignoreRecord: true),
+
+                    FileUpload::make('avatar_path')
+                        ->label('Zdjęcie / awatar')
+                        ->image()
+                        ->imageEditor()
+                        ->avatar()
+                        ->disk('public')
+                        ->directory('avatars')
+                        ->visibility('public')
+                        ->maxSize(2048)
+                        ->helperText('Kwadrat wygląda najlepiej. Maksymalnie 2 MB.'),
+
+                    TextInput::make('headline')
+                        ->label('Motto / rola')
+                        ->helperText('Jedna linijka pod nazwiskiem, np. „Behawiorystka, fundacja Cztery Łapy”.')
+                        ->maxLength(255),
+
+                    RichEditor::make('bio')
+                        ->label('O autorze')
+                        ->helperText('Kilka zdań o Tobie i Twojej działalności.')
+                        ->columnSpanFull(),
+
+                    RichEditor::make('signature')
+                        ->label('Stopka autora')
+                        ->helperText('Pokazujemy ją pod każdym Twoim artykułem i na dole Twojej strony autora — np. podziękowanie, zaproszenie do kontaktu, link do zbiórki.')
+                        ->columnSpanFull(),
+
+                    TextInput::make('website_url')->label('Strona WWW')->url()->maxLength(255)->placeholder('https://…'),
+                    TextInput::make('facebook_url')->label('Facebook')->url()->maxLength(255)->placeholder('https://facebook.com/…'),
+                    TextInput::make('instagram_url')->label('Instagram')->url()->maxLength(255)->placeholder('https://instagram.com/…'),
+                    TextInput::make('tiktok_url')->label('TikTok')->url()->maxLength(255)->placeholder('https://tiktok.com/@…'),
+                    TextInput::make('x_url')->label('X (Twitter)')->url()->maxLength(255)->placeholder('https://x.com/…'),
+                    TextInput::make('youtube_url')->label('YouTube')->url()->maxLength(255)->placeholder('https://youtube.com/@…'),
+                    TextInput::make('linkedin_url')->label('LinkedIn')->url()->maxLength(255)->placeholder('https://linkedin.com/in/…'),
+
+                    Placeholder::make('published_posts_count')
+                        ->label('Opublikowane artykuły')
+                        ->content(fn (?User $record) => (string) ($record?->publishedPostsCount() ?? 0))
+                        ->visible(fn (?User $record) => $record !== null),
+                ])
+                ->columns(2),
         ]);
     }
 
@@ -94,6 +150,11 @@ class UserResource extends Resource
                         'Autor' => 'info',
                         default => 'gray',
                     }),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Strona autora')
+                    ->prefix('/blog/autor/')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')->label('Utworzono')->dateTime('d.m.Y H:i')->sortable(),
             ])
             ->defaultSort('name')

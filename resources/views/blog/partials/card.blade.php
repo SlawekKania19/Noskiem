@@ -39,7 +39,13 @@
              miały równą stopkę. Każda informacja w osobnym wierszu. --}}
         <div class="mt-auto pt-4 space-y-0.5 text-[12px] text-[#8f9485]">
             @if ($post->author)
-                <p>{{ $post->author->name }}</p>
+                <p>
+                    @if ($post->author->hasPublicAuthorProfile())
+                        <a href="{{ route('blog.author', $post->author) }}" class="transition-colors hover:text-[#283618] hover:underline">{{ $post->author->name }}</a>
+                    @else
+                        {{ $post->author->name }}
+                    @endif
+                </p>
             @endif
             <p>{{ $post->published_at->locale('pl')->translatedFormat('d F Y') }}</p>
             <p>{{ $post->reading_time }} min czytania</p>

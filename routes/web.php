@@ -151,10 +151,13 @@ Route::get('/blog', [BlogController::class, 'index'])
 Route::get('/blog/feed', [BlogController::class, 'feed'])
     ->name('blog.feed');
 
+Route::get('/blog/autor/{user:slug}', [BlogController::class, 'author'])
+    ->name('blog.author');
+
 Route::get('/blog/kategoria/{category:slug}', [BlogController::class, 'category'])
     ->name('blog.category');
 
-// ** Musi być po /blog/kategoria/... — slug wpisu to pojedynczy segment
+// ** Musi być po /blog/autor/... i /blog/kategoria/... — slug wpisu to pojedynczy segment
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])
     ->name('blog.show');
 
