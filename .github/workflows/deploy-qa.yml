@@ -46,4 +46,5 @@ jobs:
             php artisan migrate --force
             php artisan db:seed --class=BehaviorsSeeder --force
             php artisan db:seed --class=IdentMarksTagsSeeder --force
+            php artisan db:seed --class=BlogSeeder --force
             php artisan optimize:clear
