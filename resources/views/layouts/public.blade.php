@@ -36,7 +36,16 @@
         {{-- ---------------------------
              Navbar
              --------------------------- --}}
-        <header class="sticky top-0 z-40 bg-white shadow-[0px_2px_10px_0px_rgba(30,38,18,0.05)]">
+        {{-- ** Na mobile linki z navbaru są ukryte, a Bottom Nav ma tylko 5 slotów na akcje
+             produktowe — pełna nawigacja (m.in. Blog) siedzi pod hamburgerem po prawej --}}
+        <header
+            x-data="{ mobileNavOpen: false }"
+            @click.outside="mobileNavOpen = false"
+            @keydown.escape.window="mobileNavOpen = false"
+            {{-- ** Po przejściu na desktop panel musi się zamknąć, inaczej zostaje otwarty przy powrocie --}}
+            @resize.window="if (window.innerWidth >= 768) mobileNavOpen = false"
+            class="sticky top-0 z-40 bg-white shadow-[0px_2px_10px_0px_rgba(30,38,18,0.05)]"
+        >
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex h-20 items-center justify-between">
                     {{-- Logo + nazwa marki --}}
@@ -70,15 +79,67 @@
                         <a href="{{ route('blog.index') }}" class="{{ $navIsBlog ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Blog</a>
                         <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
                     </nav>
-                    {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
-                    <a
-                        href="{{ route('animals.create') }}"
-                        :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
-                        class="hidden sm:inline-flex items-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
-                    >
-                        + Dodaj ogłoszenie
-                    </a>
+                    <div class="flex items-center gap-2">
+                        {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
+                        <a
+                            href="{{ route('animals.create') }}"
+                            :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
+                            class="hidden sm:inline-flex items-center rounded-xl bg-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]"
+                        >
+                            + Dodaj ogłoszenie
+                        </a>
+
+                        {{-- Hamburger — tylko mobile, otwiera panel z pełną nawigacją --}}
+                        <button
+                            type="button"
+                            @click="mobileNavOpen = ! mobileNavOpen"
+                            :aria-expanded="mobileNavOpen ? 'true' : 'false'"
+                            aria-controls="mobile-nav"
+                            aria-label="Menu"
+                            class="md:hidden -mr-2 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl text-[#283618] transition active:transform-[scale(0.94)] active:bg-[#f4f4ef]"
+                        >
+                            <svg x-show="! mobileNavOpen" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <path d="M4 7h16M4 12h16M4 17h16"/>
+                            </svg>
+                            <svg x-show="mobileNavOpen" x-cloak class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <path d="M6 6l12 12M18 6L6 18"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+            </div>
+
+            {{-- ---------------------------
+                 Panel nawigacji mobilnej — lustro linków z navbaru desktopowego.
+                 Bottom Nav zostaje paskiem szybkich akcji, tu jest pełna mapa serwisu.
+                 --------------------------- --}}
+            <div
+                id="mobile-nav"
+                x-show="mobileNavOpen"
+                x-cloak
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-2"
+                class="md:hidden border-t border-[#e5e5dc] bg-white"
+            >
+                @php
+                    $mobileNavBase = 'block rounded-xl px-3 py-2.5 text-[15px] transition-colors';
+                    $mobileNavActive = 'bg-[#f4f4ef] font-semibold text-[#283618]';
+                    $mobileNavIdle = 'text-[#616657] active:bg-[#f4f4ef] active:text-[#283618]';
+                @endphp
+
+                <nav class="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6">
+                    <a href="{{ route('home') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsHome ? $mobileNavActive : $mobileNavIdle }}">Główna</a>
+                    <a href="{{ route('animals.index', ['status' => 'lost']) }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsLost ? $mobileNavActive : $mobileNavIdle }}">Zaginione</a>
+                    <a href="{{ route('animals.index', ['status' => 'found']) }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsFound ? $mobileNavActive : $mobileNavIdle }}">Znalezione</a>
+                    <a href="{{ route('map.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsMap ? $mobileNavActive : $mobileNavIdle }}">Mapa</a>
+                    <a href="{{ route('blog.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsBlog ? $mobileNavActive : $mobileNavIdle }}">Blog</a>
+                    <a href="#" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $mobileNavIdle }}">Jak to działa</a>
+                    <a href="{{ route('contact.show') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ request()->routeIs('contact.show') ? $mobileNavActive : $mobileNavIdle }}">Kontakt</a>
+                </nav>
             </div>
         </header>
 
