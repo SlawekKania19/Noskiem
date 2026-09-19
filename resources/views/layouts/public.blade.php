@@ -183,6 +183,11 @@
         </main>
 
         {{-- ---------------------------
+             Pasek partnerów — renderuje się tylko, gdy jacyś partnerzy są dodani w panelu
+             --------------------------- --}}
+        <x-partners-bar />
+
+        {{-- ---------------------------
              Footer
              --------------------------- --}}
         <footer class="bg-[#283618] text-[#fefae0]">

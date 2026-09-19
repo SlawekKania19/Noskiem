@@ -8,6 +8,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
@@ -58,6 +59,8 @@ class Settings extends Page implements HasForms
             'rate_limit_animals_max' => Setting::get('rate_limit_animals_max', '1'),
             'rate_limit_messages_max' => Setting::get('rate_limit_messages_max', '5'),
             'rate_limit_phone_max' => Setting::get('rate_limit_phone_max', '20'),
+            'partners_visible' => Setting::get('partners_visible', '5'),
+            'partners_interval' => Setting::get('partners_interval', '4'),
             'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe."),
         ]);
     }
@@ -180,6 +183,29 @@ class Settings extends Page implements HasForms
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(200)
+                            ->required(),
+                    ]),
+
+                Section::make('Partnerzy')
+                    ->description('Pasek z logotypami partnerów nad stopką. Samą listę partnerów prowadzi się w zakładce Partnerzy.')
+                    ->schema([
+                        // ** Nieparzysta liczba, bo baner w kolorze to ten na środku paska
+                        Select::make('partners_visible')
+                            ->label('Widocznych banerów naraz (desktop)')
+                            ->options([
+                                '3' => '3',
+                                '5' => '5',
+                                '7' => '7',
+                            ])
+                            ->helperText('Na tablecie pasek pokazuje 3 banery, na telefonie 1 — niezależnie od tego ustawienia.')
+                            ->required(),
+
+                        TextInput::make('partners_interval')
+                            ->label('Przesuw co ile sekund')
+                            ->numeric()
+                            ->minValue(2)
+                            ->maxValue(30)
+                            ->suffix('s')
                             ->required(),
                     ]),
 

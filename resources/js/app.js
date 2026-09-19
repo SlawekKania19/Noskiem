@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs';
 import cityPicker from './city-picker';
+import partnersCarousel from './partners-carousel';
 
 window.Alpine = Alpine;
 
@@ -8,6 +9,7 @@ window.Alpine = Alpine;
 Alpine.store('petMode', 'szukam');
 
 Alpine.data('cityPicker', cityPicker);
+Alpine.data('partnersCarousel', partnersCarousel);
 
 // ** Leaflet + komponenty mapy (animal-map.js, animals-map.js) są w osobnym wpisie
 // (resources/js/maps.js), dociąganym tylko przez strony z mapą — patrz @push('head-assets')
