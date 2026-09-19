@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 // ---------------------------
 // Model reprezentujący zdjęcie zwierzęcia.
@@ -24,6 +25,19 @@ class Photo extends Model
     protected $casts = [
         'is_main' => 'boolean',
     ];
+
+    // ** Usunięcie rekordu kasuje też plik z dysku — inaczej zostawałyby sieroty
+    // zajmujące miejsce w storage. Dotyczy każdego usunięcia przez Eloquent
+    // (panel admina, relation manager); kaskady FK w bazie omijają ten hook,
+    // dlatego Animal sprząta swoje zdjęcia sam (patrz Animal::booted()).
+    protected static function booted(): void
+    {
+        static::deleting(function (Photo $photo): void {
+            if (filled($photo->path)) {
+                Storage::disk('public')->delete($photo->path);
+            }
+        });
+    }
 
     // ** Relacje
 

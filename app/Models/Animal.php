@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 // ---------------------------
@@ -121,6 +122,32 @@ class Animal extends Model
     protected static function booted(): void
     {
         static::saved(fn (Animal $animal) => $animal->syncSearchIndex());
+
+        // ** Usunięcie ogłoszenia kasuje kaskadą w bazie (FK) zdjęcia, historię edycji
+        // i zgłoszenia "widziałem" wraz z ich zdjęciami — ale kaskada FK omija Eloquenta,
+        // więc pliki zostałyby na dysku jako sieroty. Kasujemy je zawczasu, zanim baza
+        // usunie rekordy, bo potem nie mielibyśmy już skąd odczytać ścieżek.
+        static::deleting(fn (Animal $animal) => $animal->deleteRelatedPhotoFiles());
+    }
+
+    // ** Pliki wszystkich zdjęć powiązanych z ogłoszeniem: własnych, z oczekujących edycji
+    // i z podpiętych zgłoszeń "widziałem"
+    protected function deleteRelatedPhotoFiles(): void
+    {
+        $editIds = AnimalEdit::query()->where('animal_id', $this->id)->pluck('id');
+        $sightingIds = $this->sightings()->pluck('id');
+
+        $paths = Photo::query()
+            ->where('animal_id', $this->id)
+            ->when($editIds->isNotEmpty(), fn ($query) => $query->orWhereIn('animal_edit_id', $editIds))
+            ->when($sightingIds->isNotEmpty(), fn ($query) => $query->orWhereIn('sighting_id', $sightingIds))
+            ->pluck('path')
+            ->filter()
+            ->all();
+
+        if ($paths !== []) {
+            Storage::disk('public')->delete($paths);
+        }
     }
 
     public function syncSearchIndex(): void

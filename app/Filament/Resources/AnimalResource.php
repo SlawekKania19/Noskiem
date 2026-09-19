@@ -263,12 +263,27 @@ class AnimalResource extends Resource
                 // ** Same ikony zamiast przycisków z tekstem — oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
                 Actions\ViewAction::make()->iconButton(),
                 Actions\EditAction::make()->iconButton(),
+                static::deleteAction()->iconButton(),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    // ---------------------------
+    // Usuwanie ogłoszenia — wspólna konfiguracja dla listy, podglądu i edycji
+    // ---------------------------
+
+    // Ogłoszenia nie mają soft-deletes, więc kasujemy nieodwracalnie — stąd modal
+    // z wyraźnym ostrzeżeniem zamiast domyślnego "Czy na pewno?"
+    public static function deleteAction(): Actions\DeleteAction
+    {
+        return Actions\DeleteAction::make()
+            ->modalHeading('Usunąć ogłoszenie?')
+            ->modalDescription('Tej operacji nie można cofnąć — danych nie da się przywrócić. Razem z ogłoszeniem trwale znikną jego zdjęcia (także pliki z dysku), historia edycji oraz powiązane zgłoszenia „widziałem".')
+            ->modalSubmitActionLabel('Usuń trwale');
     }
 
     // ---------------------------

@@ -15,6 +15,7 @@ class ViewAnimal extends ViewRecord
     {
         return [
             EditAction::make(),
+            AnimalResource::deleteAction(),
         ];
     }
 }
