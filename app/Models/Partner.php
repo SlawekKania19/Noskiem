@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -43,6 +44,25 @@ class Partner extends Model
                 Storage::disk('public')->delete($partner->logo_path);
             }
         });
+    }
+
+    // ** Adres partnera zawsze z protokołem — bez niego <a href="maxizoo.pl"> byłby
+    // ścieżką względną i prowadził na noskiem.pl/maxizoo.pl. Admin może wpisać samą
+    // domenę, a https:// dokładamy sami (i w formularzu, i przy każdym zapisie).
+    public static function normalizeUrl(?string $url): ?string
+    {
+        $url = trim((string) $url);
+
+        if ($url === '') {
+            return null;
+        }
+
+        return preg_match('~^https?://~i', $url) ? $url : 'https://'.$url;
+    }
+
+    protected function url(): Attribute
+    {
+        return Attribute::make(set: fn (?string $value) => self::normalizeUrl($value));
     }
 
     public function scopeActive(Builder $query): Builder

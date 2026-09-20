@@ -62,16 +62,23 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
         },
 
         // Kolejka musi mieć co najmniej slots + 1 pozycji, żeby tor miał czym wypełnić
-        // kafelek wjeżdżający z prawej — przy małej liczbie partnerów powielamy listę
+        // kafelek wjeżdżający z prawej — przy małej liczbie partnerów powielamy listę.
+        //
+        // Każdy wpis dostaje stały, unikalny `key` (nr kopii + nr partnera) — x-for
+        // kluczuje po nim, więc przy rotacji Alpine przesuwa istniejące elementy DOM
+        // zamiast podmieniać w nich dane. Bez tego kafelek na środku po resecie toru
+        // tracił na chwilę kolor (klasy grayscale/opacity mają 500 ms przejścia).
         buildQueue() {
+            const withKeys = (copy) => this.items.map((item, index) => ({ key: `${copy}-${index}`, ...item }));
+
             if (! this.canAnimate) {
-                return [...this.items];
+                return withKeys(0);
             }
 
             const queue = [];
 
-            while (queue.length < this.slots + 1) {
-                queue.push(...this.items);
+            for (let copy = 0; queue.length < this.slots + 1; copy++) {
+                queue.push(...withKeys(copy));
             }
 
             return queue;

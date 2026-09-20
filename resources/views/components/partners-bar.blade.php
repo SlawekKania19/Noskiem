@@ -34,7 +34,7 @@
                 :style="trackStyle"
                 @transitionend.self="onSlideEnd()"
             >
-                <template x-for="(partner, index) in visible" :key="index">
+                <template x-for="(partner, index) in visible" :key="partner.key">
                     <div class="shrink-0 px-2 sm:px-3" :style="itemStyle()">
                         {{-- Bez linku Alpine usuwa href i baner zostaje zwykłym, nieklikalnym kafelkiem --}}
                         <a

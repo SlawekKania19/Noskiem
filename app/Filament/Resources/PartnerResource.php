@@ -4,15 +4,18 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Models\Partner;
+use Closure;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Validator;
 
 // ---------------------------
 // Partnerzy wspierający serwis — pozycje paska z logotypami nad stopką.
@@ -51,9 +54,23 @@ class PartnerResource extends Resource
                     ->maxSize(2048)
                     ->helperText('Najlepiej PNG lub SVG z przezroczystym tłem, poziome proporcje. Maksymalnie 2 MB. Bez logo w pasku pojawi się sama nazwa partnera.'),
 
+                // ** Admin może wpisać samą domenę — https:// dopisujemy po wyjściu z pola
+                // (żeby było widać, co się zapisze) i sprawdzamy dopiero znormalizowany adres.
+                // Model dodatkowo normalizuje przy zapisie (Partner::url()).
                 TextInput::make('url')
                     ->label('Link do strony partnera')
-                    ->url()
+                    ->placeholder('np. maxizoo.pl')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('url', Partner::normalizeUrl($state)))
+                    ->rule(function (): Closure {
+                        return function (string $attribute, mixed $value, Closure $fail): void {
+                            $normalized = Partner::normalizeUrl($value);
+
+                            if ($normalized !== null && Validator::make(['url' => $normalized], ['url' => 'url'])->fails()) {
+                                $fail('Podaj poprawny adres strony, np. maxizoo.pl');
+                            }
+                        };
+                    })
                     ->maxLength(255)
                     ->helperText('Opcjonalny. Bez linku baner nie będzie klikalny.')
                     ->prefixIcon('heroicon-o-link'),
