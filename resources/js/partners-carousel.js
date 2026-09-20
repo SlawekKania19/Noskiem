@@ -7,6 +7,10 @@
 // zerujemy przesunięcie bez animacji — dzięki temu pętla jest bezszwowa i nie
 // trzeba klonować DOM-u ani liczyć pozycji w pikselach.
 //
+// Strzałka "wstecz" robi to samo w lustrze: najpierw ostatni element kolejki idzie
+// na początek, a tor bez animacji staje o jeden slot w lewo (dla oka nic się nie
+// zmienia), potem z animacją wraca na zero.
+//
 // Kolorowy jest zawsze kafelek na środku; w trakcie przesuwu podświetlenie
 // przechodzi na kafelek wjeżdżający na środek, więc kolor "jedzie" razem z nim.
 // ---------------------------
@@ -21,7 +25,9 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
 
         queue: [],
         slots: 1,
-        shifted: false,
+        offset: 0,          // Pozycja toru w slotach (0 = spoczynek, 1 = przesunięty o jeden w lewo)
+        animating: false,   // Czy zmiana pozycji ma być animowana
+        direction: null,    // 'next' / 'prev' w trakcie przesuwu, null w spoczynku
         timer: null,
         paused: false,
         duration: DURATION,
@@ -54,7 +60,9 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
 
             if (slots !== this.slots) {
                 this.slots = slots;
-                this.shifted = false;
+                this.offset = 0;
+                this.animating = false;
+                this.direction = null;
             }
 
             this.queue = this.buildQueue();
@@ -100,8 +108,8 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
 
         get trackStyle() {
             return {
-                transform: this.shifted ? `translateX(-${100 / this.slots}%)` : 'translateX(0)',
-                transitionDuration: this.shifted ? `${this.duration}ms` : '0ms',
+                transform: `translateX(-${this.offset * 100 / this.slots}%)`,
+                transitionDuration: this.animating ? `${this.duration}ms` : '0ms',
             };
         },
 
@@ -109,15 +117,13 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
             return { flex: `0 0 ${100 / this.slots}%` };
         },
 
-        // Kolorowy kafelek: środkowy, a w trakcie przesuwu ten, który właśnie na środek wjeżdża
+        // Kolorowy kafelek: ten, który stoi (lub właśnie wjeżdża) na środek widocznego okna
         isHighlighted(index) {
             if (! this.canAnimate) {
                 return true;
             }
 
-            const center = Math.floor(this.slots / 2);
-
-            return index === (this.shifted ? center + 1 : center);
+            return index === Math.floor(this.slots / 2) + this.offset;
         },
 
         start() {
@@ -138,28 +144,74 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
         },
 
         next() {
-            if (! this.canAnimate || this.shifted) {
+            if (! this.canAnimate || this.direction) {
                 return;
             }
 
-            this.shifted = true;
+            this.direction = 'next';
+            this.animating = true;
+            this.offset = 1;
+            this.armFallback();
+        },
 
-            // ** Bezpiecznik: w nieaktywnej karcie (albo gdy pasek jest ukryty) przeglądarka
-            // nie wyśle transitionend i karuzela stanęłaby na zawsze — onSlideEnd i tak
-            // sprawdza, czy przesuw jest w toku, więc podwójne wywołanie nic nie psuje
+        prev() {
+            if (! this.canAnimate || this.direction) {
+                return;
+            }
+
+            this.direction = 'prev';
+
+            // ** Krok 1 (bez animacji): ostatni kafelek na początek kolejki, tor o slot w lewo.
+            // Nowy kafelek stoi poza lewą krawędzią, więc widok się nie zmienia
+            this.queue.unshift(this.queue.pop());
+            this.animating = false;
+            this.offset = 1;
+
+            // ** Krok 2 (po wyrenderowaniu kroku 1): tor z animacją wraca na zero.
+            // Odczyt offsetWidth wymusza przeliczenie stylów — bez tego przeglądarka
+            // scaliłaby oba kroki i przesunięcia by nie było
+            this.$nextTick(() => {
+                void this.$root.offsetWidth;
+                this.animating = true;
+                this.offset = 0;
+                this.armFallback();
+            });
+        },
+
+        // ** Bezpiecznik: w nieaktywnej karcie (albo gdy pasek jest ukryty) przeglądarka
+        // nie wyśle transitionend i karuzela stanęłaby na zawsze — onSlideEnd i tak
+        // sprawdza, czy przesuw jest w toku, więc podwójne wywołanie nic nie psuje
+        armFallback() {
             setTimeout(() => this.onSlideEnd(), DURATION + 100);
         },
 
-        // Po animacji: pierwszy kafelek ląduje na końcu kolejki, a tor wraca na zero
+        // Po animacji "next": pierwszy kafelek ląduje na końcu kolejki, a tor wraca na zero
         // bez animacji — dla oka nic się nie dzieje, bo treść kafelków przesuwa się
-        // o dokładnie tyle, o ile cofamy transformację
+        // o dokładnie tyle, o ile cofamy transformację. Po "prev" tor już stoi na zerze.
         onSlideEnd() {
-            if (! this.shifted) {
+            if (! this.direction) {
                 return;
             }
 
-            this.queue.push(this.queue.shift());
-            this.shifted = false;
+            if (this.direction === 'next') {
+                this.queue.push(this.queue.shift());
+                this.offset = 0;
+            }
+
+            this.animating = false;
+            this.direction = null;
+        },
+
+        // ** Kliknięcie strzałki: przesuw od razu i licznik od nowa, żeby autoprzesuw
+        // nie odpalił się chwilę po ręcznym (w strefie hover start() i tak nic nie robi)
+        clickNext() {
+            this.next();
+            this.start();
+        },
+
+        clickPrev() {
+            this.prev();
+            this.start();
         },
 
         pause() {
