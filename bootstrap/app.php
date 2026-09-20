@@ -24,6 +24,12 @@ return Application::configure(basePath: dirname(__DIR__))
         // ufamy mu w całości, żeby Laravel poprawnie generował linki https://.
         $middleware->trustProxies(at: '*');
 
+        // Tryb serwisowy z panelu — na końcu grupy web, bo potrzebuje sesji (sprawdza,
+        // czy to zalogowany admin)
+        $middleware->web(append: [
+            \App\Http\Middleware\MaintenanceMode::class,
+        ]);
+
         $middleware->alias([
             'api-key' => \App\Http\Middleware\ApiKeyMiddleware::class,
         ]);

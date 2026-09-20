@@ -6,11 +6,13 @@ use App\Models\Setting;
 use App\Services\TitleGenerator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -62,6 +64,9 @@ class Settings extends Page implements HasForms
             'partners_visible' => Setting::get('partners_visible', '5'),
             'partners_interval' => Setting::get('partners_interval', '4'),
             'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe."),
+            'maintenance_enabled' => Setting::get('maintenance_enabled') === '1',
+            'maintenance_until' => Setting::get('maintenance_until'),
+            'maintenance_message' => Setting::get('maintenance_message'),
         ]);
     }
 
@@ -209,6 +214,35 @@ class Settings extends Page implements HasForms
                             ->required(),
                     ]),
 
+                Section::make('Tryb serwisowy')
+                    ->description('Po włączeniu wszyscy odwiedzający widzą stronę "Przerwa techniczna" (kod 503). Zalogowani administratorzy i panel działają normalnie — tryb wyłącza się tutaj.')
+                    ->schema([
+                        Toggle::make('maintenance_enabled')
+                            ->label('Tryb serwisowy włączony')
+                            ->live()
+                            ->onColor('danger'),
+
+                        // ** Bez daty nie da się włączyć trybu — odwiedzający ma wiedzieć, kiedy wrócić
+                        DateTimePicker::make('maintenance_until')
+                            ->label('Planowany powrót strony')
+                            ->seconds(false)
+                            ->native(false)
+                            ->displayFormat('d.m.Y H:i')
+                            ->required(fn (Get $get) => (bool) $get('maintenance_enabled'))
+                            ->after('now')
+                            ->validationMessages([
+                                'required' => 'Ustaw planowany powrót przed włączeniem trybu serwisowego.',
+                                'after' => 'Planowany powrót musi być w przyszłości.',
+                            ])
+                            ->helperText('Wyświetlana odwiedzającym. Gdy termin minie, a tryb będzie nadal włączony, strona pokaże informację, że prace się przeciągnęły.'),
+
+                        Textarea::make('maintenance_message')
+                            ->label('Dodatkowa informacja (opcjonalnie)')
+                            ->rows(2)
+                            ->maxLength(500)
+                            ->helperText('Np. "Przenosimy serwis na nowy serwer". Pokazywana pod głównym komunikatem.'),
+                    ]),
+
                 Section::make('Kontakt')
                     ->description('Dane wyświetlane w stopce publicznej strony oraz treść strony /kontakt')
                     ->schema([
@@ -230,7 +264,8 @@ class Settings extends Page implements HasForms
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
-            Setting::set($key, (string) $value);
+            // Przełączniki (bool) zapisujemy jako '1'/'0' — (string) false dałoby pusty ciąg
+            Setting::set($key, is_bool($value) ? ($value ? '1' : '0') : (string) $value);
         }
 
         Notification::make()

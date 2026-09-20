@@ -51,10 +51,15 @@
                 </div>
             </div>
 
-            {{-- Powrót na stronę główną --}}
-            <a href="/" style="margin-top:40px; font-size:14px; color:#283618; text-decoration:underline;">
-                Wróć do strony głównej
-            </a>
+            {{-- Opcjonalna treść pod nagłówkiem (np. wiadomość admina w trybie serwisowym) --}}
+            @yield('details')
+
+            {{-- Powrót na stronę główną — strona może podmienić (patrz maintenance.blade.php) --}}
+            @section('footer')
+                <a href="/" style="margin-top:40px; font-size:14px; color:#283618; text-decoration:underline;">
+                    Wróć do strony głównej
+                </a>
+            @show
         </div>
     </body>
 </html>
