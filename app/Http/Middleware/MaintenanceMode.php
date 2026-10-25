@@ -23,7 +23,7 @@ class MaintenanceMode
     protected const ALLOWED_PATHS = [
         'admin',
         'admin/*',
-        'livewire/*',
+        'livewire-*/*', // endpointy Livewire (update, upload) — prefiks z hashem APP_KEY, inny na każdym środowisku
         'login',
         'logout',
         'up',
