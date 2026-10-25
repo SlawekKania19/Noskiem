@@ -20,5 +20,8 @@
     },
     "dependencies": {
         "leaflet": "^1.9.4"
+    },
+    "overrides": {
+        "postcss-selector-parser": "^7.1.6"
     }
 }
