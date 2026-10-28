@@ -53,7 +53,7 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Raz w miesiący wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
+        Raz w miesiącu wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
     </p>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
