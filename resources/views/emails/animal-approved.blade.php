@@ -35,6 +35,8 @@
         </tr>
     </table>
 
+    {{-- ** Plakaty generujemy tylko dla "Zaginął" (PosterController) --}}
+    @if ($animal->status === 'lost')
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Chcesz rozwiesić plakat w okolicy? Kliknij poniżej — wybierzesz format (A4 lub dwa na kartkę) i pobierzesz gotowy PDF.
     </p>
@@ -51,6 +53,7 @@
             </td>
         </tr>
     </table>
+    @endif
 
     {{-- ** Comiesięczne przypomnienia idą tylko dla "Zaginął" (animals:send-reminders),
          "Znaleziony" podlega retencji po 2 latach (animals:retention) --}}

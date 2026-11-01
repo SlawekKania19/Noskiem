@@ -97,8 +97,9 @@
         {{-- ---------------------------
              Wydrukuj plakat — dostępne dla każdego (nie tylko autora). Modal z wyborem
              formatu; wejście na stronę z ?print=1 (link z maila o zatwierdzeniu) otwiera
-             modal od razu.
+             modal od razu. Tylko dla "Zaginął" — dla znalezionych plakatów nie generujemy.
              --------------------------- --}}
+        @if ($animal->status === 'lost')
         <div x-data="{ posterOpen: {{ request()->boolean('print') ? 'true' : 'false' }} }">
             <button
                 type="button"
@@ -144,10 +145,15 @@
                             @click="posterOpen = false"
                             class="flex flex-col items-center gap-2 rounded-xl border border-[#e5e5dc] p-4 text-center transition hover:border-[#283618] hover:bg-[#f4f4ef] active:transform-[scale(0.98)]"
                         >
+                            {{-- ** Miniatura układu plakatu: etykieta, nagłówek, zdjęcie, box kontaktu --}}
                             <svg class="h-20 w-auto" viewBox="0 0 48 60" fill="none">
-                                <rect x="3" y="3" width="42" height="54" rx="3" fill="#fefae0" stroke="#283618" stroke-width="2"/>
-                                <rect x="9" y="9" width="30" height="13" rx="1.5" fill="#994d0a"/>
-                                <rect x="14" y="27" width="20" height="21" rx="1.5" fill="#dbe3d1"/>
+                                <rect x="3" y="3" width="42" height="54" rx="3" fill="#fff" stroke="#283618" stroke-width="2"/>
+                                <rect x="8" y="8" width="9" height="3" rx="1" fill="#fcecd1"/>
+                                <rect x="8" y="13" width="22" height="4" rx="1" fill="#283618"/>
+                                <rect x="8" y="20" width="32" height="12" rx="1.5" fill="#dbe3d1"/>
+                                <rect x="8" y="35" width="32" height="1.5" rx=".75" fill="#b9b9a8"/>
+                                <rect x="8" y="38.5" width="24" height="1.5" rx=".75" fill="#b9b9a8"/>
+                                <rect x="8" y="43" width="32" height="8" rx="1.5" fill="#283618"/>
                             </svg>
                             <span class="text-[14px] font-semibold text-[#283618]">A4</span>
                             <span class="text-[12px] text-[#616657]">Cały plakat na kartce A4</span>
@@ -161,13 +167,18 @@
                             @click="posterOpen = false"
                             class="flex flex-col items-center gap-2 rounded-xl border border-[#e5e5dc] p-4 text-center transition hover:border-[#283618] hover:bg-[#f4f4ef] active:transform-[scale(0.98)]"
                         >
-                            <svg class="h-20 w-auto" viewBox="0 0 48 60" fill="none">
-                                <rect x="3" y="3" width="42" height="54" rx="3" fill="#fefae0" stroke="#283618" stroke-width="2"/>
-                                <line x1="3" y1="30" x2="45" y2="30" stroke="#b9b9a8" stroke-width="1.5" stroke-dasharray="3 2"/>
-                                <rect x="9" y="8" width="17" height="6" rx="1" fill="#994d0a"/>
-                                <rect x="12" y="17" width="11" height="9" rx="1" fill="#dbe3d1"/>
-                                <rect x="9" y="35" width="17" height="6" rx="1" fill="#994d0a"/>
-                                <rect x="12" y="44" width="11" height="9" rx="1" fill="#dbe3d1"/>
+                            {{-- ** Kartka pozioma, dwa plakaty obok siebie, pionowa linia cięcia --}}
+                            <svg class="h-20 w-auto" viewBox="0 0 76 60" fill="none">
+                                <rect x="3" y="9" width="70" height="42" rx="3" fill="#fff" stroke="#283618" stroke-width="2"/>
+                                <line x1="38" y1="9" x2="38" y2="51" stroke="#b9b9a8" stroke-width="1.5" stroke-dasharray="3 2"/>
+                                <rect x="7" y="13" width="6" height="2" rx=".75" fill="#fcecd1"/>
+                                <rect x="7" y="17" width="16" height="3" rx="1" fill="#283618"/>
+                                <rect x="7" y="22" width="27" height="10" rx="1.5" fill="#dbe3d1"/>
+                                <rect x="7" y="40" width="27" height="7" rx="1.5" fill="#283618"/>
+                                <rect x="42" y="13" width="6" height="2" rx=".75" fill="#fcecd1"/>
+                                <rect x="42" y="17" width="16" height="3" rx="1" fill="#283618"/>
+                                <rect x="42" y="22" width="27" height="10" rx="1.5" fill="#dbe3d1"/>
+                                <rect x="42" y="40" width="27" height="7" rx="1.5" fill="#283618"/>
                             </svg>
                             <span class="text-[14px] font-semibold text-[#283618]">A5</span>
                             <span class="text-[12px] text-[#616657]">Dwa identyczne plakaty na kartce A4 — do przecięcia</span>
@@ -176,6 +187,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         {{-- ---------------------------
              Galeria zdjęć (tabela photos) — miniatury kwadratowe (mniej agresywny crop niż
