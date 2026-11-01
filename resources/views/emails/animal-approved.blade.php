@@ -52,8 +52,15 @@
         </tr>
     </table>
 
+    {{-- ** Comiesięczne przypomnienia idą tylko dla "Zaginął" (animals:send-reminders),
+         "Znaleziony" podlega retencji po 2 latach (animals:retention) --}}
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Raz w miesiącu wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
+        @if ($animal->status === 'lost')
+            Raz w miesiącu wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
+        @else
+            Ogłoszenie będzie widoczne przez 2 lata. Po tym czasie zapytamy Cię mailowo, czy jest nadal aktualne —
+            jednym kliknięciem przedłużysz je wtedy o kolejne 6 miesięcy.
+        @endif
     </p>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">

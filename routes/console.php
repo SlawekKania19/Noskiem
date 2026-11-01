@@ -17,3 +17,9 @@ Artisan::command('inspire', function () {
 Schedule::command('animals:send-reminders')
     ->dailyAt('10:00')
     ->withoutOverlapping();
+
+// ** Retencja: ostrzeżenia dla starych ogłoszeń "Znaleziony", usuwanie nieprzedłużonych
+// i starych zamkniętych (patrz ApplyAnimalRetention)
+Schedule::command('animals:retention')
+    ->dailyAt('10:30')
+    ->withoutOverlapping();

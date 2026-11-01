@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\ApplyAnimalRetention;
 use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\Behavior;
@@ -276,6 +277,35 @@ class AnimalEditController extends Controller
 
         return redirect()->route('home')
             ->with('success', 'Super! Cieszymy się, że zwierzak się znalazł. Ogłoszenie zostało zdjęte ze strony.');
+    }
+
+    // Przedłuża ogłoszenie o EXTEND_MONTHS od teraz — po ostrzeżeniu z animals:retention.
+    // Bezpośrednio przez zgłaszającego (token), bez moderacji. Czyszczenie retention_notice_at
+    // zdejmuje ogłoszenie z kolejki do usunięcia; po nowym terminie cykl się powtórzy.
+    public function extend(Animal $animal, Request $request)
+    {
+        if ($request->get('token') !== $animal->edit_token) {
+            abort(403, 'Nieprawidłowy token – brak dostępu.');
+        }
+
+        // ** Tylko po ostrzeżeniu — wcześniejsze kliknięcie skróciłoby ogłoszenie
+        // (now + 6 mies. zamiast created_at + 2 lata)
+        if ($animal->retention_notice_at === null || $animal->mod_status !== 'approved') {
+            return redirect()->route('animals.show', $animal)
+                ->with('success', 'To ogłoszenie nie wymaga teraz przedłużenia.');
+        }
+
+        $until = now()->addMonthsNoOverflow(ApplyAnimalRetention::EXTEND_MONTHS);
+
+        // ** Zapis z pominięciem Eloquenta — bez ruszania updated_at
+        // i bez przeliczania search_index (event saved w modelu)
+        Animal::whereKey($animal->id)->toBase()->update([
+            'retention_until'     => $until,
+            'retention_notice_at' => null,
+        ]);
+
+        return redirect()->route('animals.show', $animal)
+            ->with('success', 'Dziękujemy! Ogłoszenie zostało przedłużone do '.$until->locale('pl')->translatedFormat('j F Y').'.');
     }
 
     // Usuwa własne ogłoszenie — bezpośrednio przez zgłaszającego (token), bez moderacji

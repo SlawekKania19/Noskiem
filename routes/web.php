@@ -126,6 +126,11 @@ Route::post('/animals/{animal}/resolve', [AnimalEditController::class, 'markReso
 Route::post('/animals/{animal}/delete', [AnimalEditController::class, 'destroySelf'])
     ->name('animals.selfDelete');
 
+// ** Przedłużenie ogłoszenia po ostrzeżeniu o usunięciu (animals:retention) — POST z banera
+// na stronie edycji, nie GET z maila, żeby skanery linków nie przedłużały za autora
+Route::post('/animals/{animal}/extend', [AnimalEditController::class, 'extend'])
+    ->name('animals.extend');
+
 // ** Potwierdzenie adresu e-mail nowego zgłoszenia — dopiero po tym moderatorzy
 // dostają powiadomienie (patrz AnimalEditController::confirmEmail)
 Route::get('/animal-edits/{animalEdit}/confirm', [AnimalEditController::class, 'confirmEmail'])

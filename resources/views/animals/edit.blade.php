@@ -21,6 +21,35 @@
         </p>
 
         {{-- ---------------------------
+             Baner przedłużenia — tylko po ostrzeżeniu z animals:retention (link z maila
+             prowadzi tu z kotwicą #extend). Data usunięcia liczona tak jak w komendzie.
+             --------------------------- --}}
+        @if ($animal->retention_notice_at && $animal->mod_status === 'approved')
+            <div id="extend" class="mt-6 scroll-mt-24 rounded-xl border border-[#994d0a] bg-[#fcecd1] p-5">
+                <p class="text-[15px] font-semibold text-[#283618]">To ogłoszenie zostanie wkrótce usunięte</p>
+                <p class="mt-1 text-[14px] text-[#616657]">
+                    Jeśli nic nie zrobisz,
+                    <strong>{{ $animal->retention_notice_at->copy()->addDays(\App\Console\Commands\ApplyAnimalRetention::GRACE_DAYS)->locale('pl')->translatedFormat('j F Y') }}</strong>
+                    usuniemy je razem ze zdjęciami. Zwierzak wciąż czeka na opiekuna? Przedłuż ogłoszenie o kolejne
+                    {{ \App\Console\Commands\ApplyAnimalRetention::EXTEND_MONTHS }} miesięcy.
+                </p>
+                <form
+                    method="POST"
+                    action="{{ route('animals.extend', ['animal' => $animal, 'token' => $animal->edit_token]) }}"
+                    class="mt-4"
+                >
+                    @csrf
+                    <button
+                        type="submit"
+                        class="w-full cursor-pointer rounded-xl bg-[#283618] px-6 py-3 text-[14px] font-semibold text-[#fefae0] transition-colors hover:bg-[#3a4d24] sm:w-auto"
+                    >
+                        Przedłuż o {{ \App\Console\Commands\ApplyAnimalRetention::EXTEND_MONTHS }} miesięcy
+                    </button>
+                </form>
+            </div>
+        @endif
+
+        {{-- ---------------------------
              Zarządzanie ogłoszeniem — poza głównym formularzem edycji, bo to osobne
              akcje: działają od razu, bez moderacji (bezpośrednio przez edit_token).
              Na górze, nie na dole — jeśli ktoś chce usunąć/oznaczyć jako znalezione,

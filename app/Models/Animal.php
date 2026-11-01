@@ -60,6 +60,8 @@ class Animal extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'last_reminder_at' => 'datetime',
+        'retention_until' => 'datetime',
+        'retention_notice_at' => 'datetime',
     ];
 
     // ** Relacje
