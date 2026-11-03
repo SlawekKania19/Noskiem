@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ChipRegistrationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CookieConsentController;
@@ -176,6 +177,44 @@ Route::get('/kontakt', [ContactController::class, 'show'])
 Route::post('/kontakt', [ContactController::class, 'store'])
     ->middleware('throttle:5,10')
     ->name('contact.store');
+
+// ---------------------------
+// BAZA CHIPÓW — rejestracja chipa (moderowana) i wyszukiwarka po numerze.
+// Niezależna od ogłoszeń, patrz ChipRegistrationController
+// ---------------------------
+
+Route::get('/baza-chipow', [ChipRegistrationController::class, 'index'])
+    ->name('chips.index');
+
+Route::post('/baza-chipow', [ChipRegistrationController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('chips.store');
+
+// ** Wyszukiwarka AJAX — dokładny numer chipa; throttle przeciw masowemu odpytywaniu
+Route::get('/baza-chipow/szukaj', [ChipRegistrationController::class, 'search'])
+    ->middleware('throttle:30,1')
+    ->name('chips.search');
+
+// ** Telefon po kliknięciu "Pokaż numer" — limit edytowalny w panelu Ustawień (reveal-phone)
+Route::get('/baza-chipow/telefon', [ChipRegistrationController::class, 'phone'])
+    ->middleware('throttle:reveal-phone')
+    ->name('chips.phone');
+
+// ** Potwierdzenie adresu e-mail — dopiero po tym moderatorzy dostają powiadomienie
+Route::get('/baza-chipow/{chipRegistration}/potwierdz', [ChipRegistrationController::class, 'confirmEmail'])
+    ->name('chips.confirm');
+
+// ** Edycja i usunięcie przez właściciela (token z maila). Edycja zatwierdzonego wpisu
+// wymaga ponownej moderacji, usunięcie — nie
+Route::get('/baza-chipow/{chipRegistration}/edycja', [ChipRegistrationController::class, 'edit'])
+    ->name('chips.edit');
+
+Route::post('/baza-chipow/{chipRegistration}/edycja', [ChipRegistrationController::class, 'update'])
+    ->middleware('throttle:10,10')
+    ->name('chips.update');
+
+Route::post('/baza-chipow/{chipRegistration}/usun', [ChipRegistrationController::class, 'destroy'])
+    ->name('chips.destroy');
 
 // ---------------------------
 // BREEZE – trasy logowania/rejestracji
