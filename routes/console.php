@@ -23,3 +23,11 @@ Schedule::command('animals:send-reminders')
 Schedule::command('animals:retention')
     ->dailyAt('10:30')
     ->withoutOverlapping();
+
+// ** Dopasowania po zdjęciach: partia wektorów z kolejki (patrz EmbedPhotos).
+// Pauza, okno godzin, priorytet i limity — w config/noskiem_match.php (.env).
+// Komenda sama sprawdza MATCH_ENABLED, więc wpis jest bezpieczny także bez Pythona.
+Schedule::command('match:embed')
+    ->everyMinute()
+    ->withoutOverlapping(30)
+    ->runInBackground();
