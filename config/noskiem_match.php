@@ -54,4 +54,55 @@ return [
         // każdym starcie (pomiar QA: ładowanie modeli 2,4 s zamiast 12 s, odporne na awarię HF)
         'hf_offline' => (bool) env('MATCH_HF_OFFLINE', false),
     ],
+
+    // ---------------------------
+    // Wyszukiwanie podobnych ogłoszeń
+    // ---------------------------
+    'search' => [
+
+        // ** Progi dotyczą CZYSTEGO podobieństwa zdjęć (cosinus, max po parach zdjęć).
+        // Wartości WSTĘPNE (z 5 zapytań w dog_eval.py) — do kalibracji na naszych danych;
+        // po zmianie model_version kalibrację trzeba powtórzyć. Celowo łagodnie: lepiej
+        // pokazać kilka zbędnych niż przeoczyć prawdziwe dopasowanie.
+        // Poniżej "possible" — nie pokazujemy; od "strong" — "bardzo podobne"
+        'threshold_possible' => (float) env('MATCH_THRESHOLD_POSSIBLE', 0.60),
+        'threshold_strong' => (float) env('MATCH_THRESHOLD_STRONG', 0.75),
+
+        // Maks. wyników na liście
+        'top_n' => (int) env('MATCH_TOP_N', 10),
+
+        // ** Ilu kandydatów z wynikiem zapisujemy w logu, także PONIŻEJ progu
+        // (do późniejszego sprawdzenia, czy próg nie ukrywał prawdziwych par)
+        'log_floor_n' => (int) env('MATCH_LOG_FLOOR_N', 50),
+
+        // ** Rasa i kolor — tylko lekki bonus do KOLEJNOŚCI (nigdy nie wyklucza kandydata,
+        // nie wpływa na progi). 0 = wyłączone. Kolor: waga × podobieństwo zbiorów (Jaccard)
+        'soft_weights' => [
+            'breed' => (float) env('MATCH_WEIGHT_BREED', 0.02),
+            'color' => (float) env('MATCH_WEIGHT_COLOR', 0.02),
+        ],
+
+        // ** Rasy traktowane jak "brak danych" — dwie "Rasa nieznana" to nie jest zgodność
+        'neutral_breeds' => ['Rasa nieznana'],
+
+        // ---------------------------
+        // Twarde filtry puli kandydatów — każdy da się wyłączyć
+        // ---------------------------
+        'filters' => [
+            // Zaginiony szukamy wśród znalezionych i odwrotnie
+            'opposite_status' => (bool) env('MATCH_FILTER_OPPOSITE_STATUS', true),
+            // Ten sam gatunek
+            'same_species' => (bool) env('MATCH_FILTER_SAME_SPECIES', true),
+            // Promień od współrzędnych zgłoszenia (km). 0 = bez limitu
+            'radius_km' => (float) env('MATCH_FILTER_RADIUS_KM', 150),
+            // ** Okno dat zdarzenia (± dni). 0 = wyłączone — domyślnie wyłączone, bo daty
+            // w zgłoszeniach bywają niewiarygodne
+            'date_window_days' => (int) env('MATCH_FILTER_DATE_WINDOW_DAYS', 0),
+            // Pomijamy ogłoszenia z tym samym e-mailem autora (ta sama osoba, np. duplikat)
+            'exclude_same_email' => (bool) env('MATCH_FILTER_EXCLUDE_SAME_EMAIL', true),
+        ],
+
+        // Limit czasu procesu Pythona (sam ranking, numpy)
+        'timeout' => (int) env('MATCH_SEARCH_TIMEOUT', 60),
+    ],
 ];

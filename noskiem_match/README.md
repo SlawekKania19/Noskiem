@@ -64,7 +64,18 @@ Diagnostyka bez Laravela:
 - Licencje: DINOv2, DETR, transformers, timm — Apache 2.0; torch, torchvision, numpy — BSD;
   pillow — HPND. Bez ultralytics (AGPL) i MegaDescriptor (CC-BY-NC).
 
+## Wyszukiwanie (App\Services\PhotoMatchService, cli.py search)
+- PHP: twarde filtry w SQL (przeciwny status, gatunek, promień km, opcjonalnie okno dat,
+  wykluczenie własnego ogłoszenia i tego samego e-maila), wektory kandydatów strumieniowo
+  do pliku binarnego float32, metadane rasa/kolory na stdin.
+- Python (numpy): wynik zwierzęcia = max cos po parach zdjęć; progi na CZYSTYM wyniku
+  obrazu; bonus rasa/kolor tylko do kolejności; pozycja liczona wyłącznie wśród
+  pokazanych. Zwraca top `log_floor_n` (także poniżej progu) z `shown`/`position`.
+- "Rasa nieznana" = brak danych (ani bonus, ani kara).
+- Diagnostyka: `php artisan match:search --edit=ID [--all] [--json]`.
+- Pomiar QA (Python 3.9, 1 wątek): 5 000 kandydatów × 3 zdjęcia — 125 ms, 74 MB;
+  20 000 × 3 — 350 ms, 224 MB.
+
 ## TODO (kolejne etapy)
-2. Wyszukiwanie + progi + JSON (`search.py`, wektory kandydatów z PHP w pliku binarnym).
 3. Integracja: po potwierdzeniu e-maila → kolejka → mail z kandydatami.
 4. Logi wyszukiwań (top 50, także poniżej progu) i kliknięć.

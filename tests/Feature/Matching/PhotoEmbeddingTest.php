@@ -2,20 +2,12 @@
 
 namespace Tests\Feature\Matching;
 
-use App\Models\Animal;
-use App\Models\AnimalEdit;
-use App\Models\Breed;
-use App\Models\City;
-use App\Models\Photo;
 use App\Models\PhotoEmbedding;
-use App\Models\Species;
-use App\Models\Voivodeship;
 use App\Services\PhotoEmbeddingService;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 // ---------------------------
@@ -25,49 +17,14 @@ use Tests\TestCase;
 
 class PhotoEmbeddingTest extends TestCase
 {
+    use MatchingFixtures;
     use RefreshDatabase;
-
-    private array $base;
-
-    private string $mv;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        config(['noskiem_match.enabled' => true, 'noskiem_match.queue.hours' => '', 'noskiem_match.queue.paused' => false]);
-        $this->mv = app(PhotoEmbeddingService::class)->modelVersion();
-
-        $species = Species::forceCreate(['name_pl' => 'Pies', 'name_en' => 'Dog']);
-        $voivodeship = Voivodeship::forceCreate(['name_pl' => 'śląskie', 'name_en' => 'Silesia']);
-
-        $this->base = [
-            'status' => 'lost', 'title' => 'T', 'description' => 'Opis', 'animal_name' => 'Burek',
-            'species_id' => $species->id,
-            'breed_id' => Breed::forceCreate(['breed_pl' => 'Mieszaniec', 'breed_en' => 'Mixed', 'species_id' => $species->id])->id,
-            'date_event' => '2026-11-01', 'voivodeship_id' => $voivodeship->id,
-            'city_id' => City::forceCreate(['name_pl' => 'Katowice', 'name_en' => 'Katowice', 'voivodeship_id' => $voivodeship->id])->id,
-            'location_text' => 'Park', 'latitude' => 50.26, 'longitude' => 19.02,
-            'contact_name' => 'Jan', 'contact_email' => 'jan@example.com',
-        ];
-    }
-
-    private function animal(string $modStatus): Animal
-    {
-        return Animal::forceCreate($this->base + ['mod_status' => $modStatus, 'edit_token' => (string) Str::uuid()]);
-    }
-
-    private function edit(bool $verified, string $modStatus = 'pending'): AnimalEdit
-    {
-        return AnimalEdit::forceCreate($this->base + [
-            'mod_status' => $modStatus, 'edit_token' => (string) Str::uuid(),
-            'email_verified_at' => $verified ? now() : null,
-        ]);
-    }
-
-    private function photo(array $owner): Photo
-    {
-        return Photo::create($owner + ['path' => 'photos/'.Str::random(8).'.jpg', 'is_main' => false]);
+        $this->setUpMatching();
     }
 
     // ** Odpowiedź Pythona dla podanych zdjęć: wynik ok albo błąd (gdy id w $errors)

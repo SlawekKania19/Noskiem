@@ -16,6 +16,15 @@ Użycie:
   python cli.py bench --root /sciezka/storage/app/public photos/a.jpg photos/b.jpg
       Pomiar: czas ładowania modeli, czas na zdjęcie, szczytowy RAM procesu.
 
+  python cli.py search < zapytanie.json          (tylko numpy, bez torcha)
+      stdin:  {"dim":768, "vectors_file":"/tmp/x.f32", "query_rows":[0,3],
+               "query":{"breed_id":5|null,"color_ids":[1,2]},
+               "candidates":[{"listing_id":12,"rows":[3,2],"breed_id":..,"color_ids":[..]}],
+               "params":{"top_n":10,"threshold_possible":..,"threshold_strong":..,
+                         "soft_weights":{"breed":..,"color":..},"log_floor_n":50}}
+      stdout: {"status":"ok","results":[{listing_id,score,bonus,rank,level,shown,
+               position,breed_match,color_overlap,best_photo_index}], ...}
+
 Python nie łączy się z bazą — kolejkę i zapis wektorów prowadzi PHP.
 Zgodne z Pythonem 3.9 (hosting).
 """
@@ -168,9 +177,44 @@ def cmd_bench(args, cfg):
     return 0
 
 
+# ---------------------------
+# search — ranking kandydatów (tylko numpy, bez torcha)
+# ---------------------------
+def cmd_search(args, cfg, stdin=None):
+    import numpy as np
+    from search import rank
+
+    t = time.monotonic()
+    req = json.load(stdin or sys.stdin)
+    dim = int(req["dim"])
+
+    # ** Wektory w pliku binarnym (float32 LE, wiersz po wierszu) — przy tysiącach
+    # kandydatów JSON z liczbami byłby kilkadziesiąt razy większy i wolniejszy
+    raw = np.fromfile(req["vectors_file"], dtype="<f4")
+    if dim <= 0 or raw.size % dim:
+        raise ValueError("rozmiar pliku wektorów nie pasuje do dim")
+    mat = raw.reshape(-1, dim)
+
+    qs, qc = (int(x) for x in req["query_rows"])
+    if qc <= 0 or qs + qc > len(mat):
+        raise ValueError("niepoprawne query_rows")
+    for c in req["candidates"]:
+        s, n = (int(x) for x in c["rows"])
+        if s < 0 or s + n > len(mat):
+            raise ValueError("niepoprawne rows kandydata %s" % c.get("listing_id"))
+
+    results = rank(mat[qs:qs + qc], mat, req["candidates"], req.get("query") or {}, req["params"])
+    print(json.dumps({"status": "ok", "model_version": cfg["model_version"],
+                      "n_compared": sum(1 for c in req["candidates"] if int(c["rows"][1]) > 0),
+                      "results": results, "ms": int((time.monotonic() - t) * 1000)},
+                     ensure_ascii=False))
+    return 0
+
+
 def build_parser():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("search")
     for name in ("embed", "bench"):
         p = sub.add_parser(name)
         p.add_argument("--root", required=True, help="katalog zdjęć (storage/app/public)")
@@ -188,6 +232,8 @@ def main(argv=None):
     cfg = load_cfg()
     if args.cmd == "embed":
         return cmd_embed(args, cfg)
+    if args.cmd == "search":
+        return cmd_search(args, cfg)
     return cmd_bench(args, cfg)
 
 
