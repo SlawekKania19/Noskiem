@@ -76,6 +76,17 @@ Diagnostyka bez Laravela:
 - Pomiar QA (Python 3.9, 1 wątek): 5 000 kandydatów × 3 zdjęcia — 125 ms, 74 MB;
   20 000 × 3 — 350 ms, 224 MB.
 
+## Mail z kandydatami (App\Services\PhotoMatchNotifier, php artisan match:notify)
+1. Potwierdzenie e-maila nowego zgłoszenia (ze zdjęciami, moduł włączony) → wpis
+   w `match_requests` (status `queued`).
+2. `match:embed` liczy wektory zdjęć zgłoszenia.
+3. `match:notify` (co minutę): gdy wszystkie zdjęcia mają wektory → wyszukiwanie →
+   mail `MatchCandidatesFound` TYLKO gdy coś przekracza próg (`notified`), inaczej `no_matches`.
+- Zatwierdzone w międzyczasie → szukamy dla nowego `Animal` (z `moderation_logs`,
+  bo `animal_edits.animal_id` zostaje null). Odrzucone → `skipped`, bez maila.
+- Czeka maks. `MATCH_NOTIFY_TTL_HOURS` (72) → `expired`. Błąd → 3 próby → `failed`.
+- `MATCH_PAUSED` wstrzymuje też maile.
+
 ## TODO (kolejne etapy)
-3. Integracja: po potwierdzeniu e-maila → kolejka → mail z kandydatami.
-4. Logi wyszukiwań (top 50, także poniżej progu) i kliknięć.
+4. Logi wyszukiwań (top 50, także poniżej progu) i kliknięć (linki w mailu przez
+   endpoint zapisujący kliknięcie z pozycją).

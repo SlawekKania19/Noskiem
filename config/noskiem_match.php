@@ -105,4 +105,17 @@ return [
         // Limit czasu procesu Pythona (sam ranking, numpy)
         'timeout' => (int) env('MATCH_SEARCH_TIMEOUT', 60),
     ],
+
+    // ---------------------------
+    // Mail z kandydatami po dodaniu zgłoszenia (php artisan match:notify)
+    // ---------------------------
+    'notify' => [
+        // ** Ile godzin zlecenie może czekać na wektory zdjęć (np. przy pauzie kolejki).
+        // Po tym czasie wygasa bez maila — wiadomość po kilku dniach byłaby już myląca
+        'ttl_hours' => (int) env('MATCH_NOTIFY_TTL_HOURS', 72),
+        // Próby przy błędzie (Python / wysyłka maila), potem status "failed"
+        'max_attempts' => 3,
+        // Zleceń na jedno uruchomienie
+        'batch' => 20,
+    ],
 ];

@@ -31,3 +31,9 @@ Schedule::command('match:embed')
     ->everyMinute()
     ->withoutOverlapping(30)
     ->runInBackground();
+
+// ** Maile z podobnymi ogłoszeniami do autorów nowych zgłoszeń (patrz NotifyMatches) —
+// czekają, aż match:embed policzy zdjęcia zgłoszenia
+Schedule::command('match:notify')
+    ->everyMinute()
+    ->withoutOverlapping(10);
