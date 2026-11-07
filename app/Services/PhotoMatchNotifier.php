@@ -6,9 +6,11 @@ use App\Mail\MatchCandidatesFound;
 use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\MatchRequest;
+use App\Models\MatchSearch;
 use App\Models\ModerationLog;
 use App\Models\Photo;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 // ---------------------------
 // Zlecenia "poszukaj podobnych i napisz do autora" (tabela match_requests).
@@ -19,7 +21,7 @@ use Illuminate\Support\Facades\Mail;
 
 class PhotoMatchNotifier
 {
-    public function __construct(private PhotoMatchService $matcher) {}
+    public function __construct(private PhotoMatchService $matcher, private MatchSearchLogger $logger) {}
 
     // ** Czy obiecujemy autorowi wyszukiwanie — moduł włączony i są zdjęcia do porównania.
     // Ten sam warunek decyduje o tekstach komunikatów, żeby nie obiecywać czegoś, czego nie zrobimy
@@ -67,6 +69,10 @@ class PhotoMatchNotifier
                 return $this->finish($request, $out['status']);
             }
 
+            // ** Log PRZED decyzją o mailu — także wyszukiwania bez wyników ponad progiem
+            // (z kandydatami poniżej progu) są potrzebne do kalibracji
+            $search = $this->logger->record($out, $query, 'notify', $request);
+
             $shown = array_values(array_filter($out['results'], fn ($r) => $r['shown']));
 
             if ($shown === []) {
@@ -74,7 +80,7 @@ class PhotoMatchNotifier
             }
 
             Mail::to($edit->contact_email, $edit->contact_name)
-                ->send(new MatchCandidatesFound($edit, $this->mailItems($shown), $out['params']));
+                ->send(new MatchCandidatesFound($edit, $this->mailItems($shown, $search), $out['params']));
 
             return $this->finish($request, 'notified', count($shown));
         } catch (\Throwable $e) {
@@ -105,8 +111,9 @@ class PhotoMatchNotifier
         };
     }
 
-    // ** Dane do maila jako zwykłe tablice — widok nie odpytuje bazy
-    protected function mailItems(array $shown): array
+    // ** Dane do maila jako zwykłe tablice — widok nie odpytuje bazy. Linki przez
+    // podpisany endpoint kliknięć (MatchClickController) — zapis pozycji, potem przekierowanie
+    protected function mailItems(array $shown, MatchSearch $search): array
     {
         $mv = app(PhotoEmbeddingService::class)->modelVersion();
         $animals = Animal::with(['species', 'breed', 'city', 'voivodeship'])
@@ -114,12 +121,13 @@ class PhotoMatchNotifier
 
         return collect($shown)
             ->filter(fn ($r) => isset($animals[$r['listing_id']]))
-            ->map(function (array $r) use ($animals, $mv) {
+            ->map(function (array $r) use ($animals, $mv, $search) {
                 $animal = $animals[$r['listing_id']];
 
                 return [
                     'title'       => $animal->generated_title,
-                    'url'         => route('animals.show', $animal),
+                    // ** Bez wygasania — maile czyta się też po tygodniach
+                    'url'         => URL::signedRoute('matches.click', ['matchSearch' => $search->id, 'position' => $r['position']]),
                     'photo_url'   => $this->bestPhotoUrl($animal, $r['best_photo_index'], $mv),
                     'level'       => $r['level'],
                     'location'    => $animal->location_text,

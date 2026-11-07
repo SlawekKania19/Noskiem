@@ -87,6 +87,29 @@ Diagnostyka bez Laravela:
 - Czeka maks. `MATCH_NOTIFY_TTL_HOURS` (72) → `expired`. Błąd → 3 próby → `failed`.
 - `MATCH_PAUSED` wstrzymuje też maile.
 
-## TODO (kolejne etapy)
-4. Logi wyszukiwań (top 50, także poniżej progu) i kliknięć (linki w mailu przez
-   endpoint zapisujący kliknięcie z pozycją).
+## Logi (do kalibracji — tego nie da się odtworzyć wstecz)
+- `match_searches` — każde wyszukiwanie ze statusem ok (także bez wyników ponad progiem):
+  zapytanie (edit/animal), `model_version`, `params` (progi, wagi, filtry), liczniki.
+- `match_search_results` — top `log_floor_n` kandydatów: `score` (czysty obraz), `bonus`,
+  `rank`, `level`, `shown`, `position` (na liście w mailu).
+- `match_events` — `click` z maila (podpisany link `/dopasowania/{id}/klik/{pozycja}`):
+  pozycja, wersja modelu, User-Agent (do odfiltrowania skanerów poczty). Bez IP.
+  SŁABY sygnał — tylko log, nic nie steruje progami ani rankingiem.
+- Bez kluczy obcych do ogłoszeń — log przetrwa usunięcie ogłoszenia (same ID, bez danych osobowych).
+- Objętość: ~50 wierszy wyników na wyszukiwanie (przy 100 zgłoszeniach/dzień ~1,8 mln/rok).
+
+Przykłady:
+    -- Prawdziwa para (np. ogłoszenie oznaczone jako odnalezione dzięki innemu) — jaki miała wynik i czy była pokazana?
+    SELECT s.id, s.model_version, r.score, r.rank, r.level, r.shown
+      FROM match_search_results r JOIN match_searches s ON s.id = r.match_search_id
+     WHERE s.query_animal_edit_id = ? AND r.animal_id = ?;
+    -- Rozkład wyników pokazanych vs niepokazanych dla wersji modelu
+    SELECT level, COUNT(*), MIN(score), AVG(score), MAX(score)
+      FROM match_search_results r JOIN match_searches s ON s.id = r.match_search_id
+     WHERE s.model_version = 'dinov2-base+detr-crop+cls-v1' GROUP BY level;
+
+## Na później
+- Zdarzenia "potwierdzone przez użytkownika" (przycisk "to ten sam" / "to nie ten") —
+  jako osobne typy w `match_events`.
+- Ponowne dopasowanie starszych ogłoszeń, gdy pojawia się nowe (Faza 3, z limitem maili).
+- Zdjęcia zgłoszeń "widziałem" (sightings).

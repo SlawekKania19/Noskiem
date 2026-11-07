@@ -10,6 +10,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MatchClickController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PosterController;
@@ -215,6 +216,16 @@ Route::post('/baza-chipow/{chipRegistration}/edycja', [ChipRegistrationControlle
 
 Route::post('/baza-chipow/{chipRegistration}/usun', [ChipRegistrationController::class, 'destroy'])
     ->name('chips.destroy');
+
+// ---------------------------
+// DOPASOWANIA PO ZDJĘCIACH — kliknięcie w ogłoszenie z maila z podobnymi zwierzakami.
+// Podpisany link (bez wygasania), zapis zdarzenia + przekierowanie, patrz MatchClickController
+// ---------------------------
+
+Route::get('/dopasowania/{matchSearch}/klik/{position}', [MatchClickController::class, 'click'])
+    ->whereNumber('position')
+    ->middleware(['signed', 'throttle:60,1'])
+    ->name('matches.click');
 
 // ---------------------------
 // BREEZE – trasy logowania/rejestracji

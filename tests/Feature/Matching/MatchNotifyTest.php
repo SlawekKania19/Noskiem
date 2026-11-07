@@ -50,13 +50,17 @@ class MatchNotifyTest extends TestCase
     {
         $this->searched[] = $query;
 
-        return $this->nextResult + ['status' => 'ok', 'results' => [], 'params' => ['filters' => ['radius_km' => 150]]];
+        // ** Pełny format wyniku PhotoMatchService::search() (logger wymaga wszystkich pól)
+        return $this->nextResult + ['status' => 'ok', 'results' => [], 'model_version' => $this->mv,
+            'params' => ['filters' => ['radius_km' => 150]],
+            'n_candidates' => 0, 'n_compared' => 0, 'n_pending_embedding' => 0];
     }
 
     private function matchRow(Animal $animal, string $level = 'strong', bool $shown = true): array
     {
-        return ['listing_id' => $animal->id, 'score' => 0.8, 'level' => $level, 'shown' => $shown,
-            'position' => $shown ? 1 : null, 'rank' => 1, 'best_photo_index' => 0, 'distance_km' => 12.3];
+        return ['listing_id' => $animal->id, 'score' => 0.8, 'bonus' => 0.0, 'level' => $level, 'shown' => $shown,
+            'position' => $shown ? 1 : null, 'rank' => $shown ? 1 : 2, 'breed_match' => null, 'color_overlap' => null,
+            'best_photo_index' => 0, 'distance_km' => 12.3];
     }
 
     private function queuedEdit(array $attrs = []): AnimalEdit
@@ -112,7 +116,8 @@ class MatchNotifyTest extends TestCase
         Mail::assertSent(MatchCandidatesFound::class, function (MatchCandidatesFound $mail) use ($edit, $cand) {
             return $mail->hasTo($edit->contact_email)
                 && count($mail->items) === 1                       // poniżej progu nie trafia do maila
-                && $mail->items[0]['url'] === route('animals.show', $cand)
+                && str_contains($mail->items[0]['url'], '/dopasowania/')
+                && str_contains($mail->items[0]['url'], 'signature=')
                 && $mail->items[0]['photo_url'] !== null;
         });
         $req = MatchRequest::first();
