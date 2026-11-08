@@ -42,7 +42,7 @@ class PhotoEmbeddingService
         }
 
         if (config('noskiem_match.queue.paused')) {
-            return 'kolejka wstrzymana (MATCH_PAUSED)';
+            return 'kolejka wstrzymana (panel „Dopasowanie AI” lub MATCH_PAUSED)';
         }
 
         $hours = trim((string) config('noskiem_match.queue.hours'));

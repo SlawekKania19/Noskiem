@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\MatchStatus;
 use App\Services\PhotoEmbeddingService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
@@ -39,6 +40,9 @@ class EmbedPhotos extends Command
             return self::SUCCESS;
         }
 
+        // ** "Puls" dla panelu — każde uruchomienie, także bez pracy (patrz MatchStatus)
+        MatchStatus::markRun();
+
         $reason = $service->blockedReason();
 
         // ** --ignore-hours pomija tylko okno godzin — wyłączony moduł i pauza obowiązują zawsze
@@ -66,8 +70,12 @@ class EmbedPhotos extends Command
             $limit = (int) ($this->option('limit') ?: config('noskiem_match.queue.batch_limit'));
             $photos = $service->pendingQuery($modelVersion, $retryFailed)->limit(max(1, $limit))->get();
 
+            MatchStatus::markRunning($photos->count());
             $stats = $service->run($photos, $modelVersion);
+            MatchStatus::markFinished($stats, $photos->count());
         } finally {
+            // ** Przy wyjątku znacznik "pracuje" też musi zniknąć
+            Cache::forget(MatchStatus::RUNNING);
             $lock->release();
         }
 

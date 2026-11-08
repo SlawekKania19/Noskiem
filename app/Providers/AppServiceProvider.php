@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\Support\MatchSettings;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
         $this->registerRateLimiters();
         $this->registerPasswordDefaults();
         $this->registerIcons();
+
+        // ** Ustawienia dopasowań z panelu "Dopasowanie AI" nadpisują config/noskiem_match.php
+        MatchSettings::apply();
     }
 
     // ---------------------------

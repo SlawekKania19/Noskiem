@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 // Realizuje zlecenia "poszukaj podobnych i napisz" (match_requests) — odpalana ze
 // schedulera co minutę. Zlecenie czeka, dopóki match:embed nie policzy wszystkich
 // zdjęć zgłoszenia; samo wyszukiwanie jest lekkie (numpy, ułamek sekundy).
-// Respektuje MATCH_ENABLED i MATCH_PAUSED (pauza wstrzymuje też maile).
+// Respektuje MATCH_ENABLED i pauzę (panel „Dopasowanie AI” / MATCH_PAUSED — wstrzymuje też maile).
 // ---------------------------
 class NotifyMatches extends Command
 {

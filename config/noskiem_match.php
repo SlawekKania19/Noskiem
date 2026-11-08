@@ -4,6 +4,8 @@
 // Dopasowania po zdjęciach (moduł Pythona noskiem_match/).
 // Wszystko regulowane z .env — zmiana działa od następnego uruchomienia workera
 // (o ile config nie jest zcache'owany; deploy robi optimize:clear).
+// Część ustawień (kolejka, progi, filtry, maile) można nadpisać w panelu
+// "Dopasowanie AI" (App\Support\MatchSettings) — wtedy .env to tylko wartość domyślna.
 // Ustawienia modelu (nazwa, wersja, kadrowanie) są w noskiem_match/config.json —
 // tam jest jedno źródło model_version, czytane też przez PHP.
 // ---------------------------

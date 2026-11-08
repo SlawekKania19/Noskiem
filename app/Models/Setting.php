@@ -34,6 +34,14 @@ class Setting extends Model
         Cache::forget(self::CACHE_KEY);
     }
 
+    // Usuwa ustawienie (powrót do wartości domyślnej) i czyści cache
+    public static function forget(string $key): void
+    {
+        static::where('key', $key)->delete();
+
+        Cache::forget(self::CACHE_KEY);
+    }
+
     // Wszystkie ustawienia jako zwykła tablica [klucz => wartość], z cache.
     // Celowo tablica, nie Collection — obiekty w cache'u (driver "database") potrafią się
     // uszkodzić przy (un)serializacji, zwykła tablica jest tu dużo bezpieczniejsza.

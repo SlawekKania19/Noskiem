@@ -3,6 +3,7 @@
 namespace Tests\Feature\Matching;
 
 use App\Models\PhotoEmbedding;
+use App\Services\MatchStatus;
 use App\Services\PhotoEmbeddingService;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -91,6 +92,36 @@ class PhotoEmbeddingTest extends TestCase
         $this->assertSame(0, app(PhotoEmbeddingService::class)->pendingQuery($this->mv)->count());
         // ...chyba że jawnie --retry-failed
         $this->assertSame([$a->id], app(PhotoEmbeddingService::class)->pendingQuery($this->mv, true)->pluck('id')->all());
+    }
+
+    public function test_worker_zostawia_znaczniki_dla_panelu_a_ponow_bledne_wraca_zdjecia_do_kolejki(): void
+    {
+        $a = $this->photo(['animal_id' => $this->animal('approved')->id]);
+        $b = $this->photo(['animal_id' => $this->animal('approved')->id]);
+        $status = app(MatchStatus::class);
+
+        // ** Przed pierwszym uruchomieniem — brak "pulsu" = scheduler podejrzany
+        $this->assertTrue($status->snapshot()['scheduler_stale']);
+
+        Process::fake(['*' => Process::result($this->pythonOutput([$b->id, $a->id], errors: [$a->id]))]);
+        $this->artisan('match:embed')->assertSuccessful();
+
+        $s = $status->snapshot();
+        $this->assertFalse($s['scheduler_stale']);
+        $this->assertNull($s['running']);
+        $this->assertSame(1, $s['last_batch']['processed']);
+        $this->assertSame(1, $s['last_batch']['failed']);
+        $this->assertSame(['pending' => 0, 'failed' => 1, 'done' => 1], array_intersect_key($s['queue'], array_flip(['pending', 'failed', 'done'])));
+
+        // ** Ponów błędne — zdjęcie z błędem wraca do zwykłej kolejki, policzone zostaje
+        $this->assertSame(1, $status->retryFailed());
+        $this->assertSame([$a->id], app(PhotoEmbeddingService::class)->pendingQuery($this->mv)->pluck('id')->all());
+
+        // ** Pauza też zostawia "puls" — cron działa, tylko worker czeka
+        $this->travel(10)->minutes();
+        config(['noskiem_match.queue.paused' => true]);
+        $this->artisan('match:embed')->assertSuccessful();
+        $this->assertFalse($status->snapshot()['scheduler_stale']);
     }
 
     public function test_awaria_procesu_oznacza_winowajce_i_zachowuje_policzone(): void
