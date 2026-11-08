@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AnimalEditResource\Pages;
 
+use App\Filament\Actions\MatchPreviewAction;
 use App\Filament\Resources\AnimalEditResource;
 use App\Services\ModerationService;
 use Filament\Actions\Action;
@@ -21,6 +22,9 @@ class ViewAnimalEdit extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            // ** Podgląd maila z dopasowaniami, który autor dostanie po zatwierdzeniu
+            MatchPreviewAction::make(),
+
             Action::make('approve')
                 ->label('Zatwierdź')
                 ->icon('heroicon-o-check')

@@ -26,6 +26,9 @@ class MatchLoggingTest extends TestCase
 
     private array $nextResult = [];
 
+    // ** Ogłoszenie powstałe z zatwierdzenia zgłoszenia w scenario()
+    private ?Animal $listing = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -62,12 +65,14 @@ class MatchLoggingTest extends TestCase
             'n_candidates' => 5, 'n_compared' => 4, 'n_pending_embedding' => 1];
     }
 
-    // ** Zgłoszenie z zleceniem, dwóch kandydatów nad progiem i jeden poniżej
+    // ** Zatwierdzone zgłoszenie z zleceniem (mail tylko po zatwierdzeniu),
+    // dwóch kandydatów nad progiem i jeden poniżej
     private function scenario(): array
     {
         $edit = $this->edit();
         $this->photo(['animal_edit_id' => $edit->id]);
         $req = MatchRequest::create(['animal_edit_id' => $edit->id]);
+        $this->listing = $this->approve($edit);
         $a = $this->animal('approved', ['status' => 'found', 'contact_email' => 'a@example.com']);
         $b = $this->animal('approved', ['status' => 'found', 'contact_email' => 'b@example.com']);
         $c = $this->animal('approved', ['status' => 'found', 'contact_email' => 'c@example.com']);
@@ -87,7 +92,7 @@ class MatchLoggingTest extends TestCase
         $this->artisan('match:notify')->assertSuccessful();
 
         $search = MatchSearch::sole();
-        $this->assertSame([$req->id, $edit->id, null, $this->mv, 'notify', 2, 5, 4, 1], [
+        $this->assertSame([$req->id, $edit->id, $this->listing->id, $this->mv, 'notify', 2, 5, 4, 1], [
             $search->match_request_id, $search->query_animal_edit_id, $search->query_animal_id,
             $search->model_version, $search->channel, $search->n_shown,
             $search->n_candidates, $search->n_compared, $search->n_pending_embedding,
@@ -107,7 +112,8 @@ class MatchLoggingTest extends TestCase
         $edit = $this->edit();
         $this->photo(['animal_edit_id' => $edit->id]);
         MatchRequest::create(['animal_edit_id' => $edit->id]);
-        $x = $this->animal('approved', ['status' => 'found', 'contact_email' => 'x@example.com']);
+        $this->approve($edit);
+        $x =$this->animal('approved', ['status' => 'found', 'contact_email' => 'x@example.com']);
 
         $this->nextResult = ['status' => 'pending'];
         $this->artisan('match:notify');

@@ -79,12 +79,16 @@ Diagnostyka bez Laravela:
 ## Mail z kandydatami (App\Services\PhotoMatchNotifier, php artisan match:notify)
 1. Potwierdzenie e-maila nowego zgłoszenia (ze zdjęciami, moduł włączony) → wpis
    w `match_requests` (status `queued`).
-2. `match:embed` liczy wektory zdjęć zgłoszenia.
-3. `match:notify` (co minutę): gdy wszystkie zdjęcia mają wektory → wyszukiwanie →
-   mail `MatchCandidatesFound` TYLKO gdy coś przekracza próg (`notified`), inaczej `no_matches`.
-- Zatwierdzone w międzyczasie → szukamy dla nowego `Animal` (z `moderation_logs`,
-  bo `animal_edits.animal_id` zostaje null). Odrzucone → `skipped`, bez maila.
-- Czeka maks. `MATCH_NOTIFY_TTL_HOURS` (72) → `expired`. Błąd → 3 próby → `failed`.
+2. `match:embed` od razu liczy wektory zdjęć zgłoszenia (jeszcze przed moderacją).
+3. `match:notify` (co minutę): czeka na **zatwierdzenie** przez moderatora → gdy wszystkie
+   zdjęcia mają wektory → wyszukiwanie dla nowego `Animal` (z `moderation_logs`, bo
+   `animal_edits.animal_id` zostaje null) → mail `MatchCandidatesFound` TYLKO gdy coś
+   przekracza próg (`notified`), inaczej `no_matches`.
+- Mail dopiero po zatwierdzeniu, żeby moderator decydował, czy autor coś dostanie
+  (spam, odrzucone). Odrzucone → `skipped`, bez maila.
+- Po zatwierdzeniu czeka na wektory maks. `MATCH_NOTIFY_TTL_HOURS` (72, liczone od
+  zatwierdzenia) → `expired`. Nigdy niezmoderowane → `expired` po
+  `MATCH_NOTIFY_PENDING_TTL_DAYS` (30). Błąd → 3 próby → `failed`.
 - `MATCH_PAUSED` wstrzymuje też maile.
 
 ## Logi (do kalibracji — tego nie da się odtworzyć wstecz)

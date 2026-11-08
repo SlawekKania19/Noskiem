@@ -156,7 +156,7 @@ class AnimalEditController extends Controller
         // ** Zapowiedź wyszukiwania po zdjęciach — tylko gdy faktycznie je zrobimy
         // (moduł włączony i są zdjęcia), patrz PhotoMatchNotifier::willSearch
         $matchInfo = PhotoMatchNotifier::willSearch($animalEdit)
-            ? ' Po potwierdzeniu poszukamy podobnych zwierzaków w naszej bazie i napiszemy, jeśli coś znajdziemy.'
+            ? ' Po zatwierdzeniu ogłoszenia poszukamy podobnych zwierzaków w naszej bazie i napiszemy, jeśli coś znajdziemy.'
             : '';
 
         return redirect()->route('animals.index')
@@ -201,7 +201,7 @@ class AnimalEditController extends Controller
         }
 
         $matchInfo = MatchRequest::where('animal_edit_id', $animalEdit->id)->exists()
-            ? ' Szukamy też podobnych zwierzaków w naszej bazie — jeśli coś znajdziemy, napiszemy do Ciebie.'
+            ? ' Po zatwierdzeniu poszukamy też podobnych zwierzaków w naszej bazie — jeśli coś znajdziemy, napiszemy do Ciebie.'
             : '';
 
         return redirect()->route('animals.index')

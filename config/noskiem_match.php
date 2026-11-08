@@ -112,9 +112,13 @@ return [
     // Mail z kandydatami po dodaniu zgłoszenia (php artisan match:notify)
     // ---------------------------
     'notify' => [
-        // ** Ile godzin zlecenie może czekać na wektory zdjęć (np. przy pauzie kolejki).
-        // Po tym czasie wygasa bez maila — wiadomość po kilku dniach byłaby już myląca
+        // ** Mail idzie dopiero po zatwierdzeniu zgłoszenia. Ile godzin OD ZATWIERDZENIA
+        // zlecenie może czekać na wektory zdjęć (np. przy pauzie kolejki). Po tym czasie
+        // wygasa bez maila — wiadomość po kilku dniach byłaby już myląca
         'ttl_hours' => (int) env('MATCH_NOTIFY_TTL_HOURS', 72),
+        // ** Ile dni zlecenie czeka na moderację, zanim wygaśnie (zgłoszenie, którego nikt
+        // nie zatwierdził ani nie odrzucił — żeby nie wisiało w kolejce w nieskończoność)
+        'pending_ttl_days' => (int) env('MATCH_NOTIFY_PENDING_TTL_DAYS', 30),
         // Próby przy błędzie (Python / wysyłka maila), potem status "failed"
         'max_attempts' => 3,
         // Zleceń na jedno uruchomienie

@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\Breed;
 use App\Models\City;
+use App\Models\ModerationLog;
 use App\Models\Photo;
 use App\Models\PhotoEmbedding;
 use App\Models\Species;
@@ -60,6 +61,21 @@ trait MatchingFixtures
             'mod_status' => $modStatus, 'edit_token' => (string) Str::uuid(),
             'email_verified_at' => $verified ? now() : null,
         ], $attrs));
+    }
+
+    // ** Zatwierdzenie zgłoszenia jak w ModerationService: nowy Animal + wpis w logu moderacji.
+    // $at — moment zatwierdzenia (domyślnie teraz)
+    protected function approve(AnimalEdit $edit, ?\DateTimeInterface $at = null): Animal
+    {
+        $animal = $this->animal('approved', ['contact_email' => $edit->contact_email]);
+        $edit->update(['mod_status' => 'approved']);
+        $log = ModerationLog::create(['animal_id' => $animal->id, 'animal_edit_id' => $edit->id, 'action' => 'approved']);
+
+        if ($at) {
+            ModerationLog::whereKey($log->id)->update(['created_at' => $at]);
+        }
+
+        return $animal;
     }
 
     protected function photo(array $owner): Photo

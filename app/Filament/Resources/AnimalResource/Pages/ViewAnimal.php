@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AnimalResource\Pages;
 
+use App\Filament\Actions\MatchPreviewAction;
 use App\Filament\Resources\AnimalResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -14,6 +15,8 @@ class ViewAnimal extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            // ** Podobne ogłoszenia po zdjęciach (AI) — admin i moderator
+            MatchPreviewAction::make(),
             EditAction::make(),
             AnimalResource::deleteAction(),
         ];

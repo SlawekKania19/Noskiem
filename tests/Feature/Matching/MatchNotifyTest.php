@@ -6,7 +6,6 @@ use App\Mail\MatchCandidatesFound;
 use App\Models\Animal;
 use App\Models\AnimalEdit;
 use App\Models\MatchRequest;
-use App\Models\ModerationLog;
 use App\Services\PhotoMatchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -63,11 +62,16 @@ class MatchNotifyTest extends TestCase
             'best_photo_index' => 0, 'distance_km' => 12.3];
     }
 
-    private function queuedEdit(array $attrs = []): AnimalEdit
+    // ** Zgłoszenie ze zleceniem; domyślnie od razu zatwierdzone (mail tylko po zatwierdzeniu)
+    private function queuedEdit(array $attrs = [], bool $approve = true): AnimalEdit
     {
         $edit = $this->edit(attrs: $attrs);
         $this->photo(['animal_edit_id' => $edit->id]);
         MatchRequest::create(['animal_edit_id' => $edit->id]);
+
+        if ($approve) {
+            $this->approve($edit);
+        }
 
         return $edit;
     }
@@ -79,7 +83,7 @@ class MatchNotifyTest extends TestCase
 
         $this->get(route('animal-edits.confirm', ['animalEdit' => $edit, 'token' => $edit->edit_token]))
             ->assertRedirect()
-            ->assertSessionHas('success', fn ($m) => str_contains($m, 'Szukamy też podobnych'));
+            ->assertSessionHas('success', fn ($m) => str_contains($m, 'Po zatwierdzeniu poszukamy też podobnych'));
 
         $this->assertSame('queued', MatchRequest::where('animal_edit_id', $edit->id)->value('status'));
 
@@ -142,35 +146,74 @@ class MatchNotifyTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function test_po_zatwierdzeniu_szukamy_dla_ogloszenia_a_odrzucone_pomijamy(): void
+    public function test_mail_dopiero_po_zatwierdzeniu_a_odrzucone_pomijamy(): void
     {
-        $approved = $this->queuedEdit();
-        $animal = $this->animal('approved');
-        $approved->update(['mod_status' => 'approved']);
-        ModerationLog::create(['animal_id' => $animal->id, 'animal_edit_id' => $approved->id, 'action' => 'approved']);
+        $edit = $this->queuedEdit(approve: false);
+        $rejected = $this->queuedEdit(approve: false);
+        $cand = $this->animal('approved', ['status' => 'found', 'contact_email' => 'a@example.com']);
+        $this->nextResult = ['results' => [$this->matchRow($cand)]];
 
-        $rejected = $this->queuedEdit();
+        // ** Czeka na moderację — bez wyszukiwania i bez maila, nawet gdy wektory są gotowe
+        $this->artisan('match:notify');
+        $this->assertSame([], $this->searched);
+        $this->assertSame(2, MatchRequest::where('status', 'queued')->count());
+        Mail::assertNothingSent();
+
         $rejected->update(['mod_status' => 'rejected']);
-
+        $animal = $this->approve($edit);
         $this->artisan('match:notify');
 
+        // ** Szukamy dla zatwierdzonego ogłoszenia (nie zgłoszenia), odrzucone bez maila
         $this->assertCount(1, $this->searched);
         $this->assertInstanceOf(Animal::class, $this->searched[0]);
         $this->assertSame($animal->id, $this->searched[0]->id);
+        Mail::assertSent(MatchCandidatesFound::class, fn ($mail) => $mail->hasTo($edit->contact_email));
         $this->assertSame('skipped', MatchRequest::where('animal_edit_id', $rejected->id)->value('status'));
+    }
+
+    public function test_oczekujace_nie_blokuja_partii_i_wygasaja_po_terminie(): void
+    {
+        config(['noskiem_match.notify.batch' => 2]);
+
+        // ** Więcej oczekujących niż mieści się w partii — zatwierdzone i tak przechodzi
+        $this->queuedEdit(approve: false);
+        $this->queuedEdit(approve: false);
+        $this->queuedEdit(approve: false);
+        $approved = $this->queuedEdit();
+
+        $this->artisan('match:notify');
+        $this->assertSame('no_matches', MatchRequest::where('animal_edit_id', $approved->id)->value('status'));
+
+        // ** Nikt nie zmoderował przez 30 dni → wygasa
+        $this->travel(31)->days();
+        $this->artisan('match:notify');
+        $this->artisan('match:notify');
+        $this->assertSame(3, MatchRequest::where('status', 'expired')->count());
+        $this->assertCount(1, $this->searched);
     }
 
     public function test_wygasanie_ponawianie_i_pauza(): void
     {
-        $this->queuedEdit();
-        $old = $this->queuedEdit();
-        MatchRequest::where('animal_edit_id', $old->id)->update(['created_at' => now()->subHours(73)]);
+        $fresh = $this->queuedEdit();
+        // ** Termin liczony od zatwierdzenia, nie od zgłoszenia
+        $old = $this->queuedEdit(approve: false);
+        $this->approve($old, now()->subHours(73));
+        // ** Zgłoszenie sprzed 5 dni, zatwierdzone dopiero teraz (wolna moderacja) — nie wygasa
+        $slowModeration = $this->queuedEdit(approve: false);
+        MatchRequest::where('animal_edit_id', $slowModeration->id)->update(['created_at' => now()->subDays(5)]);
+        $this->approve($slowModeration);
 
         config(['noskiem_match.queue.paused' => true]);
         $this->artisan('match:notify');
-        $this->assertSame(2, MatchRequest::where('status', 'queued')->count());   // pauza: nic
+        $this->assertSame(3, MatchRequest::where('status', 'queued')->count());   // pauza: nic
 
         config(['noskiem_match.queue.paused' => false]);
+        $this->nextResult = ['status' => 'pending'];                              // wektory jeszcze liczone
+        $this->artisan('match:notify');
+        $this->assertSame('expired', MatchRequest::where('animal_edit_id', $old->id)->value('status'));
+        $this->assertSame('queued', MatchRequest::where('animal_edit_id', $slowModeration->id)->value('status'));
+        MatchRequest::where('animal_edit_id', $slowModeration->id)->delete();
+
         // ** Błąd wyszukiwania (wyjątek) — 3 próby, potem failed
         $this->app->instance(PhotoMatchService::class, new class extends PhotoMatchService {
             public function __construct() {}
@@ -182,10 +225,9 @@ class MatchNotifyTest extends TestCase
         });
 
         $this->artisan('match:notify');
-        $this->assertSame('expired', MatchRequest::where('animal_edit_id', $old->id)->value('status'));
         $this->artisan('match:notify');
         $this->artisan('match:notify');
-        $req = MatchRequest::where('animal_edit_id', '!=', $old->id)->first();
+        $req = MatchRequest::where('animal_edit_id', $fresh->id)->first();
         $this->assertSame(['failed', 3, 'python padł'], [$req->status, $req->attempts, $req->last_error]);
     }
 

@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\URL;
 // ---------------------------
 // Zlecenia "poszukaj podobnych i napisz do autora" (tabela match_requests).
 // queue() — po potwierdzeniu e-maila nowego zgłoszenia (AnimalEditController::confirmEmail).
-// process() — z php artisan match:notify: gdy zdjęcia zgłoszenia mają już wektory
-// (liczy je match:embed), szuka kandydatów i wysyła mail TYLKO gdy coś przekracza próg.
+// process() — z php artisan match:notify: po ZATWIERDZENIU zgłoszenia przez moderatora,
+// gdy zdjęcia mają już wektory (liczy je match:embed od razu po potwierdzeniu e-maila),
+// szuka kandydatów i wysyła mail TYLKO gdy coś przekracza próg.
 // ---------------------------
 
 class PhotoMatchNotifier
@@ -46,15 +47,26 @@ class PhotoMatchNotifier
     {
         $edit = $request->animalEdit;
 
-        if ($request->created_at->lt(now()->subHours(config('noskiem_match.notify.ttl_hours')))) {
-            return $this->finish($request, 'expired');
+        // ** Mail idzie dopiero PO zatwierdzeniu — moderator decyduje, czy autor w ogóle coś
+        // dostanie (spam, odrzucone). Wektory liczą się wcześniej, więc po zatwierdzeniu
+        // mail wychodzi w ciągu minuty. Oczekujące czekają, ale nie w nieskończoność
+        if ($edit?->mod_status === 'pending') {
+            return $request->created_at->lt(now()->subDays(config('noskiem_match.notify.pending_ttl_days')))
+                ? $this->finish($request, 'expired')
+                : 'queued';
         }
 
-        $query = $this->resolveQuery($edit);
+        [$query, $approvedAt] = $this->resolveApproved($edit);
 
         if ($query === null) {
-            // Odrzucone (spam / błędne zgłoszenie) albo nie da się ustalić ogłoszenia
+            // Odrzucone (spam / błędne zgłoszenie), usunięte albo nie da się ustalić ogłoszenia
             return $this->finish($request, 'skipped');
+        }
+
+        // ** Termin liczony od zatwierdzenia — wolna moderacja (np. weekend) nie może
+        // sprawić, że mail przepadnie; liczy się tylko czekanie na wektory po zatwierdzeniu
+        if ($approvedAt->lt(now()->subHours(config('noskiem_match.notify.ttl_hours')))) {
+            return $this->finish($request, 'expired');
         }
 
         try {
@@ -95,20 +107,25 @@ class PhotoMatchNotifier
     }
 
     /**
-     * Zapytaniem jest zgłoszenie, dopóki czeka na moderację. Po zatwierdzeniu zdjęcia
-     * są przepięte na nowy Animal (ModerationService::approve), a animal_edits.animal_id
+     * Zatwierdzone ogłoszenie i moment zatwierdzenia. Po zatwierdzeniu zdjęcia są
+     * przepięte na nowy Animal (ModerationService::approve), a animal_edits.animal_id
      * zostaje null — ogłoszenie znajdujemy przez log moderacji.
+     *
+     * @return array{0: ?Animal, 1: ?\Illuminate\Support\Carbon}
      */
-    protected function resolveQuery(AnimalEdit $edit): Animal|AnimalEdit|null
+    protected function resolveApproved(?AnimalEdit $edit): array
     {
-        return match ($edit->mod_status) {
-            'pending'  => $edit,
-            'approved' => Animal::find(
-                $edit->animal_id ?? ModerationLog::where('animal_edit_id', $edit->id)
-                    ->where('action', 'approved')->latest('id')->value('animal_id')
-            ),
-            default    => null,
-        };
+        if ($edit?->mod_status !== 'approved') {
+            return [null, null];
+        }
+
+        $log = ModerationLog::where('animal_edit_id', $edit->id)
+            ->where('action', 'approved')->latest('id')->first();
+
+        $animal = Animal::find($edit->animal_id ?? $log?->animal_id);
+
+        // ** Brak wpisu w logu (stare dane) — liczymy od ostatniej zmiany zgłoszenia (zatwierdzenia)
+        return [$animal, $log?->created_at ?? $edit->updated_at];
     }
 
     // ** Dane do maila jako zwykłe tablice — widok nie odpytuje bazy. Linki przez

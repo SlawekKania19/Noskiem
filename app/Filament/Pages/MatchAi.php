@@ -148,9 +148,10 @@ class MatchAi extends Page implements HasForms
                     ]),
 
                 Section::make('Maile z dopasowaniami')
+                    ->description('Mail z podobnymi ogłoszeniami idzie do autora dopiero po zatwierdzeniu zgłoszenia przez moderatora. Wektory zdjęć liczą się wcześniej, więc zwykle wychodzi w ciągu minuty od zatwierdzenia.')
                     ->schema([
                         TextInput::make('notify.ttl_hours')
-                            ->label('Jak długo zgłoszenie czeka na wektory zdjęć')
+                            ->label('Jak długo zatwierdzone zgłoszenie czeka na wektory zdjęć')
                             ->numeric()->integer()->minValue(1)->maxValue(720)->required()
                             ->suffix('h')
                             ->helperText('Po tym czasie (np. przy długiej pauzie) mail nie zostanie wysłany — po kilku dniach byłby już mylący. '.$this->defaultHint('notify.ttl_hours')),

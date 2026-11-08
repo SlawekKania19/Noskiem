@@ -8,8 +8,8 @@ use Illuminate\Console\Command;
 
 // ---------------------------
 // Realizuje zlecenia "poszukaj podobnych i napisz" (match_requests) — odpalana ze
-// schedulera co minutę. Zlecenie czeka, dopóki match:embed nie policzy wszystkich
-// zdjęć zgłoszenia; samo wyszukiwanie jest lekkie (numpy, ułamek sekundy).
+// schedulera co minutę. Zlecenie czeka na zatwierdzenie zgłoszenia przez moderatora
+// i na wektory wszystkich zdjęć (match:embed); samo wyszukiwanie jest lekkie (numpy).
 // Respektuje MATCH_ENABLED i pauzę (panel „Dopasowanie AI” / MATCH_PAUSED — wstrzymuje też maile).
 // ---------------------------
 class NotifyMatches extends Command
@@ -27,6 +27,12 @@ class NotifyMatches extends Command
         $stats = [];
 
         MatchRequest::where('status', 'queued')
+            // ** Pomijamy zgłoszenia czekające na moderację (mail dopiero po zatwierdzeniu) —
+            // inaczej przy kolejce moderacji > batch zajmowałyby całą partię i blokowały
+            // zatwierdzone. Wyjątek: zbyt stare, żeby process() oznaczył je jako wygasłe
+            ->whereDoesntHave('animalEdit', fn ($q) => $q
+                ->where('mod_status', 'pending')
+                ->where('match_requests.created_at', '>=', now()->subDays(config('noskiem_match.notify.pending_ttl_days'))))
             ->with('animalEdit')
             ->orderBy('id')
             ->limit(config('noskiem_match.notify.batch'))
