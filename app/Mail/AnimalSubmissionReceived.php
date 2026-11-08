@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\AnimalEdit;
 use App\Services\ApprovalTimeEstimator;
+use App\Services\PhotoMatchNotifier;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -35,6 +36,8 @@ class AnimalSubmissionReceived extends Mailable
             ->with([
                 'averageApprovalTime' => ApprovalTimeEstimator::humanAverage(),
                 'confirmUrl' => route('animal-edits.confirm', ['animalEdit' => $this->animalEdit, 'token' => $this->animalEdit->edit_token]),
+                // ** Zapowiedź maila z podobnymi ogłoszeniami (po zdjęciach) — tylko gdy go wyślemy
+                'willSearchMatches' => PhotoMatchNotifier::willSearch($this->animalEdit),
             ])
             ->view('emails.animal-submitted');
     }

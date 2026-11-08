@@ -10,6 +10,7 @@ use App\Models\Breed;
 use App\Models\City;
 use App\Models\Color;
 use App\Models\IdentMarksTag;
+use App\Models\MatchRequest;
 use App\Models\Species;
 use App\Models\User;
 use App\Models\Voivodeship;
@@ -17,6 +18,7 @@ use App\Mail\AnimalDeletionConfirmed;
 use App\Mail\AnimalSubmissionReceived;
 use App\Mail\NewSubmissionForModeration;
 use App\Services\ImageCompressor;
+use App\Services\PhotoMatchNotifier;
 use App\Services\TitleGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -151,15 +153,21 @@ class AnimalEditController extends Controller
             report($e);
         }
 
+        // ** Zapowiedź wyszukiwania po zdjęciach — tylko gdy faktycznie je zrobimy
+        // (moduł włączony i są zdjęcia), patrz PhotoMatchNotifier::willSearch
+        $matchInfo = PhotoMatchNotifier::willSearch($animalEdit)
+            ? ' Po potwierdzeniu poszukamy podobnych zwierzaków w naszej bazie i napiszemy, jeśli coś znajdziemy.'
+            : '';
+
         return redirect()->route('animals.index')
-            ->with('success', "Zgłoszenie zostało zapisane. Sprawdź skrzynkę {$animalEdit->contact_email} i potwierdź adres, żeby ogłoszenie trafiło do moderacji.");
+            ->with('success', "Zgłoszenie zostało zapisane. Sprawdź skrzynkę {$animalEdit->contact_email} i potwierdź adres, żeby ogłoszenie trafiło do moderacji.".$matchInfo);
     }
 
     // Potwierdza adres e-mail zgłaszającego (link z maila AnimalSubmissionReceived).
     // Dopiero po tym moderatorzy dostają powiadomienie o nowym zgłoszeniu — ochrona
     // przed botami i fałszywymi adresami. Idempotentne: ponowne kliknięcie nie wysyła
     // powiadomień drugi raz.
-    public function confirmEmail(AnimalEdit $animalEdit, Request $request)
+    public function confirmEmail(AnimalEdit $animalEdit, Request $request, PhotoMatchNotifier $matchNotifier)
     {
         if ($request->get('token') !== $animalEdit->edit_token) {
             abort(403, 'Nieprawidłowy token – brak dostępu.');
@@ -167,6 +175,15 @@ class AnimalEditController extends Controller
 
         if ($animalEdit->email_verified_at === null) {
             $animalEdit->update(['email_verified_at' => now()]);
+
+            // ** Zlecenie wyszukania podobnych po zdjęciach — dopiero po potwierdzeniu e-maila,
+            // żeby boty i fałszywe adresy nie zajmowały CPU. Wektory policzy match:embed,
+            // mail z kandydatami wyśle match:notify. Błąd nie może zablokować potwierdzenia.
+            try {
+                $matchNotifier->queue($animalEdit);
+            } catch (\Throwable $e) {
+                report($e);
+            }
 
             // ** Osobno do każdego, nie jednym Mail::to([...]) — inaczej wszyscy moderatorzy
             // widzieliby się nawzajem w nagłówku "Do" tej samej wiadomości. Też w try/catch,
@@ -183,8 +200,12 @@ class AnimalEditController extends Controller
             }
         }
 
+        $matchInfo = MatchRequest::where('animal_edit_id', $animalEdit->id)->exists()
+            ? ' Szukamy też podobnych zwierzaków w naszej bazie — jeśli coś znajdziemy, napiszemy do Ciebie.'
+            : '';
+
         return redirect()->route('animals.index')
-            ->with('success', 'Dziękujemy za potwierdzenie! Twoje zgłoszenie trafiło do moderacji.');
+            ->with('success', 'Dziękujemy za potwierdzenie! Twoje zgłoszenie trafiło do moderacji.'.$matchInfo);
     }
 
     // Wyświetla formularz edycji konkretnego ogłoszenia zwierzęcia, sprawdzając poprawność tokenu edycji. Jeśli token jest nieprawidłowy, zwraca błąd 403. Zwraca widok z formularzem edycji.

@@ -1,0 +1,9 @@
+{
+  "model_version": "dinov2-base+detr-crop+cls-v1",
+  "embedding_model": "facebook/dinov2-base",
+  "detector_model": "facebook/detr-resnet-50",
+  "use_crop": true,
+  "det_threshold": 0.4,
+  "det_max_side": 1024,
+  "crop_margin": 0.1
+}

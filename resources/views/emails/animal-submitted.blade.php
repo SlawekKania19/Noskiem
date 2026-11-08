@@ -33,6 +33,13 @@
         wyślemy Ci wtedy kolejną wiadomość z linkiem do jego edycji.
     </p>
 
+    @if ($willSearchMatches ?? false)
+        <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
+            Po potwierdzeniu adresu porównamy zdjęcia Twojego zwierzaka z ogłoszeniami w naszej bazie.
+            Jeśli znajdziemy podobne, napiszemy do Ciebie osobną wiadomość.
+        </p>
+    @endif
+
     @if ($averageApprovalTime)
         <p style="margin:0 0 16px; font-size:13px; line-height:1.6; color:#8f9485;">
             Zatwierdzenie ogłoszenia średnio trwa ok. {{ $averageApprovalTime }} — postaramy się zrobić to jak najszybciej.
