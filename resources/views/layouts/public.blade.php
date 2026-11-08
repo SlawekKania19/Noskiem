@@ -30,6 +30,7 @@
             $navIsFound = request()->routeIs('animals.index') && request('status') === 'found';
             $navIsMap = request()->routeIs('map.index');
             $navIsBlog = request()->routeIs('blog.*');
+            $navIsChips = request()->routeIs('chips.*');
             $navIsCreate = request()->routeIs('animals.create');
         @endphp
 
@@ -77,7 +78,7 @@
                         <a href="{{ route('animals.index', ['status' => 'found']) }}" class="{{ $navIsFound ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Znalezione</a>
                         <a href="{{ route('map.index') }}" class="{{ $navIsMap ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Mapa</a>
                         <a href="{{ route('blog.index') }}" class="{{ $navIsBlog ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Blog</a>
-                        <a href="#" class="text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]">Jak to działa</a>
+                        <a href="{{ route('chips.index') }}" class="{{ $navIsChips ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Baza chipów</a>
                     </nav>
                     <div class="flex items-center gap-2">
                         {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
@@ -137,7 +138,7 @@
                     <a href="{{ route('animals.index', ['status' => 'found']) }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsFound ? $mobileNavActive : $mobileNavIdle }}">Znalezione</a>
                     <a href="{{ route('map.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsMap ? $mobileNavActive : $mobileNavIdle }}">Mapa</a>
                     <a href="{{ route('blog.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsBlog ? $mobileNavActive : $mobileNavIdle }}">Blog</a>
-                    <a href="#" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $mobileNavIdle }}">Jak to działa</a>
+                    <a href="{{ route('chips.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsChips ? $mobileNavActive : $mobileNavIdle }}">Baza chipów</a>
                     <a href="{{ route('contact.show') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ request()->routeIs('contact.show') ? $mobileNavActive : $mobileNavIdle }}">Kontakt</a>
                 </nav>
             </div>

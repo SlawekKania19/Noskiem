@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 // ---------------------------
@@ -53,5 +54,11 @@ class Photo extends Model
     public function sighting(): BelongsTo
     {
         return $this->belongsTo(Sighting::class);
+    }
+
+    // ** Wektory do dopasowań po zdjęciach (po jednym na wersję modelu)
+    public function embeddings(): HasMany
+    {
+        return $this->hasMany(PhotoEmbedding::class);
     }
 }

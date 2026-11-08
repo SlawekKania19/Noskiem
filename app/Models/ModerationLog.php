@@ -15,6 +15,7 @@ class ModerationLog extends Model
         'animal_id',
         'animal_edit_id',
         'sighting_id',
+        'chip_registration_id',
         'user_id',
         'action',
         'comment',
@@ -36,6 +37,11 @@ class ModerationLog extends Model
     public function sighting(): BelongsTo
     {
         return $this->belongsTo(Sighting::class);
+    }
+
+    public function chipRegistration(): BelongsTo
+    {
+        return $this->belongsTo(ChipRegistration::class);
     }
 
     public function user(): BelongsTo
