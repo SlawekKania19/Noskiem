@@ -39,6 +39,7 @@ jobs:
           key: ${{ secrets.SEOHOST_SSH_KEY }}
           script: |
             set -e
+            export PATH=/usr/local/php85/bin:$PATH
             cd domains/qa.noskiem.org/noskiem_app
             git fetch origin main
             git reset --hard origin/main
