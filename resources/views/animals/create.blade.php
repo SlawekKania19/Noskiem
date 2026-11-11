@@ -356,7 +356,7 @@
                 <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $locationHintFound }}</p>
 
                 <div class="mt-4">
-                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia - poniższe pola uzupełnią się automatycznie, <strong>upewnij się, że są poprawne.</strong></p>
+                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia - poniższe pola uzupełnią się automatycznie, <strong>upewnij się, że są poprawne.</strong> Możesz też najpierw wpisać miejscowość i opis lokalizacji - pinezka ustawi się sama.</p>
 
                     <button
                         type="button"
@@ -376,12 +376,13 @@
                     <input type="hidden" name="latitude" id="latitude-input" value="{{ old('latitude') }}">
                     <input type="hidden" name="longitude" id="longitude-input" value="{{ old('longitude') }}">
 
-                    @error('latitude')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                    @error('longitude')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
+                    {{-- ** Podpowiedź o pinezce ustawionej automatycznie z wpisanego opisu (animal-map.js) --}}
+                    <p id="location-geocode-hint" class="mt-1 hidden text-[12px]"></p>
+
+                    {{-- ** Oba pola mają ten sam komunikat - pokazujemy go raz --}}
+                    @if ($errors->has('latitude') || $errors->has('longitude'))
+                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $errors->first('latitude') ?: $errors->first('longitude') }}</p>
+                    @endif
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
@@ -393,6 +394,9 @@
                                 locationTextInputId: 'location-text-input',
                                 locateButtonId: 'locate-me-button',
                                 locateErrorId: 'locate-me-error',
+                                voivodeshipInputId: 'voivodeship_id',
+                                cityInputSelector: 'input[name="city_id"]',
+                                geocodeHintId: 'location-geocode-hint',
                             });
                         });
                     </script>

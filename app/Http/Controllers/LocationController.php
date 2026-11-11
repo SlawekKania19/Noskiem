@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Voivodeship;
+use App\Services\Geocoder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -80,6 +81,38 @@ class LocationController extends Controller
             'city_id' => $city?->id,
             'city_name' => $city?->name_pl ?? $localityName,
             'location_text_suggestion' => $locationTextSuggestion,
+        ]);
+    }
+
+    // ---------------------------
+    // Geokodowanie "w przód" (opis lokalizacji + miejscowość -> lat/lng), gdy użytkownik
+    // wpisał miejsce ręcznie, ale nie kliknął na mapie. Front ustawia wtedy pinezkę sam.
+    // ---------------------------
+    public function search(Request $request, Geocoder $geocoder)
+    {
+        $data = $request->validate([
+            'q' => 'nullable|string|max:255',
+            'voivodeship_id' => 'nullable|integer',
+            'city_id' => 'nullable|integer',
+        ]);
+
+        $voivodeship = Voivodeship::find($data['voivodeship_id'] ?? null);
+
+        $city = $voivodeship
+            ? City::where('voivodeship_id', $voivodeship->id)->find($data['city_id'] ?? null)
+            : null;
+
+        $hit = $geocoder->search($data['q'] ?? null, $city?->name_pl, $voivodeship);
+
+        if (! $hit) {
+            return response()->json(['found' => false]);
+        }
+
+        return response()->json([
+            'found' => true,
+            'lat' => $hit['lat'],
+            'lng' => $hit['lng'],
+            'precise' => $hit['precise'],
         ]);
     }
 }

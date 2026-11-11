@@ -114,7 +114,14 @@ export function initLocationPicker(elementId, options = {}) {
         ? L.marker([startLat, startLng], { draggable: false }).addTo(map)
         : null;
 
-    const setPosition = (lat, lng) => {
+    // ** Skąd pochodzi pinezka: 'user' (kliknięcie / geolokalizacja / zapisane wcześniej
+    // współrzędne), 'auto' (ustawiona z wpisanego tekstu) albo null (brak współrzędnych).
+    // Pinezki użytkownika nigdy nie nadpisujemy, automatyczna podąża za zmianami tekstu.
+    // Uwaga: w formularzu "widziałem" pinezka startowa to miejsce z ogłoszenia, ale ukryte
+    // pola są puste - dlatego źródło liczymy z pól, a nie z obecności markera.
+    let pinSource = latInput?.value && lngInput?.value ? 'user' : null;
+
+    const placeMarker = (lat, lng) => {
         if (marker) {
             marker.setLatLng([lat, lng]);
         } else {
@@ -128,7 +135,14 @@ export function initLocationPicker(elementId, options = {}) {
         if (lngInput) {
             lngInput.value = lng.toFixed(6);
         }
+    };
 
+    const geocodeHint = createGeocodeHint(options.geocodeHintId);
+
+    const setPosition = (lat, lng) => {
+        pinSource = 'user';
+        geocodeHint.hide();
+        placeMarker(lat, lng);
         resolveLocation(lat, lng, options);
     };
 
@@ -138,7 +152,130 @@ export function initLocationPicker(elementId, options = {}) {
         setupLocateButton(options.locateButtonId, options.locateErrorId, map, setPosition);
     }
 
+    setupAutoGeocode(options, {
+        canAutoPlace: () => pinSource !== 'user',
+        onFound: (result) => {
+            pinSource = 'auto';
+            placeMarker(result.lat, result.lng);
+            map.setView([result.lat, result.lng], result.precise ? 16 : 13);
+            geocodeHint.show(
+                result.precise
+                    ? 'Pinezka ustawiona na podstawie wpisanego opisu - sprawdź, czy jest we właściwym miejscu. Jeśli nie, kliknij na mapie.'
+                    : 'Nie znaleźliśmy dokładnego adresu, więc pinezka stoi w środku miejscowości - kliknij na mapie, żeby wskazać dokładne miejsce.',
+                'info',
+            );
+        },
+        onNotFound: () => {
+            geocodeHint.show('Nie udało się znaleźć tego miejsca na mapie - kliknij na mapie, żeby zaznaczyć, gdzie to było.', 'warning');
+        },
+    });
+
     return map;
+}
+
+// ---------------------------
+// Automatyczna pinezka z wpisanego tekstu (GET /location/search). Uruchamiana, gdy
+// użytkownik zmieni "Opis lokalizacji" albo wybierze miejscowość z podpowiedzi,
+// a pinezki nie postawił sam. Wpisanie tekstu po ustawieniu pinezki ręcznie
+// niczego nie zmienia - wtedy obowiązuje pinezka.
+// ---------------------------
+function setupAutoGeocode(options, { canAutoPlace, onFound, onNotFound }) {
+    const textInput = options.locationTextInputId
+        ? document.getElementById(options.locationTextInputId)
+        : null;
+
+    if (!textInput) {
+        return;
+    }
+
+    const voivodeshipInput = options.voivodeshipInputId
+        ? document.getElementById(options.voivodeshipInputId)
+        : null;
+    const cityInput = options.cityInputSelector
+        ? document.querySelector(options.cityInputSelector)
+        : null;
+
+    // ** Licznik zapytań - liczy się tylko odpowiedź na najnowsze (starsze mogły wrócić później)
+    let lastRequestId = 0;
+
+    const geocode = async () => {
+        if (!canAutoPlace()) {
+            return;
+        }
+
+        const q = textInput.value.trim();
+        const cityId = cityInput?.value ?? '';
+
+        if (!q && !cityId) {
+            return;
+        }
+
+        const requestId = ++lastRequestId;
+        const params = new URLSearchParams({ q });
+
+        if (voivodeshipInput?.value) {
+            params.set('voivodeship_id', voivodeshipInput.value);
+        }
+
+        if (cityId) {
+            params.set('city_id', cityId);
+        }
+
+        try {
+            const response = await fetch(`/location/search?${params}`, {
+                headers: { Accept: 'application/json' },
+            });
+
+            // ** W międzyczasie przyszło nowsze zapytanie albo użytkownik kliknął na mapie
+            if (requestId !== lastRequestId || !canAutoPlace() || !response.ok) {
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.found) {
+                onFound(data);
+            } else {
+                onNotFound();
+            }
+        } catch {
+            // ** Cicho - przy wysyłce formularza backend i tak spróbuje ustalić współrzędne
+        }
+    };
+
+    // ** "change" (a nie "input") - odpala się po zakończeniu edycji pola, nie przy każdym znaku
+    textInput.addEventListener('change', geocode);
+
+    // ** Wybór miejscowości w <x-city-picker> (osobny zakres Alpine, zdarzenie bąbelkuje do window)
+    if (cityInput) {
+        window.addEventListener('city-picker-change', (event) => {
+            if (event.detail?.cityId) {
+                // Hidden input Alpine aktualizuje dopiero w kolejnym ticku
+                setTimeout(geocode, 0);
+            }
+        });
+    }
+}
+
+// ** Komunikat pod mapą o automatycznie ustawionej pinezce (albo o jej braku)
+function createGeocodeHint(elementId) {
+    const element = elementId ? document.getElementById(elementId) : null;
+
+    return {
+        show(message, tone) {
+            if (!element) {
+                return;
+            }
+
+            element.textContent = message;
+            element.classList.toggle('text-[#994d0a]', tone === 'warning');
+            element.classList.toggle('text-[#616657]', tone !== 'warning');
+            element.classList.remove('hidden');
+        },
+        hide() {
+            element?.classList.add('hidden');
+        },
+    };
 }
 
 window.initLocationPicker = initLocationPicker;

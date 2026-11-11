@@ -429,12 +429,13 @@
                     <input type="hidden" name="latitude" id="latitude-input" value="{{ old('latitude', $animal->latitude) }}">
                     <input type="hidden" name="longitude" id="longitude-input" value="{{ old('longitude', $animal->longitude) }}">
 
-                    @error('latitude')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
-                    @error('longitude')
-                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
-                    @enderror
+                    {{-- ** Podpowiedź o pinezce ustawionej automatycznie z wpisanego opisu (animal-map.js) --}}
+                    <p id="location-geocode-hint" class="mt-1 hidden text-[12px]"></p>
+
+                    {{-- ** Oba pola mają ten sam komunikat - pokazujemy go raz --}}
+                    @if ($errors->has('latitude') || $errors->has('longitude'))
+                        <p class="mt-1 text-[12px] text-[#994d0a]">{{ $errors->first('latitude') ?: $errors->first('longitude') }}</p>
+                    @endif
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
@@ -446,6 +447,9 @@
                                 locationTextInputId: 'location-text-input',
                                 locateButtonId: 'locate-me-button',
                                 locateErrorId: 'locate-me-error',
+                                voivodeshipInputId: 'voivodeship_id',
+                                cityInputSelector: 'input[name="city_id"]',
+                                geocodeHintId: 'location-geocode-hint',
                             });
                         });
                     </script>

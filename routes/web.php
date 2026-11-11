@@ -60,6 +60,11 @@ Route::get('/location/reverse', [LocationController::class, 'reverse'])
     ->middleware('throttle:30,1')
     ->name('location.reverse');
 
+// ** Geokodowanie wpisanego opisu lokalizacji (tekst -> lat/lng), gdy brak pinezki na mapie
+Route::get('/location/search', [LocationController::class, 'search'])
+    ->middleware('throttle:30,1')
+    ->name('location.search');
+
 // ---------------------------
 // TWORZENIE I EDYCJA – trafia do animal_edits
 // Trasa /animals/create MUSI być przed /animals/{animal}

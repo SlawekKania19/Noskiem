@@ -17,6 +17,7 @@ use App\Models\Voivodeship;
 use App\Mail\AnimalDeletionConfirmed;
 use App\Mail\AnimalSubmissionReceived;
 use App\Mail\NewSubmissionForModeration;
+use App\Services\Geocoder;
 use App\Services\ImageCompressor;
 use App\Services\PhotoMatchNotifier;
 use App\Services\TitleGenerator;
@@ -63,7 +64,7 @@ class AnimalEditController extends Controller
     }
 
     // Zapisuje nowe zgłoszenie edycji zwierzęcia wraz ze zdjęciami, walidując dane wejściowe i ustawiając status moderacji na "pending". Generuje unikalny token edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
-    public function store(Request $request)
+    public function store(Request $request, Geocoder $geocoder)
     {
         // ** Honeypot - pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
         // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
@@ -71,6 +72,9 @@ class AnimalEditController extends Controller
             return redirect()->route('animals.index')
                 ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź swoją skrzynkę e-mail i potwierdź adres, żeby ogłoszenie trafiło do moderacji.');
         }
+
+        // ** Lokalizacja wpisana ręcznie bez pinezki na mapie - współrzędne ustalamy z tekstu
+        $geocoder->fillMissingCoordinates($request, 'location_text');
 
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
@@ -105,6 +109,7 @@ class AnimalEditController extends Controller
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
             'colors.required'   => 'Wybierz przynajmniej jeden kolor zwierzaka.',
+            ...Geocoder::coordinatesMessages(),
         ]);
 
         // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno - nie należą do fillable AnimalEdit
@@ -232,11 +237,14 @@ class AnimalEditController extends Controller
     }
 
     // Aktualizuje konkretne ogłoszenie zwierzęcia na podstawie zgłoszenia edycji, sprawdzając poprawność tokenu edycji. Jeśli token jest nieprawidłowy, zwraca błąd 403. Waliduje dane wejściowe, tworzy nowe zgłoszenie edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
-    public function update(Request $request, Animal $animal)
+    public function update(Request $request, Animal $animal, Geocoder $geocoder)
     {
         if ($request->get('token') !== $animal->edit_token) {
             abort(403, 'Nieprawidłowy token – brak dostępu do edycji.');
         }
+
+        // ** Lokalizacja wpisana ręcznie bez pinezki na mapie - współrzędne ustalamy z tekstu
+        $geocoder->fillMissingCoordinates($request, 'location_text');
 
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
@@ -267,6 +275,7 @@ class AnimalEditController extends Controller
             'animal_name.regex' => 'Imię zwierzaka może zawierać tylko litery.',
             'chip_number.regex' => 'Numer chipa może zawierać tylko cyfry.',
             'colors.required'   => 'Wybierz przynajmniej jeden kolor zwierzaka.',
+            ...Geocoder::coordinatesMessages(),
         ]);
 
         $colors = $data['colors'] ?? [];

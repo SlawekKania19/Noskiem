@@ -7,6 +7,7 @@ use App\Mail\SightingSubmissionReceived;
 use App\Models\Animal;
 use App\Models\Sighting;
 use App\Models\User;
+use App\Services\Geocoder;
 use App\Services\ImageCompressor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -29,7 +30,7 @@ class SightingController extends Controller
         return view('sightings.create', ['animal' => $animal]);
     }
 
-    public function store(Request $request, Animal $animal)
+    public function store(Request $request, Animal $animal, Geocoder $geocoder)
     {
         abort_unless($animal->status === 'found' && $animal->mod_status === 'approved', 404);
 
@@ -39,6 +40,10 @@ class SightingController extends Controller
             return redirect()->route('animals.show', $animal)
                 ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź swoją skrzynkę e-mail i potwierdź adres, żeby trafiło do moderacji.');
         }
+
+        // ** Lokalizacja wpisana ręcznie bez pinezki na mapie - współrzędne ustalamy z tekstu
+        // (formularz "widziałem" nie ma wyboru miejscowości, więc szukamy po samym opisie)
+        $geocoder->fillMissingCoordinates($request, 'location', withCity: false);
 
         $data = $request->validate([
             'description'   => 'required|string',
@@ -52,7 +57,7 @@ class SightingController extends Controller
             'photos'        => 'nullable|array|max:6',
             'photos.*'      => 'image|max:5120',
             'accept_terms'  => 'accepted',
-        ]);
+        ], Geocoder::coordinatesMessages());
 
         $photos = $data['photos'] ?? [];
         unset($data['photos'], $data['accept_terms']);
