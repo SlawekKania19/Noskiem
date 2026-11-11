@@ -235,6 +235,7 @@
                 :selected-voivodeship-id="$value('voivodeship_id')"
                 :selected-city-id="$value('city_id')"
                 :selected-city-label="$selectedCityName"
+                city-hint="Zacznij wpisywać nazwę i wybierz miejscowość z listy podpowiedzi."
             />
         </div>
     </section>

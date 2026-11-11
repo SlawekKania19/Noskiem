@@ -227,6 +227,8 @@
                     @enderror
 
                     @if ($identMarksTags->isNotEmpty())
+                        {{-- ** Placeholder znika przy pisaniu - stała informacja, że można łączyć oba sposoby --}}
+                        <p class="mt-2 text-[12px] text-[#8f9485]">Wpisz własnymi słowami lub kliknij podpowiedzi poniżej - możesz łączyć jedno i drugie.</p>
                         <div class="mt-2 flex flex-wrap gap-2">
                             @foreach ($identMarksTags as $tag)
                                 <button
@@ -262,6 +264,8 @@
                     @enderror
 
                     @if ($behaviors->isNotEmpty())
+                        {{-- ** Placeholder znika przy pisaniu - stała informacja, że można łączyć oba sposoby --}}
+                        <p class="mt-2 text-[12px] text-[#8f9485]">Wpisz własnymi słowami lub kliknij podpowiedzi poniżej - możesz łączyć jedno i drugie.</p>
                         <div class="mt-2 flex flex-wrap gap-2">
                             @foreach ($behaviors as $b)
                                 <button
@@ -408,6 +412,7 @@
                         :selected-voivodeship-id="old('voivodeship_id')"
                         :selected-city-id="old('city_id')"
                         :selected-city-label="$selectedCityName"
+                        city-hint="Zacznij wpisywać nazwę i wybierz miejscowość z listy podpowiedzi."
                     />
                 </div>
 

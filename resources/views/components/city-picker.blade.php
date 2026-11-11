@@ -11,6 +11,8 @@
     'cityLabel' => 'Miejscowość',
     'voivodeshipPlaceholder' => 'Wybierz województwo',
     'cityPlaceholder' => 'Wpisz min. 3 litery nazwy miejscowości',
+    // ** Tekst pomocniczy pod polem miejscowości (formularze) - w filtrach listy/mapy zbędny
+    'cityHint' => null,
     'fieldClass' => 'mt-1 w-full rounded-xl border border-[#e5e5dc] px-3 py-2 text-[14px] text-[#283618] focus:border-[#283618] focus:outline-hidden',
     'labelClass' => 'text-[12px] uppercase tracking-wide text-[#8f9485]',
 ])
@@ -81,6 +83,10 @@
                 ></li>
             </template>
         </ul>
+
+        @if ($cityHint)
+            <p class="mt-1 text-[12px] text-[#8f9485]">{{ $cityHint }}</p>
+        @endif
 
         @error($cityName)
             <p class="mt-1 text-[12px] text-[#994d0a]">{{ $message }}</p>
