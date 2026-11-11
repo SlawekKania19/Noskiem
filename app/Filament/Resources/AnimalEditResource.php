@@ -7,6 +7,7 @@ use App\Models\AnimalEdit;
 use App\Services\ModerationService;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Textarea;
+use App\Filament\Support\CardPreviewSection;
 use App\Filament\Support\PhotoThumbnailEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -224,6 +225,8 @@ class AnimalEditResource extends Resource
                         static::kontaktSection(),
                     ]),
                 ]),
+
+            CardPreviewSection::make(),
 
             Section::make('Zdjęcia')
                 ->columnSpanFull()

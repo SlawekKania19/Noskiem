@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CardPreviewController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
 use App\Http\Controllers\BlogController;
@@ -64,6 +65,13 @@ Route::get('/location/reverse', [LocationController::class, 'reverse'])
 Route::get('/location/search', [LocationController::class, 'search'])
     ->middleware('throttle:30,1')
     ->name('location.search');
+
+// ** Podgląd karty ogłoszenia 1:1 dla panelu (ramka w Filament) - admin/moderator, sprawdzane w kontrolerze
+Route::get('/podglad-karty/{type}/{id}', [CardPreviewController::class, 'show'])
+    ->middleware('auth')
+    ->whereIn('type', ['animal', 'edit'])
+    ->whereNumber('id')
+    ->name('admin.card-preview');
 
 // ---------------------------
 // TWORZENIE I EDYCJA – trafia do animal_edits
