@@ -56,7 +56,7 @@ class PhotoFocusAction
 
                     $photo->setManualFocus($valid ? (float) $point[0] : null, $valid ? (float) $point[1] : null);
 
-                    if ($photo->isDirty('focus_manual')) {
+                    if ($photo->isDirty(['focus_manual', 'width', 'height'])) {
                         $photo->save();
                         $changed++;
                     }

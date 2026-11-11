@@ -125,6 +125,12 @@ class Photo extends Model
     // null = powrót do kadru automatycznego
     public function setManualFocus(?float $x, ?float $y): void
     {
+        // ** Bez wymiarów punktu nie da się przeliczyć na kadr (starsze zdjęcia,
+        // przed detekcją) - uzupełniamy je z pliku przy okazji
+        if (! $this->width && filled($this->path)) {
+            $this->fillDimensionsFromFile();
+        }
+
         $this->focus_manual = $x === null || $y === null ? null : [
             round(max(0.0, min(1.0, $x)), 4),
             round(max(0.0, min(1.0, $y)), 4),

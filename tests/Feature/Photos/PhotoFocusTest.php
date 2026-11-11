@@ -7,7 +7,9 @@ use App\Models\Photo;
 use App\Models\User;
 use App\Services\PhotoEmbeddingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\Feature\Matching\MatchingFixtures;
 use Tests\TestCase;
@@ -137,6 +139,26 @@ class PhotoFocusTest extends TestCase
             ->callAction('photoFocus', data: ['focus' => ['p'.$photo->id => null]]);
 
         $this->assertNull($photo->refresh()->focus_manual);
+    }
+
+    public function test_reczny_kadr_dziala_na_starszym_zdjeciu_bez_wymiarow(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->putFileAs('photos', UploadedFile::fake()->image('old.jpg', 1000, 2000), 'old.jpg');
+
+        $admin = User::factory()->create(['is_admin' => true]);
+        $animal = $this->animal('approved');
+        $photo = $this->photo(['animal_id' => $animal->id]);
+        // ** Zdjęcie sprzed kadrowania: plik jest, wymiarów w bazie brak
+        $photo->forceFill(['path' => 'photos/old.jpg', 'width' => null, 'height' => null])->save();
+
+        Livewire::actingAs($admin)
+            ->test(ViewAnimal::class, ['record' => $animal->id])
+            ->callAction('photoFocus', data: ['focus' => ['p'.$photo->id => [0.5, 0.35]]]);
+
+        $photo->refresh();
+        $this->assertSame([1000, 2000], [$photo->width, $photo->height]);
+        $this->assertSame('50% 20%', $photo->objectPosition());
     }
 
     public function test_komenda_uzupelnia_kadry_starych_zdjec(): void
