@@ -24,12 +24,15 @@ class PhotosRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                // Podgląd miniaturki
+                // Podgląd miniaturki - kwadrat z kadrem jak na stronie (Photo::objectPosition)
                 Tables\Columns\ImageColumn::make('path')
                     ->label('Zdjęcie')
                     ->disk('public')
-                    ->width(100)
-                    ->height(75),
+                    ->imageWidth(80)
+                    ->imageHeight(80)
+                    ->extraImgAttributes(fn ($record) => [
+                        'style' => 'object-fit: cover; border-radius: 0.5rem; object-position: '.$record->objectPosition().';',
+                    ]),
 
                 Tables\Columns\IconColumn::make('is_main')
                     ->label('Główne')

@@ -7,7 +7,7 @@ use App\Models\Sighting;
 use App\Services\SightingModerationService;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Textarea;
-use Filament\Infolists\Components\ImageEntry;
+use App\Filament\Support\PhotoThumbnailEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
@@ -248,11 +248,8 @@ class SightingResource extends Resource
                     RepeatableEntry::make('photos')
                         ->hiddenLabel()
                         ->schema([
-                            ImageEntry::make('path')
-                                ->hiddenLabel()
-                                ->disk('public')
-                                ->width(200)
-                                ->height(150),
+                            // ** Miniaturka jak na stronie (kwadrat, kadr wokół zwierzaka)
+                            PhotoThumbnailEntry::make(),
                         ])
                         ->columns(4),
                 ]),

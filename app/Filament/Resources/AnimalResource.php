@@ -15,7 +15,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\ImageEntry;
+use App\Filament\Support\PhotoThumbnailEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -319,11 +319,8 @@ class AnimalResource extends Resource
                     RepeatableEntry::make('photos')
                         ->hiddenLabel()
                         ->schema([
-                            ImageEntry::make('path')
-                                ->hiddenLabel()
-                                ->disk('public')
-                                ->width(200)
-                                ->height(150),
+                            // ** Miniaturka jak na stronie (kwadrat, kadr wokół zwierzaka)
+                            PhotoThumbnailEntry::make(),
                             IconEntry::make('is_main')
                                 ->label('Główne')
                                 ->boolean()

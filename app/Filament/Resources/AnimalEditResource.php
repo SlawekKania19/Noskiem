@@ -7,7 +7,7 @@ use App\Models\AnimalEdit;
 use App\Services\ModerationService;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Textarea;
-use Filament\Infolists\Components\ImageEntry;
+use App\Filament\Support\PhotoThumbnailEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
@@ -231,16 +231,10 @@ class AnimalEditResource extends Resource
                     RepeatableEntry::make('photos')
                         ->hiddenLabel()
                         ->schema([
-                            ImageEntry::make('path')
-                                ->hiddenLabel()
-                                ->disk('public')
-                                ->width(200)
-                                ->height(150)
-                                ->extraImgAttributes(fn ($record) => [
-                                    'style' => $record->is_main
-                                        ? 'box-shadow: 0 0 0 3px #f59e0b; border-radius: 0.5rem;'
-                                        : 'border-radius: 0.5rem;',
-                                ]),
+                            // ** Miniaturka jak na stronie (kwadrat, kadr wokół zwierzaka), główne z obwódką
+                            PhotoThumbnailEntry::make(fn ($record) => $record->is_main
+                                ? 'box-shadow: 0 0 0 3px #f59e0b;'
+                                : ''),
                             TextEntry::make('is_main')
                                 ->hiddenLabel()
                                 ->formatStateUsing(fn ($state) => $state ? '★ Zdjęcie główne' : '')

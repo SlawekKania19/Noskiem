@@ -126,6 +126,12 @@ class PhotoFocusTest extends TestCase
 
         $this->assertSame([0.4, 0.15], $photo->refresh()->focus_manual);
 
+        // ** Podgląd w panelu pokazuje miniaturkę z tym samym kadrem co strona
+        $this->actingAs($admin)->get('/admin/animals/'.$animal->id)
+            ->assertOk()
+            ->assertSee('object-fit: cover', false)
+            ->assertSee('object-position: '.$photo->objectPosition(), false);
+
         Livewire::actingAs($admin)
             ->test(ViewAnimal::class, ['record' => $animal->id])
             ->callAction('photoFocus', data: ['focus' => ['p'.$photo->id => null]]);
