@@ -49,6 +49,16 @@ przeliczamy wszystkie wektory od nowa, żeby w bazie nie mieszały się dwa śro
 Diagnostyka bez Laravela:
     $P cli.py bench --root <storage/app/public> photos/a.jpg photos/b.jpg
 
+## Kadrowanie miniaturek (photos.focus)
+Przy liczeniu wektora detektor DETR i tak szuka zwierzęcia - `embed` zwraca więc też jego
+ramkę (`box`, ułamki 0..1) i rozmiar zdjęcia (`size`). PHP zapisuje to w `photos.focus`,
+a miniaturki na stronie, w mailach i na plakacie kadrują się wokół zwierzaka
+(`Photo::objectPosition()`). Wektory i `model_version` bez zmian.
+Moderator może poprawić kadr ręcznie (przycisk „Kadry miniaturek”, `photos.focus_manual`).
+Zdjęcia sprzed tej zmiany i zdjęcia „widziałem” (nie liczymy im wektorów) - sama detekcja:
+    php artisan photos:detect-focus --dry-run       # ile zdjęć bez kadru
+    php artisan photos:detect-focus --limit=200     # tylko DETR (cli.py detect), wznawialne
+
 ## Regulacja kolejki (.env, patrz config/noskiem_match.php)
 | Zmienna | Domyślnie | Co robi |
 |---|---|---|

@@ -46,6 +46,8 @@
                 src="{{ asset('storage/'.$mainPhoto->path) }}"
                 alt="{{ $cardTitle }}"
                 class="h-full w-full object-cover"
+                {{-- ** Kadr wokół wykrytego zwierzaka (Photo::objectPosition, kwadrat) --}}
+                style="object-position: {{ $mainPhoto->objectPosition() }}"
                 loading="lazy"
             >
         @else

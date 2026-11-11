@@ -217,6 +217,7 @@
                                 src="{{ asset('storage/'.$photo->path) }}"
                                 alt="{{ $cardTitle }}"
                                 class="h-full w-full object-cover transition hover:scale-105"
+                                style="object-position: {{ $photo->objectPosition() }}"
                                 loading="lazy"
                             >
                         </button>
@@ -519,6 +520,7 @@
                                                 src="{{ asset('storage/'.$photo->path) }}"
                                                 alt="Zdjęcie ze zgłoszenia z {{ $sighting->date_seen?->format('d.m.Y') }}"
                                                 class="h-full w-full object-cover transition hover:scale-105"
+                                                style="object-position: {{ $photo->objectPosition() }}"
                                                 loading="lazy"
                                             >
                                         </button>

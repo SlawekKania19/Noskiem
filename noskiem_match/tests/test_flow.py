@@ -24,16 +24,28 @@ def unit(v):
 
 # ** Atrapa modelu - wektor zależny od treści pliku, "zepsuty" plik rzuca wyjątek jak PIL
 class FakeEmbedder:
+    INFO = {"box": [0.1, 0.2, 0.6, 0.9], "size": [1080, 1920]}
+
     def __init__(self):
         self.loads = 0
+        self.last_info = None
 
     def load(self):
         self.loads += 1
+
+    def load_detector(self):
+        self.loads += 1
+
+    def detect_path(self, path):
+        if Path(path).read_bytes().startswith(b"BROKEN"):
+            raise OSError("cannot identify image file")
+        return dict(self.INFO)
 
     def embed_path(self, path):
         data = Path(path).read_bytes()
         if data.startswith(b"BROKEN"):
             raise OSError("cannot identify image file")
+        self.last_info = dict(self.INFO)
         rng = np.random.default_rng(len(data))
         return unit(rng.normal(size=8)), True
 
@@ -74,6 +86,24 @@ def test_embed_protocol():
     assert sum(1 for e in ev if e["event"] == "result" and e["photo_id"] is None) == 1
     done = ev[-1]
     assert done["event"] == "done" and done["processed"] == 1 and done["failed"] == 5
+    # Ramka zwierzęcia i rozmiar zdjęcia do kadrowania miniaturek
+    assert ok["box"] == [0.1, 0.2, 0.6, 0.9] and ok["size"] == [1080, 1920]
+
+
+def test_detect_protocol():
+    root = Path(tempfile.mkdtemp())
+    (root / "a.jpg").write_bytes(b"x")
+    (root / "bad.jpg").write_bytes(b"BROKEN")
+    args = argparse.Namespace(root=str(root), threads=1, nice=0, max_seconds=0)
+    buf = io.StringIO()
+    lines = [json.dumps({"photo_id": 1, "path": "a.jpg"}), json.dumps({"photo_id": 2, "path": "bad.jpg"})]
+    with redirect_stdout(buf):
+        cli.cmd_detect(args, CFG, embedder=FakeEmbedder(), stdin=io.StringIO("\n".join(lines)))
+    ev = [json.loads(x) for x in buf.getvalue().splitlines()]
+    res = {e["photo_id"]: e for e in ev if e["event"] == "result"}
+    assert res[1]["status"] == "ok" and res[1]["box"] == [0.1, 0.2, 0.6, 0.9] and "vector_b64" not in res[1]
+    assert res[2]["status"] == "error"
+    assert ev[-1]["processed"] == 1 and ev[-1]["failed"] == 1
 
 
 def test_embed_max_seconds():
@@ -177,6 +207,7 @@ def test_search_cli():
 
 if __name__ == "__main__":
     test_embed_protocol()
+    test_detect_protocol()
     test_embed_max_seconds()
     test_rank()
     test_bonus_nie_zajmuje_miejsca_i_nie_przepycha_przez_prog()

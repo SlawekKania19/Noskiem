@@ -471,6 +471,8 @@
                                 src="{{ asset('storage/'.$photo->path) }}"
                                 alt="{{ $animal->animal_name }}"
                                 class="h-20 w-full rounded-xl object-cover"
+                                {{-- ** Kafelek ok. 4:3 (stała wysokość, szerokość z gridu) --}}
+                                style="object-position: {{ $photo->objectPosition(4 / 3) }}"
                             >
                         @endforeach
                     </div>

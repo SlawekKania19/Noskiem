@@ -86,7 +86,7 @@ class PosterRenderer
 
         $crop = function (Photo $photo, array $size) use ($manager, $disk): ?string {
             try {
-                return $this->cropToDataUri($manager, $disk->get($photo->path), ...$size);
+                return $this->cropToDataUri($manager, $disk->get($photo->path), $photo, ...$size);
             } catch (\Throwable $e) {
                 // Uszkodzony plik nie może blokować całego plakatu
                 report($e);
@@ -126,10 +126,12 @@ class PosterRenderer
     }
 
     // ** Kadrowanie "cover": skalujemy tak, żeby zdjęcie pokryło cały kadr, i tniemy
-    // nadmiar. W pionie bierzemy wycinek nieco powyżej środka (35%) - pyszczek jest
-    // zwykle w górnej części zdjęcia, a czysty środek często ucina głowę.
-    private function cropToDataUri(ImageManager $manager, string $binary, int $width, int $height): string
+    // nadmiar. Położenie wycinka jak w miniaturkach na stronie (Photo::focusPosition) -
+    // wokół wykrytego zwierzaka, a bez detekcji nieco powyżej środka (głowa zwykle u góry).
+    private function cropToDataUri(ImageManager $manager, string $binary, Photo $photo, int $width, int $height): string
     {
+        [$posX, $posY] = $photo->focusPosition($width / $height);
+
         $image = $manager->decode($binary);
 
         $scale = max($width / $image->width(), $height / $image->height());
@@ -138,8 +140,8 @@ class PosterRenderer
             height: (int) ceil($image->height() * $scale),
         );
 
-        $x = (int) round(($image->width() - $width) / 2);
-        $y = (int) round(($image->height() - $height) * 0.35);
+        $x = (int) round(($image->width() - $width) * $posX);
+        $y = (int) round(($image->height() - $height) * $posY);
 
         return (string) $image->crop($width, $height, $x, $y)
             ->encodeUsingFileExtension('jpg', quality: 80)

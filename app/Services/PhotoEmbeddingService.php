@@ -207,6 +207,74 @@ class PhotoEmbeddingService
         return $stats;
     }
 
+    // ---------------------------
+    // Sama detekcja zwierzęcia (cli.py detect) - uzupełnia kadr miniaturek zdjęciom,
+    // które nie przeszły przez embed z ramkami (stare zdjęcia, zdjęcia "widziałem").
+    // Błąd zdjęcia = focus_source "none" (domyślny kadr), żeby nie wracało w kółko.
+    // ---------------------------
+    public function detectFocus(Collection $photos): array
+    {
+        $cfg = config('noskiem_match');
+        $q = $cfg['queue'];
+
+        $input = $photos
+            ->map(fn (Photo $p) => json_encode(['photo_id' => $p->id, 'path' => $p->path], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE))
+            ->implode("\n");
+
+        $result = Process::path($cfg['module_path'])
+            ->env([
+                'HF_HUB_OFFLINE'         => $q['hf_offline'] ? '1' : '0',
+                'TRANSFORMERS_VERBOSITY' => 'error',
+                'PYTHONIOENCODING'       => 'utf-8',
+                'OMP_NUM_THREADS'        => (string) $q['threads'],
+                'MKL_NUM_THREADS'        => (string) $q['threads'],
+            ])
+            ->input($input)
+            ->timeout($q['max_seconds'] + 300)
+            ->run([
+                $cfg['python'], 'cli.py', 'detect',
+                '--root', config('filesystems.disks.public.root'),
+                '--threads', (string) $q['threads'],
+                '--nice', (string) $q['nice'],
+                '--max-seconds', (string) $q['max_seconds'],
+            ]);
+
+        $stats = ['processed' => 0, 'failed' => 0, 'found' => 0, 'done' => false,
+            'stderr' => mb_substr($result->errorOutput(), -2000)];
+        $byId = $photos->keyBy('id');
+
+        foreach (preg_split('/\r?\n/', trim($result->output())) as $line) {
+            $event = json_decode($line, true);
+
+            if (($event['event'] ?? null) === 'done') {
+                $stats['done'] = true;
+            }
+
+            if (($event['event'] ?? null) !== 'result' || ! isset($byId[$event['photo_id'] ?? null])) {
+                continue;
+            }
+
+            $photo = $byId[$event['photo_id']];
+            $ok = ($event['status'] ?? null) === 'ok';
+
+            // ** Zdjęcie mogło zniknąć w trakcie - nie wskrzeszamy rekordu
+            if (! Photo::whereKey($photo->id)->exists()) {
+                continue;
+            }
+
+            $photo->applyDetection($ok ? ($event['box'] ?? null) : null, $ok ? ($event['size'] ?? null) : null);
+            $photo->save();
+
+            $ok ? $stats['processed']++ : $stats['failed']++;
+
+            if ($photo->focus_source === 'auto') {
+                $stats['found']++;
+            }
+        }
+
+        return $stats;
+    }
+
     // ** Zapis wyniku jednego zdjęcia (upsert - ponowne liczenie nadpisuje stary błąd)
     protected function storeResult(int $photoId, string $modelVersion, array $event): void
     {
@@ -221,8 +289,17 @@ class PhotoEmbeddingService
         }
 
         // ** Zdjęcie mogło zostać usunięte w trakcie liczenia (np. autor skasował ogłoszenie)
-        if (! Photo::whereKey($photoId)->exists()) {
+        $photo = Photo::find($photoId);
+
+        if (! $photo) {
             return;
+        }
+
+        // ** Przy okazji detekcji - kadr miniaturki (ramka zwierzęcia). Klucz "size" mają
+        // tylko wyniki z wersji cli.py, która zwraca ramki - starszy wynik niczego nie zmienia
+        if ($ok && array_key_exists('size', $event)) {
+            $photo->applyDetection($event['box'] ?? null, $event['size']);
+            $photo->save();
         }
 
         PhotoEmbedding::updateOrCreate(

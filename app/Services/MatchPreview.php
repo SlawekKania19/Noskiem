@@ -77,6 +77,7 @@ class MatchPreview
             'status' => $animal->status,
             'mod_status' => $animal->mod_status,
             'photo_url' => $photo ? asset('storage/'.$photo->path) : null,
+            'photo_position' => $photo?->objectPosition() ?? '50% 50%',
             'url' => AnimalResource::getUrl('view', ['record' => $animal->id]),
         ];
     }

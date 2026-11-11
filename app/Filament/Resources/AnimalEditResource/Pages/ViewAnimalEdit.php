@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AnimalEditResource\Pages;
 
 use App\Filament\Actions\MatchPreviewAction;
+use App\Filament\Actions\PhotoFocusAction;
 use App\Filament\Resources\AnimalEditResource;
 use App\Services\ModerationService;
 use Filament\Actions\Action;
@@ -24,6 +25,9 @@ class ViewAnimalEdit extends ViewRecord
         return [
             // ** Podgląd maila z dopasowaniami, który autor dostanie po zatwierdzeniu
             MatchPreviewAction::make(),
+
+            // ** Ręczna poprawka kadru miniaturek, gdy automatyczny ucina zwierzaka
+            PhotoFocusAction::make(),
 
             Action::make('approve')
                 ->label('Zatwierdź')

@@ -17,7 +17,7 @@ class MatchCandidatesFound extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @param  array<int, array{title:string,url:string,photo_url:?string,level:string,location:?string,date:?string,distance_km:float}>  $items
+     * @param  array<int, array{title:string,url:string,photo_url:?string,photo_position:string,level:string,location:?string,date:?string,distance_km:float}>  $items
      * @param  array  $params  parametry wyszukiwania (m.in. promień - do treści maila)
      */
     public function __construct(public AnimalEdit $animalEdit, public array $items, public array $params)

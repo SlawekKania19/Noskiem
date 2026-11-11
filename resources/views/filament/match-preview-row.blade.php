@@ -10,7 +10,7 @@
     <div class="nm-pos">{{ $row['position'] ?? '–' }}</div>
 
     @if ($row['photo_url'])
-        <img class="nm-thumb" src="{{ $row['photo_url'] }}" alt="" loading="lazy">
+        <img class="nm-thumb" src="{{ $row['photo_url'] }}" alt="" loading="lazy" style="object-position: {{ $row['photo_position'] ?? '50% 50%' }}">
     @else
         <div class="nm-thumb"></div>
     @endif

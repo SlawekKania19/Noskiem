@@ -140,12 +140,15 @@ class PhotoMatchNotifier
             ->filter(fn ($r) => isset($animals[$r['listing_id']]))
             ->map(function (array $r) use ($animals, $mv, $search) {
                 $animal = $animals[$r['listing_id']];
+                $photo = $this->bestPhoto($animal, $r['best_photo_index'], $mv);
 
                 return [
                     'title'       => $animal->generated_title,
                     // ** Bez wygasania - maile czyta się też po tygodniach
                     'url'         => URL::signedRoute('matches.click', ['matchSearch' => $search->id, 'position' => $r['position']]),
-                    'photo_url'   => $this->bestPhotoUrl($animal, $r['best_photo_index'], $mv),
+                    'photo_url'   => $photo ? asset('storage/'.$photo->path) : null,
+                    // ** Kadr miniaturki - część klientów poczty (np. Gmail) go zignoruje, wtedy środek
+                    'photo_position' => $photo?->objectPosition() ?? '50% 50%',
                     'level'       => $r['level'],
                     'location'    => $animal->location_text,
                     'date'        => $animal->date_event?->format('d.m.Y'),
@@ -159,15 +162,13 @@ class PhotoMatchNotifier
     // ** Zdjęcie kandydata, które najbardziej przypomina zgłoszenie. best_photo_index to
     // indeks w tej samej kolejności, w jakiej PhotoMatchService wysłał wektory do Pythona
     // (zdjęcia z udanym wektorem, po id). Fallback: zdjęcie główne
-    protected function bestPhotoUrl(Animal $animal, int $index, string $mv): ?string
+    protected function bestPhoto(Animal $animal, int $index, string $mv): ?Photo
     {
-        $photo = $animal->photos()
+        return $animal->photos()
             ->whereNull('sighting_id')
             ->whereHas('embeddings', fn ($q) => $q->where('model_version', $mv)->whereNotNull('vector'))
             ->orderBy('id')->skip($index)->first()
             ?? $animal->photos()->orderByDesc('is_main')->orderBy('id')->first();
-
-        return $photo instanceof Photo ? asset('storage/'.$photo->path) : null;
     }
 
     protected function finish(MatchRequest $request, string $status, ?int $shown = null): string

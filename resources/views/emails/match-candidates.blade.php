@@ -22,7 +22,7 @@
                 @if ($item['photo_url'])
                     <td width="96" style="padding:12px 0 12px 12px; vertical-align:top;">
                         <a href="{{ $item['url'] }}">
-                            <img src="{{ $item['photo_url'] }}" width="96" height="96" alt="" style="display:block; width:96px; height:96px; object-fit:cover; border-radius:8px;">
+                            <img src="{{ $item['photo_url'] }}" width="96" height="96" alt="" style="display:block; width:96px; height:96px; object-fit:cover; object-position:{{ $item['photo_position'] ?? '50% 50%' }}; border-radius:8px;">
                         </a>
                     </td>
                 @endif

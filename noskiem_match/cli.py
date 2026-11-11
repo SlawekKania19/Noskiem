@@ -8,10 +8,16 @@ Użycie:
       stdout: JSONL ze zdarzeniami:
               {"event":"ready","model_version":...,"load_ms":...}
               {"event":"result","photo_id":7,"status":"ok","vector_b64":...,"dim":768,
-               "crop_found":true,"ms":1234}
+               "crop_found":true,"box":[x1,y1,x2,y2]|null,"size":[w,h],"ms":1234}
+              (box - ramka zwierzęcia w ułamkach 0..1, do kadrowania miniaturek)
               {"event":"result","photo_id":8,"status":"error","error":"..."}
               {"event":"done","processed":..,"failed":..,"stopped":null|"max_seconds",
                "peak_rss_mb":..}
+
+  python cli.py detect --root /sciezka/storage/app/public [--threads 1] [--nice 10]
+                       [--max-seconds 240] < zadania.jsonl
+      Sama detekcja (tylko DETR) - protokół jak embed, wynik: {"event":"result",
+      "photo_id":7,"status":"ok","box":[..]|null,"size":[w,h]}. Uzupełnianie kadrów.
 
   python cli.py bench --root /sciezka/storage/app/public photos/a.jpg photos/b.jpg
       Pomiar: czas ładowania modeli, czas na zdjęcie, szczytowy RAM procesu.
@@ -135,10 +141,57 @@ def cmd_embed(args, cfg, embedder=None, stdin=None):
             photo_id = task["photo_id"]
             t = time.monotonic()
             vec, found = emb.embed_path(safe_path(root, task["path"]))
+            # ** Ramka zwierzęcia + rozmiar zdjęcia (do kadrowania miniaturek) - opcjonalne
+            info = getattr(emb, "last_info", None) or {}
             emit({"event": "result", "photo_id": photo_id, "status": "ok",
                   "vector_b64": base64.b64encode(vec.astype("<f4").tobytes()).decode("ascii"),
                   "dim": int(vec.shape[0]), "crop_found": bool(found),
+                  "box": info.get("box"), "size": info.get("size"),
                   "ms": int((time.monotonic() - t) * 1000)})
+            processed += 1
+        except Exception as e:  # noqa: BLE001 - uszkodzony plik nie zatrzymuje całej partii
+            failed += 1
+            emit({"event": "result", "photo_id": photo_id, "status": "error",
+                  "error": f"{type(e).__name__}: {e}"[:500]})
+        release_memory()
+
+    emit({"event": "done", "processed": processed, "failed": failed, "stopped": stopped,
+          "peak_rss_mb": peak_rss_mb()})
+    return 0
+
+
+# ---------------------------
+# detect - sama detekcja zwierzęcia (bez wektora), do uzupełnienia kadrów miniaturek
+# zdjęć policzonych przed wprowadzeniem kadrowania. Protokół jak embed, ale wynik
+# zawiera tylko box/size. Lżejsze od embed - ładuje wyłącznie DETR.
+# ---------------------------
+def cmd_detect(args, cfg, embedder=None, stdin=None):
+    root = Path(args.root).resolve()
+    lower_priority(args.nice)
+    started = time.monotonic()
+
+    emb = embedder or make_embedder(cfg, args.threads)
+    t0 = time.monotonic()
+    emb.load_detector()
+    emit({"event": "ready", "model_version": cfg["model_version"],
+          "load_ms": int((time.monotonic() - t0) * 1000)})
+
+    processed = failed = 0
+    stopped = None
+    for line in (stdin or sys.stdin):
+        line = line.strip()
+        if not line:
+            continue
+        if args.max_seconds and time.monotonic() - started > args.max_seconds:
+            stopped = "max_seconds"
+            break
+        photo_id = None
+        try:
+            task = json.loads(line)
+            photo_id = task["photo_id"]
+            info = emb.detect_path(safe_path(root, task["path"]))
+            emit({"event": "result", "photo_id": photo_id, "status": "ok",
+                  "box": info.get("box"), "size": info.get("size")})
             processed += 1
         except Exception as e:  # noqa: BLE001 - uszkodzony plik nie zatrzymuje całej partii
             failed += 1
@@ -215,12 +268,12 @@ def build_parser():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("search")
-    for name in ("embed", "bench"):
+    for name in ("embed", "detect", "bench"):
         p = sub.add_parser(name)
         p.add_argument("--root", required=True, help="katalog zdjęć (storage/app/public)")
         p.add_argument("--threads", type=int, default=1)
         p.add_argument("--nice", type=int, default=0)
-        if name == "embed":
+        if name in ("embed", "detect"):
             p.add_argument("--max-seconds", type=int, default=0, help="0 = bez limitu")
         else:
             p.add_argument("paths", nargs="+")
@@ -232,6 +285,8 @@ def main(argv=None):
     cfg = load_cfg()
     if args.cmd == "embed":
         return cmd_embed(args, cfg)
+    if args.cmd == "detect":
+        return cmd_detect(args, cfg)
     if args.cmd == "search":
         return cmd_search(args, cfg)
     return cmd_bench(args, cfg)
