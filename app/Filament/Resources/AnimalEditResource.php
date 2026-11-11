@@ -229,10 +229,10 @@ class AnimalEditResource extends Resource
                 ->columnSpanFull()
                 ->schema([
                     RepeatableEntry::make('photos')
-                        ->label('')
+                        ->hiddenLabel()
                         ->schema([
                             ImageEntry::make('path')
-                                ->label('')
+                                ->hiddenLabel()
                                 ->disk('public')
                                 ->width(200)
                                 ->height(150)
@@ -242,7 +242,7 @@ class AnimalEditResource extends Resource
                                         : 'border-radius: 0.5rem;',
                                 ]),
                             TextEntry::make('is_main')
-                                ->label('')
+                                ->hiddenLabel()
                                 ->formatStateUsing(fn ($state) => $state ? '★ Zdjęcie główne' : '')
                                 ->visible(fn ($record) => $record->is_main)
                                 ->color('warning')
@@ -256,7 +256,7 @@ class AnimalEditResource extends Resource
                 ->visible(fn ($record) => $record !== null && $record->animal_id !== null)
                 ->schema([
                     TextEntry::make('diff_html')
-                        ->label('')
+                        ->hiddenLabel()
                         ->html()
                         ->getStateUsing(function ($record) {
                             $diff = app(ModerationService::class)->diff($record);

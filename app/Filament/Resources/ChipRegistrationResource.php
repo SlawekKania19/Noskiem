@@ -294,7 +294,7 @@ class ChipRegistrationResource extends Resource
                 ->visible(fn ($record) => $record->pending_changes !== null)
                 ->schema([
                     TextEntry::make('changes_diff')
-                        ->label('')
+                        ->hiddenLabel()
                         ->state(fn ($record) => new HtmlString(
                             '<table class="w-full text-sm"><thead><tr class="text-left text-gray-500"><th class="py-1 pr-4">Pole</th><th class="py-1 pr-4">Było</th><th class="py-1">Jest</th></tr></thead><tbody>'
                             .collect(static::changesDiff($record))
@@ -304,7 +304,7 @@ class ChipRegistrationResource extends Resource
                         ))
                         ->visible(fn ($record) => static::changesDiff($record) !== []),
                     TextEntry::make('no_text_changes')
-                        ->label('')
+                        ->hiddenLabel()
                         ->state('Bez zmian w danych tekstowych.')
                         ->visible(fn ($record) => static::changesDiff($record) === []),
                     ImageEntry::make('pending_sticker')
@@ -345,7 +345,7 @@ class ChipRegistrationResource extends Resource
             // ** Dysk prywatny - Filament generuje podpisany URL ważny kilka minut
             Section::make('Zdjęcie naklejki')->schema([
                 ImageEntry::make('sticker_photo_path')
-                    ->label('')
+                    ->hiddenLabel()
                     ->disk('local')
                     ->visibility('private')
                     ->height(300),

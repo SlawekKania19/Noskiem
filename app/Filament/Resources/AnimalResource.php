@@ -317,10 +317,10 @@ class AnimalResource extends Resource
                 ->columnSpanFull()
                 ->schema([
                     RepeatableEntry::make('photos')
-                        ->label('')
+                        ->hiddenLabel()
                         ->schema([
                             ImageEntry::make('path')
-                                ->label('')
+                                ->hiddenLabel()
                                 ->disk('public')
                                 ->width(200)
                                 ->height(150),

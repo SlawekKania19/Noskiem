@@ -109,7 +109,7 @@ class MessageResource extends Resource
 
             Section::make('Treść wiadomości')->schema([
                 TextEntry::make('message')
-                    ->label('')
+                    ->hiddenLabel()
                     ->prose(),
             ]),
 
