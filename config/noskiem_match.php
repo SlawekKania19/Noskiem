@@ -123,5 +123,11 @@ return [
         'max_attempts' => 3,
         // Zleceń na jedno uruchomienie
         'batch' => 20,
+        // ** Mail także do autorów STARYCH ogłoszeń z listy dopasowań ("pojawiło się nowe
+        // podobne ogłoszenie"), patrz App\Services\MatchOwnerNotifier
+        'owners_enabled' => (bool) env('MATCH_NOTIFY_OWNERS', true),
+        // ** Najwyżej jeden taki mail na tyle dni dla jednego ogłoszenia - kolejne
+        // dopasowania w tym czasie tylko trafiają do logu (match_owner_notices)
+        'owners_cooldown_days' => (int) env('MATCH_NOTIFY_OWNERS_COOLDOWN_DAYS', 3),
     ],
 ];

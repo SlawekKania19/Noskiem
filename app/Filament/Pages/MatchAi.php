@@ -155,6 +155,16 @@ class MatchAi extends Page implements HasForms
                             ->numeric()->integer()->minValue(1)->maxValue(720)->required()
                             ->suffix('h')
                             ->helperText('Po tym czasie (np. przy długiej pauzie) mail nie zostanie wysłany - po kilku dniach byłby już mylący. '.$this->defaultHint('notify.ttl_hours')),
+
+                        // ** Druga strona dopasowania - autorzy starych ogłoszeń (MatchOwnerNotifier)
+                        Toggle::make('notify.owners_enabled')
+                            ->label('Pisz też do autorów starych ogłoszeń z listy dopasowań')
+                            ->helperText('Mail "pojawiło się nowe ogłoszenie podobne do Twojego" - tylko do aktywnych ogłoszeń, z linkiem do wypisania się. '.$this->defaultHint('notify.owners_enabled')),
+                        TextInput::make('notify.owners_cooldown_days')
+                            ->label('Najwyżej jeden taki mail na ogłoszenie co')
+                            ->numeric()->integer()->minValue(0)->maxValue(60)->required()
+                            ->suffix('dni')
+                            ->helperText('Kolejne dopasowania w tym czasie są tylko zapisywane w logu. Ta sama para ogłoszeń nigdy nie dostaje drugiego maila. '.$this->defaultHint('notify.owners_cooldown_days')),
                     ]),
             ])
             ->statePath('data');

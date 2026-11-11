@@ -36,6 +36,8 @@ class MatchSettings
         'search.filters.same_species' => 'bool',
         'search.filters.exclude_same_email' => 'bool',
         'notify.ttl_hours' => 'int',
+        'notify.owners_enabled' => 'bool',
+        'notify.owners_cooldown_days' => 'int',
     ];
 
     // Wartości z pliku/.env sprzed nadpisania (zapamiętane przy pierwszym apply())

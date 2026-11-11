@@ -17,12 +17,17 @@ use Illuminate\Support\Facades\URL;
 // queue() - po potwierdzeniu e-maila nowego zgłoszenia (AnimalEditController::confirmEmail).
 // process() - z php artisan match:notify: po ZATWIERDZENIU zgłoszenia przez moderatora,
 // gdy zdjęcia mają już wektory (liczy je match:embed od razu po potwierdzeniu e-maila),
-// szuka kandydatów i wysyła mail TYLKO gdy coś przekracza próg.
+// szuka kandydatów i wysyła mail TYLKO gdy coś przekracza próg. Potem pisze też do
+// autorów starych ogłoszeń z listy (MatchOwnerNotifier).
 // ---------------------------
 
 class PhotoMatchNotifier
 {
-    public function __construct(private PhotoMatchService $matcher, private MatchSearchLogger $logger) {}
+    public function __construct(
+        private PhotoMatchService $matcher,
+        private MatchSearchLogger $logger,
+        private MatchOwnerNotifier $owners,
+    ) {}
 
     // ** Czy obiecujemy autorowi wyszukiwanie - moduł włączony i są zdjęcia do porównania.
     // Ten sam warunek decyduje o tekstach komunikatów, żeby nie obiecywać czegoś, czego nie zrobimy
@@ -94,7 +99,17 @@ class PhotoMatchNotifier
             Mail::to($edit->contact_email, $edit->contact_name)
                 ->send(new MatchCandidatesFound($edit, $this->mailItems($shown, $search), $out['params']));
 
-            return $this->finish($request, 'notified', count($shown));
+            // ** Zlecenie oznaczamy jako zrealizowane PRZED mailami do autorów starych ogłoszeń -
+            // ich błąd nie może sprawić, że autor nowego dostanie mail drugi raz
+            $status = $this->finish($request, 'notified', count($shown));
+
+            try {
+                $this->owners->notify($query, $shown, $search);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
+            return $status;
         } catch (\Throwable $e) {
             report($e);
             $attempts = $request->attempts + 1;

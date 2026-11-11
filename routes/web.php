@@ -12,6 +12,7 @@ use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MatchClickController;
+use App\Http\Controllers\MatchOptOutController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PosterController;
@@ -239,6 +240,21 @@ Route::get('/dopasowania/{matchSearch}/klik/{position}', [MatchClickController::
     ->whereNumber('position')
     ->middleware(['signed', 'throttle:60,1'])
     ->name('matches.click');
+
+// ** Mail do autora starego ogłoszenia o nowym podobnym (MatchOwnerNotifier)
+Route::get('/dopasowania/{matchSearch}/nowe/{position}', [MatchClickController::class, 'ownerClick'])
+    ->whereNumber('position')
+    ->middleware(['signed', 'throttle:60,1'])
+    ->name('matches.owner-click');
+
+// ** Wypisanie się z tych maili - GET pokazuje przycisk, POST zapisuje (skanery linków)
+Route::get('/dopasowania/wypisz/{animal}', [MatchOptOutController::class, 'show'])
+    ->middleware(['signed', 'throttle:30,1'])
+    ->name('matches.opt-out');
+
+Route::post('/dopasowania/wypisz/{animal}', [MatchOptOutController::class, 'store'])
+    ->middleware(['signed', 'throttle:30,1'])
+    ->name('matches.opt-out.store');
 
 // ---------------------------
 // BREEZE – trasy logowania/rejestracji

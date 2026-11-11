@@ -127,9 +127,9 @@ class MatchNotifyTest extends TestCase
         $req = MatchRequest::first();
         $this->assertSame(['notified', 1], [$req->status, $req->results_shown]);
 
-        // ** Kolejne uruchomienie nie wysyła drugi raz
+        // ** Kolejne uruchomienie nie wysyła drugi raz (mail do autora kandydata - MatchOwnerNotifyTest)
         $this->artisan('match:notify');
-        Mail::assertSentCount(1);
+        Mail::assertSent(MatchCandidatesFound::class, 1);
     }
 
     public function test_brak_dopasowan_bez_maila_a_brak_wektorow_czeka(): void
