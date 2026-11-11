@@ -35,6 +35,28 @@ updates:
       - "dependencies"
       - "javascript"
 
+  # Paczki Pythona modułu dopasowań po zdjęciach (noskiem_match/requirements.txt).
+  # Po aktualizacji trzeba ręcznie przeinstalować venv na serwerze (deploy tego nie robi) —
+  # patrz noskiem_match/README.md, sekcja "Aktualizacja paczek"
+  - package-ecosystem: "pip"
+    directory: "/noskiem_match"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    ignore:
+      # ** Nowa wersja transformers/timm może zmienić sposób liczenia wektorów = nowa
+      # model_version i przeliczenie całej bazy — większe skoki tylko świadomie, ręcznie.
+      # Poprawki (patch) przepuszczamy, żeby nie blokować łatek bezpieczeństwa.
+      # torch/torchvision instalowane osobno (indeks CPU), nie ma ich w requirements.txt
+      - dependency-name: "transformers"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "timm"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    labels:
+      - "dependencies"
+      - "python"
+
   # Akcje w workflowach GitHub Actions (.github/workflows)
   - package-ecosystem: "github-actions"
     directory: "/"

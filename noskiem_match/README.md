@@ -15,19 +15,31 @@ kadrowania, progu detekcji czy marginesu = nowa `model_version` (stare wektory s
 nieporównywalne, trzeba policzyć od nowa i powtórzyć kalibrację progów).
 Logika 1:1 z `dog_eval.py` (sprawdzone na QA: wektory identyczne jak przy liczeniu paczką).
 
-## Instalacja (hosting: Python 3.9, wspólny venv dla QA i produkcji)
-    python3 -m venv --without-pip ~/venvs/noskiem_match      # ensurepip na hostingu jest zepsuty
-    curl -sS -o /tmp/get-pip.py https://bootstrap.pypa.io/pip/3.9/get-pip.py
-    ~/venvs/noskiem_match/bin/python /tmp/get-pip.py
-    P=~/venvs/noskiem_match/bin/python
-    $P -m pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cpu
-    $P -m pip install -r requirements.txt
-Venv ~1,1 GB, wagi modeli w `~/.cache/huggingface` ~0,6 GB (pobierane przy pierwszym starcie).
+## Instalacja (hosting: Python 3.12, wspólny venv dla QA i produkcji)
+Domyślny `python3` na hostingu to 3.9 — za stary (pillow 12+ i nowsze numpy wymagają 3.10+).
+CloudLinux ma nowsze wersje w `/opt/alt/python3XX`; używamy 3.12.
+
+    /opt/alt/python312/bin/python3 -m venv ~/venvs/noskiem_match312
+    P=~/venvs/noskiem_match312/bin/python
+    $P -m pip install --no-cache-dir --upgrade pip
+    $P -m pip install --no-cache-dir torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cpu
+    $P -m pip install --no-cache-dir -r requirements.txt
+Venv ~1,1 GB, wagi modeli w `~/.cache/huggingface` ~0,6 GB (pobierane przy pierwszym
+starcie, wspólne dla wszystkich venv). `--no-cache-dir` — bez kopii pobranych paczek w `~/.cache/pip`.
 
 .env aplikacji:
     MATCH_ENABLED=true
-    MATCH_PYTHON=/home/<user>/venvs/noskiem_match/bin/python
+    MATCH_PYTHON=/home/<user>/venvs/noskiem_match312/bin/python
     MATCH_HF_OFFLINE=true        # dopiero PO pierwszym pobraniu wag
+
+Podgląd instalacji: `$P -m pip list` (wersje paczek), `du -sh ~/venvs/* ~/.cache/*` (miejsce).
+
+### Aktualizacja paczek / nowy venv
+Stawiamy NOWY venv obok starego, porównujemy wektory tych samych zdjęć w obu
+(`cli.py embed` na kilku zdjęciach), przełączamy `MATCH_PYTHON`, stary usuwamy po kilku dniach.
+Nawet bez zmiany modelu wektory mogą się minimalnie różnić (2026-11-08, przejście 3.9 → 3.12
+i pillow 11.3 → 13.0: cos stary↔nowy 0,999–1,0 — inne dekodowanie części JPG). Wtedy
+przeliczamy wszystkie wektory od nowa, żeby w bazie nie mieszały się dwa środowiska.
 
 ## Uruchamianie
     php artisan match:embed --dry-run               # ile czeka, czy worker teraz ruszy
