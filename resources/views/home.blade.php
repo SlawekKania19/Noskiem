@@ -15,10 +15,64 @@
 @section('content')
 
     {{-- ---------------------------
-         Hero Section 
+         "Pokazuj częściej z mojej okolicy" (sekcja z losowanymi ogłoszeniami).
+         Przeglądarka pyta o zgodę na lokalizację; zapisujemy ją ZAOKRĄGLONĄ do 0,1 stopnia
+         (ok. 10 km) w ciasteczku noskiem_loc na 30 dni i przeładowujemy stronę - serwer
+         podbija wagi pobliskich ogłoszeń (App\Services\HomepageListings).
+         Zwykły skrypt, nie moduł - musi istnieć, zanim wystartuje Alpine.
+         --------------------------- --}}
+    <script>
+        window.homeLocation = () => ({
+            busy: false,
+            error: '',
+
+            enable() {
+                if (!navigator.geolocation) {
+                    this.error = 'Ta przeglądarka nie udostępnia lokalizacji.';
+                    return;
+                }
+
+                this.busy = true;
+                this.error = '';
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const value = position.coords.latitude.toFixed(1) + '_' + position.coords.longitude.toFixed(1);
+                        document.cookie = 'noskiem_loc=' + value + '; path=/; max-age=2592000; SameSite=Lax';
+                        this.reload();
+                    },
+                    () => {
+                        this.busy = false;
+                        this.error = 'Nie udało się ustalić lokalizacji - sprawdź, czy przeglądarka ma na to zgodę.';
+                    },
+                    { maximumAge: 600000, timeout: 10000 }
+                );
+            },
+
+            disable() {
+                document.cookie = 'noskiem_loc=; path=/; max-age=0; SameSite=Lax';
+                this.reload();
+            },
+
+            // ** Po przeładowaniu wracamy do tego samego trybu (Szukam / Znalazłem) -
+            // "mode" pochodzi z nadrzędnej sekcji Hero
+            reload() {
+                try { sessionStorage.setItem('homeMode', this.mode); } catch (e) {}
+                window.location.reload();
+            },
+        });
+    </script>
+
+    {{-- ---------------------------
+         Hero Section
          Stan "Szukam" jest domyślny, przełącznik zmienia treść bez przeładowania strony
          --------------------------- --}}
-    <section x-data="{ mode: 'szukam' }" class="bg-[#FFFFFF]">
+    {{-- ** x-init: przywraca tryb zapamiętany przed przeładowaniem strony (homeLocation.reload) --}}
+    <section
+        x-data="{ mode: 'szukam' }"
+        x-init="try { const m = sessionStorage.getItem('homeMode'); if (m) { sessionStorage.removeItem('homeMode'); mode = m; $store.petMode = m; } } catch (e) {}"
+        class="bg-[#FFFFFF]"
+    >
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
             {{-- ** Switcher Szukam / Znalazłem (Figma: node 22:229) --}}
             <div class="inline-flex items-center rounded-full bg-white p-1 shadow-[0px_2px_10px_0px_rgba(30,38,18,0.08)]">
@@ -83,57 +137,29 @@
             </form>
         </div>
         {{-- ---------------------------
-             Sekcja "Poszukiwane" (status=lost) - widoczna w trybie Szukam
+             Ogłoszenia - w trybie "Znalazłem" pokazujemy poszukiwane (lost), w trybie "Szukam"
+             znalezione (found). Każdy status ma dwie grupy, patrz home/listings.blade.php
              --------------------------- --}}
         <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <div class="flex items-center justify-between">
-                <h2 class="text-[20px] font-semibold text-[#283618]">Poszukiwane</h2>
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                        Zobacz wszystkie
-                    </a>
-                    <a href="{{ route('map.index', ['status' => 'lost']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                        Zobacz na mapie
-                    </a>
-                </div>
-            </div>
-
-            <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                @forelse ($lostAnimals as $animal)
-                    <x-animal-card :animal="$animal" />
-                @empty
-                    <p class="col-span-full text-center text-[14px] text-[#8f9485]">
-                        Brak zaginionych zwierząt w bazie.
-                    </p>
-                @endforelse
-            </div>
+            @include('home.listings', [
+                'status' => 'lost',
+                'title' => 'Poszukiwane',
+                'rotatedTitle' => 'Wciąż szukamy',
+                'emptyText' => 'Brak zaginionych zwierząt w bazie.',
+                'latest' => $sections['lost']['latest'],
+                'rotated' => $sections['lost']['rotated'],
+            ])
         </div>
 
-        {{-- ---------------------------
-             Sekcja "Widziane" (status=found) - widoczna w trybie Znalazłem
-             --------------------------- --}}
         <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <div class="flex items-center justify-between">
-                <h2 class="text-[20px] font-semibold text-[#283618]">Widziane</h2>
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('animals.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                        Zobacz wszystkie
-                    </a>
-                    <a href="{{ route('map.index', ['status' => 'found']) }}" class="text-[13px] font-semibold text-[#283618] transition-colors hover:underline active:text-[#1e2812]">
-                        Zobacz na mapie
-                    </a>
-                </div>
-            </div>
-
-            <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                @forelse ($foundAnimals as $animal)
-                    <x-animal-card :animal="$animal" />
-                @empty
-                    <p class="col-span-full text-center text-[14px] text-[#8f9485]">
-                        Brak znalezionych zwierząt w bazie.
-                    </p>
-                @endforelse
-            </div>
+            @include('home.listings', [
+                'status' => 'found',
+                'title' => 'Widziane',
+                'rotatedTitle' => 'Wciąż czekają na właściciela',
+                'emptyText' => 'Brak znalezionych zwierząt w bazie.',
+                'latest' => $sections['found']['latest'],
+                'rotated' => $sections['found']['rotated'],
+            ])
         </div>
     </section>
 

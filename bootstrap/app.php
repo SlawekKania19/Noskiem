@@ -30,6 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\MaintenanceMode::class,
         ]);
 
+        // ** Przybliżona okolica odwiedzającego (strona główna, "z mojej okolicy") - ciasteczko
+        // ustawia JS w przeglądarce, więc nie może być szyfrowane (Laravel by je odrzucił)
+        $middleware->encryptCookies(except: [
+            \App\Services\HomepageListings::LOCATION_COOKIE,
+        ]);
+
         $middleware->alias([
             'api-key' => \App\Http\Middleware\ApiKeyMiddleware::class,
         ]);

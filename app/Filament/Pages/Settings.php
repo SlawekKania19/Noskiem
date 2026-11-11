@@ -79,6 +79,7 @@ class Settings extends Page implements HasForms
                     ->schema([
                         TextInput::make('homepage_items_limit')
                             ->label('Liczba ogłoszeń na sekcję')
+                            ->helperText('Obowiązuje osobno dla „Ostatnio dodane” i dla „Wciąż szukamy” (starsze ogłoszenia, losowane co godzinę).')
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(24)
