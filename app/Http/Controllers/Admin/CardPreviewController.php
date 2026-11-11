@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Models\AnimalEdit;
+use Illuminate\Http\Request;
 
 // ---------------------------
 // Podgląd karty ogłoszenia dokładnie tak, jak na stronie głównej - prawdziwy komponent
@@ -13,10 +14,13 @@ use App\Models\AnimalEdit;
 // - animal - opublikowane ogłoszenie
 // - edit   - zgłoszenie przed moderacją: budujemy tymczasowe Animal (bez zapisu),
 //            żeby karta liczyła tytuł, lokalizację i zdjęcie główne jak po zatwierdzeniu
+// Parametry (okno "Kadry miniaturek"):
+// - ?photo=ID - karta z tym zdjęciem zamiast głównego (tylko w pamięci, nic nie zapisujemy)
+// - ?embed=1  - sama karta desktopowa + nasłuch postMessage z nowym kadrem (podgląd na żywo)
 // ---------------------------
 class CardPreviewController extends Controller
 {
-    public function show(string $type, int $id)
+    public function show(Request $request, string $type, int $id)
     {
         $user = auth()->user();
         abort_unless($user && ($user->is_admin || $user->is_moderator), 403);
@@ -30,7 +34,20 @@ class CardPreviewController extends Controller
         // ** Zdjęcia "widziałem" nie trafiają na kartę ogłoszenia
         $animal->setRelation('photos', $animal->photos->whereNull('sighting_id')->values());
 
-        return view('admin.card-preview', ['animal' => $animal]);
+        // ** Wybrane zdjęcie jako główne - tylko na potrzeby podglądu, bez zapisu
+        $photoId = $request->integer('photo');
+
+        // ** Zwykła pętla, nie each() - each() przerywa się, gdy funkcja zwróci false
+        if ($photoId && $animal->photos->contains('id', $photoId)) {
+            foreach ($animal->photos as $photo) {
+                $photo->is_main = $photo->id === $photoId;
+            }
+        }
+
+        return view('admin.card-preview', [
+            'animal' => $animal,
+            'embed' => $request->boolean('embed'),
+        ]);
     }
 
     private function fromEdit(AnimalEdit $edit): Animal

@@ -119,7 +119,7 @@ class PhotoFocusTest extends TestCase
         Livewire::actingAs($admin)
             ->test(ViewAnimal::class, ['record' => $animal->id])
             ->mountAction('photoFocus')
-            ->assertMountedActionModalSee(['Podgląd miniaturki', 'Kadr domyślny (detekcja jeszcze nie ruszyła)']);
+            ->assertMountedActionModalSee(['Tak będzie wyglądać karta na stronie', 'Kadr domyślny (detekcja jeszcze nie ruszyła)']);
 
         Livewire::actingAs($admin)
             ->test(ViewAnimal::class, ['record' => $animal->id])

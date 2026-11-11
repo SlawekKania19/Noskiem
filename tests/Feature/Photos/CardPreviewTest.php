@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\Photos;
 
-use App\Filament\Resources\AnimalEditResource;
+use App\Filament\Resources\AnimalEditResource\Pages\ViewAnimalEdit;
 use App\Models\User;
+use Livewire\Livewire;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Matching\MatchingFixtures;
 use Tests\TestCase;
@@ -61,21 +62,35 @@ class CardPreviewTest extends TestCase
             ->assertSee('object-position: 50% 30%', false);
     }
 
-    public function test_panel_osadza_podglad_karty(): void
+    public function test_tryb_osadzony_pokazuje_wybrane_zdjecie_i_nasluchuje_kadru(): void
     {
         $animal = $this->animal('approved');
+        $main = $this->photo(['animal_id' => $animal->id, 'is_main' => true]);
+        $other = $this->photo(['animal_id' => $animal->id, 'is_main' => false]);
 
         $this->actingAs(User::factory()->create(['is_admin' => true]))
-            ->get('/admin/animals/'.$animal->id)
+            ->get(route('admin.card-preview', ['type' => 'animal', 'id' => $animal->id, 'photo' => $other->id, 'embed' => 1]))
             ->assertOk()
-            ->assertSee('Podgląd karty na stronie')
-            ->assertSee('/podglad-karty/animal/'.$animal->id, false);
+            ->assertSee($other->path)
+            ->assertDontSee($main->path)
+            ->assertSee('noskiem-card-focus')
+            ->assertDontSee('Telefon');
 
-        // ** Moderacja zgłoszenia
+        // ** Podgląd niczego nie zapisuje
+        $this->assertTrue($main->refresh()->is_main);
+        $this->assertFalse($other->refresh()->is_main);
+    }
+
+    public function test_okno_kadrow_pokazuje_prawdziwa_karte_obok_zdjecia(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
         $edit = $this->edit();
+        $photo = $this->photo(['animal_edit_id' => $edit->id, 'is_main' => true]);
 
-        $this->get(AnimalEditResource::getUrl('view', ['record' => $edit->id]))
-            ->assertOk()
-            ->assertSee('/podglad-karty/edit/'.$edit->id, false);
+        Livewire::actingAs($admin)
+            ->test(ViewAnimalEdit::class, ['record' => $edit->id])
+            ->mountAction('photoFocus')
+            ->assertMountedActionModalSee('Tak będzie wyglądać karta na stronie')
+            ->assertMountedActionModalSeeHtml('/podglad-karty/edit/'.$edit->id.'?photo='.$photo->id.'&amp;embed=1');
     }
 }

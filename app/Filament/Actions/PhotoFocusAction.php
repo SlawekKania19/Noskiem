@@ -28,20 +28,27 @@ class PhotoFocusAction
             ->color('gray')
             ->visible(fn (Animal|AnimalEdit $record) => self::photos($record)->isNotEmpty())
             ->modalHeading('Kadry miniaturek')
-            ->modalDescription('Kliknij na zdjęciu miejsce, które ma być środkiem miniaturki - najlepiej pyszczek zwierzaka. Obok widać podgląd miniaturki.')
-            ->modalWidth(Width::FourExtraLarge)
+            ->modalDescription('Kliknij na zdjęciu miejsce, które ma być środkiem miniaturki - najlepiej pyszczek zwierzaka. Obok na żywo widać, jak będzie wyglądać karta ogłoszenia na stronie.')
             ->modalSubmitActionLabel('Zapisz kadry')
             ->fillForm(fn (Animal|AnimalEdit $record) => [
                 'focus' => self::photos($record)
                     ->mapWithKeys(fn (Photo $photo) => ['p'.$photo->id => $photo->focus_manual])
                     ->all(),
             ])
+            ->modalWidth(Width::SixExtraLarge)
             ->schema(fn (Animal|AnimalEdit $record) => self::photos($record)
                 ->map(fn (Photo $photo) => ViewField::make('focus.p'.$photo->id)
                     ->hiddenLabel()
                     ->view('filament.photo-focus-field')
                     ->viewData([
                         'url' => asset('storage/'.$photo->path),
+                        // ** Prawdziwa karta ogłoszenia z tym zdjęciem (ramka, kadr na żywo przez postMessage)
+                        'previewUrl' => route('admin.card-preview', [
+                            'type' => $record instanceof AnimalEdit ? 'edit' : 'animal',
+                            'id' => $record->id,
+                            'photo' => $photo->id,
+                            'embed' => 1,
+                        ]),
                         // ** Kadr bez ręcznej poprawki - do podglądu "automatyczny"
                         'autoPosition' => (clone $photo)->forceFill(['focus_manual' => null])->objectPosition(),
                         'detected' => $photo->focus_source,

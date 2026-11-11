@@ -15,7 +15,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\IconEntry;
-use App\Filament\Support\CardPreviewSection;
 use App\Filament\Support\PhotoThumbnailEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -313,8 +312,6 @@ class AnimalResource extends Resource
                             ]),
                     ]),
                 ]),
-
-            CardPreviewSection::make(),
 
             Section::make('Zdjęcia')
                 ->columnSpanFull()
