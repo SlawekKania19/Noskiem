@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 
 // ---------------------------
-// Kontroler statycznych podstron (np. /cookies) — treść zarządzana z panelu Filament
+// Kontroler statycznych podstron (np. /cookies) - treść zarządzana z panelu Filament
 // ---------------------------
 
 class PageController extends Controller

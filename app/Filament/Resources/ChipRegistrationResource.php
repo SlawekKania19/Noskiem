@@ -25,7 +25,7 @@ use Filament\Tables\Table;
 
 // ---------------------------
 // Resource moderacji bazy chipów (ChipRegistration). Lista + podgląd szczegółów
-// z akcjami — wzorowane na SightingResource. Zdjęcie naklejki z dysku prywatnego
+// z akcjami - wzorowane na SightingResource. Zdjęcie naklejki z dysku prywatnego
 // (podpisany, czasowy URL), ostrzeżenie gdy numer jest już zatwierdzony w innym wpisie.
 // ---------------------------
 
@@ -39,7 +39,7 @@ class ChipRegistrationResource extends Resource
     protected static ?string $pluralModelLabel = 'baza chipów';
     protected static ?int $navigationSort = 3;
 
-    // Moderacja — dostępna dla Admina i Moderatora, tak samo jak SightingResource
+    // Moderacja - dostępna dla Admina i Moderatora, tak samo jak SightingResource
     public static function canViewAny(): bool
     {
         $user = auth()->user();
@@ -52,7 +52,7 @@ class ChipRegistrationResource extends Resource
         return static::canViewAny();
     }
 
-    // ** Usuwanie — np. przy rozstrzyganiu konfliktu numerów (stary, nieaktualny wpis)
+    // ** Usuwanie - np. przy rozstrzyganiu konfliktu numerów (stary, nieaktualny wpis)
     public static function canDelete($record): bool
     {
         return static::canViewAny();
@@ -64,7 +64,7 @@ class ChipRegistrationResource extends Resource
         return parent::getEloquentQuery()->whereNotNull('email_verified_at');
     }
 
-    // Liczba oczekujących zgłoszeń i edycji — widoczna przy nazwie w menu, ukryta gdy brak (0)
+    // Liczba oczekujących zgłoszeń i edycji - widoczna przy nazwie w menu, ukryta gdy brak (0)
     public static function getNavigationBadge(): ?string
     {
         $count = static::getEloquentQuery()
@@ -100,17 +100,17 @@ class ChipRegistrationResource extends Resource
         };
     }
 
-    // Opis do modala "Zatwierdź" — przy konflikcie numerów ostrzega moderatora
+    // Opis do modala "Zatwierdź" - przy konflikcie numerów ostrzega moderatora
     public static function approveDescription(ChipRegistration $record): string
     {
         if ($record->hasChipConflict()) {
-            return 'Uwaga: ten numer chipa jest już zatwierdzony w innym wpisie. Po zatwierdzeniu wyszukiwarka pokaże nowszy wpis — jeśli stary jest nieaktualny, usuń go.';
+            return 'Uwaga: ten numer chipa jest już zatwierdzony w innym wpisie. Po zatwierdzeniu wyszukiwarka pokaże nowszy wpis - jeśli stary jest nieaktualny, usuń go.';
         }
 
         return 'Wpis będzie wyszukiwalny po numerze chipa.';
     }
 
-    // Opisy pól do porównania "było -> jest" (bez naklejki — ta ma osobny podgląd)
+    // Opisy pól do porównania "było -> jest" (bez naklejki - ta ma osobny podgląd)
     private const CHANGE_LABELS = [
         'chip_number'     => 'Numer chipa',
         'animal_name'     => 'Imię',
@@ -123,7 +123,7 @@ class ChipRegistrationResource extends Resource
         'additional_info' => 'Informacje dodatkowe',
     ];
 
-    // Tylko zmienione pola z pending_changes: [etykieta, było, jest] — id słowników jako nazwy
+    // Tylko zmienione pola z pending_changes: [etykieta, było, jest] - id słowników jako nazwy
     public static function changesDiff(ChipRegistration $record): array
     {
         $changes = $record->pending_changes ?? [];
@@ -150,7 +150,7 @@ class ChipRegistrationResource extends Resource
     }
 
     // ---------------------------
-    // Tabela — lista wpisów
+    // Tabela - lista wpisów
     // ---------------------------
 
     public static function table(Table $table): Table
@@ -171,7 +171,7 @@ class ChipRegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('city.name_pl')
                     ->label('Miejscowość'),
 
-                // ** Inny zatwierdzony wpis z tym samym numerem — do rozstrzygnięcia
+                // ** Inny zatwierdzony wpis z tym samym numerem - do rozstrzygnięcia
                 Tables\Columns\IconColumn::make('conflict')
                     ->label('Konflikt')
                     ->getStateUsing(fn ($record) => $record->hasChipConflict())
@@ -202,7 +202,7 @@ class ChipRegistrationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                // ** "Edycje do zatwierdzenia" to wpisy zatwierdzone z pending_changes —
+                // ** "Edycje do zatwierdzenia" to wpisy zatwierdzone z pending_changes -
                 // osobna opcja, bo po mod_status są nieodróżnialne od zwykłych zatwierdzonych
                 Tables\Filters\SelectFilter::make('mod_status')
                     ->label('Status moderacji')
@@ -267,14 +267,14 @@ class ChipRegistrationResource extends Resource
     }
 
     // ---------------------------
-    // Infolist — widok szczegółów wpisu
+    // Infolist - widok szczegółów wpisu
     // ---------------------------
 
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([
 
-            // ** Konflikt numerów — linki do innych zatwierdzonych wpisów z tym numerem
+            // ** Konflikt numerów - linki do innych zatwierdzonych wpisów z tym numerem
             Section::make('Konflikt numeru chipa')
                 ->description('Ten numer jest już zatwierdzony w innym wpisie. Porównaj zdjęcia naklejek i zdecyduj, który wpis jest właściwy.')
                 ->visible(fn ($record) => $record->hasChipConflict())
@@ -283,12 +283,12 @@ class ChipRegistrationResource extends Resource
                         ->label('Inne zatwierdzone wpisy')
                         ->state(fn ($record) => new HtmlString(
                             $record->conflictingRegistrations()->get()
-                                ->map(fn ($other) => '<a href="'.e(static::getUrl('view', ['record' => $other])).'" class="underline" target="_blank">#'.$other->id.' — '.e($other->animal_name).' (dodano '.$other->created_at->format('d.m.Y').')</a>')
+                                ->map(fn ($other) => '<a href="'.e(static::getUrl('view', ['record' => $other])).'" class="underline" target="_blank">#'.$other->id.' - '.e($other->animal_name).' (dodano '.$other->created_at->format('d.m.Y').')</a>')
                                 ->implode('<br>')
                         )),
                 ]),
 
-            // ** Edycja właściciela czekająca na moderację — tylko zmienione pola
+            // ** Edycja właściciela czekająca na moderację - tylko zmienione pola
             Section::make('Proponowane zmiany')
                 ->description('Właściciel zmienił wpis. Do czasu zatwierdzenia w wyszukiwarce widoczna jest obecna wersja.')
                 ->visible(fn ($record) => $record->pending_changes !== null)
@@ -298,7 +298,7 @@ class ChipRegistrationResource extends Resource
                         ->state(fn ($record) => new HtmlString(
                             '<table class="w-full text-sm"><thead><tr class="text-left text-gray-500"><th class="py-1 pr-4">Pole</th><th class="py-1 pr-4">Było</th><th class="py-1">Jest</th></tr></thead><tbody>'
                             .collect(static::changesDiff($record))
-                                ->map(fn ($row) => '<tr class="border-t border-gray-200"><td class="py-1 pr-4 font-medium">'.e($row[0]).'</td><td class="py-1 pr-4 text-gray-500 line-through">'.e($row[1] ?? '—').'</td><td class="py-1">'.e($row[2] ?? '—').'</td></tr>')
+                                ->map(fn ($row) => '<tr class="border-t border-gray-200"><td class="py-1 pr-4 font-medium">'.e($row[0]).'</td><td class="py-1 pr-4 text-gray-500 line-through">'.e($row[1] ?? '-').'</td><td class="py-1">'.e($row[2] ?? '-').'</td></tr>')
                                 ->implode('')
                             .'</tbody></table>'
                         ))
@@ -334,7 +334,7 @@ class ChipRegistrationResource extends Resource
                         ->label('Informacje dodatkowe')
                         ->placeholder('Brak')
                         ->columnSpan(2),
-                    // Powód odrzucenia — widoczny tylko gdy odrzucone
+                    // Powód odrzucenia - widoczny tylko gdy odrzucone
                     TextEntry::make('mod_reject_reason')
                         ->label('Powód odrzucenia')
                         ->columnSpan(2)
@@ -342,7 +342,7 @@ class ChipRegistrationResource extends Resource
                 ]),
             ]),
 
-            // ** Dysk prywatny — Filament generuje podpisany URL ważny kilka minut
+            // ** Dysk prywatny - Filament generuje podpisany URL ważny kilka minut
             Section::make('Zdjęcie naklejki')->schema([
                 ImageEntry::make('sticker_photo_path')
                     ->label('')
@@ -359,7 +359,7 @@ class ChipRegistrationResource extends Resource
             ]),
 
             Section::make('Dane techniczne')
-                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                ->description('Widoczne wyłącznie w panelu admina - na wypadek problemów prawnych.')
                 ->schema([
                     Grid::make(2)->schema([
                         TextEntry::make('submitter_ip')

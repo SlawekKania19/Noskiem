@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 // ---------------------------
-// Informacja dla właściciela, że wpis w bazie chipów (albo jego edycja — $isEdit)
+// Informacja dla właściciela, że wpis w bazie chipów (albo jego edycja - $isEdit)
 // został zatwierdzony. Zawiera link do edycji/usunięcia wpisu z tokenem.
 // ---------------------------
 class ChipRegistrationApproved extends Mailable
@@ -22,7 +22,7 @@ class ChipRegistrationApproved extends Mailable
     public function build(): self
     {
         return $this
-            ->subject(($this->isEdit ? 'Zmiany we wpisie zatwierdzone' : 'Chip zarejestrowany w bazie').' — '.config('app.name'))
+            ->subject(($this->isEdit ? 'Zmiany we wpisie zatwierdzone' : 'Chip zarejestrowany w bazie').' - '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
             ->with([
                 'searchUrl' => route('chips.index'),

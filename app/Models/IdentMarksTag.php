@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 // ---------------------------
 // Model reprezentujący słownik podpowiedzi "znaków szczególnych" (np. "Blizna", "Kulawizna").
-// Wartości zasilają przyciski szybkiego dodawania w formularzu zgłoszenia —
+// Wartości zasilają przyciski szybkiego dodawania w formularzu zgłoszenia -
 // pole "ident_marks" na Animal/AnimalEdit jest zwykłym tekstem, nie relacją.
 // ---------------------------
 

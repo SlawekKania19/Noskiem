@@ -27,7 +27,7 @@
                     </td>
                 @endif
                 <td style="padding:12px 16px; vertical-align:top;">
-                    {{-- ** "Bardzo podobne" tylko od wyższego progu; poniżej — ostrożniej --}}
+                    {{-- ** "Bardzo podobne" tylko od wyższego progu; poniżej - ostrożniej --}}
                     <p style="margin:0 0 4px; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:{{ $item['level'] === 'strong' ? '#283618' : '#8f9485' }}; font-weight:600;">
                         {{ $item['level'] === 'strong' ? 'Bardzo podobne' : 'Możliwe dopasowanie' }}
                     </p>
@@ -48,7 +48,7 @@
     @endforeach
 
     <p style="margin:16px 0 16px; font-size:13px; line-height:1.6; color:#8f9485;">
-        Porównanie zdjęć jest automatyczne i może się mylić — sprawdź dokładnie zdjęcia, opis
+        Porównanie zdjęć jest automatyczne i może się mylić - sprawdź dokładnie zdjęcia, opis
         i znaki szczególne.
         {{ $isLost
             ? 'Jeśli rozpoznajesz swojego zwierzaka, skontaktuj się z autorem przez stronę ogłoszenia.'
@@ -56,7 +56,7 @@
     </p>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Nie ma tu tego zwierzaka? Przejrzyj wszystkie ogłoszenia — nowe pojawiają się codziennie:
+        Nie ma tu tego zwierzaka? Przejrzyj wszystkie ogłoszenia - nowe pojawiają się codziennie:
     </p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">

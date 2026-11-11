@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 // ---------------------------
-// Statyczne podstrony (np. "cookies") — treść w Markdown, edytowalna z panelu
+// Statyczne podstrony (np. "cookies") - treść w Markdown, edytowalna z panelu
 // Filament (App\Filament\Resources\PageResource). Slug ustalany tylko przy
 // tworzeniu, żeby nie psuć linków do strony (np. z banera cookies).
 // ---------------------------

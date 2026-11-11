@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td style="padding:20px 32px; background-color:#f4f4ef; border-top:1px solid #e5e5dc;">
-                            <p style="margin:0; font-size:12px; color:#8f9485;">„Znajdziemy go noskiem" — noskiem.org</p>
+                            <p style="margin:0; font-size:12px; color:#8f9485;">„Znajdziemy go noskiem" - noskiem.org</p>
                         </td>
                     </tr>
                 </table>

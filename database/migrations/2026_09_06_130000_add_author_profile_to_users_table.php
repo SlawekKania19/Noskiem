@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     // ---------------------------
-    // Profil autora bloga — pola widoczne na publicznej stronie /blog/autor/{slug}
+    // Profil autora bloga - pola widoczne na publicznej stronie /blog/autor/{slug}
     // oraz w wyróżnieniu autora pod wpisem. Wypełniane z panelu (UserResource),
     // wyłącznie dla kont z rolą is_author.
     // ---------------------------

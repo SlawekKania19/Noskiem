@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 // Model reprezentujący zgłoszenie "też widziałem" pod ogłoszeniem (Animal ze
 // statusem "found"). Przechodzi tę samą moderację co ogłoszenia (patrz
 // SightingController, SightingModerationService), ale po zatwierdzeniu nie
-// staje się osobnym ogłoszeniem — pojawia się jako wpis w timeline pod
+// staje się osobnym ogłoszeniem - pojawia się jako wpis w timeline pod
 // oryginałem (patrz animals/show.blade.php).
 // ---------------------------
 
@@ -37,7 +37,7 @@ class Sighting extends Model
         'submitter_ip',
     ];
 
-    // ** Tokeny/kontakt/IP — dane wrażliwe, nigdy w JSON, tak samo jak w Animal
+    // ** Tokeny/kontakt/IP - dane wrażliwe, nigdy w JSON, tak samo jak w Animal
     protected $hidden = [
         'edit_token',
         'submitter_ip',

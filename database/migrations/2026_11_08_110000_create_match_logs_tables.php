@@ -5,10 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Logi dopasowań po zdjęciach — do późniejszej kalibracji progów. Tego nie da się
+// Logi dopasowań po zdjęciach - do późniejszej kalibracji progów. Tego nie da się
 // odtworzyć wstecz, dlatego zapisujemy też kandydatów PONIŻEJ progu (top log_floor_n).
 // Celowo BEZ kluczy obcych do animals/animal_edits: ogłoszenia są usuwane (retencja,
-// autor), a log ma przetrwać. Tylko ID — bez danych osobowych.
+// autor), a log ma przetrwać. Tylko ID - bez danych osobowych.
 // ---------------------------
 return new class extends Migration
 {
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('query_animal_edit_id')->nullable()->index();
             $table->unsignedBigInteger('query_animal_id')->nullable()->index();
             $table->string('model_version', 64);
-            // Progi, top_n, wagi, filtry — dokładnie to, co poszło do Pythona
+            // Progi, top_n, wagi, filtry - dokładnie to, co poszło do Pythona
             $table->json('params');
             $table->unsignedInteger('n_candidates');
             $table->unsignedInteger('n_compared');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        // ** Kandydaci z wynikami — pokazani i niepokazani (do log_floor_n)
+        // ** Kandydaci z wynikami - pokazani i niepokazani (do log_floor_n)
         Schema::create('match_search_results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('match_search_id')->constrained('match_searches')->cascadeOnDelete();
@@ -55,21 +55,21 @@ return new class extends Migration
             $table->index(['match_search_id', 'position']);
         });
 
-        // ** Zdarzenia użytkownika. Teraz tylko "click" — SŁABY, obciążony sygnał (pozycja
+        // ** Zdarzenia użytkownika. Teraz tylko "click" - SŁABY, obciążony sygnał (pozycja
         // wpływa na klik, skanery linków w poczcie otwierają linki same), więc wyłącznie log.
         // Później np. "user_confirmed_same" / "user_rejected" jako osobne, jawne typy
         Schema::create('match_events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('match_search_id')->nullable()->constrained('match_searches')->nullOnDelete();
             $table->string('event', 30);
-            // "email" — link z maila MatchCandidatesFound
+            // "email" - link z maila MatchCandidatesFound
             $table->string('source', 20);
             $table->unsignedBigInteger('query_animal_edit_id')->nullable();
             $table->unsignedBigInteger('query_animal_id')->nullable();
             $table->unsignedBigInteger('animal_id')->index();
             $table->unsignedSmallInteger('position')->nullable();
             $table->string('model_version', 64);
-            // ** Do odfiltrowania automatów (skanery linków) przy analizie — bez IP
+            // ** Do odfiltrowania automatów (skanery linków) przy analizie - bez IP
             $table->string('user_agent', 255)->nullable();
             $table->timestamp('created_at')->nullable();
         });

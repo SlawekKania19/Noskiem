@@ -23,7 +23,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # Pliki w /build/ mają w nazwie hash treści (Vite) — nowa wersja pliku = nowy URL,
+    # Pliki w /build/ mają w nazwie hash treści (Vite) - nowa wersja pliku = nowy URL,
     # więc można je bezpiecznie cache'ować bardzo długo (Lighthouse: "Używaj efektywnego
     # czasu przechowywania w pamięci podręcznej")
     RewriteCond %{REQUEST_URI} ^/build/

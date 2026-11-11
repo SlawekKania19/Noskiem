@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 // ---------------------------
 // Stan dopasowań po zdjęciach do panelu "Dopasowanie AI": worker, kolejka, maile.
 // Znaczniki workera (ostatnie uruchomienie, trwająca/ostatnia partia) zapisuje
-// match:embed w cache — w bazie nie ma śladu uruchomień, które nic nie policzyły.
+// match:embed w cache - w bazie nie ma śladu uruchomień, które nic nie policzyły.
 // ---------------------------
 
 class MatchStatus
@@ -30,13 +30,13 @@ class MatchStatus
     // Znaczniki zapisywane przez workera
     // ---------------------------
 
-    // Każde uruchomienie match:embed (także gdy kolejka pusta albo pauza) — "puls" schedulera
+    // Każde uruchomienie match:embed (także gdy kolejka pusta albo pauza) - "puls" schedulera
     public static function markRun(): void
     {
         Cache::forever(self::LAST_RUN, now()->toIso8601String());
     }
 
-    // Początek partii — TTL jak blokada workera, żeby po zabitym procesie znacznik sam wygasł
+    // Początek partii - TTL jak blokada workera, żeby po zabitym procesie znacznik sam wygasł
     public static function markRunning(int $photos): void
     {
         Cache::put(self::RUNNING, [
@@ -45,7 +45,7 @@ class MatchStatus
         ], config('noskiem_match.queue.max_seconds') + 600);
     }
 
-    // Koniec partii — zapisujemy wynik do podglądu w panelu
+    // Koniec partii - zapisujemy wynik do podglądu w panelu
     public static function markFinished(array $stats, int $photos): void
     {
         Cache::forget(self::RUNNING);
@@ -116,7 +116,7 @@ class MatchStatus
     }
 
     // ---------------------------
-    // "Ponów błędne": usuwamy wpisy z błędem dla bieżącej wersji modelu — zdjęcia
+    // "Ponów błędne": usuwamy wpisy z błędem dla bieżącej wersji modelu - zdjęcia
     // wracają do zwykłej kolejki i worker policzy je w następnych partiach.
     // Bez uruchamiania Pythona w żądaniu WWW (partia trwa nawet kilka minut).
     // ---------------------------

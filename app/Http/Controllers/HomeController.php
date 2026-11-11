@@ -6,7 +6,7 @@ use App\Models\Animal;
 use App\Models\Setting;
 
 // ---------------------------
-// Kontroler strony głównej — sekcje "Poszukiwane" (lost) i "Widziane" (found)
+// Kontroler strony głównej - sekcje "Poszukiwane" (lost) i "Widziane" (found)
 // ---------------------------
 
 class HomeController extends Controller

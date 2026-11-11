@@ -43,7 +43,7 @@ class Animal extends Model
         'submitter_ip',
     ];
 
-    // ** Nigdy w JSON (m.in. publiczne /api/animals) — edit_token daje pełny dostęp
+    // ** Nigdy w JSON (m.in. publiczne /api/animals) - edit_token daje pełny dostęp
     // do edycji/usunięcia ogłoszenia bez logowania, submitter_ip/kontakt to dane
     // wrażliwe. search_index to wewnętrzny szczegół implementacji wyszukiwarki.
     protected $hidden = [
@@ -106,7 +106,7 @@ class Animal extends Model
         return $this->hasMany(Sighting::class);
     }
 
-    // ** Inne zgłoszenia z tego samego adresu e-mail (Animal + AnimalEdit) — pomocne
+    // ** Inne zgłoszenia z tego samego adresu e-mail (Animal + AnimalEdit) - pomocne
     // przy moderacji, żeby wykryć próby "podbicia" pozycji przez wielokrotne dodawanie
     // tego samego zwierzaka
     public function relatedByContactEmail(int $limit = 5)
@@ -118,7 +118,7 @@ class Animal extends Model
     //
     // `search_index` to zdenormalizowany tekst złożony z pól, po których ma sens szukać
     // (nazwa, opis, znaki szczególne, zachowanie, nazwy gatunku/rasy/miasta/województwa,
-    // kolory) — indeksowany FULLTEXT-em w MySQL. Odświeżamy go automatycznie po każdym
+    // kolory) - indeksowany FULLTEXT-em w MySQL. Odświeżamy go automatycznie po każdym
     // zapisie modelu; kolory (relacja many-to-many) trzeba jeszcze doczyścić ręcznym
     // wywołaniem syncSearchIndex() po ich sync()/attach() w miejscu, gdzie to się dzieje
     // (ModerationService::approve()), bo pivot nie jest częścią cyklu zapisu modelu.
@@ -127,7 +127,7 @@ class Animal extends Model
         static::saved(fn (Animal $animal) => $animal->syncSearchIndex());
 
         // ** Usunięcie ogłoszenia kasuje kaskadą w bazie (FK) zdjęcia, historię edycji
-        // i zgłoszenia "widziałem" wraz z ich zdjęciami — ale kaskada FK omija Eloquenta,
+        // i zgłoszenia "widziałem" wraz z ich zdjęciami - ale kaskada FK omija Eloquenta,
         // więc pliki zostałyby na dysku jako sieroty. Kasujemy je zawczasu, zanim baza
         // usunie rekordy, bo potem nie mielibyśmy już skąd odczytać ścieżek.
         static::deleting(fn (Animal $animal) => $animal->deleteRelatedPhotoFiles());
@@ -183,7 +183,7 @@ class Animal extends Model
     }
 
     // ** Tytuł liczony na bieżąco z aktualnego szablonu (Ustawienia w panelu), a nie z kolumny
-    // `title` zapisanej przy zgłoszeniu/edycji — dzięki temu zmiana szablonu w panelu od razu
+    // `title` zapisanej przy zgłoszeniu/edycji - dzięki temu zmiana szablonu w panelu od razu
     // widoczna jest na wszystkich ogłoszeniach, bez potrzeby ich ponownego zapisywania
     protected function generatedTitle(): Attribute
     {

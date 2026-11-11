@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
 // Pole animal_name jest opcjonalne dla statusu "found" (walidacja: required_if:status,lost),
-// ale w bazie było NOT NULL — realny błąd 500 dla każdego zgłoszenia "Znaleziony" bez imienia.
+// ale w bazie było NOT NULL - realny błąd 500 dla każdego zgłoszenia "Znaleziony" bez imienia.
 // ---------------------------
 return new class extends Migration
 {

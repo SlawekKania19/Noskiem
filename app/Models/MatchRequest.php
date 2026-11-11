@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // ---------------------------
 // Zlecenie wyszukania podobnych zwierząt dla nowego zgłoszenia i wysłania maila
-// z kandydatami — patrz App\Services\PhotoMatchNotifier
+// z kandydatami - patrz App\Services\PhotoMatchNotifier
 // ---------------------------
 
 class MatchRequest extends Model

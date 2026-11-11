@@ -1,8 +1,8 @@
-# Wersje przypięte pod Pythona 3.12 na hostingu (/opt/alt/python312 — CloudLinux;
+# Wersje przypięte pod Pythona 3.12 na hostingu (/opt/alt/python312 - CloudLinux;
 # domyślny python3 na serwerze to 3.9, za stary dla aktualnych pillow/numpy).
 # torch instalujemy osobno z indeksu CPU-only (bez CUDA, ~5x mniejszy):
 #   pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cpu
-# torchvision MUSI być z indeksu CPU i pasować do torcha — timm ciągnie go z PyPI
+# torchvision MUSI być z indeksu CPU i pasować do torcha - timm ciągnie go z PyPI
 # w niepasującej wersji (błąd "operator torchvision::nms does not exist").
 # Zmiana torch/transformers może zmienić wektory = nowa model_version (patrz README).
 # Licencje: torch/torchvision BSD-3, transformers Apache-2.0, timm Apache-2.0,

@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 
 // ---------------------------
-// Pasek partnerów nad stopką — karuzela logotypów.
+// Pasek partnerów nad stopką - karuzela logotypów.
 // Komponent renderuje się na każdej podstronie (layouts/public), więc dane
 // bierze z cache'owanej listy (Partner::forBar()).
 // ---------------------------
@@ -30,7 +30,7 @@ class PartnersBar extends Component
         $this->interval = (int) Setting::get('partners_interval', '4');
     }
 
-    // Bez partnerów nie ma czego pokazywać — pasek w ogóle się nie renderuje
+    // Bez partnerów nie ma czego pokazywać - pasek w ogóle się nie renderuje
     public function shouldRender(): bool
     {
         return $this->partners !== [];

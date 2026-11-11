@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Zgłoś, że też widziałeś/aś — Noskiem.pl')
+@section('title', 'Zgłoś, że też widziałeś/aś - Noskiem.pl')
 
 @push('head-assets')
     @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
@@ -9,7 +9,7 @@
 @section('content')
 
     {{-- ---------------------------
-         Uproszczony formularz "też widziałem" pod ogłoszeniem — patrz SightingController
+         Uproszczony formularz "też widziałem" pod ogłoszeniem - patrz SightingController
          --------------------------- --}}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
@@ -26,7 +26,7 @@
         <form method="POST" action="{{ route('sightings.store', $animal) }}" enctype="multipart/form-data" class="mt-8 space-y-8">
             @csrf
 
-            {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+            {{-- ** Honeypot - pole niewidoczne dla ludzi, ale boty często wypełniają
                  każde pole formularza; wypełnione = spam (patrz SightingController::store) --}}
             <div style="position:absolute; left:-9999px;" aria-hidden="true">
                 <label for="website">Strona www</label>
@@ -135,7 +135,7 @@
             </section>
 
             {{-- ---------------------------
-                 Zdjęcia — maks. 6
+                 Zdjęcia - maks. 6
                  --------------------------- --}}
             <section
                 x-data="{
@@ -276,7 +276,7 @@
             </section>
 
             {{-- ---------------------------
-                 Akceptacja regulaminu i polityki prywatności — wymagana przed wysłaniem
+                 Akceptacja regulaminu i polityki prywatności - wymagana przed wysłaniem
                  --------------------------- --}}
             <div>
                 <label class="flex items-start gap-2 text-[13px] text-[#283618]">

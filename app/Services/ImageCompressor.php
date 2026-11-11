@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 // ---------------------------
-// Kompresuje i skaluje zdjęcia zgłoszeń przed zapisem na dysk — bez tego
+// Kompresuje i skaluje zdjęcia zgłoszeń przed zapisem na dysk - bez tego
 // telefony potrafią wysyłać zdjęcia po kilkanaście MB, co szybko zapchałoby storage.
 // ---------------------------
 

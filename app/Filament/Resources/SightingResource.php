@@ -21,7 +21,7 @@ use Filament\Tables\Table;
 
 // ---------------------------
 // Resource moderacji zgłoszeń "też widziałem" (Sighting).
-// Lista oczekujących + podgląd szczegółów z akcjami — wzorowane na AnimalEditResource,
+// Lista oczekujących + podgląd szczegółów z akcjami - wzorowane na AnimalEditResource,
 // bez sekcji diff (sighting nie jest edycją istniejącego rekordu).
 // ---------------------------
 
@@ -35,7 +35,7 @@ class SightingResource extends Resource
     protected static ?string $pluralModelLabel = 'zgłoszenia "widziałem"';
     protected static ?int $navigationSort = 2;
 
-    // Moderacja — dostępna dla Admina i Moderatora, tak samo jak AnimalEditResource
+    // Moderacja - dostępna dla Admina i Moderatora, tak samo jak AnimalEditResource
     public static function canViewAny(): bool
     {
         $user = auth()->user();
@@ -55,7 +55,7 @@ class SightingResource extends Resource
         return parent::getEloquentQuery()->whereNotNull('email_verified_at');
     }
 
-    // Liczba oczekujących zgłoszeń — widoczna przy nazwie w menu, ukryta gdy brak (0)
+    // Liczba oczekujących zgłoszeń - widoczna przy nazwie w menu, ukryta gdy brak (0)
     public static function getNavigationBadge(): ?string
     {
         $count = static::getEloquentQuery()->where('mod_status', 'pending')->count();
@@ -69,7 +69,7 @@ class SightingResource extends Resource
     }
 
     // ---------------------------
-    // Tabela — lista zgłoszeń
+    // Tabela - lista zgłoszeń
     // ---------------------------
 
     public static function table(Table $table): Table
@@ -180,7 +180,7 @@ class SightingResource extends Resource
     }
 
     // ---------------------------
-    // Infolist — widok szczegółów zgłoszenia
+    // Infolist - widok szczegółów zgłoszenia
     // ---------------------------
 
     public static function infolist(Schema $schema): Schema
@@ -210,7 +210,7 @@ class SightingResource extends Resource
                         }),
                     TextEntry::make('date_seen')->label('Data zaobserwowania')->date('d.m.Y'),
                     TextEntry::make('description')->label('Opis')->columnSpan(2),
-                    // Powód odrzucenia — widoczny tylko gdy odrzucone
+                    // Powód odrzucenia - widoczny tylko gdy odrzucone
                     TextEntry::make('mod_reject_reason')
                         ->label('Powód odrzucenia')
                         ->columnSpan(2)
@@ -235,7 +235,7 @@ class SightingResource extends Resource
             ]),
 
             Section::make('Dane techniczne')
-                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                ->description('Widoczne wyłącznie w panelu admina - na wypadek problemów prawnych.')
                 ->schema([
                     TextEntry::make('submitter_ip')
                         ->label('Adres IP zgłaszającego')

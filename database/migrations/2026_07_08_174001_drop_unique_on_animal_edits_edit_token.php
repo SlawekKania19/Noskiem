@@ -10,7 +10,7 @@ return new class extends Migration
      * Wykonaj migrację.
      *
      * animal_edits.edit_token był unikalny, ale AnimalEditController@update celowo
-     * zapisuje ten sam token zwierzęcia (animals.edit_token — tam unikalność jest
+     * zapisuje ten sam token zwierzęcia (animals.edit_token - tam unikalność jest
      * poprawna) przy każdej kolejnej edycji. Druga edycja tego samego ogłoszenia,
      * zanim pierwsza zostanie zmoderowana, wywoływała naruszenie unikalności.
      */

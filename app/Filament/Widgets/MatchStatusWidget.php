@@ -8,7 +8,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Carbon;
 
 // ---------------------------
-// Stan dopasowań po zdjęciach — kafelki na górze strony "Dopasowanie AI"
+// Stan dopasowań po zdjęciach - kafelki na górze strony "Dopasowanie AI"
 // (App\Filament\Pages\MatchAi). Osobny komponent Livewire z własnym odświeżaniem,
 // żeby polling nie przeszkadzał w edycji formularza ustawień.
 // ---------------------------
@@ -46,7 +46,7 @@ class MatchStatusWidget extends BaseWidget
         ];
     }
 
-    // ** Czy worker może / właśnie pracuje, a jeśli nie — dlaczego
+    // ** Czy worker może / właśnie pracuje, a jeśli nie - dlaczego
     protected function workerStat(array $s): Stat
     {
         [$value, $description, $color, $icon] = match (true) {
@@ -68,7 +68,7 @@ class MatchStatusWidget extends BaseWidget
             ->color($color);
     }
 
-    // ** "Puls" — kiedy scheduler ostatnio uruchomił worker; dłuższa cisza = cron nie działa
+    // ** "Puls" - kiedy scheduler ostatnio uruchomił worker; dłuższa cisza = cron nie działa
     protected function schedulerStat(array $s): Stat
     {
         $at = $s['last_run_at'];
@@ -80,7 +80,7 @@ class MatchStatusWidget extends BaseWidget
         }
 
         return $s['scheduler_stale']
-            ? $stat->description('Scheduler nie uruchamia workera — sprawdź cron')
+            ? $stat->description('Scheduler nie uruchamia workera - sprawdź cron')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')
                 ->color('danger')
             : $stat->description('Scheduler działa ('.$at?->format('H:i:s').')')
@@ -113,7 +113,7 @@ class MatchStatusWidget extends BaseWidget
         $b = $s['last_batch'];
 
         if (! $b) {
-            return Stat::make('Ostatnia partia', '—')->description('Brak danych');
+            return Stat::make('Ostatnia partia', '-')->description('Brak danych');
         }
 
         $parts = ["Policzone {$b['processed']}"];

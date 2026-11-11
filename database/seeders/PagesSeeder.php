@@ -9,7 +9,7 @@ class PagesSeeder extends Seeder
 {
     public function run(): void
     {
-        // updateOrCreate — bezpieczne przy wielokrotnym odpaleniu seedera
+        // updateOrCreate - bezpieczne przy wielokrotnym odpaleniu seedera
         Page::updateOrCreate(['slug' => 'cookies'], [
             'title' => 'Informacje o ciasteczkach',
             'content' => <<<'MARKDOWN'
@@ -26,7 +26,7 @@ class PagesSeeder extends Seeder
 
             ## Zarządzanie zgodą
 
-            Zgoda wyrażona w banerze na dole strony obowiązuje do końca bieżącej sesji przeglądarki — po jej zakończeniu baner pojawi się ponownie.
+            Zgoda wyrażona w banerze na dole strony obowiązuje do końca bieżącej sesji przeglądarki - po jej zakończeniu baner pojawi się ponownie.
 
             ## Kontakt
 

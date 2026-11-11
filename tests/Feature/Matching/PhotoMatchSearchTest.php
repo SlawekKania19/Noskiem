@@ -74,7 +74,7 @@ class PhotoMatchSearchTest extends TestCase
         $sameStatus = $this->animal('approved', ['status' => 'lost', 'contact_email' => 'inny@example.com']);
         $pendingMod = $this->animal('pending', ['status' => 'found', 'contact_email' => 'inny@example.com']);
         $sameEmail = $this->animal('approved', ['status' => 'found', 'contact_email' => 'JAN@example.com']);
-        // Gliwice ~25 km — w promieniu; Gdańsk ~480 km — poza
+        // Gliwice ~25 km - w promieniu; Gdańsk ~480 km - poza
         $near = $this->animal('approved', ['status' => 'found', 'contact_email' => 'b@example.com', 'latitude' => 50.29, 'longitude' => 18.67]);
         $far = $this->animal('approved', ['status' => 'found', 'contact_email' => 'c@example.com', 'latitude' => 54.35, 'longitude' => 18.65]);
         $noVector = $this->animal('approved', ['status' => 'found', 'contact_email' => 'd@example.com']);
@@ -99,7 +99,7 @@ class PhotoMatchSearchTest extends TestCase
         $this->assertSame([1, 2], $okSent['rows']);
         $this->assertFileDoesNotExist($this->sent['vectors_file']);  // plik tymczasowy sprzątnięty
 
-        // ** Wyłączone filtry — pula rośnie (poza własnym ogłoszeniem i niezatwierdzonym)
+        // ** Wyłączone filtry - pula rośnie (poza własnym ogłoszeniem i niezatwierdzonym)
         config(['noskiem_match.search.filters' => [
             'opposite_status' => false, 'same_species' => false, 'radius_km' => 0,
             'date_window_days' => 0, 'exclude_same_email' => false,
@@ -159,7 +159,7 @@ class PhotoMatchSearchTest extends TestCase
     {
         $python = env('MATCH_TEST_PYTHON', PHP_OS_FAMILY === 'Windows' ? 'python' : 'python3');
         if (! Process::run([$python, '-c', 'import numpy'])->successful()) {
-            $this->markTestSkipped("Brak Pythona z numpy ({$python}) — ustaw MATCH_TEST_PYTHON");
+            $this->markTestSkipped("Brak Pythona z numpy ({$python}) - ustaw MATCH_TEST_PYTHON");
         }
         config(['noskiem_match.python' => $python]);
 

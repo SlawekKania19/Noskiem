@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Edytuj ogłoszenie — Noskiem.pl')
+@section('title', 'Edytuj ogłoszenie - Noskiem.pl')
 
 @push('head-assets')
     @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
@@ -21,7 +21,7 @@
         </p>
 
         {{-- ---------------------------
-             Baner przedłużenia — tylko po ostrzeżeniu z animals:retention (link z maila
+             Baner przedłużenia - tylko po ostrzeżeniu z animals:retention (link z maila
              prowadzi tu z kotwicą #extend). Data usunięcia liczona tak jak w komendzie.
              --------------------------- --}}
         @if ($animal->retention_notice_at && $animal->mod_status === 'approved')
@@ -50,9 +50,9 @@
         @endif
 
         {{-- ---------------------------
-             Zarządzanie ogłoszeniem — poza głównym formularzem edycji, bo to osobne
+             Zarządzanie ogłoszeniem - poza głównym formularzem edycji, bo to osobne
              akcje: działają od razu, bez moderacji (bezpośrednio przez edit_token).
-             Na górze, nie na dole — jeśli ktoś chce usunąć/oznaczyć jako znalezione,
+             Na górze, nie na dole - jeśli ktoś chce usunąć/oznaczyć jako znalezione,
              nie powinien musieć przewijać całego formularza.
              --------------------------- --}}
         <div class="mt-4 flex flex-col gap-3 border-b border-[#e5e5dc] pb-6 sm:flex-row">
@@ -103,11 +103,11 @@
         >
             @csrf
 
-            {{-- ** Token edycji — przekazywany też w URL powyżej, na wypadek gdyby middleware/proxy zgubiły query string --}}
+            {{-- ** Token edycji - przekazywany też w URL powyżej, na wypadek gdyby middleware/proxy zgubiły query string --}}
             <input type="hidden" name="token" value="{{ $animal->edit_token }}">
 
             {{-- ---------------------------
-                 Typ zgłoszenia — tylko podgląd, ten sam przełącznik co przy dodawaniu
+                 Typ zgłoszenia - tylko podgląd, ten sam przełącznik co przy dodawaniu
                  ogłoszenia, ale zablokowany: typu zgłoszenia nie da się zmienić po fakcie
                  --------------------------- --}}
             <section>
@@ -310,7 +310,7 @@
                             </label>
                         @endforeach
 
-                        {{-- Niewidoczny checkbox — wykorzystuje natywną walidację przeglądarki, żeby
+                        {{-- Niewidoczny checkbox - wykorzystuje natywną walidację przeglądarki, żeby
                              pokazać dymek z komunikatem bez przeładowania strony (tak jak przy imieniu
                              zwierzaka); prawdziwe kolory idą osobno jako colors[] powyżej --}}
                         <input
@@ -453,8 +453,8 @@
             </section>
 
             {{-- ---------------------------
-                 Zdjęcia — podgląd obecnych zdjęć ogłoszenia (tylko odczyt).
-                 Zarządzanie zdjęciami przy edycji (dodawanie/usuwanie) to osobny krok —
+                 Zdjęcia - podgląd obecnych zdjęć ogłoszenia (tylko odczyt).
+                 Zarządzanie zdjęciami przy edycji (dodawanie/usuwanie) to osobny krok -
                  AnimalEditController@update na razie nie przetwarza uploadu.
                  --------------------------- --}}
             <section>

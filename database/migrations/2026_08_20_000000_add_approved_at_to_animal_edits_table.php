@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('animal_edits', function (Blueprint $table) {
-            // Moment zatwierdzenia — do liczenia średniego czasu moderacji (created_at -> approved_at)
+            // Moment zatwierdzenia - do liczenia średniego czasu moderacji (created_at -> approved_at)
             $table->timestamp('approved_at')->nullable()->after('mod_status');
         });
     }

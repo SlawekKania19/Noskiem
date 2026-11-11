@@ -13,7 +13,7 @@ use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-// Słownik miast — powiązane z województwem
+// Słownik miast - powiązane z województwem
 class CityResource extends Resource
 {
     use \App\Filament\Concerns\RestrictedToAdmin;

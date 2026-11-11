@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Process;
 use Tests\TestCase;
 
 // ---------------------------
-// Kolejka wektorów zdjęć (match:embed, PhotoEmbeddingService) — bez prawdziwego
+// Kolejka wektorów zdjęć (match:embed, PhotoEmbeddingService) - bez prawdziwego
 // Pythona: Process::fake zwraca JSONL w formacie noskiem_match/cli.py embed
 // ---------------------------
 
@@ -50,8 +50,8 @@ class PhotoEmbeddingTest extends TestCase
     public function test_kolejka_bierze_tylko_zdjecia_do_porownan_i_najpierw_swieze_zgloszenia(): void
     {
         $approved = $this->photo(['animal_id' => $this->animal('approved')->id]);
-        $this->photo(['animal_id' => $this->animal('rejected')->id]);   // odrzucone — pomijamy
-        $this->photo(['animal_id' => $this->animal('resolved')->id]);   // odnalezione — pomijamy
+        $this->photo(['animal_id' => $this->animal('rejected')->id]);   // odrzucone - pomijamy
+        $this->photo(['animal_id' => $this->animal('resolved')->id]);   // odnalezione - pomijamy
         $verified = $this->photo(['animal_edit_id' => $this->edit(true)->id]);
         $this->photo(['animal_edit_id' => $this->edit(false)->id]);     // e-mail niepotwierdzony
         $this->photo(['animal_edit_id' => $this->edit(true, 'rejected')->id]);
@@ -100,7 +100,7 @@ class PhotoEmbeddingTest extends TestCase
         $b = $this->photo(['animal_id' => $this->animal('approved')->id]);
         $status = app(MatchStatus::class);
 
-        // ** Przed pierwszym uruchomieniem — brak "pulsu" = scheduler podejrzany
+        // ** Przed pierwszym uruchomieniem - brak "pulsu" = scheduler podejrzany
         $this->assertTrue($status->snapshot()['scheduler_stale']);
 
         Process::fake(['*' => Process::result($this->pythonOutput([$b->id, $a->id], errors: [$a->id]))]);
@@ -113,11 +113,11 @@ class PhotoEmbeddingTest extends TestCase
         $this->assertSame(1, $s['last_batch']['failed']);
         $this->assertSame(['pending' => 0, 'failed' => 1, 'done' => 1], array_intersect_key($s['queue'], array_flip(['pending', 'failed', 'done'])));
 
-        // ** Ponów błędne — zdjęcie z błędem wraca do zwykłej kolejki, policzone zostaje
+        // ** Ponów błędne - zdjęcie z błędem wraca do zwykłej kolejki, policzone zostaje
         $this->assertSame(1, $status->retryFailed());
         $this->assertSame([$a->id], app(PhotoEmbeddingService::class)->pendingQuery($this->mv)->pluck('id')->all());
 
-        // ** Pauza też zostawia "puls" — cron działa, tylko worker czeka
+        // ** Pauza też zostawia "puls" - cron działa, tylko worker czeka
         $this->travel(10)->minutes();
         config(['noskiem_match.queue.paused' => true]);
         $this->artisan('match:embed')->assertSuccessful();
@@ -130,7 +130,7 @@ class PhotoEmbeddingTest extends TestCase
         $killer = $this->photo(['animal_id' => $this->animal('approved')->id]);
         $rest = $this->photo(['animal_id' => $this->animal('approved')->id]);
 
-        // ** Kolejność kolejki: od najnowszych — rest, killer, first. Proces pada na "killer"
+        // ** Kolejność kolejki: od najnowszych - rest, killer, first. Proces pada na "killer"
         Process::fake(['*' => Process::result($this->pythonOutput([$rest->id], done: false), 'Killed', 137)]);
 
         $this->artisan('match:embed')->assertFailed();

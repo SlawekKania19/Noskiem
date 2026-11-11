@@ -10,17 +10,17 @@ use Illuminate\Support\Str;
 
 // ---------------------------
 // Kliknięcie w ogłoszenie z maila z podobnymi zwierzakami (MatchCandidatesFound).
-// Link podpisany (middleware "signed") — nikt nie dopisze fałszywych zdarzeń.
+// Link podpisany (middleware "signed") - nikt nie dopisze fałszywych zdarzeń.
 // Zapisuje zdarzenie z pozycją na liście i przekierowuje na ogłoszenie.
 // Sygnał słaby i obciążony (pozycja wpływa na klik, skanery poczty otwierają linki
-// same) — tylko log, NIE wpływa na progi ani ranking.
+// same) - tylko log, NIE wpływa na progi ani ranking.
 // ---------------------------
 
 class MatchClickController extends Controller
 {
     public function click(MatchSearch $matchSearch, int $position, Request $request)
     {
-        // ** Kandydat z tej pozycji w zalogowanym wyszukiwaniu — URL wskazuje pozycję, nie ogłoszenie,
+        // ** Kandydat z tej pozycji w zalogowanym wyszukiwaniu - URL wskazuje pozycję, nie ogłoszenie,
         // więc podpisany link nie przekieruje nigdzie poza listę z maila
         $result = $matchSearch->results()->where('shown', true)->where('position', $position)->first();
 
@@ -48,6 +48,6 @@ class MatchClickController extends Controller
 
         return $animal
             ? redirect()->route('animals.show', $animal)
-            : redirect()->route('animals.index')->with('success', 'To ogłoszenie nie jest już aktywne — zwierzak mógł się już odnaleźć.');
+            : redirect()->route('animals.index')->with('success', 'To ogłoszenie nie jest już aktywne - zwierzak mógł się już odnaleźć.');
     }
 }

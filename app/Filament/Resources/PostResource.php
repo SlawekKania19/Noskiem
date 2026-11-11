@@ -25,7 +25,7 @@ use Illuminate\Support\Str;
 
 // ---------------------------
 // Wpisy bloga. Dostęp: Admin i Autor. Autor widzi i edytuje tylko własne wpisy
-// (getEloquentQuery + can* per rekord), Admin — wszystkie i może zmieniać autora.
+// (getEloquentQuery + can* per rekord), Admin - wszystkie i może zmieniać autora.
 // ---------------------------
 
 class PostResource extends Resource
@@ -109,7 +109,7 @@ class PostResource extends Resource
                     ->maxLength(160)
                     ->live(onBlur: true)
                     ->afterStateUpdated(function (string $operation, ?string $state, callable $set) {
-                        // ** Slug podpowiadamy tylko przy tworzeniu — po publikacji jest zablokowany
+                        // ** Slug podpowiadamy tylko przy tworzeniu - po publikacji jest zablokowany
                         if ($operation === 'create') {
                             $set('slug', Str::slug((string) $state));
                         }
@@ -126,7 +126,7 @@ class PostResource extends Resource
 
                 Textarea::make('excerpt')
                     ->label('Zajawka')
-                    ->helperText('Krótkie wprowadzenie — widoczne na liście wpisów i (gdy brak opisu SEO) w wynikach wyszukiwania.')
+                    ->helperText('Krótkie wprowadzenie - widoczne na liście wpisów i (gdy brak opisu SEO) w wynikach wyszukiwania.')
                     ->maxLength(320)
                     ->rows(3)
                     ->live(onBlur: true),
@@ -192,21 +192,21 @@ class PostResource extends Resource
                     ->visible(fn () => ! (auth()->user()?->is_admin ?? false)),
             ])->columns(2),
 
-            Section::make('SEO — jak wpis wygląda w Google i w social mediach')
-                ->description('To, co widać w wynikach wyszukiwania Google oraz na podglądzie linku wklejonego na Facebooku czy w Messengerze. Oba pola są opcjonalne — zostaw puste, a użyjemy tytułu i zajawki wpisu. Wypełnij tylko, jeśli chcesz, żeby w wyszukiwarce brzmiały inaczej niż na stronie.')
+            Section::make('SEO - jak wpis wygląda w Google i w social mediach')
+                ->description('To, co widać w wynikach wyszukiwania Google oraz na podglądzie linku wklejonego na Facebooku czy w Messengerze. Oba pola są opcjonalne - zostaw puste, a użyjemy tytułu i zajawki wpisu. Wypełnij tylko, jeśli chcesz, żeby w wyszukiwarce brzmiały inaczej niż na stronie.')
                 ->collapsed()
                 ->schema([
                     TextInput::make('meta_title')
                         ->label('Tytuł w wyszukiwarce')
                         ->maxLength(60)
-                        ->placeholder(fn ($get) => $get('title') ?: 'np. Zaginął pies — pierwsze 24 godziny')
-                        ->helperText('Niebieski, klikalny nagłówek wyniku w Google i tytuł podglądu linku w social mediach. Google zwykle pokazuje pierwsze ~60 znaków — dłuższy zostanie ucięty. Jeśli puste, używamy tytułu wpisu.'),
+                        ->placeholder(fn ($get) => $get('title') ?: 'np. Zaginął pies - pierwsze 24 godziny')
+                        ->helperText('Niebieski, klikalny nagłówek wyniku w Google i tytuł podglądu linku w social mediach. Google zwykle pokazuje pierwsze ~60 znaków - dłuższy zostanie ucięty. Jeśli puste, używamy tytułu wpisu.'),
 
                     Textarea::make('meta_description')
                         ->label('Opis w wyszukiwarce')
                         ->maxLength(160)
                         ->rows(3)
-                        ->placeholder(fn ($get) => $get('excerpt') ?: 'Krótkie streszczenie zachęcające do kliknięcia — 1–2 zdania.')
+                        ->placeholder(fn ($get) => $get('excerpt') ?: 'Krótkie streszczenie zachęcające do kliknięcia - 1–2 zdania.')
                         ->helperText('Szary tekst pod tytułem w wynikach Google i opis pod linkiem w social mediach. Optymalnie 120–160 znaków; dłuższy zostanie ucięty. Jeśli puste, używamy zajawki wpisu.'),
                 ]),
         ]);
@@ -239,7 +239,7 @@ class PostResource extends Resource
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Kategoria')
                     ->badge()
-                    ->placeholder('—'),
+                    ->placeholder('-'),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
@@ -259,7 +259,7 @@ class PostResource extends Resource
                     ->label('Publikacja')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->placeholder('—'),
+                    ->placeholder('-'),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Edytowano')

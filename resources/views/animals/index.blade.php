@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Baza zwierząt — Noskiem.pl')
+@section('title', 'Baza zwierząt - Noskiem.pl')
 
 @section('content')
 
@@ -14,7 +14,7 @@
 
         {{-- ---------------------------
              Filtry ogłoszeń (Figma: desktop 33:130, mobile 33:2)
-             Formularz GET — wybrane wartości zachowane przez @selected(request(...))
+             Formularz GET - wybrane wartości zachowane przez @selected(request(...))
              --------------------------- --}}
         <form method="GET" action="{{ route('animals.index') }}" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
 

@@ -8,9 +8,9 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 // ---------------------------
-// Potwierdzenie przyjęcia zgłoszenia "też widziałem" — wysyłane od razu po
+// Potwierdzenie przyjęcia zgłoszenia "też widziałem" - wysyłane od razu po
 // dodaniu, zanim moderator je zobaczy. Zawiera link do potwierdzenia adresu
-// e-mail — dopóki go nie klikniesz, zgłoszenie nie trafi do moderatorów (patrz
+// e-mail - dopóki go nie klikniesz, zgłoszenie nie trafi do moderatorów (patrz
 // SightingController::confirmEmail), tak samo jak przy zgłoszeniu ogłoszenia.
 // ---------------------------
 class SightingSubmissionReceived extends Mailable
@@ -24,7 +24,7 @@ class SightingSubmissionReceived extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Potwierdź adres e-mail — '.config('app.name'))
+            ->subject('Potwierdź adres e-mail - '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
             ->with([
                 'confirmUrl' => route('sightings.confirm', ['sighting' => $this->sighting, 'token' => $this->sighting->edit_token]),

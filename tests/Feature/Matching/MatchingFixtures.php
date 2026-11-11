@@ -64,7 +64,7 @@ trait MatchingFixtures
     }
 
     // ** Zatwierdzenie zgłoszenia jak w ModerationService: nowy Animal + wpis w logu moderacji.
-    // $at — moment zatwierdzenia (domyślnie teraz)
+    // $at - moment zatwierdzenia (domyślnie teraz)
     protected function approve(AnimalEdit $edit, ?\DateTimeInterface $at = null): Animal
     {
         $animal = $this->animal('approved', ['contact_email' => $edit->contact_email]);

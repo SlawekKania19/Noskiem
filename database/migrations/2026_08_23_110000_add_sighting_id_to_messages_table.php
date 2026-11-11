@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
 // Wiadomość może dotyczyć konkretnego zgłoszenia "też widziałem" pod ogłoszeniem
-// (przycisk "Kontakt z autorem" w timeline), nie tylko samego ogłoszenia —
+// (przycisk "Kontakt z autorem" w timeline), nie tylko samego ogłoszenia -
 // wtedy trafia do autora zgłoszenia, a nie do autora ogłoszenia.
 // ---------------------------
 return new class extends Migration

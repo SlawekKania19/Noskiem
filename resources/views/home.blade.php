@@ -10,7 +10,7 @@
 
 @extends('layouts.public')
 
-@section('title', 'Noskiem.org — Znajdziemy go noskiem')
+@section('title', 'Noskiem.org - Znajdziemy go noskiem')
 
 @section('content')
 
@@ -39,8 +39,8 @@
                     Znalazłem zwierzaka
                 </button>
             </div>
-            {{-- ** Nagłówek i opis — treść zależna od wybranego trybu --}}
-            {{-- ** Wariant "szukam" bez x-cloak — to domyślny stan `mode`, więc jest widoczny
+            {{-- ** Nagłówek i opis - treść zależna od wybranego trybu --}}
+            {{-- ** Wariant "szukam" bez x-cloak - to domyślny stan `mode`, więc jest widoczny
                  od pierwszego renderu (bez Alpine); dzięki temu h1/p nie startują puste i nie
                  "wyskakują" na pełną wysokość dopiero po hydratacji (przyczyna złego CLS) --}}
             <h1 class="mt-8 text-[32px] sm:text-[44px] font-semibold leading-tight text-[#283618]">
@@ -53,7 +53,7 @@
                 <span x-show="mode === 'znalazlem'" x-cloak>{{ $heroDescriptionFound }}</span>
             </p>
 
-            {{-- ** Wyszukiwarka — grid z kolumnami [pole, przycisk], żeby podpowiedź pod spodem dało się wyśrodkować dokładnie względem pola --}}
+            {{-- ** Wyszukiwarka - grid z kolumnami [pole, przycisk], żeby podpowiedź pod spodem dało się wyśrodkować dokładnie względem pola --}}
             <form action="{{ route('animals.index') }}" method="GET" class="mt-8 mx-auto grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
                 <input
                     type="text"
@@ -68,7 +68,7 @@
                     Szukaj
                 </button>
 
-                {{-- ** Podpowiedź / CTA — w tej samej kolumnie co pole, więc wyśrodkowane względem niego, nie całego wiersza --}}
+                {{-- ** Podpowiedź / CTA - w tej samej kolumnie co pole, więc wyśrodkowane względem niego, nie całego wiersza --}}
                 <p class="sm:col-start-1 sm:row-start-2 text-center text-[13px] text-[#616657]" x-show="mode === 'znalazlem'" x-cloak>
                     Najpierw poszukaj, zanim dodasz ogłoszenie - być może ktoś już szuka tego zwierzaka.
                 </p>
@@ -83,7 +83,7 @@
             </form>
         </div>
         {{-- ---------------------------
-             Sekcja "Poszukiwane" (status=lost) — widoczna w trybie Szukam
+             Sekcja "Poszukiwane" (status=lost) - widoczna w trybie Szukam
              --------------------------- --}}
         <div x-show="mode === 'znalazlem'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">
@@ -110,7 +110,7 @@
         </div>
 
         {{-- ---------------------------
-             Sekcja "Widziane" (status=found) — widoczna w trybie Znalazłem
+             Sekcja "Widziane" (status=found) - widoczna w trybie Znalazłem
              --------------------------- --}}
         <div x-show="mode === 'szukam'" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
             <div class="flex items-center justify-between">

@@ -3,7 +3,7 @@
 @section('title', 'Potwierdź adres e-mail')
 
 @section('content')
-    {{-- ** Samo imię — "Dziękujemy, Jan Kowalski!" wygląda sztywno, jeśli ktoś poda pełne imię i nazwisko --}}
+    {{-- ** Samo imię - "Dziękujemy, Jan Kowalski!" wygląda sztywno, jeśli ktoś poda pełne imię i nazwisko --}}
     <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Witaj, {{ explode(' ', trim($animalEdit->contact_name))[0] }}!</h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
@@ -29,7 +29,7 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Gdy tylko zatwierdzimy Twoje ogłoszenie, pojawi się ono na stronie —
+        Gdy tylko zatwierdzimy Twoje ogłoszenie, pojawi się ono na stronie -
         wyślemy Ci wtedy kolejną wiadomość z linkiem do jego edycji.
     </p>
 
@@ -42,7 +42,7 @@
 
     @if ($averageApprovalTime)
         <p style="margin:0 0 16px; font-size:13px; line-height:1.6; color:#8f9485;">
-            Zatwierdzenie ogłoszenia średnio trwa ok. {{ $averageApprovalTime }} — postaramy się zrobić to jak najszybciej.
+            Zatwierdzenie ogłoszenia średnio trwa ok. {{ $averageApprovalTime }} - postaramy się zrobić to jak najszybciej.
         </p>
     @endif
 

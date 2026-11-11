@@ -9,7 +9,7 @@ return new class extends Migration
     // ---------------------------
     // Kategorie wpisów bloga (np. "Porady", "Zdrowie"). Zarządzane z panelu
     // Filament (App\Filament\Resources\BlogCategoryResource). Slug ustalany przy
-    // tworzeniu — patrz komentarz w modelu BlogCategory.
+    // tworzeniu - patrz komentarz w modelu BlogCategory.
     // ---------------------------
 
     public function up(): void

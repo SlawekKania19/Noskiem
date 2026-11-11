@@ -1,13 +1,13 @@
 @php
     // ---------------------------
-    // Pola formularza bazy chipów — wspólne dla rejestracji (chips.index) i edycji
+    // Pola formularza bazy chipów - wspólne dla rejestracji (chips.index) i edycji
     // przez właściciela (chips.edit). $values: aktualne dane wpisu (puste przy rejestracji),
     // $stickerRequired: naklejka wymagana przy rejestracji, opcjonalna przy edycji.
     // ---------------------------
     $values = $values ?? [];
     $value = fn (string $field) => old($field, $values[$field] ?? '');
 
-    // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument po przecinkach
+    // Wyliczone osobno (bez przecinków w wyrażeniu) - @json() w Blade dzieli argument po przecinkach
     $initialSpeciesId = (string) $value('species_id');
     $initialBreedId = (string) $value('breed_id');
     $initialChipNumber = (string) $value('chip_number');
@@ -31,7 +31,7 @@
         breedId: @json($initialBreedId),
         breedsList: @json($breedsForJs),
         stickerUrl: null,
-        // ** Same cyfry — spacje/myślniki z naklejki i tak usuwa kontroler
+        // ** Same cyfry - spacje/myślniki z naklejki i tak usuwa kontroler
         get chipDigits() { return this.chipNumber.replace(/[\s\-]/g, ""); },
         getUnknownBreedId(speciesId) {
             const unknown = this.breedsList.find(
@@ -66,13 +66,13 @@
                     maxlength="25"
                     class="{{ $fieldClass }}"
                 >
-                {{-- ** Podpowiedź na żywo — krótsze numery dopuszczamy (starsze chipy), tylko informujemy --}}
+                {{-- ** Podpowiedź na żywo - krótsze numery dopuszczamy (starsze chipy), tylko informujemy --}}
                 <p
                     x-show="/^[0-9]+$/.test(chipDigits) && chipDigits.length < {{ $standardChipLength }}"
                     x-cloak
                     class="mt-1 text-[12px] text-[#8f9485]"
                 >
-                    Zwykle chip ma {{ $standardChipLength }} cyfr — wpisano <span x-text="chipDigits.length"></span>. Sprawdź numer, chyba że to starszy chip.
+                    Zwykle chip ma {{ $standardChipLength }} cyfr - wpisano <span x-text="chipDigits.length"></span>. Sprawdź numer, chyba że to starszy chip.
                 </p>
                 <p
                     x-show="chipDigits.length && !/^[0-9]+$/.test(chipDigits)"
@@ -160,7 +160,7 @@
     </section>
 
     {{-- ---------------------------
-         Zdjęcie naklejki — widoczne tylko dla moderatora (dysk prywatny)
+         Zdjęcie naklejki - widoczne tylko dla moderatora (dysk prywatny)
          --------------------------- --}}
     <section>
         <h3 class="text-[16px] font-semibold text-[#283618]">Zdjęcie naklejki z numerem chipa</h3>
@@ -189,13 +189,13 @@
     </section>
 
     {{-- ---------------------------
-         Kontakt — telefon widoczny w wyszukiwarce (po kliknięciu), e-mail nigdy
+         Kontakt - telefon widoczny w wyszukiwarce (po kliknięciu), e-mail nigdy
          --------------------------- --}}
     <section>
         <h3 class="text-[16px] font-semibold text-[#283618]">Kontakt</h3>
         <p class="mt-1 text-[13px] text-[#616657]">
             Numer telefonu zobaczy osoba, która wyszuka chip Twojego zwierzaka. Adres e-mail
-            służy tylko do potwierdzenia i edycji wpisu — nie jest udostępniany.
+            służy tylko do potwierdzenia i edycji wpisu - nie jest udostępniany.
         </p>
 
         <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">

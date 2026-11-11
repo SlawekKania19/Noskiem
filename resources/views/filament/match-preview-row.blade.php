@@ -1,5 +1,5 @@
 {{-- Jeden kandydat w panelu "Podobne (AI)" (filament/match-preview.blade.php).
-     $below — kandydat poniżej progu, widoczny tylko po zaznaczeniu przełącznika --}}
+     $below - kandydat poniżej progu, widoczny tylko po zaznaczeniu przełącznika --}}
 @php
     $levelLabel = ['strong' => 'bardzo podobne', 'possible' => 'możliwe', 'below' => 'poniżej progu'];
     $levelColor = ['strong' => 'success', 'possible' => 'warning', 'below' => 'gray'];

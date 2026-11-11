@@ -40,7 +40,7 @@
 /*
   Nagłówek jest "sticky" (h-20 = 5rem) i zasłania górę strony. Bez tego przeglądarka,
   przewijając do niepoprawnego pola formularza (walidacja natywna, np. "Wypełnij to pole"),
-  chowa je pod nagłówkiem — stąd wrażenie "losowego" przewinięcia.
+  chowa je pod nagłówkiem - stąd wrażenie "losowego" przewinięcia.
 */
 input,
 select,

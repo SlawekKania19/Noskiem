@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Logi moderacji obejmują też bazę chipów (ChipModerationService) — tak samo
+// Logi moderacji obejmują też bazę chipów (ChipModerationService) - tak samo
 // jak sighting_id dla zgłoszeń "też widziałem"
 // ---------------------------
 return new class extends Migration

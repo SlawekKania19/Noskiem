@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 // ---------------------------
 // Zdarzenie użytkownika przy dopasowaniach (teraz: kliknięcie w link z maila).
-// Tylko log — NIE używamy go do zmiany progów ani rankingu (sygnał słaby i obciążony)
+// Tylko log - NIE używamy go do zmiany progów ani rankingu (sygnał słaby i obciążony)
 // ---------------------------
 
 class MatchEvent extends Model

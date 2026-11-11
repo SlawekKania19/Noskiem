@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', $page->title . ' — Noskiem.pl')
+@section('title', $page->title . ' - Noskiem.pl')
 
 @section('content')
 
     {{-- ---------------------------
-         Statyczna podstrona — treść z panelu Filament (Markdown → HTML)
+         Statyczna podstrona - treść z panelu Filament (Markdown → HTML)
          --------------------------- --}}
     <section class="bg-white">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

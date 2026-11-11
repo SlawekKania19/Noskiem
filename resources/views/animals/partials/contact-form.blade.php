@@ -1,15 +1,15 @@
 {{-- ---------------------------
-     Formularz "napisz wiadomość" — współdzielony między kartą Kontakt (do autora
+     Formularz "napisz wiadomość" - współdzielony między kartą Kontakt (do autora
      ogłoszenia) a modalem "Kontakt z autorem" w timeline (do autora zgłoszenia
      "też widziałem"). Parametry: $action (URL), $recipientLabel (np. "autorowi
-     ogłoszenia" / "autorowi zgłoszenia") — patrz MessageController.
+     ogłoszenia" / "autorowi zgłoszenia") - patrz MessageController.
      --------------------------- --}}
 @php($recipientLabel ??= 'autorowi ogłoszenia')
 
 <form method="POST" action="{{ $action }}" class="space-y-3">
     @csrf
 
-    {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+    {{-- ** Honeypot - pole niewidoczne dla ludzi, ale boty często wypełniają
          każde pole formularza; wypełnione = spam (patrz MessageController) --}}
     <div style="position:absolute; left:-9999px;" aria-hidden="true">
         <label for="website">Strona www</label>
@@ -58,7 +58,7 @@
         @enderror
     </div>
 
-    {{-- ** Akceptacja regulaminu i polityki prywatności + zgoda na udostępnienie danych — wymagana przed wysłaniem --}}
+    {{-- ** Akceptacja regulaminu i polityki prywatności + zgoda na udostępnienie danych - wymagana przed wysłaniem --}}
     <div>
         <label class="flex items-start gap-2 text-[12px] text-[#616657]">
             <input

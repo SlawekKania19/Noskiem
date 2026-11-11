@@ -7,7 +7,7 @@
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
         Zgłoszenie #{{ $animalEdit->id }}
-        ({{ $animalEdit->status === 'lost' ? 'zaginiony' : 'znaleziony' }} — {{ $animalEdit->title }})
+        ({{ $animalEdit->status === 'lost' ? 'zaginiony' : 'znaleziony' }} - {{ $animalEdit->title }})
         czeka na Twoją decyzję.
     </p>
 

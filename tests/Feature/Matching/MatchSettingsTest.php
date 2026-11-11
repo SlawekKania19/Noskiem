@@ -23,7 +23,7 @@ class MatchSettingsTest extends TestCase
     {
         parent::setUp();
 
-        // ** Boot aplikacji był przed migracją — nakładamy ustawienia na świeżą bazę
+        // ** Boot aplikacji był przed migracją - nakładamy ustawienia na świeżą bazę
         MatchSettings::apply();
     }
 
@@ -52,7 +52,7 @@ class MatchSettingsTest extends TestCase
 
         MatchSettings::save($values);
 
-        // ** Tylko zmienione pole trafia do settings — reszta dalej idzie z .env
+        // ** Tylko zmienione pole trafia do settings - reszta dalej idzie z .env
         $this->assertSame(['queue.batch_limit'], MatchSettings::overridden());
         $this->assertSame(7, config('noskiem_match.queue.batch_limit'));
     }

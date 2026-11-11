@@ -7,13 +7,13 @@
         <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Zmiany zatwierdzone!</h1>
 
         <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-            Moderator zatwierdził zmiany we wpisie — w wyszukiwarce widoczna jest już nowa wersja.
+            Moderator zatwierdził zmiany we wpisie - w wyszukiwarce widoczna jest już nowa wersja.
         </p>
     @else
         <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Chip zarejestrowany!</h1>
 
         <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-            Dobra wiadomość — wpis został zatwierdzony. Jeśli ktoś znajdzie Twojego zwierzaka i sprawdzi
+            Dobra wiadomość - wpis został zatwierdzony. Jeśli ktoś znajdzie Twojego zwierzaka i sprawdzi
             numer chipa w naszej bazie, zobaczy jego dane i będzie mógł do Ciebie zadzwonić.
         </p>
     @endif
@@ -33,7 +33,7 @@
     </p>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Zmieniłeś numer telefonu albo chcesz usunąć wpis? Wszystko zrobisz z jednego miejsca —
+        Zmieniłeś numer telefonu albo chcesz usunąć wpis? Wszystko zrobisz z jednego miejsca -
         zachowaj tego maila:
     </p>
 

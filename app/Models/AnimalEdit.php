@@ -43,7 +43,7 @@ class AnimalEdit extends Model
         'submitter_ip',
     ];
 
-    // ** Nigdy w JSON (m.in. publiczne /api/animal-edits/*) — edit_token daje pełny
+    // ** Nigdy w JSON (m.in. publiczne /api/animal-edits/*) - edit_token daje pełny
     // dostęp do edycji/usunięcia ogłoszenia bez logowania, submitter_ip/kontakt to
     // dane wrażliwe zgłaszającego, który czeka na moderację.
     protected $hidden = [
@@ -99,10 +99,10 @@ class AnimalEdit extends Model
         return $this->belongsToMany(Color::class, 'animal_edit_color');
     }
 
-    // ** Inne zgłoszenia z tego samego adresu e-mail (Animal + AnimalEdit) — pomocne
+    // ** Inne zgłoszenia z tego samego adresu e-mail (Animal + AnimalEdit) - pomocne
     // przy moderacji, żeby wykryć próby "podbicia" pozycji przez wielokrotne dodawanie
     // tego samego zwierzaka. Przy edycji istniejącego ogłoszenia wyklucza samo siebie
-    // (animal_id) — to nie jest duplikat, tylko rekord poddawany właśnie moderacji.
+    // (animal_id) - to nie jest duplikat, tylko rekord poddawany właśnie moderacji.
     public function relatedByContactEmail(int $limit = 5)
     {
         return \App\Services\RelatedSubmissionsFinder::find($this->contact_email, $this->animal_id, $this->id, $limit);

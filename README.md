@@ -22,11 +22,11 @@ Projekt oparty na **Laravel** i **Filament Admin**, zaprojektowany z myślą o p
 
 ## Dokumentacja
 Pełna dokumentacja architektury znajduje się w katalogu `/docs`:
-- `/docs/architecture/MindMap.png` — mapa myśli projektu  
-- `/docs/architecture/DatabaseSchema.md` — schemat bazy danych  
-- `/docs/architecture/UserFlow.md` — przepływ użytkownika  
-- `/docs/architecture/AdminFlow.md` — moderacja i panel admina  
-- `/docs/architecture/Security.md` — zasady bezpieczeństwa  
+- `/docs/architecture/MindMap.png` - mapa myśli projektu  
+- `/docs/architecture/DatabaseSchema.md` - schemat bazy danych  
+- `/docs/architecture/UserFlow.md` - przepływ użytkownika  
+- `/docs/architecture/AdminFlow.md` - moderacja i panel admina  
+- `/docs/architecture/Security.md` - zasady bezpieczeństwa  
 
 ## Cel projektu
 Stworzyć lekką, szybką i dostępną platformę, która pomaga zwierzakom wracać do domów.

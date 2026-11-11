@@ -7,7 +7,7 @@ use App\Models\Setting;
 
 // ---------------------------
 // Liczy średni czas moderacji (od zgłoszenia do zatwierdzenia) na podstawie
-// ostatnich N zatwierdzonych NOWYCH ogłoszeń (bez edycji już istniejących —
+// ostatnich N zatwierdzonych NOWYCH ogłoszeń (bez edycji już istniejących -
 // te mają inną dynamikę moderacji). Wynik używany w mailu potwierdzającym
 // zgłoszenie, żeby dać zgłaszającemu orientacyjny czas oczekiwania.
 // ---------------------------
@@ -30,7 +30,7 @@ class ApprovalTimeEstimator
             return null;
         }
 
-        // ** absolute: true jawnie — domyślne zachowanie diffInSeconds w Carbon 3 zwraca
+        // ** absolute: true jawnie - domyślne zachowanie diffInSeconds w Carbon 3 zwraca
         // różnicę ze znakiem (created_at -> approved_at to różnica ujemna, bo approved_at jest później)
         $avgSeconds = $edits->avg(fn (AnimalEdit $edit) => $edit->approved_at->diffInSeconds($edit->created_at, absolute: true));
 

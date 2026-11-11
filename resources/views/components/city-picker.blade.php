@@ -17,7 +17,7 @@
 
 {{-- ---------------------------
      Wybór województwa + miejscowości z autouzupełnianiem (rejestr SIMC, ~100 tys. rekordów).
-     "contents" nie tworzy własnego elementu w layoucie — oba pola zostają zwykłymi
+     "contents" nie tworzy własnego elementu w layoucie - oba pola zostają zwykłymi
      komórkami rodzica (np. gridu), a x-data spina je wspólnym stanem Alpine.
      --------------------------- --}}
 <div class="contents" x-data="cityPicker({

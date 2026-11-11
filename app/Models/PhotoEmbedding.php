@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // ---------------------------
-// Wektor zdjęcia (DINOv2) dla danej wersji modelu — patrz noskiem_match/ i
+// Wektor zdjęcia (DINOv2) dla danej wersji modelu - patrz noskiem_match/ i
 // App\Services\PhotoEmbeddingService. vector = surowe bajty float32 (little-endian).
 // ---------------------------
 
@@ -22,7 +22,7 @@ class PhotoEmbedding extends Model
         'duration_ms',
     ];
 
-    // ** Wektor nigdy w JSON — to 3 KB binarnych danych bez znaczenia dla odbiorcy
+    // ** Wektor nigdy w JSON - to 3 KB binarnych danych bez znaczenia dla odbiorcy
     protected $hidden = ['vector'];
 
     protected $casts = [

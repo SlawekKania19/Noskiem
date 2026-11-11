@@ -20,7 +20,7 @@ class Setting extends Model
 
     protected const CACHE_KEY = 'settings';
 
-    // Zwraca wartość ustawienia o podanym kluczu, a gdy brak — wartość domyślną
+    // Zwraca wartość ustawienia o podanym kluczu, a gdy brak - wartość domyślną
     public static function get(string $key, ?string $default = null): ?string
     {
         return static::allCached()[$key] ?? $default;
@@ -43,7 +43,7 @@ class Setting extends Model
     }
 
     // Wszystkie ustawienia jako zwykła tablica [klucz => wartość], z cache.
-    // Celowo tablica, nie Collection — obiekty w cache'u (driver "database") potrafią się
+    // Celowo tablica, nie Collection - obiekty w cache'u (driver "database") potrafią się
     // uszkodzić przy (un)serializacji, zwykła tablica jest tu dużo bezpieczniejsza.
     protected static function allCached(): array
     {

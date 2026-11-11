@@ -15,11 +15,11 @@
         ->implode('');
 @endphp
 
-@section('title', $author->name.' — autor na blogu Noskiem.pl')
+@section('title', $author->name.' - autor na blogu Noskiem.pl')
 @section('description', $metaDescription)
 
 @push('head-assets')
-    <link rel="alternate" type="application/rss+xml" title="Blog — Noskiem.pl" href="{{ route('blog.feed') }}">
+    <link rel="alternate" type="application/rss+xml" title="Blog - Noskiem.pl" href="{{ route('blog.feed') }}">
 @endpush
 
 @section('content')
@@ -84,7 +84,7 @@
         </div>
 
         {{-- ---------------------------
-             Stopka autora — konfigurowana przez autora, ta sama pod jego wpisami
+             Stopka autora - konfigurowana przez autora, ta sama pod jego wpisami
              --------------------------- --}}
         @if ($author->signature_html)
             <div class="mt-14 rounded-2xl border border-[#e5e5dc] bg-[#f8f8f4] p-6">

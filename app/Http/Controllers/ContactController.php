@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 // ---------------------------
-// Statyczna strona kontaktowa (/kontakt) — formularz wysyłający wiadomość na
+// Statyczna strona kontaktowa (/kontakt) - formularz wysyłający wiadomość na
 // stały adres zespołu (nie do konkretnego ogłoszenia). Treść nad formularzem
 // edytowalna z panelu Ustawień (App\Filament\Pages\Settings), Markdown -> HTML.
 // ---------------------------
@@ -21,7 +21,7 @@ class ContactController extends Controller
     {
         $intro = Setting::get(
             'contact_page_intro',
-            'Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe.'
+            'Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas - odpowiadamy najszybciej jak to możliwe.'
         );
 
         return view('contact.show', [
@@ -31,7 +31,7 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
+        // ** Honeypot - pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
         // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
         if ($request->filled('website')) {
             return redirect()->route('contact.show')

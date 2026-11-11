@@ -6,7 +6,7 @@
     <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Ogłoszenie zatwierdzone!</h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Dobra wiadomość — Twoje zgłoszenie (#{{ $animal->id }}) zostało zatwierdzone i jest już widoczne na stronie.
+        Dobra wiadomość - Twoje zgłoszenie (#{{ $animal->id }}) zostało zatwierdzone i jest już widoczne na stronie.
     </p>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4ef; border-radius:12px; margin:0 0 16px;">
@@ -18,7 +18,7 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Jeśli chcesz coś poprawić, zwierzak się znalazł albo chcesz usunąć ogłoszenie —
+        Jeśli chcesz coś poprawić, zwierzak się znalazł albo chcesz usunąć ogłoszenie -
         wszystko zrobisz z jednego miejsca:
     </p>
 
@@ -38,7 +38,7 @@
     {{-- ** Plakaty generujemy tylko dla "Zaginął" (PosterController) --}}
     @if ($animal->status === 'lost')
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Chcesz rozwiesić plakat w okolicy? Kliknij poniżej — wybierzesz format (A4 lub dwa na kartkę) i pobierzesz gotowy PDF.
+        Chcesz rozwiesić plakat w okolicy? Kliknij poniżej - wybierzesz format (A4 lub dwa na kartkę) i pobierzesz gotowy PDF.
     </p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
@@ -61,7 +61,7 @@
         @if ($animal->status === 'lost')
             Raz w miesiącu wyślemy Ci przypomnienie o tym, że ogłoszenie jest aktywne i że możesz je edytować lub usunąć.
         @else
-            Ogłoszenie będzie widoczne przez 2 lata. Po tym czasie zapytamy Cię mailowo, czy jest nadal aktualne —
+            Ogłoszenie będzie widoczne przez 2 lata. Po tym czasie zapytamy Cię mailowo, czy jest nadal aktualne -
             jednym kliknięciem przedłużysz je wtedy o kolejne 6 miesięcy.
         @endif
     </p>

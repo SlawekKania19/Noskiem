@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 // ---------------------------
 // Zlecenia "poszukaj podobnych i napisz" (confirmEmail -> match_requests -> match:notify
-// -> mail MatchCandidatesFound). Wyszukiwanie podmienione atrapą — ranking i filtry
+// -> mail MatchCandidatesFound). Wyszukiwanie podmienione atrapą - ranking i filtry
 // sprawdza PhotoMatchSearchTest.
 // ---------------------------
 
@@ -34,7 +34,7 @@ class MatchNotifyTest extends TestCase
         $this->setUpMatching();
         Mail::fake();
 
-        // ** Atrapa wyszukiwania — zapamiętuje zapytanie, zwraca przygotowany wynik
+        // ** Atrapa wyszukiwania - zapamiętuje zapytanie, zwraca przygotowany wynik
         $this->app->instance(PhotoMatchService::class, new class($this) extends PhotoMatchService {
             public function __construct(private $test) {}
 
@@ -153,7 +153,7 @@ class MatchNotifyTest extends TestCase
         $cand = $this->animal('approved', ['status' => 'found', 'contact_email' => 'a@example.com']);
         $this->nextResult = ['results' => [$this->matchRow($cand)]];
 
-        // ** Czeka na moderację — bez wyszukiwania i bez maila, nawet gdy wektory są gotowe
+        // ** Czeka na moderację - bez wyszukiwania i bez maila, nawet gdy wektory są gotowe
         $this->artisan('match:notify');
         $this->assertSame([], $this->searched);
         $this->assertSame(2, MatchRequest::where('status', 'queued')->count());
@@ -175,7 +175,7 @@ class MatchNotifyTest extends TestCase
     {
         config(['noskiem_match.notify.batch' => 2]);
 
-        // ** Więcej oczekujących niż mieści się w partii — zatwierdzone i tak przechodzi
+        // ** Więcej oczekujących niż mieści się w partii - zatwierdzone i tak przechodzi
         $this->queuedEdit(approve: false);
         $this->queuedEdit(approve: false);
         $this->queuedEdit(approve: false);
@@ -198,7 +198,7 @@ class MatchNotifyTest extends TestCase
         // ** Termin liczony od zatwierdzenia, nie od zgłoszenia
         $old = $this->queuedEdit(approve: false);
         $this->approve($old, now()->subHours(73));
-        // ** Zgłoszenie sprzed 5 dni, zatwierdzone dopiero teraz (wolna moderacja) — nie wygasa
+        // ** Zgłoszenie sprzed 5 dni, zatwierdzone dopiero teraz (wolna moderacja) - nie wygasa
         $slowModeration = $this->queuedEdit(approve: false);
         MatchRequest::where('animal_edit_id', $slowModeration->id)->update(['created_at' => now()->subDays(5)]);
         $this->approve($slowModeration);
@@ -214,7 +214,7 @@ class MatchNotifyTest extends TestCase
         $this->assertSame('queued', MatchRequest::where('animal_edit_id', $slowModeration->id)->value('status'));
         MatchRequest::where('animal_edit_id', $slowModeration->id)->delete();
 
-        // ** Błąd wyszukiwania (wyjątek) — 3 próby, potem failed
+        // ** Błąd wyszukiwania (wyjątek) - 3 próby, potem failed
         $this->app->instance(PhotoMatchService::class, new class extends PhotoMatchService {
             public function __construct() {}
 
@@ -245,7 +245,7 @@ class MatchNotifyTest extends TestCase
     {
         $edit = $this->edit();
         $html = (new MatchCandidatesFound($edit, [[
-            'title' => 'Znaleziony pies — Katowice', 'url' => 'https://noskiem.test/animals/5',
+            'title' => 'Znaleziony pies - Katowice', 'url' => 'https://noskiem.test/animals/5',
             'photo_url' => 'https://noskiem.test/storage/photos/a.jpg', 'level' => 'strong',
             'location' => 'Park', 'date' => '05.11.2026', 'distance_km' => 12.3,
         ]], ['filters' => ['radius_km' => 150]]))->render();

@@ -18,7 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Password;
 
 // ---------------------------
-// Zarządzanie kontami w panelu — Admin / Moderator / Autor, dowolna kombinacja
+// Zarządzanie kontami w panelu - Admin / Moderator / Autor, dowolna kombinacja
 // (to trzy niezależne flagi, nie wykluczające się role). Tylko dla Admina.
 // ---------------------------
 class UserResource extends Resource
@@ -33,7 +33,7 @@ class UserResource extends Resource
     protected static ?string $pluralModelLabel = 'użytkownicy';
     protected static ?int $navigationSort = 99;
 
-    // Nadpisuje canDelete() z RestrictedToAdmin — oprócz bycia Adminem, nie można
+    // Nadpisuje canDelete() z RestrictedToAdmin - oprócz bycia Adminem, nie można
     // usunąć samego siebie (samo ukrycie przycisku w tabeli to za mało, to jest
     // realna autoryzacja akcji, nie tylko UI)
     public static function canDelete($record): bool
@@ -70,7 +70,7 @@ class UserResource extends Resource
                     ->live(),
             ]),
 
-            // ** Ta sama sekcja jest na stronie „Edytuj profil" autora — patrz
+            // ** Ta sama sekcja jest na stronie „Edytuj profil" autora - patrz
             // App\Filament\Support\AuthorProfileFields i App\Filament\Pages\EditProfile
             AuthorProfileFields::section(fn ($get) => (bool) $get('is_author')),
         ]);
@@ -103,7 +103,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Strona autora')
                     ->prefix('/blog/autor/')
-                    ->placeholder('—')
+                    ->placeholder('-')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')->label('Utworzono')->dateTime('d.m.Y H:i')->sortable(),
             ])
@@ -111,7 +111,7 @@ class UserResource extends Resource
             ->actions([
                 Actions\EditAction::make(),
 
-                // ** Osobna, prosta akcja zamiast pola hasła w formularzu edycji —
+                // ** Osobna, prosta akcja zamiast pola hasła w formularzu edycji -
                 // admin resetuje hasło bez otwierania pełnego formularza edycji konta
                 Actions\Action::make('resetPassword')
                     ->label('Resetuj hasło')

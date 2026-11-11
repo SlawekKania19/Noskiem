@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 // Odwrotne geokodowanie pinezki z mapy (lat/lng -> województwo/miejscowość).
 // Korzysta z darmowego, publicznego Nominatim (OpenStreetMap) i dopasowuje wynik
 // do naszej bazy: kod ISO3166-2 (np. "PL-24") pokrywa się 1:1 z kodem TERC województwa,
-// więc województwo jest zawsze pewne — niepewna bywa tylko dokładna nazwa miejscowości.
+// więc województwo jest zawsze pewne - niepewna bywa tylko dokładna nazwa miejscowości.
 // ---------------------------
 
 class LocationController extends Controller
@@ -23,7 +23,7 @@ class LocationController extends Controller
             'lng' => 'required|numeric|between:-180,180',
         ]);
 
-        // ** Nominatim bywa wolny/niedostępny — to tylko podpowiedź, więc każdy błąd
+        // ** Nominatim bywa wolny/niedostępny - to tylko podpowiedź, więc każdy błąd
         // (w tym brak połączenia) kończy się grzecznym "resolved: false", nie 500-tką
         try {
             $response = Http::withHeaders([
@@ -66,7 +66,7 @@ class LocationController extends Controller
             $street .= ' '.$address['house_number'];
         }
 
-        // Dopasowanie po dokładnej nazwie — nazewnictwo OSM i SIMC zwykle się pokrywa,
+        // Dopasowanie po dokładnej nazwie - nazewnictwo OSM i SIMC zwykle się pokrywa,
         // ale przy rozbieżności zostawiamy city_id puste i podpowiadamy tekst do ręcznego wyboru
         $city = ($voivodeship && $localityName)
             ? City::where('voivodeship_id', $voivodeship->id)->where('name_pl', $localityName)->first()

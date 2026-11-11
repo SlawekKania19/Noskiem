@@ -42,7 +42,7 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Jeśli ogłoszenie nie jest już potrzebne, nie musisz nic robić — usuniemy je automatycznie.
+        Jeśli ogłoszenie nie jest już potrzebne, nie musisz nic robić - usuniemy je automatycznie.
     </p>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">

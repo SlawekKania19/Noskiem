@@ -17,7 +17,7 @@
         </style>
     </head>
     <body class="antialiased bg-white text-black">
-        {{-- ** Style inline zamiast klas Tailwind — ta strona nie przechodzi przez Vite (musi
+        {{-- ** Style inline zamiast klas Tailwind - ta strona nie przechodzi przez Vite (musi
              renderować się nawet gdy build assetów jest uszkodzony), więc ma tylko wąski,
              ręcznie wklejony zestaw klas utility powyżej --}}
         <div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center;" role="main">
@@ -54,7 +54,7 @@
             {{-- Opcjonalna treść pod nagłówkiem (np. wiadomość admina w trybie serwisowym) --}}
             @yield('details')
 
-            {{-- Powrót na stronę główną — strona może podmienić (patrz maintenance.blade.php) --}}
+            {{-- Powrót na stronę główną - strona może podmienić (patrz maintenance.blade.php) --}}
             @section('footer')
                 <a href="/" style="margin-top:40px; font-size:14px; color:#283618; text-decoration:underline;">
                     Wróć do strony głównej

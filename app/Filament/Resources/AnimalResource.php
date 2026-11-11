@@ -81,7 +81,7 @@ class AnimalResource extends Resource
                         ->label('Gatunek')
                         ->relationship('species', 'name_pl')
                         ->required()
-                        ->live(), // reactive — odświeża listę ras
+                        ->live(), // reactive - odświeża listę ras
 
                     // Rasy filtrowane po wybranym gatunku
                     Select::make('breed_id')
@@ -128,7 +128,7 @@ class AnimalResource extends Resource
                         ->live()
                         ->afterStateUpdated(fn (Set $set) => $set('city_id', null)),
 
-                    // Miasta wyszukiwane na żądanie w obrębie wybranego województwa — rejestr
+                    // Miasta wyszukiwane na żądanie w obrębie wybranego województwa - rejestr
                     // SIMC ma ~100 tys. rekordów, więc nie da się ich wczytać do selecta naraz
                     Select::make('city_id')
                         ->label('Miasto')
@@ -176,7 +176,7 @@ class AnimalResource extends Resource
     }
 
     // ---------------------------
-    // Tabela — lista ogłoszeń
+    // Tabela - lista ogłoszeń
     // ---------------------------
 
     public static function table(Table $table): Table
@@ -260,7 +260,7 @@ class AnimalResource extends Resource
                     ->relationship('species', 'name_pl'),
             ])
             ->actions([
-                // ** Same ikony zamiast przycisków z tekstem — oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
+                // ** Same ikony zamiast przycisków z tekstem - oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
                 Actions\ViewAction::make()->iconButton(),
                 Actions\EditAction::make()->iconButton(),
                 static::deleteAction()->iconButton(),
@@ -273,21 +273,21 @@ class AnimalResource extends Resource
     }
 
     // ---------------------------
-    // Usuwanie ogłoszenia — wspólna konfiguracja dla listy, podglądu i edycji
+    // Usuwanie ogłoszenia - wspólna konfiguracja dla listy, podglądu i edycji
     // ---------------------------
 
-    // Ogłoszenia nie mają soft-deletes, więc kasujemy nieodwracalnie — stąd modal
+    // Ogłoszenia nie mają soft-deletes, więc kasujemy nieodwracalnie - stąd modal
     // z wyraźnym ostrzeżeniem zamiast domyślnego "Czy na pewno?"
     public static function deleteAction(): Actions\DeleteAction
     {
         return Actions\DeleteAction::make()
             ->modalHeading('Usunąć ogłoszenie?')
-            ->modalDescription('Tej operacji nie można cofnąć — danych nie da się przywrócić. Razem z ogłoszeniem trwale znikną jego zdjęcia (także pliki z dysku), historia edycji oraz powiązane zgłoszenia „widziałem".')
+            ->modalDescription('Tej operacji nie można cofnąć - danych nie da się przywrócić. Razem z ogłoszeniem trwale znikną jego zdjęcia (także pliki z dysku), historia edycji oraz powiązane zgłoszenia „widziałem".')
             ->modalSubmitActionLabel('Usuń trwale');
     }
 
     // ---------------------------
-    // Infolist — widok szczegółów ogłoszenia
+    // Infolist - widok szczegółów ogłoszenia
     // ---------------------------
 
     public static function infolist(Schema $schema): Schema
@@ -304,7 +304,7 @@ class AnimalResource extends Resource
                         static::kontaktSection(),
 
                         Section::make('Dane techniczne')
-                            ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                            ->description('Widoczne wyłącznie w panelu admina - na wypadek problemów prawnych.')
                             ->schema([
                                 TextEntry::make('submitter_ip')
                                     ->label('Adres IP zgłaszającego')

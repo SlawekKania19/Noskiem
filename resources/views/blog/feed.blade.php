@@ -8,10 +8,10 @@
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
-        <title>Blog — Noskiem.pl</title>
+        <title>Blog - Noskiem.pl</title>
         <link>{{ route('blog.index') }}</link>
         <atom:link href="{{ route('blog.feed') }}" rel="self" type="application/rss+xml" />
-        <description>Porady i artykuły dla właścicieli zwierząt — Noskiem.pl</description>
+        <description>Porady i artykuły dla właścicieli zwierząt - Noskiem.pl</description>
         <language>pl-pl</language>
         @if ($posts->isNotEmpty())
         <lastBuildDate>{{ $posts->first()->published_at->toRssString() }}</lastBuildDate>

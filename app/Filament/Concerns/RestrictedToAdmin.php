@@ -4,7 +4,7 @@ namespace App\Filament\Concerns;
 
 // ---------------------------
 // Ogranicza widoczność/edycję zasobu wyłącznie do Admina. Reszta ról (Moderator,
-// Autor) na razie nie ma tu nic do roboty — moderacja ma własną, osobną regułę
+// Autor) na razie nie ma tu nic do roboty - moderacja ma własną, osobną regułę
 // w AnimalEditResource (Admin lub Moderator).
 // ---------------------------
 trait RestrictedToAdmin

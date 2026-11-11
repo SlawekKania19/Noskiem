@@ -23,7 +23,7 @@ class NewSightingForModeration extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Nowe zgłoszenie "też widziałem" czeka na moderację — '.config('app.name'))
+            ->subject('Nowe zgłoszenie "też widziałem" czeka na moderację - '.config('app.name'))
             ->with(['moderationUrl' => route('filament.admin.resources.sightings.view', $this->sighting)])
             ->view('emails.sighting-moderation-pending');
     }

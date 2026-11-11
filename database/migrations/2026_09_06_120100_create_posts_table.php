@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     // ---------------------------
-    // Wpisy bloga — artykuły/porady dla właścicieli zwierząt. Treść (`body`) to
+    // Wpisy bloga - artykuły/porady dla właścicieli zwierząt. Treść (`body`) to
     // HTML z edytora WYSIWYG (Filament RichEditor). Widoczne publicznie dopiero
     // gdy status = "published" ORAZ published_at już minęło (scope Post::published).
     // ---------------------------
@@ -17,11 +17,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
 
-            // ** Autor — rola "is_author" na users; nullOnDelete, żeby usunięcie
+            // ** Autor - rola "is_author" na users; nullOnDelete, żeby usunięcie
             // konta nie kasowało wpisów
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
-            // ** Jedna kategoria na wpis (tagi wielokrotne — na później)
+            // ** Jedna kategoria na wpis (tagi wielokrotne - na później)
             $table->foreignId('blog_category_id')->nullable()->constrained('blog_categories')->nullOnDelete();
 
             $table->string('title');

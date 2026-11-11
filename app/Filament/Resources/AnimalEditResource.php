@@ -37,7 +37,7 @@ class AnimalEditResource extends Resource
     protected static ?string $pluralModelLabel = 'zgłoszenia';
     protected static ?int $navigationSort = 1;
 
-    // Moderacja — dostępna dla Admina i Moderatora (jedyny resource, do którego
+    // Moderacja - dostępna dla Admina i Moderatora (jedyny resource, do którego
     // Moderator ma dostęp; resource ma tylko listę i podgląd, stąd tylko te dwie metody)
     public static function canViewAny(): bool
     {
@@ -52,7 +52,7 @@ class AnimalEditResource extends Resource
     }
 
     // Ukrywa przed moderatorami nowe zgłoszenia, których zgłaszający jeszcze nie
-    // potwierdził adresu e-mail (patrz AnimalEditController::confirmEmail) — nie
+    // potwierdził adresu e-mail (patrz AnimalEditController::confirmEmail) - nie
     // dotyczy edycji już zatwierdzonych ogłoszeń (animal_id != null), te nie
     // przechodzą przez bramkę potwierdzenia maila.
     public static function getEloquentQuery(): Builder
@@ -63,7 +63,7 @@ class AnimalEditResource extends Resource
                 ->orWhereNotNull('email_verified_at'));
     }
 
-    // Liczba oczekujących zgłoszeń — widoczna przy nazwie w menu, ukryta gdy brak (0)
+    // Liczba oczekujących zgłoszeń - widoczna przy nazwie w menu, ukryta gdy brak (0)
     public static function getNavigationBadge(): ?string
     {
         $count = static::getEloquentQuery()->where('mod_status', 'pending')->count();
@@ -77,7 +77,7 @@ class AnimalEditResource extends Resource
     }
 
     // ---------------------------
-    // Tabela — lista zgłoszeń
+    // Tabela - lista zgłoszeń
     // ---------------------------
 
     public static function table(Table $table): Table
@@ -157,7 +157,7 @@ class AnimalEditResource extends Resource
                     ->default('pending'),
             ])
             ->actions([
-                // ** Same ikony zamiast przycisków z tekstem — oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
+                // ** Same ikony zamiast przycisków z tekstem - oszczędza miejsce w wierszu, żeby tabela mieściła się bez scrolla poziomego
                 Actions\ViewAction::make()->label('Otwórz')->iconButton(),
 
                 // Szybkie zatwierdzenie z listy
@@ -207,7 +207,7 @@ class AnimalEditResource extends Resource
     }
 
     // ---------------------------
-    // Infolist — widok szczegółów zgłoszenia
+    // Infolist - widok szczegółów zgłoszenia
     // ---------------------------
 
     public static function infolist(Schema $schema): Schema
@@ -251,7 +251,7 @@ class AnimalEditResource extends Resource
                         ->columns(4),
                 ]),
 
-            // Diff — widoczny tylko dla edycji istniejącego ogłoszenia
+            // Diff - widoczny tylko dla edycji istniejącego ogłoszenia
             Section::make('Różnice względem oryginału')
                 ->visible(fn ($record) => $record !== null && $record->animal_id !== null)
                 ->schema([
@@ -297,11 +297,11 @@ class AnimalEditResource extends Resource
                                     $old = count($change['old']) . ' szt.';
                                     $new = count($change['new']) . ' szt.';
                                 } elseif ($field === 'colors') {
-                                    $old = e($change['old'] ? implode(', ', $change['old']) : '—');
-                                    $new = e($change['new'] ? implode(', ', $change['new']) : '—');
+                                    $old = e($change['old'] ? implode(', ', $change['old']) : '-');
+                                    $new = e($change['new'] ? implode(', ', $change['new']) : '-');
                                 } else {
-                                    $old = e((string) ($change['old'] ?? '—'));
-                                    $new = e((string) ($change['new'] ?? '—'));
+                                    $old = e((string) ($change['old'] ?? '-'));
+                                    $new = e((string) ($change['new'] ?? '-'));
                                 }
                                 $rows .= "<tr>
                                     <td style=\"padding:6px 10px;border:1px solid #e5e7eb;font-weight:600\">{$label}</td>
@@ -378,7 +378,7 @@ class AnimalEditResource extends Resource
                         ->label('Chip')
                         ->formatStateUsing(fn ($state) => $state ? 'Tak' : 'Nie'),
                     TextEntry::make('chip_number')->label('Numer chipa'),
-                    // Powód odrzucenia — widoczny tylko gdy odrzucone
+                    // Powód odrzucenia - widoczny tylko gdy odrzucone
                     TextEntry::make('mod_reject_reason')
                         ->label('Powód odrzucenia')
                         ->columnSpan(2)

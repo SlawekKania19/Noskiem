@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Process;
 
 // ---------------------------
 // Kolejka liczenia wektorów zdjęć (dopasowania po zdjęciach, moduł noskiem_match/).
-// "Kolejka" to po prostu zdjęcia bez wektora dla bieżącej model_version — stan w bazie,
+// "Kolejka" to po prostu zdjęcia bez wektora dla bieżącej model_version - stan w bazie,
 // więc pauza, okno godzin czy przerwany proces niczego nie gubią.
 // PHP wybiera zdjęcia i zapisuje wyniki; Python (cli.py embed) tylko liczy:
 // dostaje JSONL {photo_id, path} na stdin, zwraca JSONL z wektorami na stdout.
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Process;
 
 class PhotoEmbeddingService
 {
-    // ** Wersja modelu z noskiem_match/config.json — jedno źródło dla Pythona i PHP
+    // ** Wersja modelu z noskiem_match/config.json - jedno źródło dla Pythona i PHP
     public function modelVersion(): string
     {
         $cfg = json_decode(
@@ -33,7 +33,7 @@ class PhotoEmbeddingService
     }
 
     // ---------------------------
-    // Czy worker może teraz pracować — zwraca null albo powód, dla którego nie
+    // Czy worker może teraz pracować - zwraca null albo powód, dla którego nie
     // ---------------------------
     public function blockedReason(?CarbonImmutable $now = null): ?string
     {
@@ -58,7 +58,7 @@ class PhotoEmbeddingService
     public function withinHours(string $window, ?CarbonImmutable $now = null): bool
     {
         if (! preg_match('/^(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})$/', $window, $m)) {
-            // ** Literówka w .env nie może po cichu zatrzymać kolejki na zawsze — wolimy pracować
+            // ** Literówka w .env nie może po cichu zatrzymać kolejki na zawsze - wolimy pracować
             report(new \InvalidArgumentException("Niepoprawne MATCH_HOURS: {$window}"));
 
             return true;
@@ -81,7 +81,7 @@ class PhotoEmbeddingService
     /**
      * Do kolejki trafiają tylko zdjęcia, które kiedykolwiek będą porównywane:
      * - zatwierdzonych ogłoszeń (kandydaci),
-     * - nowych zgłoszeń z POTWIERDZONYM e-mailem, czekających na moderację (zapytania) —
+     * - nowych zgłoszeń z POTWIERDZONYM e-mailem, czekających na moderację (zapytania) -
      *   bez potwierdzenia nie liczymy, żeby boty i fałszywe adresy nie zajmowały CPU.
      * Zdjęcia zgłoszeń "widziałem" (sightings) na razie pomijamy.
      * Kolejność: najpierw świeże zgłoszenia (na nie ktoś czeka), potem reszta od najnowszych.
@@ -112,7 +112,7 @@ class PhotoEmbeddingService
 
     /**
      * Uruchamia cli.py embed i zapisuje wyniki. Wyniki parsujemy z całego stdout po
-     * zakończeniu procesu — także gdy Python padnie w połowie, zdjęcia policzone
+     * zakończeniu procesu - także gdy Python padnie w połowie, zdjęcia policzone
      * przed awarią zostają zapisane.
      *
      * @param  Collection<int, Photo>  $photos
@@ -168,7 +168,7 @@ class PhotoEmbeddingService
                 $ready = true;
                 $stats['load_ms'] = $event['load_ms'] ?? null;
 
-                // ** Python i PHP muszą liczyć tę samą wersję — inaczej zapisalibyśmy
+                // ** Python i PHP muszą liczyć tę samą wersję - inaczej zapisalibyśmy
                 // wektory pod złą etykietą i porównywali nieporównywalne
                 if (($event['model_version'] ?? null) !== $modelVersion) {
                     throw new \RuntimeException("Niezgodna model_version: {$event['model_version']} ≠ {$modelVersion}");
@@ -185,9 +185,9 @@ class PhotoEmbeddingService
         }
 
         // ** Proces padł w trakcie partii (np. zabity przez limit pamięci hostingu).
-        // Pierwsze nieobsłużone zdjęcie to prawdopodobny winowajca — oznaczamy je błędem,
+        // Pierwsze nieobsłużone zdjęcie to prawdopodobny winowajca - oznaczamy je błędem,
         // żeby jedno "zabójcze" zdjęcie nie blokowało kolejki w nieskończoność.
-        // Gdy padło już ładowanie modelu (brak "ready") — nic nie oznaczamy, to nie wina zdjęć.
+        // Gdy padło już ładowanie modelu (brak "ready") - nic nie oznaczamy, to nie wina zdjęć.
         if (! $done) {
             $stats['crashed'] = true;
 
@@ -207,7 +207,7 @@ class PhotoEmbeddingService
         return $stats;
     }
 
-    // ** Zapis wyniku jednego zdjęcia (upsert — ponowne liczenie nadpisuje stary błąd)
+    // ** Zapis wyniku jednego zdjęcia (upsert - ponowne liczenie nadpisuje stary błąd)
     protected function storeResult(int $photoId, string $modelVersion, array $event): void
     {
         $ok = ($event['status'] ?? null) === 'ok';

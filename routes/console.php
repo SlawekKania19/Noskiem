@@ -9,7 +9,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 // ---------------------------
-// Zadania cykliczne — wymagają na serwerze wpisu w cronie:
+// Zadania cykliczne - wymagają na serwerze wpisu w cronie:
 // * * * * * php /ścieżka/do/projektu/artisan schedule:run >> /dev/null 2>&1
 // ---------------------------
 
@@ -25,14 +25,14 @@ Schedule::command('animals:retention')
     ->withoutOverlapping();
 
 // ** Dopasowania po zdjęciach: partia wektorów z kolejki (patrz EmbedPhotos).
-// Pauza, okno godzin, priorytet i limity — w config/noskiem_match.php (.env).
+// Pauza, okno godzin, priorytet i limity - w config/noskiem_match.php (.env).
 // Komenda sama sprawdza MATCH_ENABLED, więc wpis jest bezpieczny także bez Pythona.
 Schedule::command('match:embed')
     ->everyMinute()
     ->withoutOverlapping(30)
     ->runInBackground();
 
-// ** Maile z podobnymi ogłoszeniami do autorów nowych zgłoszeń (patrz NotifyMatches) —
+// ** Maile z podobnymi ogłoszeniami do autorów nowych zgłoszeń (patrz NotifyMatches) -
 // czekają, aż match:embed policzy zdjęcia zgłoszenia
 Schedule::command('match:notify')
     ->everyMinute()

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
 // Wektory zdjęć do wyszukiwania podobnych zwierząt (moduł noskiem_match/).
-// Klucz to zdjęcie + wersja modelu, NIE ogłoszenie — photos.id nie zmienia się przy
+// Klucz to zdjęcie + wersja modelu, NIE ogłoszenie - photos.id nie zmienia się przy
 // zatwierdzeniu (zdjęcie jest tylko przepinane z animal_edit_id na animal_id), więc
 // przynależność do ogłoszenia czytamy zawsze aktualną z tabeli photos.
 // Usunięcie zdjęcia (także kaskadą z ogłoszenia) usuwa jego wektory.
@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('photo_embeddings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('photo_id')->constrained('photos')->cascadeOnDelete();
-            // Np. "dinov2-base+detr-crop+cls-v1" — wektory różnych wersji nie są porównywalne
+            // Np. "dinov2-base+detr-crop+cls-v1" - wektory różnych wersji nie są porównywalne
             $table->string('model_version', 64);
             // ** float32 little-endian, znormalizowany L2 (768 × 4 B = 3 KB dla dinov2-base).
             // Null = nie udało się policzyć (uszkodzony plik itp.), powód w "error"

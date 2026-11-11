@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Process;
 // Wyszukiwanie podobnych zwierząt po zdjęciach.
 // PHP: twarde filtry puli kandydatów (SQL), zebranie wektorów, metadane rasa/kolory.
 // Python (cli.py search, tylko numpy): max podobieństwa po zdjęciach, progi, bonusy, ranking.
-// Wynik zawiera top log_floor_n kandydatów (także poniżej progu) z flagą "shown" —
+// Wynik zawiera top log_floor_n kandydatów (także poniżej progu) z flagą "shown" -
 // do wyświetlenia/maila idą tylko shown, reszta jest do logów (etap 4).
 // ---------------------------
 
@@ -23,14 +23,14 @@ class PhotoMatchService
     public function __construct(private PhotoEmbeddingService $embeddings) {}
 
     /**
-     * Szuka podobnych ogłoszeń dla zgłoszenia (AnimalEdit — nowe, przed moderacją)
+     * Szuka podobnych ogłoszeń dla zgłoszenia (AnimalEdit - nowe, przed moderacją)
      * albo zatwierdzonego ogłoszenia (Animal).
      *
      * status:
-     *  - ok          — ranking policzony (results może być pusty = "brak podobnych")
-     *  - no_photos   — zgłoszenie bez zdjęć, nie ma czego porównywać
-     *  - pending     — część zdjęć zapytania nie ma jeszcze wektora (worker nie zdążył)
-     *  - no_embedding — żadne zdjęcie zapytania nie dało się policzyć (np. uszkodzone pliki)
+     *  - ok          - ranking policzony (results może być pusty = "brak podobnych")
+     *  - no_photos   - zgłoszenie bez zdjęć, nie ma czego porównywać
+     *  - pending     - część zdjęć zapytania nie ma jeszcze wektora (worker nie zdążył)
+     *  - no_embedding - żadne zdjęcie zapytania nie dało się policzyć (np. uszkodzone pliki)
      */
     public function search(Animal|AnimalEdit $query): array
     {
@@ -73,7 +73,7 @@ class PhotoMatchService
         $breedOf = fn ($id) => in_array($id, $neutral) ? null : $id;
 
         // ** Plik binarny: najpierw wiersze zapytania, potem kandydaci po kolei.
-        // Wektory kandydatów idą do pliku strumieniowo (partiami), nie przez pamięć PHP —
+        // Wektory kandydatów idą do pliku strumieniowo (partiami), nie przez pamięć PHP -
         // przy dziesiątkach tysięcy zdjęć to setki MB
         $file = tempnam(sys_get_temp_dir(), 'nmatch_');
         $handle = fopen($file, 'wb');
@@ -88,7 +88,7 @@ class PhotoMatchService
             $pending = 0;
 
             foreach ($candidates as $id => $animal) {
-                // ** Kandydat bez żadnego wektora (worker jeszcze nie policzył) — nie porównujemy,
+                // ** Kandydat bez żadnego wektora (worker jeszcze nie policzył) - nie porównujemy,
                 // tylko liczymy, żeby było widać, że pula nie jest kompletna
                 if (! isset($rowsByAnimal[$id])) {
                     $pending++;
@@ -144,7 +144,7 @@ class PhotoMatchService
         ]);
     }
 
-    // ** Parametry wyszukiwania przekazywane do Pythona i zapisywane w logu —
+    // ** Parametry wyszukiwania przekazywane do Pythona i zapisywane w logu -
     // w logu musi być dokładnie to, czego użyto
     protected function params(array $cfg): array
     {
@@ -160,7 +160,7 @@ class PhotoMatchService
     }
 
     // ---------------------------
-    // Twarde filtry — zwraca [animal_id => Animal] (tylko potrzebne kolumny)
+    // Twarde filtry - zwraca [animal_id => Animal] (tylko potrzebne kolumny)
     // ---------------------------
     protected function candidates(Animal|AnimalEdit $query, array $f)
     {
@@ -259,7 +259,7 @@ class PhotoMatchService
         $out = json_decode($result->output(), true);
 
         if (! $result->successful() || ($out['status'] ?? null) !== 'ok') {
-            throw new \RuntimeException('match search — błąd Pythona: '.mb_substr($result->errorOutput(), -1000));
+            throw new \RuntimeException('match search - błąd Pythona: '.mb_substr($result->errorOutput(), -1000));
         }
 
         if (($out['model_version'] ?? null) !== $mv) {

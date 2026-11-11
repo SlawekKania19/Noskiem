@@ -18,7 +18,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
 // ---------------------------
-// Panel "Dopasowanie AI" — u góry stan workera/kolejki/maili (MatchStatusWidget),
+// Panel "Dopasowanie AI" - u góry stan workera/kolejki/maili (MatchStatusWidget),
 // niżej ustawienia dopasowań po zdjęciach (kolejka wektorów,
 // progi wyszukiwania, filtry, maile). Zapis do tabeli settings przez MatchSettings,
 // które nadpisuje config/noskiem_match.php. Zmiana działa od następnego uruchomienia
@@ -60,7 +60,7 @@ class MatchAi extends Page implements HasForms
         return $schema
             ->components([
                 Section::make('Kolejka liczenia wektorów')
-                    ->description('Worker co minutę bierze partię zdjęć bez wektora i liczy je modelem AI. Pauza ani okno godzin niczego nie gubią — zdjęcia po prostu czekają w kolejce.')
+                    ->description('Worker co minutę bierze partię zdjęć bez wektora i liczy je modelem AI. Pauza ani okno godzin niczego nie gubią - zdjęcia po prostu czekają w kolejce.')
                     ->columns(2)
                     ->schema([
                         Toggle::make('queue.paused')
@@ -99,13 +99,13 @@ class MatchAi extends Page implements HasForms
                     ]),
 
                 Section::make('Wyszukiwanie podobnych')
-                    ->description('Progi dotyczą samego podobieństwa zdjęć (0–1). Zostały wstępnie skalibrowane — zmiana wpływa na to, kto dostaje maile z dopasowaniami. Niższy próg = więcej wyników, ale też więcej przypadkowych.')
+                    ->description('Progi dotyczą samego podobieństwa zdjęć (0–1). Zostały wstępnie skalibrowane - zmiana wpływa na to, kto dostaje maile z dopasowaniami. Niższy próg = więcej wyników, ale też więcej przypadkowych.')
                     ->columns(3)
                     ->schema([
                         TextInput::make('search.threshold_possible')
                             ->label('Próg „możliwe dopasowanie”')
                             ->numeric()->minValue(0)->maxValue(1)->step(0.01)->required()
-                            ->helperText('Poniżej — nie pokazujemy. '.$this->defaultHint('search.threshold_possible')),
+                            ->helperText('Poniżej - nie pokazujemy. '.$this->defaultHint('search.threshold_possible')),
 
                         TextInput::make('search.threshold_strong')
                             ->label('Próg „bardzo podobne”')
@@ -119,7 +119,7 @@ class MatchAi extends Page implements HasForms
                     ]),
 
                 Section::make('Filtry kandydatów')
-                    ->description('Twarde warunki — ogłoszenie, które ich nie spełnia, w ogóle nie jest porównywane.')
+                    ->description('Twarde warunki - ogłoszenie, które ich nie spełnia, w ogóle nie jest porównywane.')
                     ->columns(2)
                     ->schema([
                         TextInput::make('search.filters.radius_km')
@@ -154,7 +154,7 @@ class MatchAi extends Page implements HasForms
                             ->label('Jak długo zatwierdzone zgłoszenie czeka na wektory zdjęć')
                             ->numeric()->integer()->minValue(1)->maxValue(720)->required()
                             ->suffix('h')
-                            ->helperText('Po tym czasie (np. przy długiej pauzie) mail nie zostanie wysłany — po kilku dniach byłby już mylący. '.$this->defaultHint('notify.ttl_hours')),
+                            ->helperText('Po tym czasie (np. przy długiej pauzie) mail nie zostanie wysłany - po kilku dniach byłby już mylący. '.$this->defaultHint('notify.ttl_hours')),
                     ]),
             ])
             ->statePath('data');
@@ -194,7 +194,7 @@ class MatchAi extends Page implements HasForms
                 ->color('warning')
                 ->requiresConfirmation()
                 ->modalHeading('Ponowić zdjęcia z błędem?')
-                ->modalDescription('Zdjęcia, których nie udało się policzyć, wrócą do kolejki — worker spróbuje je policzyć w najbliższych partiach.')
+                ->modalDescription('Zdjęcia, których nie udało się policzyć, wrócą do kolejki - worker spróbuje je policzyć w najbliższych partiach.')
                 ->visible(fn () => app(MatchStatus::class)->failedCount() > 0)
                 ->action(function () {
                     $count = app(MatchStatus::class)->retryFailed();
@@ -208,7 +208,7 @@ class MatchAi extends Page implements HasForms
                 ->color('gray')
                 ->requiresConfirmation()
                 ->modalHeading('Przywrócić ustawienia domyślne?')
-                ->modalDescription('Wszystkie zmiany z tej strony zostaną usunięte — obowiązywać będą wartości z pliku konfiguracji (.env).')
+                ->modalDescription('Wszystkie zmiany z tej strony zostaną usunięte - obowiązywać będą wartości z pliku konfiguracji (.env).')
                 ->action(function () {
                     MatchSettings::reset();
                     $this->fillForm();

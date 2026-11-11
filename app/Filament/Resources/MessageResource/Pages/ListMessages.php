@@ -5,7 +5,7 @@ namespace App\Filament\Resources\MessageResource\Pages;
 use App\Filament\Resources\MessageResource;
 use Filament\Resources\Pages\ListRecords;
 
-// Strona listy wiadomości — brak przycisku Utwórz (tylko frontend)
+// Strona listy wiadomości - brak przycisku Utwórz (tylko frontend)
 class ListMessages extends ListRecords
 {
     protected static string $resource = MessageResource::class;

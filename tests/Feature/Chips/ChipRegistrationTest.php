@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 // ---------------------------
-// Bezpłatna baza chipów — rejestracja, potwierdzenie e-mail (ChipRegistrationController)
+// Bezpłatna baza chipów - rejestracja, potwierdzenie e-mail (ChipRegistrationController)
 // ---------------------------
 
 class ChipRegistrationTest extends TestCase
@@ -42,7 +42,7 @@ class ChipRegistrationTest extends TestCase
         $this->city = City::forceCreate(['name_pl' => 'Katowice', 'name_en' => 'Katowice', 'voivodeship_id' => $this->voivodeship->id]);
     }
 
-    // ** Poprawny zestaw danych formularza — testy nadpisują pojedyncze pola
+    // ** Poprawny zestaw danych formularza - testy nadpisują pojedyncze pola
     private function payload(array $overrides = []): array
     {
         return array_merge([
@@ -124,7 +124,7 @@ class ChipRegistrationTest extends TestCase
         Mail::assertSent(NewChipRegistrationForModeration::class, 1);
     }
 
-    // ** Zapisany przez formularz i ręcznie zatwierdzony — moderacja dojdzie w Filament
+    // ** Zapisany przez formularz i ręcznie zatwierdzony - moderacja dojdzie w Filament
     private function approvedRegistration(): ChipRegistration
     {
         $this->post('/baza-chipow', $this->payload(['additional_info' => 'Boi się burzy']));
@@ -164,7 +164,7 @@ class ChipRegistrationTest extends TestCase
 
         ChipRegistration::sole()->update(['mod_status' => 'approved']);
 
-        // ** Tylko dokładne dopasowanie — bez wyszukiwania po fragmencie
+        // ** Tylko dokładne dopasowanie - bez wyszukiwania po fragmencie
         $this->getJson('/baza-chipow/szukaj?chip=616093900')->assertJson(['found' => false]);
     }
 

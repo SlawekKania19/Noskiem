@@ -19,7 +19,7 @@ class PostFactory extends Factory
         $title = rtrim(fake()->sentence(6), '.');
 
         return [
-            // ** Bierze istniejącego autora, a jak go nie ma — tworzy konto z rolą autora
+            // ** Bierze istniejącego autora, a jak go nie ma - tworzy konto z rolą autora
             'user_id' => User::query()->where('is_author', true)->value('id')
                 ?? User::factory()->state(['is_author' => true]),
             'blog_category_id' => null,
@@ -37,7 +37,7 @@ class PostFactory extends Factory
         ];
     }
 
-    // Wpis roboczy — niewidoczny publicznie
+    // Wpis roboczy - niewidoczny publicznie
     public function draft(): static
     {
         return $this->state(fn () => [
@@ -46,7 +46,7 @@ class PostFactory extends Factory
         ]);
     }
 
-    // Wpis zaplanowany na przyszłość — opublikowany, ale data jeszcze nie minęła
+    // Wpis zaplanowany na przyszłość - opublikowany, ale data jeszcze nie minęła
     public function scheduled(): static
     {
         return $this->state(fn () => [

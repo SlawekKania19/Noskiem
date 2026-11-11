@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    // ** animal_id musi być nullable — nowe ogłoszenia odrzucone przed zatwierdzeniem nie mają jeszcze rekordu Animal
+    // ** animal_id musi być nullable - nowe ogłoszenia odrzucone przed zatwierdzeniem nie mają jeszcze rekordu Animal
     public function up(): void
     {
         Schema::table('moderation_logs', function (Blueprint $table) {

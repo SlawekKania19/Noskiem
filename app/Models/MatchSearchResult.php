@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // ---------------------------
-// Kandydat w logu wyszukiwania — także poniżej progu (shown = false)
+// Kandydat w logu wyszukiwania - także poniżej progu (shown = false)
 // ---------------------------
 
 class MatchSearchResult extends Model

@@ -6,7 +6,7 @@
     <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Zgłoszenie opublikowane!</h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Dobra wiadomość — Twoje zgłoszenie „też widziałem" zostało zatwierdzone i jest już widoczne
+        Dobra wiadomość - Twoje zgłoszenie „też widziałem" zostało zatwierdzone i jest już widoczne
         na stronie ogłoszenia „{{ $sighting->animal->generated_title }}".
     </p>
 

@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('animals', function (Blueprint $table) {
-            // Zdenormalizowany tekst do wyszukiwania pełnotekstowego — budowany i odświeżany
+            // Zdenormalizowany tekst do wyszukiwania pełnotekstowego - budowany i odświeżany
             // automatycznie przez Animal::syncSearchIndex(), nie wypełniany ręcznie.
             $table->text('search_index')->nullable()->after('longitude');
         });
 
         // ** Indeks FULLTEXT tylko na sterownikach, które go wspierają (MySQL/MariaDB).
-        // Baza testowa (SQLite) go nie zna — pomijamy; wyszukiwarka pełnotekstowa i tak
+        // Baza testowa (SQLite) go nie zna - pomijamy; wyszukiwarka pełnotekstowa i tak
         // działa wyłącznie na produkcyjnym MySQL (patrz AnimalController::index).
         if ($this->supportsFullText()) {
             Schema::table('animals', function (Blueprint $table) {

@@ -59,7 +59,7 @@ class BlogCategoryResource extends Resource
 
                 Textarea::make('description')
                     ->label('Opis')
-                    ->helperText('Krótki opis kategorii — pokazywany na stronie kategorii.')
+                    ->helperText('Krótki opis kategorii - pokazywany na stronie kategorii.')
                     ->maxLength(255)
                     ->rows(2),
 

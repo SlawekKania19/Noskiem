@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 // ---------------------------
-// Wpis bloga. `body` to gotowy HTML z edytora WYSIWYG (Filament RichEditor) —
+// Wpis bloga. `body` to gotowy HTML z edytora WYSIWYG (Filament RichEditor) -
 // autorzy to zaufany personel (rola "is_author"), więc renderujemy go wprost,
 // tak samo jak treść stron statycznych (App\Models\Page).
 // ---------------------------
@@ -73,7 +73,7 @@ class Post extends Model
 
     // ** Akcesory
 
-    // Treść jako HTML — RichEditor zapisuje już HTML, oddajemy bez zmian
+    // Treść jako HTML - RichEditor zapisuje już HTML, oddajemy bez zmian
     public function getBodyHtmlAttribute(): string
     {
         return (string) $this->body;
@@ -88,7 +88,7 @@ class Post extends Model
         return max(1, (int) ceil($words / 200));
     }
 
-    // Adres URL okładki (albo null) — do <img> i og:image
+    // Adres URL okładki (albo null) - do <img> i og:image
     public function getCoverUrlAttribute(): ?string
     {
         return $this->cover_path

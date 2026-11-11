@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Edycja wpisu w bazie chipów — Noskiem.pl')
+@section('title', 'Edycja wpisu w bazie chipów - Noskiem.pl')
 
 @section('content')
 
     {{-- ---------------------------
-         Edycja wpisu w bazie chipów przez właściciela (link z tokenem) —
+         Edycja wpisu w bazie chipów przez właściciela (link z tokenem) -
          patrz ChipRegistrationController::edit/update/destroy
          --------------------------- --}}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -14,18 +14,18 @@
             &larr; Baza chipów
         </a>
 
-        <h1 class="mt-2 text-[24px] font-semibold text-[#283618]">Edycja wpisu — {{ $registration->animal_name }}</h1>
+        <h1 class="mt-2 text-[24px] font-semibold text-[#283618]">Edycja wpisu - {{ $registration->animal_name }}</h1>
         <p class="mt-1 text-[14px] text-[#616657]">Chip nr {{ $registration->chip_number }}</p>
 
-        {{-- ** Stan wpisu — co się stanie po zapisaniu zmian --}}
+        {{-- ** Stan wpisu - co się stanie po zapisaniu zmian --}}
         <div class="mt-4 rounded-xl bg-[#f5f5f0] px-4 py-3 text-[13px] text-[#616657]">
             @if ($registration->mod_status === 'pending')
                 Wpis czeka jeszcze na zatwierdzenie przez moderatora. Zmiany zostaną zapisane od razu.
             @elseif ($registration->pending_changes)
-                Twoje poprzednie zmiany czekają na zatwierdzenie — formularz je pokazuje. Do tego czasu
+                Twoje poprzednie zmiany czekają na zatwierdzenie - formularz je pokazuje. Do tego czasu
                 w wyszukiwarce widoczna jest wcześniejsza wersja wpisu.
             @else
-                Wpis jest widoczny w wyszukiwarce. Po zapisaniu zmiany trafią do moderacji — do czasu
+                Wpis jest widoczny w wyszukiwarce. Po zapisaniu zmiany trafią do moderacji - do czasu
                 zatwierdzenia widoczna będzie obecna wersja.
             @endif
         </div>
@@ -50,7 +50,7 @@
         </form>
 
         {{-- ---------------------------
-             Usunięcie wpisu — od razu, bez moderacji
+             Usunięcie wpisu - od razu, bez moderacji
              --------------------------- --}}
         <section class="mt-12 border-t border-[#e5e5dc] pt-8">
             <h2 class="text-[16px] font-semibold text-[#283618]">Usuń wpis</h2>

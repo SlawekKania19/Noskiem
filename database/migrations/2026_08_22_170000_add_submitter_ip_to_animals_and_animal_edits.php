@@ -5,9 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Adres IP osoby dodającej/edytującej zgłoszenie — na wypadek problemów prawnych
+// Adres IP osoby dodającej/edytującej zgłoszenie - na wypadek problemów prawnych
 // (kto faktycznie umieścił daną treść). Widoczny wyłącznie w panelu admina
-// (AnimalResource — tylko Admin, patrz RestrictedToAdmin), nigdzie publicznie.
+// (AnimalResource - tylko Admin, patrz RestrictedToAdmin), nigdzie publicznie.
 // ---------------------------
 return new class extends Migration
 {

@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 
 // ---------------------------
 // Kontroler zgłoszeń "też widziałem" pod ogłoszeniem. Dostępny tylko dla
-// zatwierdzonych ogłoszeń ze statusem "found" — dla "lost" ten formularz nie
+// zatwierdzonych ogłoszeń ze statusem "found" - dla "lost" ten formularz nie
 // ma zastosowania (jest już formularz kontaktowy do autora). Flow identyczne
 // jak przy zgłoszeniu ogłoszenia: potwierdzenie e-mail -> moderacja ->
 // zatwierdzenie/odrzucenie (patrz SightingModerationService).
@@ -33,7 +33,7 @@ class SightingController extends Controller
     {
         abort_unless($animal->status === 'found' && $animal->mod_status === 'approved', 404);
 
-        // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
+        // ** Honeypot - pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
         // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
         if ($request->filled('website')) {
             return redirect()->route('animals.show', $animal)
@@ -57,7 +57,7 @@ class SightingController extends Controller
         $photos = $data['photos'] ?? [];
         unset($data['photos'], $data['accept_terms']);
 
-        // ** Gatunek dziedziczony z ogłoszenia — to zgłoszenie dotyczy tego samego zwierzaka
+        // ** Gatunek dziedziczony z ogłoszenia - to zgłoszenie dotyczy tego samego zwierzaka
         $data['animal_id']    = $animal->id;
         $data['species_id']   = $animal->species_id;
         $data['mod_status']   = 'pending';
@@ -83,7 +83,7 @@ class SightingController extends Controller
             ->with('success', "Zgłoszenie zostało zapisane. Sprawdź skrzynkę {$sighting->contact_email} i potwierdź adres, żeby trafiło do moderacji.");
     }
 
-    // Zwraca numer telefonu autora zgłoszenia w formacie JSON — dociągany dopiero po
+    // Zwraca numer telefonu autora zgłoszenia w formacie JSON - dociągany dopiero po
     // kliknięciu "Pokaż numer" w modalu kontaktu (patrz animals/show.blade.php), żeby nie
     // siedział otwarcie w źródle HTML. Limit prób w routes/web.php (throttle:reveal-phone).
     public function phone(Sighting $sighting)
@@ -94,7 +94,7 @@ class SightingController extends Controller
     }
 
     // Potwierdza adres e-mail zgłaszającego (link z maila SightingSubmissionReceived).
-    // Dopiero po tym moderatorzy dostają powiadomienie — ochrona przed botami i
+    // Dopiero po tym moderatorzy dostają powiadomienie - ochrona przed botami i
     // fałszywymi adresami, tak samo jak przy zgłoszeniu ogłoszenia.
     public function confirmEmail(Sighting $sighting, Request $request)
     {

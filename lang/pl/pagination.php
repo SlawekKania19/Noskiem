@@ -1,7 +1,7 @@
 <?php
 
 // ---------------------------
-// Nawigacja stronicowania (m.in. lista wpisów bloga — $posts->links()).
+// Nawigacja stronicowania (m.in. lista wpisów bloga - $posts->links()).
 // ---------------------------
 
 return [

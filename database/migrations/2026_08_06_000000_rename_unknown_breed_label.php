@@ -9,7 +9,7 @@ return new class extends Migration
      * Wykonaj migrację.
      *
      * "Nie wiem" jako nazwa rasy wyglądało źle na kartach ogłoszeń i stronie
-     * szczegółów (np. "Rasa: Nie wiem") — zmieniamy istniejące wiersze na
+     * szczegółów (np. "Rasa: Nie wiem") - zmieniamy istniejące wiersze na
      * "Rasa nieznana", zgodnie z aktualizacją BreedsSeeder.
      */
     public function up(): void

@@ -1,6 +1,6 @@
 # Regulamin serwisu Noskiem.org
 
-**Wersja robocza (szkic) — do uzupełnienia i weryfikacji prawnej przed publikacją.**
+**Wersja robocza (szkic) - do uzupełnienia i weryfikacji prawnej przed publikacją.**
 
 Data ostatniej aktualizacji szkicu: 06.09.2026.
 
@@ -14,7 +14,7 @@ Data ostatniej aktualizacji szkicu: 06.09.2026.
    42-584 Dobieszowice
    NIP: 498-024-17-88, REGON: 365574646
 
-   *[DO UZUPEŁNIENIA: proszę potwierdzić, czy podmiotem świadczącym usługę ma być ta sama działalność gospodarcza co administrator danych z Polityki Prywatności, czy odrębny podmiot (np. przyszła spółka) — patrz też otwarta kwestia nr 1 w Polityce Prywatności dot. formy prawnej.]*
+   *[DO UZUPEŁNIENIA: proszę potwierdzić, czy podmiotem świadczącym usługę ma być ta sama działalność gospodarcza co administrator danych z Polityki Prywatności, czy odrębny podmiot (np. przyszła spółka) - patrz też otwarta kwestia nr 1 w Polityce Prywatności dot. formy prawnej.]*
 
 3. Kontakt z Usługodawcą możliwy jest pod adresem e-mail: **kontakt@noskiem.org**.
 4. Regulamin jest udostępniony nieodpłatnie na stronie Serwisu pod adresem [noskiem.org/regulamin](/regulamin) w formie umożliwiającej jego pozyskanie, odtwarzanie i utrwalanie, zgodnie z art. 8 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.
@@ -22,13 +22,13 @@ Data ostatniej aktualizacji szkicu: 06.09.2026.
 
 ## 2. Definicje
 
-- **Serwis** — serwis internetowy Noskiem.org wraz z wszystkimi jego funkcjonalnościami.
-- **Użytkownik** — każda osoba korzystająca z Serwisu, w tym w szczególności dodająca Ogłoszenie, Zgłoszenie obserwacji lub Wiadomość.
-- **Ogłoszenie** — wpis dodany przez Użytkownika w Serwisie dotyczący zwierzęcia zaginionego albo znalezionego.
-- **Zgłoszenie obserwacji** — informacja dodana przez Użytkownika o zaobserwowaniu zwierzęcia, które może odpowiadać opisowi z Ogłoszenia.
-- **Wiadomość** — wiadomość przesłana za pośrednictwem formularza kontaktowego przy Ogłoszeniu do osoby, która je dodała.
-- **Token edycyjny** — unikalny, poufny link/kod przesyłany na adres e-mail podany przy dodawaniu Ogłoszenia, umożliwiający jego edycję lub usunięcie bez konieczności zakładania konta.
-- **Panel moderacji** — wewnętrzne narzędzie Usługodawcy służące do przeglądania, zatwierdzania, edycji i usuwania treści w Serwisie.
+- **Serwis** - serwis internetowy Noskiem.org wraz z wszystkimi jego funkcjonalnościami.
+- **Użytkownik** - każda osoba korzystająca z Serwisu, w tym w szczególności dodająca Ogłoszenie, Zgłoszenie obserwacji lub Wiadomość.
+- **Ogłoszenie** - wpis dodany przez Użytkownika w Serwisie dotyczący zwierzęcia zaginionego albo znalezionego.
+- **Zgłoszenie obserwacji** - informacja dodana przez Użytkownika o zaobserwowaniu zwierzęcia, które może odpowiadać opisowi z Ogłoszenia.
+- **Wiadomość** - wiadomość przesłana za pośrednictwem formularza kontaktowego przy Ogłoszeniu do osoby, która je dodała.
+- **Token edycyjny** - unikalny, poufny link/kod przesyłany na adres e-mail podany przy dodawaniu Ogłoszenia, umożliwiający jego edycję lub usunięcie bez konieczności zakładania konta.
+- **Panel moderacji** - wewnętrzne narzędzie Usługodawcy służące do przeglądania, zatwierdzania, edycji i usuwania treści w Serwisie.
 
 ## 3. Rodzaj i zakres usług świadczonych drogą elektroniczną
 
@@ -39,15 +39,15 @@ Data ostatniej aktualizacji szkicu: 06.09.2026.
    - umożliwienie przeglądania i wyszukiwania Ogłoszeń opublikowanych w Serwisie (bazy ogłoszeń), w tym na mapie,
    - umożliwienie edycji i usunięcia własnego Ogłoszenia za pomocą Tokenu edycyjnego,
    - przesyłanie powiadomień e-mail związanych z obsługą Ogłoszenia (potwierdzenie dodania, link edycyjny, informacja o moderacji, informacja o nowej Wiadomości lub Zgłoszeniu obserwacji).
-2. Korzystanie z Serwisu jest bezpłatne dla Użytkowników. *[DO UZUPEŁNIENIA: opisać docelowe usługi płatne/sponsorskie (panel dla miast, pakiety sponsorskie), jeśli i kiedy zostaną uruchomione — obecnie poza zakresem MVP, patrz Faza 3/4 w notatkach projektowych.]*
-3. Serwis nie wymaga zakładania konta przez osoby dodające Ogłoszenia — zarządzanie Ogłoszeniem odbywa się wyłącznie za pomocą Tokenu edycyjnego wysyłanego e-mailem.
+2. Korzystanie z Serwisu jest bezpłatne dla Użytkowników. *[DO UZUPEŁNIENIA: opisać docelowe usługi płatne/sponsorskie (panel dla miast, pakiety sponsorskie), jeśli i kiedy zostaną uruchomione - obecnie poza zakresem MVP, patrz Faza 3/4 w notatkach projektowych.]*
+3. Serwis nie wymaga zakładania konta przez osoby dodające Ogłoszenia - zarządzanie Ogłoszeniem odbywa się wyłącznie za pomocą Tokenu edycyjnego wysyłanego e-mailem.
 
 ## 4. Warunki techniczne korzystania z Serwisu
 
 Do prawidłowego korzystania z Serwisu niezbędne są:
 - urządzenie z dostępem do sieci Internet,
 - przeglądarka internetowa w aktualnej wersji, z włączoną obsługą JavaScript i plików cookies,
-- aktywny adres e-mail — niezbędny do dodania Ogłoszenia, otrzymania Tokenu edycyjnego oraz powiadomień.
+- aktywny adres e-mail - niezbędny do dodania Ogłoszenia, otrzymania Tokenu edycyjnego oraz powiadomień.
 
 Usługodawca dokłada starań, aby korzystanie z Serwisu było możliwe dla wszystkich popularnych przeglądarek internetowych, systemów operacyjnych i typów urządzeń, jednak nie gwarantuje pełnej kompatybilności ze wszystkimi konfiguracjami sprzętowo-programowymi.
 
@@ -75,7 +75,7 @@ Usługodawca dokłada starań, aby korzystanie z Serwisu było możliwe dla wszy
 
 1. Zamieszczając zdjęcia i inne treści w Serwisie, Użytkownik udziela Usługodawcy niewyłącznej, nieodpłatnej licencji na ich wykorzystanie w zakresie niezbędnym do świadczenia usług Serwisu, w tym publikacji, wyświetlania i przechowywania w ramach Ogłoszenia, generowania plakatu ogłoszenia (pkt 7.3 poniżej) oraz przechowywania przez okres archiwizacji, o którym mowa w Polityce Prywatności.
 2. Usługodawca nie rości sobie praw autorskich do treści zamieszczanych przez Użytkowników poza zakresem opisanym powyżej.
-3. Serwis udostępnia funkcję generowania plakatu ogłoszenia w formacie PDF (w wariantach A4/A5) na podstawie treści zatwierdzonego Ogłoszenia, w tym zdjęcia zwierzęcia oraz danych kontaktowych podanych przez osobę zgłaszającą. Plakat jest dostępny pod publicznym adresem powiązanym z Ogłoszeniem i może zostać pobrany oraz wydrukowany przez dowolnego Użytkownika — także innego niż osoba, która dodała Ogłoszenie — w celu wsparcia poszukiwań (np. rozwieszenia w okolicy zdarzenia).
+3. Serwis udostępnia funkcję generowania plakatu ogłoszenia w formacie PDF (w wariantach A4/A5) na podstawie treści zatwierdzonego Ogłoszenia, w tym zdjęcia zwierzęcia oraz danych kontaktowych podanych przez osobę zgłaszającą. Plakat jest dostępny pod publicznym adresem powiązanym z Ogłoszeniem i może zostać pobrany oraz wydrukowany przez dowolnego Użytkownika - także innego niż osoba, która dodała Ogłoszenie - w celu wsparcia poszukiwań (np. rozwieszenia w okolicy zdarzenia).
 4. Dodając Ogłoszenie, Użytkownik wyraża zgodę na udostępnianie w ten sposób zamieszczonych przez siebie zdjęć oraz danych kontaktowych innym Użytkownikom Serwisu. Pobierając lub drukując plakat, Użytkownik zobowiązuje się wykorzystywać go wyłącznie w celu określonym w pkt 7.3 (pomoc w odnalezieniu/identyfikacji zwierzęcia), bez wprowadzania zmian w jego treści i bez wykorzystania komercyjnego.
 5. Elementy graficzne, oprogramowanie oraz nazwa i logo Serwisu stanowią własność Usługodawcy lub są wykorzystywane na podstawie odpowiednich licencji i podlegają ochronie prawnej.
 
@@ -94,13 +94,13 @@ Zasady przetwarzania danych osobowych Użytkowników opisane są szczegółowo w
 ## 10. Reklamacje
 
 1. Użytkownik ma prawo złożyć reklamację dotyczącą funkcjonowania Serwisu lub świadczonych usług na adres e-mail **kontakt@noskiem.org**.
-2. Reklamacja powinna zawierać co najmniej: opis zgłaszanego problemu, dane kontaktowe umożliwiające udzielenie odpowiedzi oraz — jeśli dotyczy — link do Ogłoszenia, którego dotyczy reklamacja.
+2. Reklamacja powinna zawierać co najmniej: opis zgłaszanego problemu, dane kontaktowe umożliwiające udzielenie odpowiedzi oraz - jeśli dotyczy - link do Ogłoszenia, którego dotyczy reklamacja.
 3. Usługodawca rozpatruje reklamację i udziela odpowiedzi w terminie 14 dni od dnia jej otrzymania, na adres e-mail wskazany przez Użytkownika.
 
 ## 11. Rozwiązanie umowy o świadczenie usług / usunięcie treści
 
 1. Umowa o świadczenie usługi drogą elektroniczną w zakresie danego Ogłoszenia zostaje zawarta z chwilą jego dodania i rozwiązuje się z chwilą jego usunięcia (przez Użytkownika za pomocą Tokenu edycyjnego, przez Usługodawcę zgodnie z pkt 5.3, lub po upływie okresu przechowywania danych wskazanego w Polityce Prywatności).
-2. Użytkownik może w każdej chwili zrezygnować z korzystania z Serwisu poprzez zaprzestanie korzystania z niego oraz — w odniesieniu do własnego Ogłoszenia — jego usunięcie za pomocą Tokenu edycyjnego lub poprzez kontakt z Usługodawcą.
+2. Użytkownik może w każdej chwili zrezygnować z korzystania z Serwisu poprzez zaprzestanie korzystania z niego oraz - w odniesieniu do własnego Ogłoszenia - jego usunięcie za pomocą Tokenu edycyjnego lub poprzez kontakt z Usługodawcą.
 
 ## 12. Zmiany Regulaminu
 
@@ -120,12 +120,12 @@ Zasady przetwarzania danych osobowych Użytkowników opisane są szczegółowo w
 
 Oznaczone w dokumencie jako `[DO UZUPEŁNIENIA]`:
 
-1. Potwierdzenie podmiotu-Usługodawcy — ta sama forma prawna co administrator danych w Polityce Prywatności, czy inny podmiot (powiązane z otwartą kwestią formy prawnej projektu).
-2. Opis docelowych usług płatnych/sponsorskich (panel dla miast, sponsoring) — na razie pominięty jako poza zakresem MVP; do dodania przy wdrażaniu Fazy 3/4.
+1. Potwierdzenie podmiotu-Usługodawcy - ta sama forma prawna co administrator danych w Polityce Prywatności, czy inny podmiot (powiązane z otwartą kwestią formy prawnej projektu).
+2. Opis docelowych usług płatnych/sponsorskich (panel dla miast, sponsoring) - na razie pominięty jako poza zakresem MVP; do dodania przy wdrażaniu Fazy 3/4.
 3. Dokładna procedura weryfikacji tożsamości przy utracie Tokenu edycyjnego.
 4. Czy dodać klauzulę o pozasądowym rozstrzyganiu sporów / platformie ODR.
 5. Data wejścia w życie Regulaminu.
-6. Rozważyć (wspólnie z Polityką Prywatności) dodanie checkboxa akceptacji Regulaminu i Polityki Prywatności przy formularzu zgłoszenia — patrz otwarta kwestia nr 7 w `polityka-prywatnosci.md`.
-7. **Do weryfikacji z Polityką Prywatności:** plakat PDF (pkt 7.3–7.4) pokazuje numer telefonu zgłaszającego (jeśli podany), a plakat jest dostępny publicznie pod adresem `/animals/{id}/poster` bez logowania. Tymczasem `polityka-prywatnosci.md` (pkt 2.1) stwierdza, że „telefon nie jest publicznie widoczny na stronie ogłoszenia” — co jest prawdą tylko dla samej strony ogłoszenia, nie dla plakatu. Warto doprecyzować to zastrzeżenie w Polityce Prywatności, żeby nie wprowadzało w błąd co do faktycznej widoczności numeru telefonu.
+6. Rozważyć (wspólnie z Polityką Prywatności) dodanie checkboxa akceptacji Regulaminu i Polityki Prywatności przy formularzu zgłoszenia - patrz otwarta kwestia nr 7 w `polityka-prywatnosci.md`.
+7. **Do weryfikacji z Polityką Prywatności:** plakat PDF (pkt 7.3–7.4) pokazuje numer telefonu zgłaszającego (jeśli podany), a plakat jest dostępny publicznie pod adresem `/animals/{id}/poster` bez logowania. Tymczasem `polityka-prywatnosci.md` (pkt 2.1) stwierdza, że „telefon nie jest publicznie widoczny na stronie ogłoszenia” - co jest prawdą tylko dla samej strony ogłoszenia, nie dla plakatu. Warto doprecyzować to zastrzeżenie w Polityce Prywatności, żeby nie wprowadzało w błąd co do faktycznej widoczności numeru telefonu.
 
 **Zastrzeżenie:** to jest roboczy szkic przygotowany jako punkt wyjścia do dalszej pracy, nie porada prawna. Przed publikacją serwisu warto skonsultować dokument z prawnikiem, zwłaszcza w zakresie odpowiedzialności Usługodawcy i zgodności z przepisami o świadczeniu usług drogą elektroniczną oraz ochronie danych osobowych.

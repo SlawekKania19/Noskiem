@@ -1,11 +1,11 @@
 @php
     // Teksty pod przełącznikiem Zaginiony/Znaleziony, edytowalne z panelu Filament (App\Filament\Pages\Settings)
-    $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.');
-    $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
-    $locationHintLost = \App\Models\Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.');
-    $locationHintFound = \App\Models\Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.');
+    $createFormHintLost = \App\Models\Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej - im więcej szczegółów, tym większa szansa na odnalezienie.');
+    $createFormHintFound = \App\Models\Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie - Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.');
+    $locationHintLost = \App\Models\Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni - to zwiększa szansę na odnalezienie.');
+    $locationHintFound = \App\Models\Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę - pomoże to właścicielowi je zidentyfikować.');
 
-    // Wyliczone osobno (bez przecinków w wyrażeniu) — @json() w Blade dzieli argument
+    // Wyliczone osobno (bez przecinków w wyrażeniu) - @json() w Blade dzieli argument
     // po przecinkach, więc zagnieżdżone wywołania w jednej linii psują escapowanie
     $initialStatus = old('status', request('status', ''));
     $initialSpeciesId = old('species_id', '');
@@ -22,7 +22,7 @@
 
 @extends('layouts.public')
 
-@section('title', 'Dodaj ogłoszenie — Noskiem.pl')
+@section('title', 'Dodaj ogłoszenie - Noskiem.pl')
 
 @push('head-assets')
     @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
@@ -67,7 +67,7 @@
         >
             @csrf
 
-            {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+            {{-- ** Honeypot - pole niewidoczne dla ludzi, ale boty często wypełniają
                  każde pole formularza; wypełnione = spam (patrz AnimalEditController::store) --}}
             <div style="position:absolute; left:-9999px;" aria-hidden="true">
                 <label for="website">Strona www</label>
@@ -294,7 +294,7 @@
                             </label>
                         @endforeach
 
-                        {{-- Niewidoczny checkbox — wykorzystuje natywną walidację przeglądarki, żeby
+                        {{-- Niewidoczny checkbox - wykorzystuje natywną walidację przeglądarki, żeby
                              pokazać dymek z komunikatem bez przeładowania strony (tak jak przy imieniu
                              zwierzaka); prawdziwe kolory idą osobno jako colors[] powyżej --}}
                         <input
@@ -356,7 +356,7 @@
                 <p class="mt-1 text-[13px] text-[#616657]" x-show="status === 'found'" x-cloak>{{ $locationHintFound }}</p>
 
                 <div class="mt-4">
-                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia — poniższe pola uzupełnią się automatycznie, <strong>upewnij się, że są poprawne.</strong></p>
+                    <p class="mt-1 text-[12px] text-[#8f9485]">Kliknij na mapie, żeby ustawić pinezkę w miejscu zdarzenia - poniższe pola uzupełnią się automatycznie, <strong>upewnij się, że są poprawne.</strong></p>
 
                     <button
                         type="button"
@@ -367,7 +367,7 @@
                     </button>
                     <p id="locate-me-error" class="mt-1 hidden text-[12px] text-[#994d0a]"></p>
 
-                    {{-- ** isolate — tworzy osobny kontekst stackowania, żeby z-index kontrolek Leaflet (do 1000) nie "wyciekał" nad elementy fixed (baner ciasteczek, dolna nawigacja mobilna) --}}
+                    {{-- ** isolate - tworzy osobny kontekst stackowania, żeby z-index kontrolek Leaflet (do 1000) nie "wyciekał" nad elementy fixed (baner ciasteczek, dolna nawigacja mobilna) --}}
                     <div
                         id="location-picker-map"
                         class="isolate mt-2 h-72 w-full overflow-hidden rounded-2xl border border-[#e5e5dc]"
@@ -441,7 +441,7 @@
             </section>
 
             {{-- ---------------------------
-                 Zdjęcia — maks. 6, podgląd miniaturek przed wysłaniem
+                 Zdjęcia - maks. 6, podgląd miniaturek przed wysłaniem
                  --------------------------- --}}
             <section
                 x-data="{
@@ -449,7 +449,7 @@
                     maxPhotos: 6,
                     error: '',
                     mainIndex: 0,
-                    // ** Bez atrybutu multiple — z pojedynczym wyborem telefony pokazują
+                    // ** Bez atrybutu multiple - z pojedynczym wyborem telefony pokazują
                     // pełny wybór 'Aparat / Galeria', z multiple niektóre przeglądarki (Safari
                     // na iOS) chowają opcję aparatu
                     addFiles(event) {
@@ -481,7 +481,7 @@
                         this.syncInput();
                     },
                     // ** Realny <input type=file> musi mieć skompletowaną listę plików do wysłania
-                    // formularza — odtwarzamy ją z naszej tablicy przez DataTransfer
+                    // formularza - odtwarzamy ją z naszej tablicy przez DataTransfer
                     syncInput() {
                         const dt = new DataTransfer();
                         this.photos.forEach((photo) => dt.items.add(photo.file));
@@ -490,7 +490,7 @@
                 }"
             >
                 <h2 class="text-[16px] font-semibold text-[#283618]">Zdjęcia</h2>
-                <p class="mt-1 text-[12px] text-[#8f9485]">Maksymalnie 6 zdjęć — dodawaj po kolei, klikając „Dodaj zdjęcie".</p>
+                <p class="mt-1 text-[12px] text-[#8f9485]">Maksymalnie 6 zdjęć - dodawaj po kolei, klikając „Dodaj zdjęcie".</p>
 
                 <input
                     type="file"
@@ -513,7 +513,7 @@
                 @enderror
 
                 <p x-show="photos.length > 1" x-cloak class="mt-3 text-[12px] text-[#8f9485]">
-                    Kliknij gwiazdkę, żeby wybrać zdjęcie główne — to ono pojawi się na karcie ogłoszenia.
+                    Kliknij gwiazdkę, żeby wybrać zdjęcie główne - to ono pojawi się na karcie ogłoszenia.
                 </p>
 
                 <div class="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -613,7 +613,7 @@
             </section>
 
             {{-- ---------------------------
-                 Akceptacja regulaminu i polityki prywatności — wymagana przed wysłaniem
+                 Akceptacja regulaminu i polityki prywatności - wymagana przed wysłaniem
                  --------------------------- --}}
             <div>
                 <label class="flex items-start gap-2 text-[13px] text-[#283618]">

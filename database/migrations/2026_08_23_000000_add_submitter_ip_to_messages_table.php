@@ -5,8 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Adres IP osoby wysyłającej wiadomość do autora ogłoszenia — na wypadek
-// problemów prawnych. Widoczny wyłącznie w panelu admina (MessageResource —
+// Adres IP osoby wysyłającej wiadomość do autora ogłoszenia - na wypadek
+// problemów prawnych. Widoczny wyłącznie w panelu admina (MessageResource -
 // RestrictedToAdmin), nigdzie publicznie.
 // ---------------------------
 return new class extends Migration

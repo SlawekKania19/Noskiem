@@ -2,17 +2,17 @@
 
 @php
     // ---------------------------
-    // Meta — pola SEO z panelu, a gdy puste: tytuł / zajawka wpisu
+    // Meta - pola SEO z panelu, a gdy puste: tytuł / zajawka wpisu
     // ---------------------------
     $metaTitle = $post->meta_title ?: $post->title;
     $metaDescription = $post->meta_description ?: $post->excerpt;
 @endphp
 
-@section('title', $metaTitle.' — Noskiem.pl')
+@section('title', $metaTitle.' - Noskiem.pl')
 @section('description', $metaDescription)
 
 @push('head-assets')
-    <link rel="alternate" type="application/rss+xml" title="Blog — Noskiem.pl" href="{{ route('blog.feed') }}">
+    <link rel="alternate" type="application/rss+xml" title="Blog - Noskiem.pl" href="{{ route('blog.feed') }}">
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ $metaTitle }}">
     @if ($metaDescription)
@@ -28,10 +28,10 @@
 
     <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {{-- ** Baner podglądu — tylko dla admina/autora oglądającego nieopublikowany wpis --}}
+        {{-- ** Baner podglądu - tylko dla admina/autora oglądającego nieopublikowany wpis --}}
         @unless ($post->isPublished())
             <div class="mb-6 rounded-xl bg-[#fcecd1] px-4 py-3 text-[13px] font-medium text-[#994d0a]">
-                Podgląd — wpis nie jest jeszcze opublikowany. Ten link nie zadziała dla czytelników.
+                Podgląd - wpis nie jest jeszcze opublikowany. Ten link nie zadziała dla czytelników.
             </div>
         @endunless
 
@@ -48,7 +48,7 @@
 
         <h1 class="mt-2 text-[32px] font-semibold leading-tight text-[#283618]">{{ $post->title }}</h1>
 
-        {{-- ** Wyróżniony autor pod tytułem — miniatura + nazwa, klikalne do strony autora --}}
+        {{-- ** Wyróżniony autor pod tytułem - miniatura + nazwa, klikalne do strony autora --}}
         @if ($post->author)
             <div class="mt-4">
                 @include('blog.partials.author-badge', ['author' => $post->author, 'size' => 'sm'])
@@ -62,7 +62,7 @@
         </p>
 
         @if ($post->cover_url)
-            {{-- ** Limit wysokości — przy szerokim kontenerze pionowa okładka potrafiła
+            {{-- ** Limit wysokości - przy szerokim kontenerze pionowa okładka potrafiła
                  zająć cały ekran i zepchnąć treść poniżej zgięcia --}}
             <img
                 src="{{ $post->cover_url }}"
@@ -71,13 +71,13 @@
             >
         @endif
 
-        {{-- ** Treść z RichEditora (HTML) — renderujemy jak treść stron statycznych --}}
+        {{-- ** Treść z RichEditora (HTML) - renderujemy jak treść stron statycznych --}}
         <div class="prose prose-neutral mt-8 max-w-none prose-headings:text-[#283618] prose-a:text-[#283618]">
             {!! $post->body_html !!}
         </div>
 
         {{-- ---------------------------
-             Stopka autora — skonfigurowana przez autora, wyraźnie oddzielona od treści
+             Stopka autora - skonfigurowana przez autora, wyraźnie oddzielona od treści
              --------------------------- --}}
         @if ($post->author && $post->author->signature_html)
             <div class="mt-12 rounded-2xl border border-[#e5e5dc] bg-[#f8f8f4] p-6">

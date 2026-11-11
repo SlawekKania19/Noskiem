@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 
 // ---------------------------
 // Resource statycznych podstron (np. "cookies", w przyszłości "regulamin").
-// Slug jest ustalany tylko przy tworzeniu strony — zablokowany do edycji,
+// Slug jest ustalany tylko przy tworzeniu strony - zablokowany do edycji,
 // żeby nie zepsuć linków prowadzących do danej podstrony (np. z banera cookies).
 // ---------------------------
 
@@ -37,7 +37,7 @@ class PageResource extends Resource
     public static function form(Schema $schema): Schema
     {
         // Domyślnie strona edycji dzieli się na 2 kolumny (widoczne np. przy Ogłoszeniach
-        // z kilkoma sekcjami side-by-side) — wymuszamy 1, żeby jedyna sekcja formularza
+        // z kilkoma sekcjami side-by-side) - wymuszamy 1, żeby jedyna sekcja formularza
         // zajmowała całą szerokość zamiast tylko połowy
         return $schema->columns(1)->components([
             Section::make()->schema([

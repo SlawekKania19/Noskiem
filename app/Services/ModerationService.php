@@ -27,7 +27,7 @@ class ModerationService
     /**
      * Zatwierdza AnimalEdit.
      * Dla nowych ogłoszeń (animal_id = null) tworzy rekord Animal.
-     * Dla edycji istniejących — aktualizuje powiązany Animal.
+     * Dla edycji istniejących - aktualizuje powiązany Animal.
      * Przenosi zdjęcia z animal_edit_id na animal_id.
      *
      * @throws \RuntimeException gdy zgłoszenie nie jest w statusie pending
@@ -40,7 +40,7 @@ class ModerationService
 
         $animal = DB::transaction(function () use ($edit, $moderatorId): Animal {
 
-            // ** Nowe ogłoszenie — Animal jeszcze nie istnieje
+            // ** Nowe ogłoszenie - Animal jeszcze nie istnieje
             if ($edit->animal_id === null) {
                 $animal = Animal::create([
                     'mod_status'     => 'approved',
@@ -104,7 +104,7 @@ class ModerationService
             return $animal;
         });
 
-        // ** Poza transakcją — mail nie może pójść, gdyby transakcja się jednak wycofała.
+        // ** Poza transakcją - mail nie może pójść, gdyby transakcja się jednak wycofała.
         // W try/catch: nieudana wysyłka nie może zepsuć moderatorowi kliknięcia "Zatwierdź".
         try {
             Mail::to($animal->contact_email, $animal->contact_name)
@@ -138,7 +138,7 @@ class ModerationService
         ]);
 
         ModerationLog::create([
-            'animal_id'      => $edit->animal_id, // nullable — nowe ogłoszenia nie mają jeszcze Animal
+            'animal_id'      => $edit->animal_id, // nullable - nowe ogłoszenia nie mają jeszcze Animal
             'animal_edit_id' => $edit->id,
             'action'         => 'rejected',
             'comment'        => $reason,
@@ -160,7 +160,7 @@ class ModerationService
     /**
      * Zwraca tablicę zmienionych pól między AnimalEdit a powiązanym Animal.
      * Format: ['pole' => ['old' => ..., 'new' => ...]]
-     * Gdy brak powiązanego Animal (nowe ogłoszenie) — zwraca ['type' => 'new'].
+     * Gdy brak powiązanego Animal (nowe ogłoszenie) - zwraca ['type' => 'new'].
      */
     public function diff(AnimalEdit $edit): array
     {

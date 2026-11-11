@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 // ---------------------------
-// Serwis moderacji wpisów w bazie chipów. Jak SightingModerationService — zmienia
+// Serwis moderacji wpisów w bazie chipów. Jak SightingModerationService - zmienia
 // mod_status na samym rekordzie; po zatwierdzeniu wpis jest wyszukiwalny po numerze.
 // ---------------------------
 
@@ -33,7 +33,7 @@ class ChipModerationService
             'user_id'              => $moderatorId,
         ]);
 
-        // ** Mail nie może zepsuć moderatorowi kliknięcia "Zatwierdź" — błąd tylko logujemy
+        // ** Mail nie może zepsuć moderatorowi kliknięcia "Zatwierdź" - błąd tylko logujemy
         try {
             Mail::to($registration->contact_email)
                 ->send(new ChipRegistrationApproved($registration));
@@ -74,7 +74,7 @@ class ChipModerationService
     }
 
     // ---------------------------
-    // Edycje zatwierdzonego wpisu (pending_changes) — wpis przez cały czas pozostaje
+    // Edycje zatwierdzonego wpisu (pending_changes) - wpis przez cały czas pozostaje
     // "approved", zmienia się tylko jego treść
     // ---------------------------
 
@@ -89,7 +89,7 @@ class ChipModerationService
             throw new \RuntimeException('Ten wpis nie ma zmian do zatwierdzenia.');
         }
 
-        // ** Nowa naklejka zastępuje starą — stary plik usuwamy dopiero po udanym zapisie
+        // ** Nowa naklejka zastępuje starą - stary plik usuwamy dopiero po udanym zapisie
         $oldSticker = isset($changes['sticker_photo_path']) ? $registration->sticker_photo_path : null;
 
         $registration->update(array_merge(

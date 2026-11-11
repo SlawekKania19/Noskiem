@@ -11,7 +11,7 @@ class EditPage extends EditRecord
 {
     protected static string $resource = PageResource::class;
 
-    // Szerszy formularz — domyślne 7xl jest za wąskie dla długich treści Markdown
+    // Szerszy formularz - domyślne 7xl jest za wąskie dla długich treści Markdown
     protected Width|string|null $maxContentWidth = Width::Full;
 
     protected function getHeaderActions(): array

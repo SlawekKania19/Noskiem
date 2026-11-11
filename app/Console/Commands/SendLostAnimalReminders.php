@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 // ---------------------------
 // Comiesięczne przypomnienia dla właścicieli aktywnych ogłoszeń o zaginionych zwierzakach.
-// Odpalana codziennie ze schedulera (routes/console.php) — każde ogłoszenie ma swój
+// Odpalana codziennie ze schedulera (routes/console.php) - każde ogłoszenie ma swój
 // własny "miesiąc", liczony od ostatniego przypomnienia, a przy pierwszym od created_at
 // (czyli momentu zatwierdzenia, bo Animal powstaje dopiero w ModerationService::approve()).
 // Liczenie od daty, a nie po dniu miesiąca, sprawia, że ogłoszenia z 29–31 dnia nie giną,
@@ -39,7 +39,7 @@ class SendLostAnimalReminders extends Command
                         continue;
                     }
 
-                    // ** Pojedyncza nieudana wysyłka nie przerywa całej partii — ogłoszenie
+                    // ** Pojedyncza nieudana wysyłka nie przerywa całej partii - ogłoszenie
                     // zostaje z dotychczasowym last_reminder_at i trafi do kolejki jutro
                     try {
                         Mail::to($animal->contact_email, $animal->contact_name)
@@ -50,7 +50,7 @@ class SendLostAnimalReminders extends Command
                         continue;
                     }
 
-                    // ** Zapis z pominięciem Eloquenta — bez ruszania updated_at
+                    // ** Zapis z pominięciem Eloquenta - bez ruszania updated_at
                     // i bez przeliczania search_index (event saved w modelu)
                     Animal::whereKey($animal->id)->toBase()->update(['last_reminder_at' => now()]);
                     $sent++;

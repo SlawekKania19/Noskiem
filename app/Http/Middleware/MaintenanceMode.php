@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 // ---------------------------
 // Tryb serwisowy sterowany z panelu (Ustawienia → Tryb serwisowy).
 //
-// Celowo nie `php artisan down` — tamten blokuje też panel i wyłącza się tylko
+// Celowo nie `php artisan down` - tamten blokuje też panel i wyłącza się tylko
 // z konsoli. Tu przełącznik siedzi w bazie, więc admin włącza i wyłącza go sam.
 // Zalogowany admin oraz trasy potrzebne do zalogowania się i obsługi panelu
-// przechodzą normalnie — reszta dostaje 503 ze stroną serwisową.
+// przechodzą normalnie - reszta dostaje 503 ze stroną serwisową.
 // ---------------------------
 
 class MaintenanceMode
@@ -23,7 +23,7 @@ class MaintenanceMode
     protected const ALLOWED_PATHS = [
         'admin',
         'admin/*',
-        'livewire-*/*', // endpointy Livewire (update, upload) — prefiks z hashem APP_KEY, inny na każdym środowisku
+        'livewire-*/*', // endpointy Livewire (update, upload) - prefiks z hashem APP_KEY, inny na każdym środowisku
         'login',
         'logout',
         'up',
@@ -35,7 +35,7 @@ class MaintenanceMode
             return $next($request);
         }
 
-        // ** Data wpisana w panelu — traktujemy ją jako czas "ścienny" (bez przeliczania stref)
+        // ** Data wpisana w panelu - traktujemy ją jako czas "ścienny" (bez przeliczania stref)
         $until = $this->plannedReturn();
 
         $response = response()->view('errors.maintenance', [
@@ -56,7 +56,7 @@ class MaintenanceMode
         return Setting::get('maintenance_enabled') === '1';
     }
 
-    // Admin widzi normalną stronę — może sprawdzić, czy wszystko działa, zanim wyłączy tryb
+    // Admin widzi normalną stronę - może sprawdzić, czy wszystko działa, zanim wyłączy tryb
     protected function isAllowed(Request $request): bool
     {
         if ($request->user()?->is_admin) {

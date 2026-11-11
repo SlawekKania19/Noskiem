@@ -16,7 +16,7 @@ return new class extends Migration
             // Null = created_at + 2 lata; przedłużenie przez autora ustawia now + 6 miesięcy.
             $table->timestamp('retention_until')->nullable()->after('last_reminder_at');
 
-            // Moment wysłania maila z ostrzeżeniem o usunięciu — od niego liczymy tydzień
+            // Moment wysłania maila z ostrzeżeniem o usunięciu - od niego liczymy tydzień
             // do skasowania ogłoszenia. Przedłużenie czyści tę wartość.
             $table->timestamp('retention_notice_at')->nullable()->after('retention_until');
         });

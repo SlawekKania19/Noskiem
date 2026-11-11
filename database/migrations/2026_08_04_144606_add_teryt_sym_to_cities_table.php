@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cities', function (Blueprint $table) {
-            // Kod SYM miejscowości — źródło: rejestr SIMC GUS
+            // Kod SYM miejscowości - źródło: rejestr SIMC GUS
             $table->string('teryt_sym', 7)->nullable()->unique()->after('id');
 
             // Indeks pod wyszukiwanie "miejscowości w danym województwie zaczynające się na..."

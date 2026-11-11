@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'Noskiem.org — Znajdziemy go noskiem')</title>
+        <title>@yield('title', 'Noskiem.org - Znajdziemy go noskiem')</title>
         <meta name="description" content="@yield('description', 'Zaginął Ci zwierzak lub znalazłeś zwierzaka? Noskiem.pl to ogólnopolska baza zgłoszeń zaginionych, znalezionych i widzianych zwierząt. Znajdziemy go noskiem.')">
 
-        {{-- Fonty (Inter, Barlow) hostowane lokalnie — patrz resources/css/fonts.css --}}
+        {{-- Fonty (Inter, Barlow) hostowane lokalnie - patrz resources/css/fonts.css --}}
 
         {{-- Style/skrypty dociągane tylko przez strony, które ich potrzebują (np. Leaflet na
-             stronach z mapą) — MUSI stać przed głównym @vite() niżej: kolejność <script
+             stronach z mapą) - MUSI stać przed głównym @vite() niżej: kolejność <script
              type=module> w dokumencie decyduje o kolejności wykonania, a Alpine.data(...) z
              tych wpisów musi się zarejestrować przed Alpine.start() z app.js (patrz komentarz
              w resources/js/app.js) --}}
@@ -23,7 +23,7 @@
     <body x-data="{}" class="font-[Inter,ui-sans-serif,system-ui,sans-serif] antialiased text-[#283618] bg-white">
         @php
             // ---------------------------
-            // Aktywna sekcja nawigacji — podświetlamy link do strony, na której użytkownik faktycznie jest
+            // Aktywna sekcja nawigacji - podświetlamy link do strony, na której użytkownik faktycznie jest
             // ---------------------------
             $navIsHome = request()->routeIs('home');
             $navIsLost = request()->routeIs('animals.index') && request('status') === 'lost';
@@ -38,7 +38,7 @@
              Navbar
              --------------------------- --}}
         {{-- ** Na mobile linki z navbaru są ukryte, a Bottom Nav ma tylko 5 slotów na akcje
-             produktowe — pełna nawigacja (m.in. Blog) siedzi pod hamburgerem po prawej --}}
+             produktowe - pełna nawigacja (m.in. Blog) siedzi pod hamburgerem po prawej --}}
         <header
             x-data="{ mobileNavOpen: false }"
             @click.outside="mobileNavOpen = false"
@@ -71,7 +71,7 @@
                             </svg>
                          <span class="font-[Barlow,ui-sans-serif,system-ui,sans-serif] text-[35px] text-[#283618]"><span class="font-semibold">noskiem</span>.org</span>
                     </a>
-                    {{-- Linki nawigacyjne — widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
+                    {{-- Linki nawigacyjne - widoczne tylko na desktopie, na mobile zastępuje je Bottom Nav --}}
                     <nav class="hidden md:flex items-center gap-10 text-[15px]">
                         <a href="{{ route('home') }}" class="{{ $navIsHome ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Główna</a>
                         <a href="{{ route('animals.index', ['status' => 'lost']) }}" class="{{ $navIsLost ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Zaginione</a>
@@ -81,7 +81,7 @@
                         <a href="{{ route('chips.index') }}" class="{{ $navIsChips ? 'font-semibold text-[#283618]' : 'text-[#616657] transition-colors hover:text-[#283618] active:text-[#1e2812]' }}">Baza chipów</a>
                     </nav>
                     <div class="flex items-center gap-2">
-                        {{-- Przycisk dodania ogłoszenia — status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
+                        {{-- Przycisk dodania ogłoszenia - status wg trybu wybranego na stronie głównej (jeśli aktywny) --}}
                         <a
                             href="{{ route('animals.create') }}"
                             :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
@@ -90,7 +90,7 @@
                             + Dodaj ogłoszenie
                         </a>
 
-                        {{-- Hamburger — tylko mobile, otwiera panel z pełną nawigacją --}}
+                        {{-- Hamburger - tylko mobile, otwiera panel z pełną nawigacją --}}
                         <button
                             type="button"
                             @click="mobileNavOpen = ! mobileNavOpen"
@@ -111,7 +111,7 @@
             </div>
 
             {{-- ---------------------------
-                 Panel nawigacji mobilnej — lustro linków z navbaru desktopowego.
+                 Panel nawigacji mobilnej - lustro linków z navbaru desktopowego.
                  Bottom Nav zostaje paskiem szybkich akcji, tu jest pełna mapa serwisu.
                  --------------------------- --}}
             <div
@@ -145,7 +145,7 @@
         </header>
 
         {{-- ---------------------------
-             Toast sukcesu (flash) — np. potwierdzenie wysłania zgłoszenia/wiadomości.
+             Toast sukcesu (flash) - np. potwierdzenie wysłania zgłoszenia/wiadomości.
              Floating i autoznikający (zamiast statycznego bloku nad treścią), żeby nie
              ginął po przewinięciu. Kolorystyka jak główne CTA (ciemna zieleń + kremowy),
              dla maksymalnego kontrastu.
@@ -184,7 +184,7 @@
         </main>
 
         {{-- ---------------------------
-             Pasek partnerów — renderuje się tylko, gdy jacyś partnerzy są dodani w panelu
+             Pasek partnerów - renderuje się tylko, gdy jacyś partnerzy są dodani w panelu
              --------------------------- --}}
         <x-partners-bar />
 
@@ -218,7 +218,7 @@
                             <li><a href="{{ route('contact.show') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Kontakt</a></li>
                         </ul>
                     </div>
-                    {{-- Wolna kolumna — link do kontaktu jest w kolumnie „Informacje".
+                    {{-- Wolna kolumna - link do kontaktu jest w kolumnie „Informacje".
                          Zostawiamy pusty slot do wykorzystania w przyszłości (np. social media). --}}
                     <div></div>
                 </div>
@@ -228,7 +228,7 @@
             </div>
         </footer>
         {{-- ---------------------------
-             Bottom Nav (mobile) — widoczny tylko na urządzeniach mobilnych, zastępuje navbar
+             Bottom Nav (mobile) - widoczny tylko na urządzeniach mobilnych, zastępuje navbar
              --------------------------- --}}
         <nav class="md:hidden fixed inset-x-0 bottom-0 z-40 bg-white border-t border-[#e5e5dc] shadow-[0px_-2px_10px_0px_rgba(30,38,18,0.06)] will-change-transform">
             <div class="grid grid-cols-5 items-end h-16">
@@ -252,7 +252,7 @@
                 </a>
                 @if ($navIsCreate)
                     {{-- Na formularzu nowego ogłoszenia ten sam, najbardziej "klikalny" przycisk
-                         zamienia się w zapis formularza zamiast linku do /animals/create — użytkownicy
+                         zamienia się w zapis formularza zamiast linku do /animals/create - użytkownicy
                          odruchowo w niego klikają, a link do tej samej strony powodował pełne
                          przeładowanie i utratę wpisanych danych. Walidacja/zapis to już sprawa formularza. --}}
                     <button
@@ -270,7 +270,7 @@
                         </span>
                     </button>
                 @else
-                    {{-- Dodaj ogłoszenie — wyróżniony, centralny przycisk --}}
+                    {{-- Dodaj ogłoszenie - wyróżniony, centralny przycisk --}}
                     <a
                         href="{{ route('animals.create') }}"
                         :href="'{{ route('animals.create') }}?status=' + ($store.petMode === 'znalazlem' ? 'found' : 'lost')"
@@ -305,7 +305,7 @@
         </nav>
 
         {{-- ---------------------------
-             Baner zgody na ciasteczka — widoczny do momentu akceptacji, potem
+             Baner zgody na ciasteczka - widoczny do momentu akceptacji, potem
              flaga trzymana w sesji (nie w osobnym ciasteczku), więc obowiązuje
              tylko do końca bieżącej sesji przeglądarki
              --------------------------- --}}
@@ -323,7 +323,7 @@
                         Używamy ciasteczek niezbędnych do działania strony (m.in. utrzymania sesji i ochrony formularzy przed nadużyciami).
                     </p>
                     <div class="flex shrink-0 flex-wrap items-center justify-center gap-3">
-                        {{-- Ukryte na razie — nie mamy jeszcze żadnych opcjonalnych ciasteczek,
+                        {{-- Ukryte na razie - nie mamy jeszcze żadnych opcjonalnych ciasteczek,
                              więc "wszystkie" i "wybrane" nie mają dziś sensu. Przywrócić, gdy
                              pojawi się pierwsza kategoria ciasteczek opcjonalnych. --}}
                         {{--
@@ -339,7 +339,7 @@
                         </form>
                         --}}
                         {{-- ** Wysyłka przez fetch, żeby zaakceptowanie ciasteczek nie przeładowywało całej strony
-                             (traci scroll, flash treści) — bez JS formularz nadal działa zwyczajnie (POST + redirect) --}}
+                             (traci scroll, flash treści) - bez JS formularz nadal działa zwyczajnie (POST + redirect) --}}
                         <form
                             action="{{ route('cookies.accept') }}"
                             method="POST"

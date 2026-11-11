@@ -1,6 +1,6 @@
 {{-- ---------------------------
      Panel "Podobne (AI)" (App\Filament\Actions\MatchPreviewAction).
-     Panel nie ma własnego motywu CSS — tylko komponenty Filamenta + lokalne style
+     Panel nie ma własnego motywu CSS - tylko komponenty Filamenta + lokalne style
      na zmiennych kolorów panelu (działają też w trybie ciemnym).
      --------------------------- --}}
 @php
@@ -10,10 +10,10 @@
     $requestLabel = [
         'queued' => 'czeka (na zatwierdzenie albo wektory zdjęć)',
         'notified' => 'mail wysłany',
-        'no_matches' => 'brak wyników ponad progiem — mail nie poszedł',
+        'no_matches' => 'brak wyników ponad progiem - mail nie poszedł',
         'skipped' => 'pominięte (zgłoszenie odrzucone)',
         'expired' => 'wygasło bez maila',
-        'failed' => 'błąd — mail nie poszedł',
+        'failed' => 'błąd - mail nie poszedł',
     ];
     $shownCount = collect($live['rows'])->where('shown', true)->count();
     $belowCount = count($live['rows']) - $shownCount;
@@ -46,10 +46,10 @@
     <div class="nm-info">
         @if ($data['is_pending'])
             <strong>Podgląd przed zatwierdzeniem:</strong> tak wyglądałby mail do autora, gdyby zgłoszenie
-            zatwierdzić teraz. Mail idzie dopiero po zatwierdzeniu — do tego czasu lista może się zmienić,
+            zatwierdzić teraz. Mail idzie dopiero po zatwierdzeniu - do tego czasu lista może się zmienić,
             jeśli pojawią się nowe ogłoszenia.
         @else
-            <strong>Wyniki na teraz</strong> — te same filtry i progi co przy mailu do autora.
+            <strong>Wyniki na teraz</strong> - te same filtry i progi co przy mailu do autora.
             Wyszukiwanie niczego nie zapisuje i nie wysyła.
         @endif
     </div>
@@ -67,7 +67,7 @@
                 @break
 
             @case('no_photos')
-                <p class="nm-muted">Brak zdjęć — nie ma czego porównywać.</p>
+                <p class="nm-muted">Brak zdjęć - nie ma czego porównywać.</p>
                 @break
 
             @case('pending')
@@ -100,7 +100,7 @@
                 @else
                     @if ($shownCount === 0)
                         <p class="nm-muted" style="margin-bottom:.75rem">
-                            Nic nie przekracza progu — {{ $data['is_pending'] ? 'mail nie zostałby wysłany' : 'autor nie dostałby maila' }}.
+                            Nic nie przekracza progu - {{ $data['is_pending'] ? 'mail nie zostałby wysłany' : 'autor nie dostałby maila' }}.
                         </p>
                     @endif
 

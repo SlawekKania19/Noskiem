@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('is_author')->default(false)->after('is_moderator');
         });
 
-        // Do tej pory każdy zalogowany user miał pełny dostęp do panelu — żeby nikt
+        // Do tej pory każdy zalogowany user miał pełny dostęp do panelu - żeby nikt
         // się nie zablokował przy wdrożeniu ról, istniejące konta zostają adminami.
         // Docelowe role dla nich Admin ustawi ręcznie w nowym ekranie użytkowników.
         DB::table('users')->update(['is_admin' => true]);

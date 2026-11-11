@@ -1,14 +1,14 @@
 """Wyszukiwanie podobnych zwierząt: max podobieństwa po zdjęciach, progi, miękkie bonusy.
-Wymaga tylko numpy (bez torcha) — startuje szybko, wywoływane z PHP przy każdym wyszukiwaniu.
+Wymaga tylko numpy (bez torcha) - startuje szybko, wywoływane z PHP przy każdym wyszukiwaniu.
 Zgodne z Pythonem 3.9 (hosting)."""
 import numpy as np
 
 
-# ** Zgodność rasy/kolorów — tylko pomocniczo. Znalazca często źle ocenia rasę,
+# ** Zgodność rasy/kolorów - tylko pomocniczo. Znalazca często źle ocenia rasę,
 # więc to NIGDY nie wyklucza kandydata; najwyżej lekko zmienia kolejność
 def soft_signals(q, c):
     """Zwraca (rasa_zgodna: bool|None, podobieństwo_kolorów: float|None).
-    None = brak danych po którejś stronie (np. rasa nieznana) — ani bonus, ani kara."""
+    None = brak danych po którejś stronie (np. rasa nieznana) - ani bonus, ani kara."""
     qb, cb = q.get("breed_id"), c.get("breed_id")
     breed = None if qb is None or cb is None else qb == cb
     qc, cc = set(q.get("color_ids") or []), set(c.get("color_ids") or [])
@@ -26,13 +26,13 @@ def bonus_for(breed, colors, weights):
 
 
 # ---------------------------
-# rank — ranking kandydatów dla jednego zapytania
+# rank - ranking kandydatów dla jednego zapytania
 # ---------------------------
 def rank(query_vecs, cand_vecs, candidates, query_meta, params):
     """
-    query_vecs: (k, d) — zdjęcia ogłoszenia zapytania (znormalizowane L2).
-    cand_vecs:  (n, d) — zdjęcia wszystkich kandydatów, sklejone po kolei.
-    candidates: lista {listing_id, rows: [start, count], breed_id?, color_ids?} —
+    query_vecs: (k, d) - zdjęcia ogłoszenia zapytania (znormalizowane L2).
+    cand_vecs:  (n, d) - zdjęcia wszystkich kandydatów, sklejone po kolei.
+    candidates: lista {listing_id, rows: [start, count], breed_id?, color_ids?} -
                 rows wskazuje wiersze cand_vecs należące do kandydata.
     params:     top_n, threshold_possible, threshold_strong, soft_weights, log_floor_n.
 
@@ -64,7 +64,7 @@ def rank(query_vecs, cand_vecs, candidates, query_meta, params):
                 "bonus": round(bonus, 6),
                 "breed_match": breed,
                 "color_overlap": None if colors is None else round(colors, 4),
-                # ** Indeks najlepiej pasującego zdjęcia kandydata (kolejność z PHP) — do UI/maila
+                # ** Indeks najlepiej pasującego zdjęcia kandydata (kolejność z PHP) - do UI/maila
                 "best_photo_index": j,
                 "level": "strong" if score >= hi else "possible" if score >= lo else "below",
             })
@@ -75,7 +75,7 @@ def rank(query_vecs, cand_vecs, candidates, query_meta, params):
     position = 0
     for i, r in enumerate(rows, 1):
         r["rank"] = i
-        # ** Pozycja liczona tylko wśród pokazywanych — kandydat poniżej progu podbity
+        # ** Pozycja liczona tylko wśród pokazywanych - kandydat poniżej progu podbity
         # bonusem nie zajmuje miejsca w top N
         if r["level"] != "below" and position < top_n:
             position += 1

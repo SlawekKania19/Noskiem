@@ -5,10 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Potwierdzenie adresu e-mail zgłaszającego — dopiero po nim zgłoszenie trafia
+// Potwierdzenie adresu e-mail zgłaszającego - dopiero po nim zgłoszenie trafia
 // do moderatorów (ochrona przed botami/fałszywymi adresami przy nowych
 // zgłoszeniach). Edycje istniejących, już zatwierdzonych ogłoszeń (animal_id
-// != null) nie przechodzą przez tę bramkę — właściciel dowiódł już kontroli
+// != null) nie przechodzą przez tę bramkę - właściciel dowiódł już kontroli
 // nad adresem wcześniej.
 // ---------------------------
 return new class extends Migration

@@ -28,7 +28,7 @@
     </table>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Możesz odpowiedzieć bezpośrednio na tego maila — trafi prosto do {{ $contactMessage->name }}.
+        Możesz odpowiedzieć bezpośrednio na tego maila - trafi prosto do {{ $contactMessage->name }}.
     </p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">

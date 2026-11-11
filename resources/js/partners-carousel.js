@@ -4,7 +4,7 @@
 // Zasada działania: w torze renderujemy o jeden kafelek więcej niż mamy slotów.
 // Co `interval` sekund przesuwamy tor o szerokość jednego kafelka (animacja CSS),
 // a po zakończeniu animacji rotujemy kolejkę (pierwszy element na koniec) i
-// zerujemy przesunięcie bez animacji — dzięki temu pętla jest bezszwowa i nie
+// zerujemy przesunięcie bez animacji - dzięki temu pętla jest bezszwowa i nie
 // trzeba klonować DOM-u ani liczyć pozycji w pikselach.
 //
 // Strzałka "wstecz" robi to samo w lustrze: najpierw ostatni element kolejki idzie
@@ -70,9 +70,9 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
         },
 
         // Kolejka musi mieć co najmniej slots + 1 pozycji, żeby tor miał czym wypełnić
-        // kafelek wjeżdżający z prawej — przy małej liczbie partnerów powielamy listę.
+        // kafelek wjeżdżający z prawej - przy małej liczbie partnerów powielamy listę.
         //
-        // Każdy wpis dostaje stały, unikalny `key` (nr kopii + nr partnera) — x-for
+        // Każdy wpis dostaje stały, unikalny `key` (nr kopii + nr partnera) - x-for
         // kluczuje po nim, więc przy rotacji Alpine przesuwa istniejące elementy DOM
         // zamiast podmieniać w nich dane. Bez tego kafelek na środku po resecie toru
         // tracił na chwilę kolor (klasy grayscale/opacity mają 500 ms przejścia).
@@ -93,7 +93,7 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
         },
 
         // ** Mniej partnerów niż slotów = nie ma czego przewijać: pokazujemy statyczny,
-        // wyśrodkowany rząd (wtedy wszystkie banery są kolorowe — patrz isHighlighted)
+        // wyśrodkowany rząd (wtedy wszystkie banery są kolorowe - patrz isHighlighted)
         get canAnimate() {
             return this.items.length > this.slots && ! this.prefersReducedMotion;
         },
@@ -168,7 +168,7 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
             this.offset = 1;
 
             // ** Krok 2 (po wyrenderowaniu kroku 1): tor z animacją wraca na zero.
-            // Odczyt offsetWidth wymusza przeliczenie stylów — bez tego przeglądarka
+            // Odczyt offsetWidth wymusza przeliczenie stylów - bez tego przeglądarka
             // scaliłaby oba kroki i przesunięcia by nie było
             this.$nextTick(() => {
                 void this.$root.offsetWidth;
@@ -179,14 +179,14 @@ export default function partnersCarousel({ items = [], desktopSlots = 5, interva
         },
 
         // ** Bezpiecznik: w nieaktywnej karcie (albo gdy pasek jest ukryty) przeglądarka
-        // nie wyśle transitionend i karuzela stanęłaby na zawsze — onSlideEnd i tak
+        // nie wyśle transitionend i karuzela stanęłaby na zawsze - onSlideEnd i tak
         // sprawdza, czy przesuw jest w toku, więc podwójne wywołanie nic nie psuje
         armFallback() {
             setTimeout(() => this.onSlideEnd(), DURATION + 100);
         },
 
         // Po animacji "next": pierwszy kafelek ląduje na końcu kolejki, a tor wraca na zero
-        // bez animacji — dla oka nic się nie dzieje, bo treść kafelków przesuwa się
+        // bez animacji - dla oka nic się nie dzieje, bo treść kafelków przesuwa się
         // o dokładnie tyle, o ile cofamy transformację. Po "prev" tor już stoi na zerze.
         onSlideEnd() {
             if (! this.direction) {

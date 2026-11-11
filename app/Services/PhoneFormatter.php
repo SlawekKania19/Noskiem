@@ -9,7 +9,7 @@ namespace App\Services;
 
 class PhoneFormatter
 {
-    // ** Standardowa długość polskiego numeru krajowego (bez kierunkowego) —
+    // ** Standardowa długość polskiego numeru krajowego (bez kierunkowego) -
     // wszystko ponad te cyfry przy "+"/"00" traktujemy jako kierunkowy kraju
     private const NATIONAL_LENGTH = 9;
 
@@ -33,7 +33,7 @@ class PhoneFormatter
         $countryCode = null;
 
         if ($hasCountryCode) {
-            // ** "00" to alternatywny zapis kierunkowego zamiast "+" — po wyciągnięciu
+            // ** "00" to alternatywny zapis kierunkowego zamiast "+" - po wyciągnięciu
             // samych cyfr trzeba go osobno usunąć, bo w przeciwieństwie do "+" jest cyfrą
             if ($startsWithZeroZero && strlen($digits) > self::NATIONAL_LENGTH + 2) {
                 $digits = substr($digits, 2);

@@ -1,10 +1,10 @@
 @extends('layouts.public')
 
-@section('title', ($activeCategory ? $activeCategory->name.' — ' : '').'Blog — Noskiem.pl')
+@section('title', ($activeCategory ? $activeCategory->name.' - ' : '').'Blog - Noskiem.pl')
 @section('description', $activeCategory?->description ?: 'Porady i artykuły dla właścicieli zwierząt. Jak reagować na zaginięcie, chipowanie, adopcja i pierwsze dni w domu.')
 
 @push('head-assets')
-    <link rel="alternate" type="application/rss+xml" title="Blog — Noskiem.pl" href="{{ route('blog.feed') }}">
+    <link rel="alternate" type="application/rss+xml" title="Blog - Noskiem.pl" href="{{ route('blog.feed') }}">
 @endpush
 
 @section('content')
@@ -15,7 +15,7 @@
         <p class="mt-1 text-[14px] text-[#616657]">Porady i artykuły dla właścicieli zwierząt.</p>
 
         {{-- ---------------------------
-             Pasek kategorii — „Wszystkie" + kategorie z co najmniej jednym wpisem
+             Pasek kategorii - „Wszystkie" + kategorie z co najmniej jednym wpisem
              --------------------------- --}}
         @if ($categories->isNotEmpty())
             <div class="mt-6 flex flex-wrap gap-2">

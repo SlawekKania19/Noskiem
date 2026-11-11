@@ -12,8 +12,8 @@ use Filament\Schemas\Components\Section;
 
 // ---------------------------
 // Wspólna definicja sekcji „Profil autora (blog)". Używana w dwóch miejscach:
-//  - UserResource (admin edytuje dowolne konto) — widoczność zależna od toggle is_author
-//  - EditProfile (autor edytuje własny profil)  — widoczność: auth()->user()->is_author
+//  - UserResource (admin edytuje dowolne konto) - widoczność zależna od toggle is_author
+//  - EditProfile (autor edytuje własny profil)  - widoczność: auth()->user()->is_author
 // Pola muszą być w User::$fillable; slug dolicza się automatycznie w modelu.
 // ---------------------------
 
@@ -25,13 +25,13 @@ class AuthorProfileFields
     public static function section(Closure|bool $visible = true): Section
     {
         return Section::make('Profil autora (blog)')
-            ->description('Dane widoczne publicznie — na stronie autora (/blog/autor/…) i pod jego wpisami.')
+            ->description('Dane widoczne publicznie - na stronie autora (/blog/autor/…) i pod jego wpisami.')
             ->visible($visible)
             ->columns(2)
             ->schema([
                 TextInput::make('slug')
                     ->label('Adres strony autora (slug)')
-                    ->helperText('Końcówka adresu: /blog/autor/TWÓJ-SLUG. Zostaw puste — wygenerujemy z imienia i nazwiska.')
+                    ->helperText('Końcówka adresu: /blog/autor/TWÓJ-SLUG. Zostaw puste - wygenerujemy z imienia i nazwiska.')
                     ->maxLength(255)
                     ->alphaDash()
                     ->unique(User::class, 'slug', ignoreRecord: true),
@@ -62,7 +62,7 @@ class AuthorProfileFields
 
                 RichEditor::make('signature')
                     ->label('Stopka autora')
-                    ->helperText('Pokazujemy ją pod każdym Twoim artykułem i na dole Twojej strony autora — np. podziękowanie, zaproszenie do kontaktu, link do zbiórki.')
+                    ->helperText('Pokazujemy ją pod każdym Twoim artykułem i na dole Twojej strony autora - np. podziękowanie, zaproszenie do kontaktu, link do zbiórki.')
                     ->fileAttachmentsDisk('public')
                     ->fileAttachmentsDirectory('blog/authors')
                     ->fileAttachmentsVisibility('public')
@@ -77,7 +77,7 @@ class AuthorProfileFields
                 TextInput::make('linkedin_url')->label('LinkedIn')->url()->maxLength(255)->placeholder('https://linkedin.com/in/…'),
 
                 // ** W UserResource $record = edytowane konto; na stronie „Edytuj profil"
-                // $record nie jest wstrzykiwany — spadamy na zalogowanego użytkownika
+                // $record nie jest wstrzykiwany - spadamy na zalogowanego użytkownika
                 Placeholder::make('published_posts_count')
                     ->label('Opublikowane artykuły')
                     ->content(fn (?User $record) => (string) (($record ?? auth()->user())?->publishedPostsCount() ?? 0)),

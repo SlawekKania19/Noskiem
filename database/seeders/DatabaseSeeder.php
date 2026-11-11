@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Jeśli chcesz zostawić usera testowego — odkomentuj:
+        // Jeśli chcesz zostawić usera testowego - odkomentuj:
         /*
         \App\Models\User::factory()->create([
             'name' => 'Test User',

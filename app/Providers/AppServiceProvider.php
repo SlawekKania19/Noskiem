@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
     // ---------------------------
     protected function registerIcons(): void
     {
-        // ** W edytorze WYSIWYG przycisk „załącznika” w 90% służy do wstawiania obrazków —
+        // ** W edytorze WYSIWYG przycisk „załącznika” w 90% służy do wstawiania obrazków -
         // pokazujemy ikonę obrazka zamiast domyślnego spinacza
         FilamentIcon::register([
             'forms:components.rich-editor.toolbar.attach-files' => Heroicon::OutlinedPhoto,
@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     // ---------------------------
-    // Domyślne wymogi hasła — obowiązują wszędzie, gdzie kod woła Password::default()
+    // Domyślne wymogi hasła - obowiązują wszędzie, gdzie kod woła Password::default()
     // lub Password::defaults() (panel admina, reset hasła, rejestracja)
     // ---------------------------
     protected function registerPasswordDefaults(): void
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     // ---------------------------
-    // Limity zgłoszeń i wiadomości kontaktowych — ochrona przed botami. Okno stałe
+    // Limity zgłoszeń i wiadomości kontaktowych - ochrona przed botami. Okno stałe
     // (10 min), liczba prób edytowalna w panelu Ustawień (App\Filament\Pages\Settings),
     // patrz routes/web.php (animals.store, messages.store)
     // ---------------------------
@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
             (int) Setting::get('rate_limit_messages_max', '5')
         )->by($request->ip()));
 
-        // ** Pokazanie numeru telefonu (patrz AnimalController::phone, SightingController::phone) —
+        // ** Pokazanie numeru telefonu (patrz AnimalController::phone, SightingController::phone) -
         // bez tego numer i tak siedziałby w źródle HTML, tylko schowany za CSS, co nic nie daje
         // przeciwko botom zbierającym numery hurtowo
         RateLimiter::for('reveal-phone', fn (Request $request) => Limit::perMinutes(

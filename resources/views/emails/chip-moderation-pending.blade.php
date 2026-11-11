@@ -6,7 +6,7 @@
     <h1 style="margin:0 0 16px; font-size:20px; color:#283618;">Nowe zgłoszenie do bazy chipów czeka na moderację</h1>
 
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#616657;">
-        Zgłoszenie #{{ $registration->id }} — chip nr {{ $registration->chip_number }}
+        Zgłoszenie #{{ $registration->id }} - chip nr {{ $registration->chip_number }}
         ({{ $registration->animal_name }}) czeka na Twoją decyzję.
         @if ($registration->hasChipConflict())
             <br><strong style="color:#994d0a;">Uwaga: ten numer chipa jest już zatwierdzony w innym wpisie.</strong>

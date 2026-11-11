@@ -116,7 +116,7 @@ class ViewChipRegistration extends ViewRecord
                     }
                 }),
 
-            // ** Bez maila do właściciela — usuwanie służy głównie sprzątaniu konfliktów
+            // ** Bez maila do właściciela - usuwanie służy głównie sprzątaniu konfliktów
             DeleteAction::make()
                 ->label('Usuń')
                 ->modalDescription('Wpis i zdjęcie naklejki zostaną trwale usunięte.'),

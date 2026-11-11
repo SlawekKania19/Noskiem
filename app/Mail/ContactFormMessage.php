@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 // ---------------------------
-// Wiadomość z ogólnego formularza kontaktowego (/kontakt) — wysyłana na stały
+// Wiadomość z ogólnego formularza kontaktowego (/kontakt) - wysyłana na stały
 // adres zespołu, nie do konkretnego ogłoszenia/zgłoszenia. Reply-To ustawiony
 // na adres nadawcy, żeby dało się odpowiedzieć bezpośrednio z klienta poczty.
 // ---------------------------
@@ -22,7 +22,7 @@ class ContactFormMessage extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Nowa wiadomość z formularza kontaktowego — '.config('app.name'))
+            ->subject('Nowa wiadomość z formularza kontaktowego - '.config('app.name'))
             ->replyTo($this->senderEmail, $this->senderName)
             ->view('emails.contact-form-message');
     }

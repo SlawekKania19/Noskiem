@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 // ---------------------------
 // Wyszukiwanie miejscowości do pola z autouzupełnianiem w formularzu zgłoszenia.
 // Lista miejscowości (rejestr SIMC) liczy ok. 100 tys. rekordów, więc nie da się
-// jej wysłać do przeglądarki w całości — wyszukujemy na żądanie, po prefiksie nazwy.
+// jej wysłać do przeglądarki w całości - wyszukujemy na żądanie, po prefiksie nazwy.
 // ---------------------------
 
 class CityController extends Controller

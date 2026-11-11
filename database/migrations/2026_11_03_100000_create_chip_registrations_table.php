@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Bezpłatna baza chipów — rejestracja numeru chipa zwierzaka, niezależna od
+// Bezpłatna baza chipów - rejestracja numeru chipa zwierzaka, niezależna od
 // ogłoszeń. Flow jak przy sightings: potwierdzenie e-mail -> moderacja. Celowo
 // bez imienia i nazwiska właściciela (minimum danych osobowych). Bez retencji.
 // ---------------------------
@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('chip_registrations', function (Blueprint $table) {
             $table->id();
-            // ** Bez unique — duplikat numeru trafia do moderatora jako konflikt
+            // ** Bez unique - duplikat numeru trafia do moderatora jako konflikt
             // (patrz ChipRegistration::hasChipConflict), żeby nikt nie "zajął" cudzego chipa
             $table->string('chip_number', 20)->index();
             $table->string('animal_name');
@@ -26,12 +26,12 @@ return new class extends Migration
             $table->string('contact_phone', 20);
             $table->string('contact_email');
             $table->text('additional_info')->nullable();
-            // ** Ścieżka na dysku prywatnym ("local") — naklejka to dowód własności, bez publicznego URL
+            // ** Ścieżka na dysku prywatnym ("local") - naklejka to dowód własności, bez publicznego URL
             $table->string('sticker_photo_path');
 
             $table->enum('mod_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('mod_reject_reason')->nullable();
-            // ** Edycja zatwierdzonego wpisu czeka tu na ponowną moderację — do tego czasu
+            // ** Edycja zatwierdzonego wpisu czeka tu na ponowną moderację - do tego czasu
             // w wyszukiwarce widoczna jest dotychczasowa wersja
             $table->json('pending_changes')->nullable();
             $table->string('edit_token')->unique();

@@ -29,7 +29,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
 
-    // Po zalogowaniu Breeze przekierowuje tu — przenosimy od razu do Filament
+    // Po zalogowaniu Breeze przekierowuje tu - przenosimy od razu do Filament
     Route::get('/dashboard', function () {
         return redirect('/admin');
     })->middleware('verified')->name('dashboard');
@@ -68,7 +68,7 @@ Route::get('/location/reverse', [LocationController::class, 'reverse'])
 Route::get('/animals/create', [AnimalEditController::class, 'create'])
     ->name('animals.create');
 
-// ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
+// ** Limit (liczba/10 min) edytowalny w panelu Ustawień - patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals', [AnimalEditController::class, 'store'])
     ->middleware('throttle:animals-store')
     ->name('animals.store');
@@ -76,19 +76,19 @@ Route::post('/animals', [AnimalEditController::class, 'store'])
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])
     ->name('animals.show');
 
-// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" — nie trafia do
-// źródła HTML strony. Limit edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
+// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" - nie trafia do
+// źródła HTML strony. Limit edytowalny w panelu Ustawień - patrz AppServiceProvider::registerRateLimiters()
 Route::get('/animals/{animal}/phone', [AnimalController::class, 'phone'])
     ->middleware('throttle:reveal-phone')
     ->name('animals.phone');
 
-// ** Plakat PDF ogłoszenia (A4 lub B5 przez ?format=) — publiczny, generowanie
+// ** Plakat PDF ogłoszenia (A4 lub B5 przez ?format=) - publiczny, generowanie
 // obciąża CPU, więc pod throttle
 Route::get('/animals/{animal}/poster', [PosterController::class, 'show'])
     ->middleware('throttle:30,1')
     ->name('animals.poster');
 
-// ** Limit (liczba/10 min) edytowalny w panelu Ustawień — patrz AppServiceProvider::registerRateLimiters()
+// ** Limit (liczba/10 min) edytowalny w panelu Ustawień - patrz AppServiceProvider::registerRateLimiters()
 Route::post('/animals/{animal}/messages', [MessageController::class, 'store'])
     ->middleware('throttle:messages-store')
     ->name('messages.store');
@@ -104,12 +104,12 @@ Route::post('/animals/{animal}/sightings', [SightingController::class, 'store'])
 Route::get('/sightings/{sighting}/confirm', [SightingController::class, 'confirmEmail'])
     ->name('sightings.confirm');
 
-// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" — patrz animals.phone wyżej
+// ** Numer telefonu dociągany dopiero po kliknięciu "Pokaż numer" - patrz animals.phone wyżej
 Route::get('/sightings/{sighting}/phone', [SightingController::class, 'phone'])
     ->middleware('throttle:reveal-phone')
     ->name('sightings.phone');
 
-// ** "Kontakt z autorem" w timeline — wiadomość do autora konkretnego zgłoszenia, nie ogłoszenia
+// ** "Kontakt z autorem" w timeline - wiadomość do autora konkretnego zgłoszenia, nie ogłoszenia
 Route::post('/sightings/{sighting}/messages', [MessageController::class, 'storeForSighting'])
     ->middleware('throttle:messages-store')
     ->name('sightings.messages.store');
@@ -120,7 +120,7 @@ Route::get('/animals/{animal}/edit', [AnimalEditController::class, 'edit'])
 Route::post('/animals/{animal}/edit', [AnimalEditController::class, 'update'])
     ->name('animals.update');
 
-// ** Bez moderacji — bezpośrednio przez zgłaszającego (token), zgodnie z zasadą,
+// ** Bez moderacji - bezpośrednio przez zgłaszającego (token), zgodnie z zasadą,
 // że zmiana statusu / usunięcie własnego ogłoszenia nie wymaga zatwierdzenia
 Route::post('/animals/{animal}/resolve', [AnimalEditController::class, 'markResolved'])
     ->name('animals.resolve');
@@ -128,25 +128,25 @@ Route::post('/animals/{animal}/resolve', [AnimalEditController::class, 'markReso
 Route::post('/animals/{animal}/delete', [AnimalEditController::class, 'destroySelf'])
     ->name('animals.selfDelete');
 
-// ** Przedłużenie ogłoszenia po ostrzeżeniu o usunięciu (animals:retention) — POST z banera
+// ** Przedłużenie ogłoszenia po ostrzeżeniu o usunięciu (animals:retention) - POST z banera
 // na stronie edycji, nie GET z maila, żeby skanery linków nie przedłużały za autora
 Route::post('/animals/{animal}/extend', [AnimalEditController::class, 'extend'])
     ->name('animals.extend');
 
-// ** Potwierdzenie adresu e-mail nowego zgłoszenia — dopiero po tym moderatorzy
+// ** Potwierdzenie adresu e-mail nowego zgłoszenia - dopiero po tym moderatorzy
 // dostają powiadomienie (patrz AnimalEditController::confirmEmail)
 Route::get('/animal-edits/{animalEdit}/confirm', [AnimalEditController::class, 'confirmEmail'])
     ->name('animal-edits.confirm');
 
 // ---------------------------
-// ZGODA NA CIASTECZKA — zapisywana w sesji, patrz CookieConsentController
+// ZGODA NA CIASTECZKA - zapisywana w sesji, patrz CookieConsentController
 // ---------------------------
 
 Route::post('/cookies/accept', [CookieConsentController::class, 'accept'])
     ->name('cookies.accept');
 
 // ---------------------------
-// BLOG — artykuły/porady. Wpisy opublikowane (Post::published). Trasy MUSZĄ być
+// BLOG - artykuły/porady. Wpisy opublikowane (Post::published). Trasy MUSZĄ być
 // przed "catch-all" po slugu na końcu pliku. Kolejność w obrębie /blog: bardziej
 // szczegółowe adresy (/blog/kategoria/...) przed docelowym /blog/{post:slug}.
 // ---------------------------
@@ -154,7 +154,7 @@ Route::post('/cookies/accept', [CookieConsentController::class, 'accept'])
 Route::get('/blog', [BlogController::class, 'index'])
     ->name('blog.index');
 
-// ** Kanał RSS — przed /blog/{post:slug}, inaczej "feed" złapałoby się jako slug wpisu
+// ** Kanał RSS - przed /blog/{post:slug}, inaczej "feed" złapałoby się jako slug wpisu
 Route::get('/blog/feed', [BlogController::class, 'feed'])
     ->name('blog.feed');
 
@@ -164,12 +164,12 @@ Route::get('/blog/autor/{user:slug}', [BlogController::class, 'author'])
 Route::get('/blog/kategoria/{category:slug}', [BlogController::class, 'category'])
     ->name('blog.category');
 
-// ** Musi być po /blog/autor/... i /blog/kategoria/... — slug wpisu to pojedynczy segment
+// ** Musi być po /blog/autor/... i /blog/kategoria/... - slug wpisu to pojedynczy segment
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])
     ->name('blog.show');
 
 // ---------------------------
-// KONTAKT — treść nad formularzem edytowalna z panelu Ustawień (Markdown)
+// KONTAKT - treść nad formularzem edytowalna z panelu Ustawień (Markdown)
 // ---------------------------
 
 Route::get('/kontakt', [ContactController::class, 'show'])
@@ -180,7 +180,7 @@ Route::post('/kontakt', [ContactController::class, 'store'])
     ->name('contact.store');
 
 // ---------------------------
-// BAZA CHIPÓW — rejestracja chipa (moderowana) i wyszukiwarka po numerze.
+// BAZA CHIPÓW - rejestracja chipa (moderowana) i wyszukiwarka po numerze.
 // Niezależna od ogłoszeń, patrz ChipRegistrationController
 // ---------------------------
 
@@ -191,22 +191,22 @@ Route::post('/baza-chipow', [ChipRegistrationController::class, 'store'])
     ->middleware('throttle:5,10')
     ->name('chips.store');
 
-// ** Wyszukiwarka AJAX — dokładny numer chipa; throttle przeciw masowemu odpytywaniu
+// ** Wyszukiwarka AJAX - dokładny numer chipa; throttle przeciw masowemu odpytywaniu
 Route::get('/baza-chipow/szukaj', [ChipRegistrationController::class, 'search'])
     ->middleware('throttle:30,1')
     ->name('chips.search');
 
-// ** Telefon po kliknięciu "Pokaż numer" — limit edytowalny w panelu Ustawień (reveal-phone)
+// ** Telefon po kliknięciu "Pokaż numer" - limit edytowalny w panelu Ustawień (reveal-phone)
 Route::get('/baza-chipow/telefon', [ChipRegistrationController::class, 'phone'])
     ->middleware('throttle:reveal-phone')
     ->name('chips.phone');
 
-// ** Potwierdzenie adresu e-mail — dopiero po tym moderatorzy dostają powiadomienie
+// ** Potwierdzenie adresu e-mail - dopiero po tym moderatorzy dostają powiadomienie
 Route::get('/baza-chipow/{chipRegistration}/potwierdz', [ChipRegistrationController::class, 'confirmEmail'])
     ->name('chips.confirm');
 
 // ** Edycja i usunięcie przez właściciela (token z maila). Edycja zatwierdzonego wpisu
-// wymaga ponownej moderacji, usunięcie — nie
+// wymaga ponownej moderacji, usunięcie - nie
 Route::get('/baza-chipow/{chipRegistration}/edycja', [ChipRegistrationController::class, 'edit'])
     ->name('chips.edit');
 
@@ -218,7 +218,7 @@ Route::post('/baza-chipow/{chipRegistration}/usun', [ChipRegistrationController:
     ->name('chips.destroy');
 
 // ---------------------------
-// DOPASOWANIA PO ZDJĘCIACH — kliknięcie w ogłoszenie z maila z podobnymi zwierzakami.
+// DOPASOWANIA PO ZDJĘCIACH - kliknięcie w ogłoszenie z maila z podobnymi zwierzakami.
 // Podpisany link (bez wygasania), zapis zdarzenia + przekierowanie, patrz MatchClickController
 // ---------------------------
 
@@ -234,7 +234,7 @@ Route::get('/dopasowania/{matchSearch}/klik/{position}', [MatchClickController::
 require __DIR__.'/auth.php';
 
 // ---------------------------
-// STATYCZNE PODSTRONY (np. /cookies) — treść z panelu Filament (App\Filament\Resources\PageResource)
+// STATYCZNE PODSTRONY (np. /cookies) - treść z panelu Filament (App\Filament\Resources\PageResource)
 // MUSI być ostatnia trasa w pliku, żeby "catch-all" po slugu nie przechwytywał innych adresów
 // ---------------------------
 

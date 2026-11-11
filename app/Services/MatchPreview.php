@@ -11,9 +11,9 @@ use App\Models\MatchSearch;
 
 // ---------------------------
 // Dane do okna "Podobne (AI)" w panelu (podgląd zgłoszenia i ogłoszenia):
-// - wyniki "na żywo" — to samo wyszukiwanie co przy mailu, bez zapisu i bez maila;
+// - wyniki "na żywo" - to samo wyszukiwanie co przy mailu, bez zapisu i bez maila;
 //   przy oczekującym zgłoszeniu = "tak wyglądałby mail, gdybyś teraz zatwierdził",
-// - historia — co faktycznie poszło w mailu do autora (logi match_searches) i kliknięcia.
+// - historia - co faktycznie poszło w mailu do autora (logi match_searches) i kliknięcia.
 // ---------------------------
 
 class MatchPreview
@@ -82,7 +82,7 @@ class MatchPreview
     }
 
     // ---------------------------
-    // Zlecenie maila (match_requests) — tylko dla zgłoszeń; dla ogłoszenia przez log wyszukiwania
+    // Zlecenie maila (match_requests) - tylko dla zgłoszeń; dla ogłoszenia przez log wyszukiwania
     // ---------------------------
     protected function request(Animal|AnimalEdit $record): ?MatchRequest
     {
@@ -116,7 +116,7 @@ class MatchPreview
             ->findMany($searches->flatMap(fn ($s) => $s->results->pluck('animal_id'))->unique())
             ->keyBy('id');
 
-        // ** Kliknięte pozycje z maila (słaby sygnał — skanery poczty też klikają)
+        // ** Kliknięte pozycje z maila (słaby sygnał - skanery poczty też klikają)
         $clicks = MatchEvent::whereIn('match_search_id', $searches->pluck('id'))
             ->where('event', 'click')
             ->get(['match_search_id', 'position'])

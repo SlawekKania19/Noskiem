@@ -12,7 +12,7 @@ ANIMALS = {"bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "z
 
 
 # ---------------------------
-# Embedder — trzyma modele w pamięci, liczy wektor dla pojedynczego zdjęcia
+# Embedder - trzyma modele w pamięci, liczy wektor dla pojedynczego zdjęcia
 # ---------------------------
 class Embedder:
     def __init__(self, cfg, threads=1):
@@ -31,7 +31,7 @@ class Embedder:
         # nawzajem. Liczbę wątków ustawiamy jawnie z konfiguracji.
         torch.set_num_threads(max(1, int(self.threads)))
         self.torch = torch
-        # ** use_fast=False jawnie — tak liczył dog_eval.py (domyślny "wolny" procesor).
+        # ** use_fast=False jawnie - tak liczył dog_eval.py (domyślny "wolny" procesor).
         # Domyślna wartość ma się zmienić w kolejnych wersjach transformers, a "szybki"
         # procesor daje minimalnie inne wektory -> po cichu rozjechałby się z model_version
         self.proc = AutoImageProcessor.from_pretrained(self.cfg["embedding_model"], use_fast=False)
@@ -40,7 +40,7 @@ class Embedder:
         if self.cfg.get("use_crop"):
             from transformers import DetrForObjectDetection, DetrImageProcessor
             self.det_proc = DetrImageProcessor.from_pretrained(self.cfg["detector_model"], use_fast=False)
-            # ** use_pretrained_backbone=False — bez tego timm najpierw ładuje (i przy pierwszym
+            # ** use_pretrained_backbone=False - bez tego timm najpierw ładuje (i przy pierwszym
             # starcie pobiera) wagi ImageNet szkieletu ResNet, które checkpoint DETR i tak
             # nadpisuje. Sprawdzone na QA: wektory bit w bit identyczne, bez ~300 linii
             # ostrzeżeń w stderr i bez zbędnego pobierania wag przy świeżej instalacji
@@ -51,12 +51,12 @@ class Embedder:
     @staticmethod
     def open_image(path):
         from PIL import Image, ImageOps
-        # ** exif_transpose — telefony zapisują obrót w EXIF zamiast obracać piksele.
+        # ** exif_transpose - telefony zapisują obrót w EXIF zamiast obracać piksele.
         # Laravel (Intervention) już obraca przy zapisie, ale to tanie zabezpieczenie.
         with Image.open(path) as im:
             return ImageOps.exif_transpose(im).convert("RGB")
 
-    # ** Wycina największe wykryte zwierzę (z marginesem). Gdy nic nie wykryto — całe zdjęcie.
+    # ** Wycina największe wykryte zwierzę (z marginesem). Gdy nic nie wykryto - całe zdjęcie.
     def _crop(self, img):
         max_side = self.cfg.get("det_max_side", 1024)
         margin = self.cfg.get("crop_margin", 0.1)

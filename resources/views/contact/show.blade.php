@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Kontakt — Noskiem.pl')
+@section('title', 'Kontakt - Noskiem.pl')
 
 @section('content')
 
     {{-- ---------------------------
-         Strona kontaktowa — treść nad formularzem edytowalna z panelu Ustawień
+         Strona kontaktowa - treść nad formularzem edytowalna z panelu Ustawień
          (App\Filament\Pages\Settings, pole "contact_page_intro", Markdown -> HTML)
          --------------------------- --}}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -21,7 +21,7 @@
         <form method="POST" action="{{ route('contact.store') }}" class="mt-8 space-y-4">
             @csrf
 
-            {{-- ** Honeypot — pole niewidoczne dla ludzi, ale boty często wypełniają
+            {{-- ** Honeypot - pole niewidoczne dla ludzi, ale boty często wypełniają
                  każde pole formularza; wypełnione = spam (patrz ContactController::store) --}}
             <div style="position:absolute; left:-9999px;" aria-hidden="true">
                 <label for="website">Strona www</label>

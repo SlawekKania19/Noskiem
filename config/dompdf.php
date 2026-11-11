@@ -179,7 +179,7 @@ return [
          *
          * @var string
          */
-        // ** DejaVu Sans ma komplet polskich znaków i jest dostarczany razem z dompdf —
+        // ** DejaVu Sans ma komplet polskich znaków i jest dostarczany razem z dompdf -
         // plakat renderuje się poprawnie bez dogrywania własnych fontów
         'default_font' => 'DejaVu Sans',
 

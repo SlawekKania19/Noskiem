@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     // ---------------------------
-    // Partnerzy wspierający serwis — pasek z logotypami nad stopką.
+    // Partnerzy wspierający serwis - pasek z logotypami nad stopką.
     // Zarządzani z panelu (App\Filament\Resources\PartnerResource).
     // ---------------------------
 
@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // ** Logo i link są opcjonalne — bez logo pasek pokazuje samą nazwę partnera,
+            // ** Logo i link są opcjonalne - bez logo pasek pokazuje samą nazwę partnera,
             // bez linku baner nie jest klikalny
             $table->string('logo_path')->nullable();
             $table->string('url')->nullable();

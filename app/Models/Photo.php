@@ -27,7 +27,7 @@ class Photo extends Model
         'is_main' => 'boolean',
     ];
 
-    // ** Usunięcie rekordu kasuje też plik z dysku — inaczej zostawałyby sieroty
+    // ** Usunięcie rekordu kasuje też plik z dysku - inaczej zostawałyby sieroty
     // zajmujące miejsce w storage. Dotyczy każdego usunięcia przez Eloquent
     // (panel admina, relation manager); kaskady FK w bazie omijają ten hook,
     // dlatego Animal sprząta swoje zdjęcia sam (patrz Animal::booted()).

@@ -7,20 +7,20 @@
        - a5  → ten sam plakat 2× obok siebie na kartce A4 (poziomo), pionowa linia cięcia
 
      Uwaga dompdf:
-       * brak flexboxa/grida, transformacji CSS itp. — layout na blokach,
+       * brak flexboxa/grida, transformacji CSS itp. - layout na blokach,
          tabelach i rozmiarach w mm,
        * plakat ma stałą wysokość; dolny blok (kontakt, promocja, stopka) jest
-         przypięty absolutnie do dołu, a górna część ma overflow: hidden — długi
+         przypięty absolutnie do dołu, a górna część ma overflow: hidden - długi
          opis nigdy nie zepchnie plakatu na drugą stronę,
        * font-weight rozróżnia tylko normal/bold, dlatego Medium i SemiBold Intera
          to osobne rodziny (InterMedium, InterSemi),
-       * Inter nie ma znaków ✂ i ● — te bierzemy z DejaVu Sans,
+       * Inter nie ma znaków ✂ i ● - te bierzemy z DejaVu Sans,
        * zdjęcia przychodzą już przycięte do kadrów (PosterRenderer), bo dompdf
          nie obsługuje object-fit. Układ zależy od liczby zdjęć: 1–2 w lewej
          kolumnie obok danych, 3+ w rzędzie nad danymi (partials/poster.blade.php).
      --------------------------- --}}
 @php
-    // ** Ścieżki do fontów z ukośnikami — dompdf na Windowsie nie lubi "\"
+    // ** Ścieżki do fontów z ukośnikami - dompdf na Windowsie nie lubi "\"
     $font = fn (string $file) => str_replace('\\', '/', resource_path('fonts/pdf/'.$file));
 @endphp
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
 <head>
     <meta charset="utf-8">
     <style>
-        /* ** Marginesy strony zero, a plakat pozycjonowany absolutnie w mm — dompdf
+        /* ** Marginesy strony zero, a plakat pozycjonowany absolutnie w mm - dompdf
              nakłada "* { margin: 0 }" także na stronę i gubi marginesy z @page */
         @page { margin: 0; size: A4 {{ $format === 'a5' ? 'landscape' : 'portrait' }}; }
 
@@ -84,7 +84,7 @@
         .subline .name { font-family: 'InterMedium'; font-size: 24pt; }
         .subline .breed { font-size: 16pt; color: #616657; }
 
-        /* ** Zdjęcia — wymiary w mm ustawiane inline w partialu (zależą od liczby zdjęć) */
+        /* ** Zdjęcia - wymiary w mm ustawiane inline w partialu (zależą od liczby zdjęć) */
         .photo { display: block; border-radius: 3mm; }
 
         /* ** Układ boczny (1–2 zdjęcia): lewa kolumna ze zdjęciami, dane po prawej */
@@ -128,7 +128,7 @@
         .foot .thanks { text-align: right; white-space: nowrap; }
 
         /* ---------------------------
-           Wariant A5 — te same elementy, mniejsze
+           Wariant A5 - te same elementy, mniejsze
            --------------------------- */
         .is-a5 .badge { font-size: 7.5pt; padding: 1.3mm 2.6mm; border-radius: 1.5mm; }
         .is-a5 .brand { font-size: 10pt; }

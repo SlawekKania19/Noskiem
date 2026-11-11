@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 // ---------------------------
-// Kontroler do obsługi wiadomości kontaktowych — do autora ogłoszenia albo,
+// Kontroler do obsługi wiadomości kontaktowych - do autora ogłoszenia albo,
 // przez "Kontakt z autorem" w timeline, do autora konkretnego zgłoszenia
 // "też widziałem" (patrz storeForSighting).
 // ---------------------------
@@ -37,7 +37,7 @@ class MessageController extends Controller
     }
 
     // Zapisuje wiadomość do autora zgłoszenia "też widziałem" (nie do autora
-    // ogłoszenia) — ten sam formularz, inny odbiorca
+    // ogłoszenia) - ten sam formularz, inny odbiorca
     public function storeForSighting(Request $request, Sighting $sighting)
     {
         if ($this->isHoneypotTriggered($request)) {
@@ -70,13 +70,13 @@ class MessageController extends Controller
         return $data;
     }
 
-    // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają
+    // ** Honeypot - pole niewidoczne dla ludzi, ale boty je wypełniają
     private function isHoneypotTriggered(Request $request): bool
     {
         return $request->filled('website');
     }
 
-    // ** Brak maila do odbiorcy nie powinien blokować zapisania wiadomości —
+    // ** Brak maila do odbiorcy nie powinien blokować zapisania wiadomości -
     // ona i tak zostaje widoczna w panelu admina
     private function notify(Message $message, Animal $animal, ?string $recipientEmail, ?string $recipientName, ?Sighting $sighting = null): void
     {

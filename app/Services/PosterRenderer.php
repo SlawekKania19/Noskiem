@@ -15,7 +15,7 @@ use Intervention\Image\ImageManager;
 
 // ---------------------------
 // Generowanie plakatu ogłoszenia w PDF (dompdf).
-// Szablon: resources/views/posters/animal.blade.php — stamtąd bierzemy wygląd,
+// Szablon: resources/views/posters/animal.blade.php - stamtąd bierzemy wygląd,
 // tu tylko przygotowujemy dane (zdjęcia przycięte do kadrów, kod QR, logo)
 // i składamy dokument.
 // ---------------------------
@@ -23,16 +23,16 @@ use Intervention\Image\ImageManager;
 class PosterRenderer
 {
     // ** Dozwolone formaty:
-    //  - 'a4' — jeden plakat na całą kartkę A4 (pionowo)
-    //  - 'a5' — ten sam plakat 2× obok siebie na kartce A4 (poziomo, do przecięcia)
+    //  - 'a4' - jeden plakat na całą kartkę A4 (pionowo)
+    //  - 'a5' - ten sam plakat 2× obok siebie na kartce A4 (poziomo, do przecięcia)
     public const FORMATS = ['a4', 'a5'];
 
     // ** Układ zdjęć zależny od ich liczby:
-    //  - 'side' (1–2 zdjęcia) — lewa kolumna obok danych: jedno w pionie 2:3 (4×6)
+    //  - 'side' (1–2 zdjęcia) - lewa kolumna obok danych: jedno w pionie 2:3 (4×6)
     //    albo dwa jedno pod drugim (~4:3, razem ta sama wysokość co pojedyncze),
-    //  - 'row'  (3+) — rząd obok siebie nad danymi, kadr 4:5, maks. MAX_ROW_PHOTOS,
-    //  - 'none' — brak zdjęć.
-    // Kadry w pikselach (szer. × wys.) — dompdf nie obsługuje object-fit, więc przycinamy
+    //  - 'row'  (3+) - rząd obok siebie nad danymi, kadr 4:5, maks. MAX_ROW_PHOTOS,
+    //  - 'none' - brak zdjęć.
+    // Kadry w pikselach (szer. × wys.) - dompdf nie obsługuje object-fit, więc przycinamy
     // po stronie PHP. Proporcje muszą zgadzać się z wymiarami w mm w szablonie.
     private const MAX_ROW_PHOTOS = 4;
 
@@ -58,17 +58,17 @@ class PosterRenderer
             'logoData' => $this->logoDataUri(),
             'showUrl' => $showUrl,
         ])
-            // ** Inter ma ~400 KB na krój — bez subsettingu PDF puchłby do kilku MB
+            // ** Inter ma ~400 KB na krój - bez subsettingu PDF puchłby do kilku MB
             ->setOption('isFontSubsettingEnabled', true)
             // ** dompdf mnoży line-height przez metryki fontu (Inter ~1.21 em) i przez ten
-            // współczynnik (domyślnie 1.1 z config/dompdf.php) — linie wychodziły ~1.7× wyższe
+            // współczynnik (domyślnie 1.1 z config/dompdf.php) - linie wychodziły ~1.7× wyższe
             // niż w CSS. 0.85 sprawia, że line-height w szablonie znaczy mniej więcej to, co mówi.
             ->setOption('fontHeightRatio', 0.85)
             ->setPaper('a4', $format === 'a5' ? 'landscape' : 'portrait');
     }
 
     // ---------------------------
-    // Zdjęcia jako data-URI (base64), przycięte do kadrów z CROPS — dzięki temu
+    // Zdjęcia jako data-URI (base64), przycięte do kadrów z CROPS - dzięki temu
     // dompdf nie sięga po pliki ani sieć, a PDF nie zawiera zdjęć w pełnej rozdzielczości.
     // Zwraca [układ ('none'|'side'|'row'), [data-URI...]].
     // ---------------------------
@@ -95,7 +95,7 @@ class PosterRenderer
             }
         };
 
-        // ** Układ wybieramy po liczbie zdjęć PO odrzuceniu uszkodzonych — dlatego
+        // ** Układ wybieramy po liczbie zdjęć PO odrzuceniu uszkodzonych - dlatego
         // najpierw próbujemy kadru rzędowego, a dla 1–2 udanych kadrujemy ponownie
         $photos = $photos->take(self::MAX_ROW_PHOTOS);
 
@@ -117,7 +117,7 @@ class PosterRenderer
             return ['none', []];
         }
 
-        // ** Udało się tylko jedno z dwóch — kadrujemy je jeszcze raz w pionie, jak pojedyncze
+        // ** Udało się tylko jedno z dwóch - kadrujemy je jeszcze raz w pionie, jak pojedyncze
         if ($side->count() === 1 && $size !== self::CROPS['single']) {
             return ['side', [$crop($side[0]['photo'], self::CROPS['single'])]];
         }
@@ -126,7 +126,7 @@ class PosterRenderer
     }
 
     // ** Kadrowanie "cover": skalujemy tak, żeby zdjęcie pokryło cały kadr, i tniemy
-    // nadmiar. W pionie bierzemy wycinek nieco powyżej środka (35%) — pyszczek jest
+    // nadmiar. W pionie bierzemy wycinek nieco powyżej środka (35%) - pyszczek jest
     // zwykle w górnej części zdjęcia, a czysty środek często ucina głowę.
     private function cropToDataUri(ImageManager $manager, string $binary, int $width, int $height): string
     {
@@ -146,7 +146,7 @@ class PosterRenderer
             ->toDataUri();
     }
 
-    // ** Kod QR z linkiem do ogłoszenia — zwracany od razu jako data-URI PNG
+    // ** Kod QR z linkiem do ogłoszenia - zwracany od razu jako data-URI PNG
     private function qrDataUri(string $url): string
     {
         $qr = new QrCode(
@@ -159,7 +159,7 @@ class PosterRenderer
         return (new PngWriter())->write($qr)->getDataUri();
     }
 
-    // ** Logo (pinezka z noskiem) — ten sam rysunek co w navbarze (layouts/public.blade.php),
+    // ** Logo (pinezka z noskiem) - ten sam rysunek co w navbarze (layouts/public.blade.php),
     // w kolorze tekstu plakatu
     private function logoDataUri(): string
     {

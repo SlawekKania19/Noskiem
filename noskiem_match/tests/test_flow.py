@@ -22,7 +22,7 @@ def unit(v):
     return (v / np.linalg.norm(v)).astype(np.float32)
 
 
-# ** Atrapa modelu — wektor zależny od treści pliku, "zepsuty" plik rzuca wyjątek jak PIL
+# ** Atrapa modelu - wektor zależny od treści pliku, "zepsuty" plik rzuca wyjątek jak PIL
 class FakeEmbedder:
     def __init__(self):
         self.loads = 0
@@ -104,7 +104,7 @@ def test_rank():
     mia = rng.normal(size=d)
     q = np.stack([unit(mia + 0.3 * rng.normal(size=d))])
     groups = [(2, np.stack([unit(rng.normal(size=d)), unit(mia + 0.3 * rng.normal(size=d))]),
-               {"breed_id": 9})]  # właściwe zdjęcie jako DRUGIE — max po zdjęciach
+               {"breed_id": 9})]  # właściwe zdjęcie jako DRUGIE - max po zdjęciach
     for i in range(3, 13):
         groups.append((i, np.stack([unit(rng.normal(size=d))]), {"breed_id": 5}))
     mat, cands = pack(groups)

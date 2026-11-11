@@ -15,7 +15,7 @@ class ViewAnimal extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            // ** Podobne ogłoszenia po zdjęciach (AI) — admin i moderator
+            // ** Podobne ogłoszenia po zdjęciach (AI) - admin i moderator
             MatchPreviewAction::make(),
             EditAction::make(),
             AnimalResource::deleteAction(),

@@ -17,34 +17,34 @@ Nie wyznaczono Inspektora Ochrony Danych..
 
 ## 2. Jakie dane przetwarzamy i w jakim celu
 
-Noskiem.org działa bez rejestracji konta dla osób zgłaszających zwierzęta — dodanie i edycja ogłoszenia odbywa się przez formularz i unikalny token wysyłany e-mailem. Poniżej dane zbierane w poszczególnych formularzach.
+Noskiem.org działa bez rejestracji konta dla osób zgłaszających zwierzęta - dodanie i edycja ogłoszenia odbywa się przez formularz i unikalny token wysyłany e-mailem. Poniżej dane zbierane w poszczególnych formularzach.
 
 ### 2.1 Zgłoszenie zwierzęcia (zaginęło / znaleziono)
 
 Przy dodawaniu ogłoszenia zbieramy:
 
 - imię i nazwisko (lub nazwę) osoby zgłaszającej,
-- adres e-mail — służy m.in. do przesłania linku edycyjnego oraz potwierdzeń i powiadomień,
-- numer telefonu *(opcjonalnie — telefon nie jest publicznie widoczny na stronie ogłoszenia, wykorzystywany do kontaktu i ochrony przed botami)*,
+- adres e-mail - służy m.in. do przesłania linku edycyjnego oraz potwierdzeń i powiadomień,
+- numer telefonu *(opcjonalnie - telefon nie jest publicznie widoczny na stronie ogłoszenia, wykorzystywany do kontaktu i ochrony przed botami)*,
 - dane o zwierzęciu: gatunek, rasa, imię, kolory, znaki szczególne, informację o czipie i jego numer (jeśli podano),
 - zdjęcia zwierzęcia (do 6 sztuk),
 - lokalizację zdarzenia: opis tekstowy, współrzędne GPS wskazane na mapie, miejscowość i województwo,
 - datę zdarzenia,
-- adres IP osoby zgłaszającej — zapisywany wyłącznie na potrzeby ewentualnego wyjaśnienia nadużyć lub sporów prawnych dot. treści zgłoszenia; **niewidoczny publicznie**, dostępny tylko dla administratorów serwisu w panelu moderacji.
+- adres IP osoby zgłaszającej - zapisywany wyłącznie na potrzeby ewentualnego wyjaśnienia nadużyć lub sporów prawnych dot. treści zgłoszenia; **niewidoczny publicznie**, dostępny tylko dla administratorów serwisu w panelu moderacji.
 
 **Cel przetwarzania:** publikacja ogłoszenia w bazie serwisu, umożliwienie kontaktu między zgłaszającym a osobami, które mogą rozpoznać zwierzę, moderacja treści, obsługa edycji ogłoszenia przez token, wysyłka powiadomień e-mail o statusie zgłoszenia.
 
-**Podstawa prawna:** art. 6 ust. 1 lit. b RODO (działanie na żądanie osoby, której dane dotyczą — świadczenie usługi zgłoszenia/publikacji ogłoszenia) oraz lit. f (prawnie uzasadniony interes administratora — ochrona przed nadużyciami, w tym przechowywanie adresu IP).
+**Podstawa prawna:** art. 6 ust. 1 lit. b RODO (działanie na żądanie osoby, której dane dotyczą - świadczenie usługi zgłoszenia/publikacji ogłoszenia) oraz lit. f (prawnie uzasadniony interes administratora - ochrona przed nadużyciami, w tym przechowywanie adresu IP).
 
 ### 2.2 Zgłoszenie „widziałem zwierzaka” 
 
 Przy zgłoszeniu obserwacji zbieramy: imię i nazwisko, adres e-mail, numer telefonu (opcjonalnie), opis, znaki szczególne, datę i miejsce obserwacji (w tym współrzędne GPS).
 
-**Cel i podstawa prawna:** jak wyżej — umożliwienie kontaktu z osobą poszukującą zwierzęcia (art. 6 ust. 1 lit. b i f RODO).
+**Cel i podstawa prawna:** jak wyżej - umożliwienie kontaktu z osobą poszukującą zwierzęcia (art. 6 ust. 1 lit. b i f RODO).
 
 ### 2.3 Wiadomość do osoby zgłaszającej (formularz kontaktowy przy ogłoszeniu)
 
-Zbieramy: imię, adres e-mail, treść wiadomości. Wiadomość jest przekazywana (e-mailem oraz w panelu admina) do osoby, która dodała ogłoszenie — nie jest widoczna publicznie.
+Zbieramy: imię, adres e-mail, treść wiadomości. Wiadomość jest przekazywana (e-mailem oraz w panelu admina) do osoby, która dodała ogłoszenie - nie jest widoczna publicznie.
 
 **Cel i podstawa prawna:** umożliwienie kontaktu w sprawie zgłoszonego zwierzęcia (art. 6 ust. 1 lit. b i f RODO).
 
@@ -52,11 +52,11 @@ Zbieramy: imię, adres e-mail, treść wiadomości. Wiadomość jest przekazywan
 
 Dla osób zarządzających serwisem (zespół Noskiem.org) przechowujemy: imię/nazwę, adres e-mail, hasło (przechowywane w formie zahaszowanej), rolę w systemie, historię działań moderacyjnych.
 
-**Cel i podstawa prawna:** zarządzanie dostępem do panelu i rozliczalność działań moderacyjnych — prawnie uzasadniony interes administratora (art. 6 ust. 1 lit. f RODO) oraz wykonanie umowy/stosunku współpracy z osobą obsługującą panel (lit. b).
+**Cel i podstawa prawna:** zarządzanie dostępem do panelu i rozliczalność działań moderacyjnych - prawnie uzasadniony interes administratora (art. 6 ust. 1 lit. f RODO) oraz wykonanie umowy/stosunku współpracy z osobą obsługującą panel (lit. b).
 
 ### 2.5 Dane techniczne i pliki cookies
 
-Serwis korzysta wyłącznie z niezbędnych plików cookies (`_session_id` — utrzymanie sesji, `XSRF-TOKEN` — ochrona przed atakami CSRF) oraz zapisuje adres IP i user-agent przeglądarki w ramach standardowej obsługi sesji serwera. Nie używamy cookies analitycznych, marketingowych ani reklamowych. Szczegóły: [noskiem.org/cookies](noskiem.org/cookies).
+Serwis korzysta wyłącznie z niezbędnych plików cookies (`_session_id` - utrzymanie sesji, `XSRF-TOKEN` - ochrona przed atakami CSRF) oraz zapisuje adres IP i user-agent przeglądarki w ramach standardowej obsługi sesji serwera. Nie używamy cookies analitycznych, marketingowych ani reklamowych. Szczegóły: [noskiem.org/cookies](noskiem.org/cookies).
 
 ## 3. Zdjęcia zwierząt
 
@@ -68,10 +68,10 @@ Dane mogą być przekazywane następującym kategoriom odbiorców, wyłącznie w
 
 | Podmiot | Rola | Zakres danych |
 |---|---|---|
-| Dostawca hostingu — SEOHOST Sp. z o.o.
+| Dostawca hostingu - SEOHOST Sp. z o.o.
 ul. Obornicka 330
 60-689 Poznań | Przechowywanie bazy danych i plików serwisu | Wszystkie dane przetwarzane przez serwis |
-| Dostawca poczty e-mail (SMTP) — SEOHOST Sp. z o.o.
+| Dostawca poczty e-mail (SMTP) - SEOHOST Sp. z o.o.
 ul. Obornicka 330
 60-689 Poznań | Wysyłka wiadomości transakcyjnych (potwierdzenia, link edycyjny, powiadomienia o moderacji, wiadomości od innych użytkowników) | Adres e-mail, treść powiadomienia |
 | OpenStreetMap / dostawca kafelków mapy | Wyświetlanie mapy lokalizacji | Standardowe dane techniczne żądania HTTP (adres IP) przy pobieraniu kafelków mapy |
@@ -84,11 +84,11 @@ Dane nie są przekazywane poza EOG.
 
 ## 6. Okres przechowywania danych
 
-- Dane ogłoszenia (zgłoszenie zwierzęcia) — przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, na potrzeby archiwalne i statystyczne.
-- Zgłoszenia „widziałem” oraz wiadomości kontaktowe —  — przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, na potrzeby archiwalne i statystyczne.
-- Adres IP zgłaszającego  —  — przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, , wyłącznie do celów wyjaśnienia ewentualnych nadużyć.
-- Dane kont administracyjnych/moderatorskich — przez czas pełnienia funkcji w zespole i przez okres wymagany do rozliczalności działań moderacyjnych.
-- Logi sesji  — zgodnie z czasem trwania sesji / krótkim okresem technicznym po jej zakończeniu.
+- Dane ogłoszenia (zgłoszenie zwierzęcia) - przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, na potrzeby archiwalne i statystyczne.
+- Zgłoszenia „widziałem” oraz wiadomości kontaktowe -  - przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, na potrzeby archiwalne i statystyczne.
+- Adres IP zgłaszającego  -  - przez czas widoczności ogłoszenia w serwisie oraz po oznaczeniu jako „odnaleziony”, , wyłącznie do celów wyjaśnienia ewentualnych nadużyć.
+- Dane kont administracyjnych/moderatorskich - przez czas pełnienia funkcji w zespole i przez okres wymagany do rozliczalności działań moderacyjnych.
+- Logi sesji  - zgodnie z czasem trwania sesji / krótkim okresem technicznym po jej zakończeniu.
 
 ## 8. Prawa osoby, której dane dotyczą
 

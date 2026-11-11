@@ -50,7 +50,7 @@ class User extends Authenticatable implements FilamentUser
         });
     }
 
-    // Dostęp do panelu — dowolna z trzech ról.
+    // Dostęp do panelu - dowolna z trzech ról.
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin || $this->is_moderator || $this->is_author;
@@ -97,7 +97,7 @@ class User extends Authenticatable implements FilamentUser
             : null;
     }
 
-    // "O autorze" — HTML z edytora WYSIWYG, oddawany wprost (autorzy zaufani)
+    // "O autorze" - HTML z edytora WYSIWYG, oddawany wprost (autorzy zaufani)
     public function getBioHtmlAttribute(): string
     {
         return (string) $this->bio;

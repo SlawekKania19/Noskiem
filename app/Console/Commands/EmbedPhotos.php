@@ -24,7 +24,7 @@ class EmbedPhotos extends Command
         {--retry-failed : Spróbuj ponownie zdjęć, które wcześniej zwróciły błąd}
         {--dry-run : Tylko pokaż, ile zdjęć czeka}';
 
-    protected $description = 'Liczy wektory zdjęć do dopasowań (noskiem_match) — partia z kolejki';
+    protected $description = 'Liczy wektory zdjęć do dopasowań (noskiem_match) - partia z kolejki';
 
     public function handle(PhotoEmbeddingService $service): int
     {
@@ -40,12 +40,12 @@ class EmbedPhotos extends Command
             return self::SUCCESS;
         }
 
-        // ** "Puls" dla panelu — każde uruchomienie, także bez pracy (patrz MatchStatus)
+        // ** "Puls" dla panelu - każde uruchomienie, także bez pracy (patrz MatchStatus)
         MatchStatus::markRun();
 
         $reason = $service->blockedReason();
 
-        // ** --ignore-hours pomija tylko okno godzin — wyłączony moduł i pauza obowiązują zawsze
+        // ** --ignore-hours pomija tylko okno godzin - wyłączony moduł i pauza obowiązują zawsze
         if ($reason !== null && ! ($this->option('ignore-hours') && str_starts_with($reason, 'poza oknem'))) {
             $this->line("Pomijam: {$reason}. W kolejce: {$waiting}");
 
@@ -56,12 +56,12 @@ class EmbedPhotos extends Command
             return self::SUCCESS;
         }
 
-        // ** Blokada — scheduler i ręczny backfill nie mogą liczyć równolegle
+        // ** Blokada - scheduler i ręczny backfill nie mogą liczyć równolegle
         // (dwa procesy z modelem w pamięci przekroczyłyby limit RAM hostingu)
         $lock = Cache::lock('match:embed', config('noskiem_match.queue.max_seconds') + 600);
 
         if (! $lock->get()) {
-            $this->line('Inny worker już pracuje — pomijam.');
+            $this->line('Inny worker już pracuje - pomijam.');
 
             return self::SUCCESS;
         }
@@ -91,7 +91,7 @@ class EmbedPhotos extends Command
 
         if ($stats['crashed']) {
             $this->error('Proces Pythona zakończył się nieprawidłowo. stderr: '.$stats['stderr']);
-            report(new \RuntimeException('match:embed — proces Pythona przerwany: '.$stats['stderr']));
+            report(new \RuntimeException('match:embed - proces Pythona przerwany: '.$stats['stderr']));
 
             return self::FAILURE;
         }

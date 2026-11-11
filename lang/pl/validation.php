@@ -155,7 +155,7 @@ return [
     'ulid' => 'Pole :attribute musi być prawidłowym identyfikatorem ULID.',
     'uuid' => 'Pole :attribute musi być prawidłowym identyfikatorem UUID.',
 
-    // ** Własne komunikaty dla konkretnych pól — [pole => [reguła => komunikat]]
+    // ** Własne komunikaty dla konkretnych pól - [pole => [reguła => komunikat]]
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 
 // ---------------------------
 // Informacja dla właściciela o odrzuceniu wpisu w bazie chipów albo jego edycji
-// ($isEdit — wtedy wpis zostaje w bazie w dotychczasowej wersji), z powodem
+// ($isEdit - wtedy wpis zostaje w bazie w dotychczasowej wersji), z powodem
 // (ChipModerationService::reject / rejectChanges)
 // ---------------------------
 class ChipRegistrationRejected extends Mailable
@@ -23,10 +23,10 @@ class ChipRegistrationRejected extends Mailable
     public function build(): self
     {
         $mail = $this
-            ->subject(($this->isEdit ? 'Informacja o zmianach we wpisie' : 'Informacja o zgłoszeniu chipa').' — '.config('app.name'))
+            ->subject(($this->isEdit ? 'Informacja o zmianach we wpisie' : 'Informacja o zgłoszeniu chipa').' - '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org');
 
-        // ** Link do edycji tylko przy odrzuconej edycji — odrzucony wpis nie jest już edytowalny
+        // ** Link do edycji tylko przy odrzuconej edycji - odrzucony wpis nie jest już edytowalny
         if ($this->isEdit) {
             $mail->with(['editUrl' => route('chips.edit', ['chipRegistration' => $this->registration, 'token' => $this->registration->edit_token])]);
         }

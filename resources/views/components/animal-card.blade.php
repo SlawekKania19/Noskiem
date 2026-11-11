@@ -1,9 +1,9 @@
 @php
     // ---------------------------
-    // Karta ogłoszenia (Figma: node 22:275, "Karta — Burek")
+    // Karta ogłoszenia (Figma: node 22:275, "Karta - Burek")
     // ---------------------------
 
-    // ** Główne zdjęcie (is_main), a gdy brak — pierwsze dostępne
+    // ** Główne zdjęcie (is_main), a gdy brak - pierwsze dostępne
     $mainPhoto = $animal->photos->firstWhere('is_main', true) ?? $animal->photos->first();
 
     // ** Etykieta i kolor plakietki statusu (status: lost/found)
@@ -18,10 +18,10 @@
     $statusLabel = $statusLabels[$animal->status] ?? $animal->status;
     $statusStyle = $statusStyles[$animal->status] ?? 'bg-[#eee] text-[#616657]';
 
-    // ** Lokalizacja — preferujemy tekst podany przez zgłaszającego, potem nazwę miasta
+    // ** Lokalizacja - preferujemy tekst podany przez zgłaszającego, potem nazwę miasta
     $locationLabel = $animal->location_text ?: ($animal->city->name_pl ?? null);
 
-    // ** Na miniaturce mało miejsca na pełny adres — pokazujemy tylko dwie ostatnie części
+    // ** Na miniaturce mało miejsca na pełny adres - pokazujemy tylko dwie ostatnie części
     // (np. "Skaryszewska 40, Wola, Warszawa" -> "Wola, Warszawa"), pełna wersja w tooltipie
     $locationParts = $locationLabel ? array_map('trim', explode(',', $locationLabel)) : [];
     $cardLocationLabel = count($locationParts) > 2
@@ -29,7 +29,7 @@
         : $locationLabel;
 
     // ** Tytuł karty liczony na bieżąco z aktualnego szablonu (Ustawienia), nie z zapisanej
-    // kolumny `title` — zmiana szablonu w panelu jest od razu widoczna na wszystkich kartach
+    // kolumny `title` - zmiana szablonu w panelu jest od razu widoczna na wszystkich kartach
     $cardTitle = $animal->generated_title;
 @endphp
 
@@ -37,7 +37,7 @@
     href="{{ route('animals.show', $animal) }}"
     class="group block overflow-hidden rounded-2xl bg-white shadow-[0px_4px_14px_0px_rgba(30,38,18,0.07)] transition hover:shadow-[0px_6px_18px_0px_rgba(30,38,18,0.12)] active:transform-[scale(0.98)]"
 >
-    {{-- ** Miniaturka zdjęcia (główne z tabeli photos, placeholder gdy brak) — aspect-square zamiast
+    {{-- ** Miniaturka zdjęcia (główne z tabeli photos, placeholder gdy brak) - aspect-square zamiast
          stałej wysokości 140px, bo przy zmiennej szerokości karty w gridzie (1/2/3 kolumny) dawało to
          bardzo płaskie kadry i obcinało dużą część zdjęcia (szczególnie pionowych, z telefonu) --}}
     <div class="relative aspect-square w-full overflow-hidden bg-[#dbe3d1]">
@@ -59,7 +59,7 @@
             {{ $statusLabel }}
         </span>
 
-        {{-- ** Tytuł — na mobile (bez hover) tooltip jest niedostępny, więc zawijamy do 2 wierszy;
+        {{-- ** Tytuł - na mobile (bez hover) tooltip jest niedostępny, więc zawijamy do 2 wierszy;
              od sm w górę wracamy do jednej linii z wielokropkiem i tooltipem po najechaniu --}}
         <p class="mt-2 line-clamp-2 text-[15px] font-semibold text-[#1e2612] sm:truncate sm:line-clamp-none" title="{{ $cardTitle }}">
             {{ $cardTitle }}
@@ -70,7 +70,7 @@
             <p class="truncate text-[12px] text-[#616657]">{{ $animal->breed->breed_pl }}</p>
         @endif
 
-        {{-- ** Lokalizacja — skrócona do dwóch ostatnich części, pełna w tooltipie.
+        {{-- ** Lokalizacja - skrócona do dwóch ostatnich części, pełna w tooltipie.
              Na mobile (bez hover) zawijamy do 2 wierszy zamiast ucinać w jednej linii --}}
         @if ($locationLabel)
             <p class="mt-1 line-clamp-2 text-[11px] text-[#8f9485] sm:truncate sm:line-clamp-none" title="{{ $locationLabel }}">📍 {{ $cardLocationLabel }}</p>

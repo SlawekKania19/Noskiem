@@ -18,14 +18,14 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 // ---------------------------
-// Kontroler bezpłatnej bazy chipów — podstrona z wyszukiwarką po numerze chipa
+// Kontroler bezpłatnej bazy chipów - podstrona z wyszukiwarką po numerze chipa
 // i formularzem rejestracji. Niezależny od ogłoszeń. Flow jak przy sightings:
 // potwierdzenie e-mail -> moderacja (patrz ChipRegistrationController::confirmEmail).
 // ---------------------------
 
 class ChipRegistrationController extends Controller
 {
-    // Podstrona bazy chipów. Miejscowości nie wczytujemy w całości (rejestr SIMC) —
+    // Podstrona bazy chipów. Miejscowości nie wczytujemy w całości (rejestr SIMC) -
     // podpowiadają się przez GET /cities/search, tu tylko nazwa ewentualnie już wybranej.
     public function index()
     {
@@ -37,7 +37,7 @@ class ChipRegistrationController extends Controller
         ]);
     }
 
-    // Wyszukiwarka (AJAX) — dokładne dopasowanie numeru, tylko zatwierdzone wpisy.
+    // Wyszukiwarka (AJAX) - dokładne dopasowanie numeru, tylko zatwierdzone wpisy.
     // Zwraca dane publiczne, bez e-maila i telefonu (telefon osobno, przez phone()).
     public function search(Request $request)
     {
@@ -63,8 +63,8 @@ class ChipRegistrationController extends Controller
         ]);
     }
 
-    // Telefon właściciela — dociągany dopiero po kliknięciu "Pokaż numer", jak w ogłoszeniach.
-    // ** Po numerze chipa, nie po ID — ID dałoby się iterować i zebrać wszystkie telefony
+    // Telefon właściciela - dociągany dopiero po kliknięciu "Pokaż numer", jak w ogłoszeniach.
+    // ** Po numerze chipa, nie po ID - ID dałoby się iterować i zebrać wszystkie telefony
     public function phone(Request $request)
     {
         $registration = $this->findApproved($request->query('chip'));
@@ -76,7 +76,7 @@ class ChipRegistrationController extends Controller
 
     public function store(Request $request)
     {
-        // ** Honeypot — udajemy sukces, żeby bot nie wiedział, że został złapany
+        // ** Honeypot - udajemy sukces, żeby bot nie wiedział, że został złapany
         if ($request->filled('website')) {
             return redirect()->route('chips.index')
                 ->with('success', 'Zgłoszenie zostało zapisane. Sprawdź swoją skrzynkę e-mail i potwierdź adres, żeby trafiło do moderacji.');
@@ -87,7 +87,7 @@ class ChipRegistrationController extends Controller
         $sticker = $data['sticker_photo'];
         unset($data['sticker_photo']);
 
-        // ** Dysk "local" (storage/app/private) — naklejka nie ma publicznego URL-a,
+        // ** Dysk "local" (storage/app/private) - naklejka nie ma publicznego URL-a,
         // podgląd tylko dla moderatorów w panelu
         $data['sticker_photo_path'] = ImageCompressor::store($sticker, 'chip-stickers', 'local');
         $data['mod_status']   = 'pending';
@@ -96,7 +96,7 @@ class ChipRegistrationController extends Controller
 
         $registration = ChipRegistration::create($data);
 
-        // ** Wpis jest już zapisany — awaria wysyłki nie może zablokować odpowiedzi
+        // ** Wpis jest już zapisany - awaria wysyłki nie może zablokować odpowiedzi
         try {
             Mail::to($registration->contact_email)
                 ->send(new ChipRegistrationReceived($registration));
@@ -109,7 +109,7 @@ class ChipRegistrationController extends Controller
     }
 
     // Potwierdza adres e-mail (link z maila ChipRegistrationReceived). Dopiero po tym
-    // moderatorzy dostają powiadomienie. Idempotentne — ponowne kliknięcie nic nie wysyła.
+    // moderatorzy dostają powiadomienie. Idempotentne - ponowne kliknięcie nic nie wysyła.
     public function confirmEmail(ChipRegistration $chipRegistration, Request $request)
     {
         $this->authorizeToken($chipRegistration, $request->query('token'));
@@ -117,7 +117,7 @@ class ChipRegistrationController extends Controller
         if ($chipRegistration->email_verified_at === null) {
             $chipRegistration->update(['email_verified_at' => now()]);
 
-            // ** Osobno do każdego moderatora — nie widzą się nawzajem w "Do",
+            // ** Osobno do każdego moderatora - nie widzą się nawzajem w "Do",
             // a jeden zły adres nie blokuje reszty
             $moderators = User::where('is_admin', true)->orWhere('is_moderator', true)->get();
 
@@ -136,14 +136,14 @@ class ChipRegistrationController extends Controller
     }
 
     // Formularz edycji wpisu przez właściciela (link z tokenem z maila po zatwierdzeniu).
-    // Jeśli poprzednia edycja czeka na moderację — formularz pokazuje właśnie ją.
+    // Jeśli poprzednia edycja czeka na moderację - formularz pokazuje właśnie ją.
     public function edit(ChipRegistration $chipRegistration, Request $request)
     {
         $this->authorizeToken($chipRegistration, $request->query('token'));
 
         if ($chipRegistration->mod_status === 'rejected') {
             return redirect()->route('chips.index')
-                ->with('success', 'Ten wpis został odrzucony przez moderatora — możesz zarejestrować chip ponownie.');
+                ->with('success', 'Ten wpis został odrzucony przez moderatora - możesz zarejestrować chip ponownie.');
         }
 
         $values = array_merge($chipRegistration->only(ChipRegistration::EDITABLE_FIELDS), $chipRegistration->pending_changes ?? []);
@@ -202,7 +202,7 @@ class ChipRegistrationController extends Controller
             ->with('success', 'Zmiany zostały zapisane. Wpis nadal czeka na moderację.');
     }
 
-    // Usunięcie wpisu przez właściciela — od razu, bez moderacji (pliki naklejek
+    // Usunięcie wpisu przez właściciela - od razu, bez moderacji (pliki naklejek
     // usuwa model, patrz ChipRegistration::booted)
     public function destroy(ChipRegistration $chipRegistration, Request $request)
     {
@@ -247,7 +247,7 @@ class ChipRegistrationController extends Controller
 
         unset($data['accept_terms']);
 
-        // ** Rzutowanie — w pending_changes (JSON) id muszą być liczbami, jak na rekordzie
+        // ** Rzutowanie - w pending_changes (JSON) id muszą być liczbami, jak na rekordzie
         foreach (['species_id', 'breed_id', 'voivodeship_id', 'city_id'] as $field) {
             $data[$field] = (int) $data[$field];
         }
@@ -262,13 +262,13 @@ class ChipRegistrationController extends Controller
         }
     }
 
-    // Numer z naklejki często jest przepisywany ze spacjami/myślnikami — zostawiamy resztę
+    // Numer z naklejki często jest przepisywany ze spacjami/myślnikami - zostawiamy resztę
     private function normalizeChip(mixed $value): string
     {
         return preg_replace('/[\s\-]+/', '', (string) $value);
     }
 
-    // Zatwierdzony wpis o danym numerze. Przy konflikcie (dwa zatwierdzone) — najnowszy
+    // Zatwierdzony wpis o danym numerze. Przy konflikcie (dwa zatwierdzone) - najnowszy
     private function findApproved(mixed $chip): ?ChipRegistration
     {
         $chip = $this->normalizeChip($chip);

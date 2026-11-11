@@ -13,7 +13,7 @@ use Filament\Schemas\Components\Section;
 
 // ---------------------------
 // Sekcja infolisty pokazująca inne zgłoszenia (Animal + AnimalEdit) z tego samego
-// adresu e-mail — współdzielona przez AnimalResource i AnimalEditResource, żeby
+// adresu e-mail - współdzielona przez AnimalResource i AnimalEditResource, żeby
 // moderator widział próby "podbicia" pozycji zarówno przy nowych zgłoszeniach,
 // jak i przy przeglądaniu już zatwierdzonych ogłoszeń.
 // ---------------------------
@@ -43,7 +43,7 @@ trait HasRelatedSubmissionsSection
                             ->label('Tytuł')
                             ->html()
                             // Nowe zgłoszenia z niepotwierdzonym e-mailem są ukryte przed moderatorem
-                            // (patrz AnimalEditResource::getEloquentQuery) — link prowadziłby do 404,
+                            // (patrz AnimalEditResource::getEloquentQuery) - link prowadziłby do 404,
                             // więc zamiast linku pokazujemy informację pod tytułem
                             ->formatStateUsing(fn ($state, $record) => static::isRecordHiddenFromModerator($record)
                                 ? e($state) . '<br><span class="fi-in-text text-xs text-gray-500 dark:text-gray-400">E-mail niepotwierdzony</span>'
@@ -95,7 +95,7 @@ trait HasRelatedSubmissionsSection
             ->visible(fn ($record) => $record->relatedByContactEmail()->isNotEmpty());
     }
 
-    // Nowe zgłoszenie z niepotwierdzonym e-mailem — niewidoczne dla moderatora
+    // Nowe zgłoszenie z niepotwierdzonym e-mailem - niewidoczne dla moderatora
     // (patrz AnimalEditResource::getEloquentQuery)
     protected static function isRecordHiddenFromModerator($record): bool
     {

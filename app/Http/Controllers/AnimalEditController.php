@@ -47,7 +47,7 @@ class AnimalEditController extends Controller
     }
 
     // Wyświetla formularz zgłoszenia nowego ogłoszenia wraz z listami słownikowymi do pól select.
-    // Miejscowości nie wczytujemy w całości (rejestr SIMC ma ~100 tys. rekordów) — pole
+    // Miejscowości nie wczytujemy w całości (rejestr SIMC ma ~100 tys. rekordów) - pole
     // podpowiada się przez GET /cities/search, tu dociągamy tylko nazwę ewentualnie już wybranej.
     public function create()
     {
@@ -65,7 +65,7 @@ class AnimalEditController extends Controller
     // Zapisuje nowe zgłoszenie edycji zwierzęcia wraz ze zdjęciami, walidując dane wejściowe i ustawiając status moderacji na "pending". Generuje unikalny token edycji i przekierowuje użytkownika z komunikatem o powodzeniu operacji.
     public function store(Request $request)
     {
-        // ** Honeypot — pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
+        // ** Honeypot - pole niewidoczne dla ludzi, ale boty je wypełniają. Udajemy sukces,
         // żeby bot nie wiedział, że został złapany, i nie próbował omijać zabezpieczenia
         if ($request->filled('website')) {
             return redirect()->route('animals.index')
@@ -75,7 +75,7 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
+            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane - wymagane tylko dla "Zaginiony"
             'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'behavior'       => 'nullable|string',
@@ -107,20 +107,20 @@ class AnimalEditController extends Controller
             'colors.required'   => 'Wybierz przynajmniej jeden kolor zwierzaka.',
         ]);
 
-        // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno — nie należą do fillable AnimalEdit
+        // ** Zdjęcia, kolory i zgoda na regulamin są obsługiwane osobno - nie należą do fillable AnimalEdit
         $photos = $data['photos'] ?? [];
         $colors = $data['colors'] ?? [];
         $mainPhotoIndex = (int) ($data['main_photo_index'] ?? 0);
         unset($data['photos'], $data['colors'], $data['main_photo_index'], $data['accept_terms']);
 
-        // ** Spoza zakresu (np. przy manipulacji formularzem) — wraca do pierwszego zdjęcia
+        // ** Spoza zakresu (np. przy manipulacji formularzem) - wraca do pierwszego zdjęcia
         if ($mainPhotoIndex < 0 || $mainPhotoIndex >= count($photos)) {
             $mainPhotoIndex = 0;
         }
 
         $data['title'] = $this->generateTitle($data);
         $data['mod_status'] = 'pending';
-        // ** (string) jest tu konieczne — Str::uuid() zwraca obiekt, a nie string. Przekazany
+        // ** (string) jest tu konieczne - Str::uuid() zwraca obiekt, a nie string. Przekazany
         // bez rzutowania np. do route() (jak w AnimalSubmissionReceived) po cichu znika z
         // query stringa zamiast się wystringować, więc link w mailu wychodzi bez tokenu.
         $data['edit_token'] = (string) Str::uuid();
@@ -141,11 +141,11 @@ class AnimalEditController extends Controller
             ]);
         }
 
-        // ** Zgłoszenie jest już zapisane w bazie — awaria wysyłki (zły adres, padły
+        // ** Zgłoszenie jest już zapisane w bazie - awaria wysyłki (zły adres, padły
         // SMTP itp.) nie może zablokować odpowiedzi użytkownikowi, który realnie
         // zgłoszenie dodał poprawnie. Błędy tylko logujemy.
-        // Moderatorzy dostaną powiadomienie dopiero po potwierdzeniu maila —
-        // patrz confirmEmail() — więc tu wysyłamy tylko to jedno, z linkiem do potwierdzenia.
+        // Moderatorzy dostaną powiadomienie dopiero po potwierdzeniu maila -
+        // patrz confirmEmail() - więc tu wysyłamy tylko to jedno, z linkiem do potwierdzenia.
         try {
             Mail::to($animalEdit->contact_email, $animalEdit->contact_name)
                 ->send(new AnimalSubmissionReceived($animalEdit));
@@ -153,7 +153,7 @@ class AnimalEditController extends Controller
             report($e);
         }
 
-        // ** Zapowiedź wyszukiwania po zdjęciach — tylko gdy faktycznie je zrobimy
+        // ** Zapowiedź wyszukiwania po zdjęciach - tylko gdy faktycznie je zrobimy
         // (moduł włączony i są zdjęcia), patrz PhotoMatchNotifier::willSearch
         $matchInfo = PhotoMatchNotifier::willSearch($animalEdit)
             ? ' Po zatwierdzeniu ogłoszenia poszukamy podobnych zwierzaków w naszej bazie i napiszemy, jeśli coś znajdziemy.'
@@ -164,7 +164,7 @@ class AnimalEditController extends Controller
     }
 
     // Potwierdza adres e-mail zgłaszającego (link z maila AnimalSubmissionReceived).
-    // Dopiero po tym moderatorzy dostają powiadomienie o nowym zgłoszeniu — ochrona
+    // Dopiero po tym moderatorzy dostają powiadomienie o nowym zgłoszeniu - ochrona
     // przed botami i fałszywymi adresami. Idempotentne: ponowne kliknięcie nie wysyła
     // powiadomień drugi raz.
     public function confirmEmail(AnimalEdit $animalEdit, Request $request, PhotoMatchNotifier $matchNotifier)
@@ -176,7 +176,7 @@ class AnimalEditController extends Controller
         if ($animalEdit->email_verified_at === null) {
             $animalEdit->update(['email_verified_at' => now()]);
 
-            // ** Zlecenie wyszukania podobnych po zdjęciach — dopiero po potwierdzeniu e-maila,
+            // ** Zlecenie wyszukania podobnych po zdjęciach - dopiero po potwierdzeniu e-maila,
             // żeby boty i fałszywe adresy nie zajmowały CPU. Wektory policzy match:embed,
             // mail z kandydatami wyśle match:notify. Błąd nie może zablokować potwierdzenia.
             try {
@@ -185,9 +185,9 @@ class AnimalEditController extends Controller
                 report($e);
             }
 
-            // ** Osobno do każdego, nie jednym Mail::to([...]) — inaczej wszyscy moderatorzy
+            // ** Osobno do każdego, nie jednym Mail::to([...]) - inaczej wszyscy moderatorzy
             // widzieliby się nawzajem w nagłówku "Do" tej samej wiadomości. Też w try/catch,
-            // każdy z osobna — jeden zły adres nie może zablokować powiadomienia reszty.
+            // każdy z osobna - jeden zły adres nie może zablokować powiadomienia reszty.
             $moderators = User::where('is_admin', true)->orWhere('is_moderator', true)->get();
 
             foreach ($moderators as $moderator) {
@@ -201,7 +201,7 @@ class AnimalEditController extends Controller
         }
 
         $matchInfo = MatchRequest::where('animal_edit_id', $animalEdit->id)->exists()
-            ? ' Po zatwierdzeniu poszukamy też podobnych zwierzaków w naszej bazie — jeśli coś znajdziemy, napiszemy do Ciebie.'
+            ? ' Po zatwierdzeniu poszukamy też podobnych zwierzaków w naszej bazie - jeśli coś znajdziemy, napiszemy do Ciebie.'
             : '';
 
         return redirect()->route('animals.index')
@@ -241,7 +241,7 @@ class AnimalEditController extends Controller
         $data = $request->validate([
             'status'         => 'required|in:lost,found',
             'description'    => 'required|string',
-            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane — wymagane tylko dla "Zaginiony"
+            // ** Przy "Znaleziony" imię prawie nigdy nie jest znane - wymagane tylko dla "Zaginiony"
             'animal_name'    => ['nullable', 'required_if:status,lost', 'string', 'max:255', 'regex:/^[\p{L}\s\-]+$/u'],
             'ident_marks'    => 'nullable|string',
             'behavior'       => 'nullable|string',
@@ -285,9 +285,9 @@ class AnimalEditController extends Controller
             ->with('success', 'Edycja została wysłana i oczekuje na moderację.');
     }
 
-    // Oznacza ogłoszenie jako rozwiązane ("Znaleziono zwierzaka") — bezpośrednio przez
+    // Oznacza ogłoszenie jako rozwiązane ("Znaleziono zwierzaka") - bezpośrednio przez
     // zgłaszającego (token), bez moderacji. Ogłoszenie znika z publicznych list, bo te
-    // filtrują po mod_status="approved" — "resolved" tam już nie pasuje.
+    // filtrują po mod_status="approved" - "resolved" tam już nie pasuje.
     public function markResolved(Animal $animal, Request $request)
     {
         if ($request->get('token') !== $animal->edit_token) {
@@ -300,7 +300,7 @@ class AnimalEditController extends Controller
             ->with('success', 'Super! Cieszymy się, że zwierzak się znalazł. Ogłoszenie zostało zdjęte ze strony.');
     }
 
-    // Przedłuża ogłoszenie o EXTEND_MONTHS od teraz — po ostrzeżeniu z animals:retention.
+    // Przedłuża ogłoszenie o EXTEND_MONTHS od teraz - po ostrzeżeniu z animals:retention.
     // Bezpośrednio przez zgłaszającego (token), bez moderacji. Czyszczenie retention_notice_at
     // zdejmuje ogłoszenie z kolejki do usunięcia; po nowym terminie cykl się powtórzy.
     public function extend(Animal $animal, Request $request)
@@ -309,7 +309,7 @@ class AnimalEditController extends Controller
             abort(403, 'Nieprawidłowy token – brak dostępu.');
         }
 
-        // ** Tylko po ostrzeżeniu — wcześniejsze kliknięcie skróciłoby ogłoszenie
+        // ** Tylko po ostrzeżeniu - wcześniejsze kliknięcie skróciłoby ogłoszenie
         // (now + 6 mies. zamiast created_at + 2 lata)
         if ($animal->retention_notice_at === null || $animal->mod_status !== 'approved') {
             return redirect()->route('animals.show', $animal)
@@ -318,7 +318,7 @@ class AnimalEditController extends Controller
 
         $until = now()->addMonthsNoOverflow(ApplyAnimalRetention::EXTEND_MONTHS);
 
-        // ** Zapis z pominięciem Eloquenta — bez ruszania updated_at
+        // ** Zapis z pominięciem Eloquenta - bez ruszania updated_at
         // i bez przeliczania search_index (event saved w modelu)
         Animal::whereKey($animal->id)->toBase()->update([
             'retention_until'     => $until,
@@ -329,14 +329,14 @@ class AnimalEditController extends Controller
             ->with('success', 'Dziękujemy! Ogłoszenie zostało przedłużone do '.$until->locale('pl')->translatedFormat('j F Y').'.');
     }
 
-    // Usuwa własne ogłoszenie — bezpośrednio przez zgłaszającego (token), bez moderacji
+    // Usuwa własne ogłoszenie - bezpośrednio przez zgłaszającego (token), bez moderacji
     public function destroySelf(Animal $animal, Request $request)
     {
         if ($request->get('token') !== $animal->edit_token) {
             abort(403, 'Nieprawidłowy token – brak dostępu.');
         }
 
-        // ** Zbieramy dane do maila z potwierdzeniem PRZED usunięciem — jako zwykłe
+        // ** Zbieramy dane do maila z potwierdzeniem PRZED usunięciem - jako zwykłe
         // skalary, nie referencję do modelu, który za chwilę przestanie istnieć w bazie
         $title = $animal->generated_title;
         $animalId = $animal->id;
@@ -360,7 +360,7 @@ class AnimalEditController extends Controller
             ->with('success', 'Ogłoszenie zostało usunięte.');
     }
 
-    // Wylicza tytuł ogłoszenia z szablonu w ustawieniach (App\Filament\Pages\Settings) —
+    // Wylicza tytuł ogłoszenia z szablonu w ustawieniach (App\Filament\Pages\Settings) -
     // użytkownik formularza publicznego tytułu nie wpisuje samodzielnie
     private function generateTitle(array $data): string
     {

@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Dodaje "resolved" do enuma mod_status na animals — status ustawiany bezpośrednio
+// Dodaje "resolved" do enuma mod_status na animals - status ustawiany bezpośrednio
 // przez zgłaszającego (przycisk "Znaleziono zwierzaka" na stronie edycji, przez
 // edit_token), bez moderacji. Na MySQL zmiana enuma surowym SQL (Schema...->change()
 // bywa dla enumów MySQL zawodne). Na innych sterownikach (SQLite w testach) enum to
-// i tak zwykły varchar z CHECK — przestawiamy go na luźny string.
+// i tak zwykły varchar z CHECK - przestawiamy go na luźny string.
 // ---------------------------
 return new class extends Migration
 {

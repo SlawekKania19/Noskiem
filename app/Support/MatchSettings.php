@@ -8,10 +8,10 @@ use Illuminate\Database\QueryException;
 // ---------------------------
 // Ustawienia dopasowań po zdjęciach edytowalne z panelu (strona "Dopasowanie AI").
 // Wartości zapisane w tabeli settings (klucz "match.<ścieżka>") nadpisują
-// config/noskiem_match.php przy starcie aplikacji — reszta kodu dalej czyta zwykłe
+// config/noskiem_match.php przy starcie aplikacji - reszta kodu dalej czyta zwykłe
 // config('noskiem_match...'), nic nie wie o panelu.
 // Brak wpisu w settings = obowiązuje wartość z pliku/.env ("domyślna").
-// Celowo NIE ma tu enabled, python ani hf_offline — zależą od instalacji na serwerze,
+// Celowo NIE ma tu enabled, python ani hf_offline - zależą od instalacji na serwerze,
 // błąd z panelu mógłby wyłączyć cały moduł.
 // ---------------------------
 
@@ -41,7 +41,7 @@ class MatchSettings
     // Wartości z pliku/.env sprzed nadpisania (zapamiętane przy pierwszym apply())
     protected static array $defaults = [];
 
-    // ** Instancja configu, dla której zapamiętano $defaults — nowa instancja aplikacji
+    // ** Instancja configu, dla której zapamiętano $defaults - nowa instancja aplikacji
     // (np. kolejny test w tym samym procesie) zaczyna od czystych wartości domyślnych
     protected static ?\WeakReference $defaultsFor = null;
 
@@ -58,7 +58,7 @@ class MatchSettings
             self::$defaultsFor = \WeakReference::create($config);
         }
 
-        // ** Najpierw zapamiętujemy wartości z pliku — zanim cokolwiek je nadpisze
+        // ** Najpierw zapamiętujemy wartości z pliku - zanim cokolwiek je nadpisze
         foreach (array_keys(self::FIELDS) as $path) {
             if (! array_key_exists($path, self::$defaults)) {
                 self::$defaults[$path] = config('noskiem_match.'.$path);
@@ -74,7 +74,7 @@ class MatchSettings
                     : self::cast($stored, $type)]);
             }
         } catch (QueryException) {
-            // ** Brak tabeli settings (świeża instalacja, testy przed migracją) —
+            // ** Brak tabeli settings (świeża instalacja, testy przed migracją) -
             // zostają wartości z pliku
         }
     }
@@ -129,7 +129,7 @@ class MatchSettings
         self::apply();
     }
 
-    // Usuwa wszystkie nadpisania — wracają wartości z pliku/.env
+    // Usuwa wszystkie nadpisania - wracają wartości z pliku/.env
     public static function reset(): void
     {
         foreach (array_keys(self::FIELDS) as $path) {

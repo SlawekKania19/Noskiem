@@ -9,7 +9,7 @@ class CreatePost extends CreateRecord
 {
     protected static string $resource = PostResource::class;
 
-    // ** Autor niebędący adminem zawsze zapisuje wpis na siebie — niezależnie od
+    // ** Autor niebędący adminem zawsze zapisuje wpis na siebie - niezależnie od
     // tego, co przyszło w żądaniu (pole autora ma wtedy ukryte)
     protected function mutateFormDataBeforeCreate(array $data): array
     {

@@ -30,14 +30,14 @@ class MessageResource extends Resource
     protected static ?string $pluralModelLabel = 'wiadomości';
     protected static ?int $navigationSort = 4;
 
-    // Brak formularza — wiadomości są tylko do odczytu
+    // Brak formularza - wiadomości są tylko do odczytu
     public static function form(Schema $schema): Schema
     {
         return $schema->components([]);
     }
 
     // ---------------------------
-    // Tabela — lista wiadomości
+    // Tabela - lista wiadomości
     // ---------------------------
 
     public static function table(Table $table): Table
@@ -92,7 +92,7 @@ class MessageResource extends Resource
     }
 
     // ---------------------------
-    // Infolist — pełna treść wiadomości
+    // Infolist - pełna treść wiadomości
     // ---------------------------
 
     public static function infolist(Schema $schema): Schema
@@ -114,7 +114,7 @@ class MessageResource extends Resource
             ]),
 
             Section::make('Dane techniczne')
-                ->description('Widoczne wyłącznie w panelu admina — na wypadek problemów prawnych.')
+                ->description('Widoczne wyłącznie w panelu admina - na wypadek problemów prawnych.')
                 ->schema([
                     TextEntry::make('submitter_ip')
                         ->label('Adres IP nadawcy')

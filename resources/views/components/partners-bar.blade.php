@@ -1,9 +1,9 @@
 {{-- ---------------------------
-     Pasek partnerów nad stopką — karuzela logotypów.
+     Pasek partnerów nad stopką - karuzela logotypów.
 
      Widocznych jest N banerów naraz (ustawienie w panelu; na tablecie 3, na telefonie 1),
      kolorowy jest ten na środku, pozostałe czarno-białe. Co kilka sekund pasek przesuwa
-     się o jeden baner — logika w resources/js/partners-carousel.js.
+     się o jeden baner - logika w resources/js/partners-carousel.js.
      --------------------------- --}}
 <section
     x-data="partnersCarousel({
@@ -52,7 +52,7 @@
                     <template x-for="(partner, index) in visible" :key="partner.key">
                         <div class="shrink-0 px-2 sm:px-3" :style="itemStyle()">
                             {{-- Bez linku Alpine usuwa href i baner zostaje zwykłym, nieklikalnym kafelkiem.
-                                 Biały box z cieniem tylko gdy nie ma logo (sama nazwa) — logo idzie "gołe" na tle paska. --}}
+                                 Biały box z cieniem tylko gdy nie ma logo (sama nazwa) - logo idzie "gołe" na tle paska. --}}
                             <a
                                 :href="partner.url || null"
                                 :target="partner.url ? '_blank' : null"
@@ -74,7 +74,7 @@
                                         class="max-h-12 w-auto max-w-full object-contain"
                                     >
                                 </template>
-                                {{-- Brak logo — pokazujemy samą nazwę partnera --}}
+                                {{-- Brak logo - pokazujemy samą nazwę partnera --}}
                                 <template x-if="! partner.logo">
                                     <span class="text-center text-[15px] font-semibold text-[#283618]" x-text="partner.name"></span>
                                 </template>
@@ -98,7 +98,7 @@
         </div>
 
         {{-- ** Bez JS karuzela się nie zbuduje (x-for), więc partnerzy dostają zwykłą,
-             statyczną listę — sponsor ma być widoczny zawsze --}}
+             statyczną listę - sponsor ma być widoczny zawsze --}}
         <noscript>
             <ul class="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
                 @foreach ($partners as $partner)

@@ -1,15 +1,15 @@
 /*
-  Fonty hostowane lokalnie (Inter, Barlow) zamiast ładowanych z fonts.bunny.net —
+  Fonty hostowane lokalnie (Inter, Barlow) zamiast ładowanych z fonts.bunny.net -
   eliminuje to blokujące renderowanie żądania do zewnętrznej domeny (Lighthouse:
   "Prośby o zablokowanie renderowania"). Tylko wagi i podzbiory faktycznie użyte
   w kodzie: Inter 400/500/600/700, Barlow 400/600 (waga 900 nieużywana).
   Podzbiory latin + latin-ext (polskie znaki diakrytyczne są w latin-ext).
 
-  font-display: optional — jeśli font nie zdąży się załadować od razu, strona
+  font-display: optional - jeśli font nie zdąży się załadować od razu, strona
   zostaje przy foncie zapasowym (patrz fallback w klasach font-[...] w layoucie)
   do końca tego wejścia, bez podmiany w locie. Eliminuje to CLS z podmiany fontu
   (zamiast tego font Inter/Barlow po prostu nie pojawi się przy pierwszej, zimnej
-  wizycie — przy kolejnych stronach jest już w cache przeglądarki).
+  wizycie - przy kolejnych stronach jest już w cache przeglądarki).
 */
 
 @font-face {

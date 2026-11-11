@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 // ---------------------------
 // Serwis moderacji zgłoszeń "też widziałem" (Sighting). Prostszy niż
-// ModerationService dla ogłoszeń — sighting nie tworzy osobnego Animal, tylko
+// ModerationService dla ogłoszeń - sighting nie tworzy osobnego Animal, tylko
 // zmienia mod_status na sobie samym i po zatwierdzeniu staje się widoczny jako
 // wpis w timeline pod oryginalnym ogłoszeniem.
 // ---------------------------
@@ -35,7 +35,7 @@ class SightingModerationService
             'user_id'      => $moderatorId,
         ]);
 
-        // ** Mail nie może zepsuć moderatorowi kliknięcia "Zatwierdź" — błąd tylko logujemy
+        // ** Mail nie może zepsuć moderatorowi kliknięcia "Zatwierdź" - błąd tylko logujemy
         try {
             Mail::to($sighting->contact_email, $sighting->contact_name)
                 ->send(new SightingApproved($sighting));

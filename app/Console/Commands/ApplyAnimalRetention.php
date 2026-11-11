@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Mail;
 
 // ---------------------------
 // Retencja starych ogłoszeń. Odpalana codziennie ze schedulera (routes/console.php):
-// 1. Aktywne "Znaleziony" po 2 latach (albo po przedłużonym terminie retention_until) —
+// 1. Aktywne "Znaleziony" po 2 latach (albo po przedłużonym terminie retention_until) -
 //    mail z ostrzeżeniem i linkiem do przedłużenia o 6 miesięcy.
-// 2. Ostrzeżone tydzień temu i nieprzedłużone — usuwane.
-// 3. Zamknięte (resolved, oba statusy) po 2 latach — usuwane od razu, bez maila,
+// 2. Ostrzeżone tydzień temu i nieprzedłużone - usuwane.
+// 3. Zamknięte (resolved, oba statusy) po 2 latach - usuwane od razu, bez maila,
 //    bo i tak nie są widoczne na stronie.
 // Pliki zdjęć kasuje hook deleting w modelu Animal, resztę rekordów kaskada FK.
 // ---------------------------
@@ -29,7 +29,7 @@ class ApplyAnimalRetention extends Command
     // Ile dni autor ma na przedłużenie po otrzymaniu ostrzeżenia
     public const GRACE_DAYS = 7;
 
-    // O ile miesięcy (od kliknięcia) autor może przedłużyć ogłoszenie — AnimalEditController::extend()
+    // O ile miesięcy (od kliknięcia) autor może przedłużyć ogłoszenie - AnimalEditController::extend()
     public const EXTEND_MONTHS = 6;
 
     protected bool $dryRun = false;
@@ -38,7 +38,7 @@ class ApplyAnimalRetention extends Command
     {
         $this->dryRun = (bool) $this->option('dry-run');
 
-        // ** Najpierw usuwanie, potem ostrzeżenia — świeżo ostrzeżone ogłoszenie
+        // ** Najpierw usuwanie, potem ostrzeżenia - świeżo ostrzeżone ogłoszenie
         // nie ma szans trafić do usunięcia w tym samym przebiegu
         $deletedNoticed = $this->deleteAll($this->noticeExpiredQuery());
         $deletedResolved = $this->deleteAll($this->resolvedExpiredQuery());
@@ -52,7 +52,7 @@ class ApplyAnimalRetention extends Command
     }
 
     // ---------------------------
-    // Wysyłka ostrzeżeń. retention_notice_at ustawiamy dopiero po udanej wysyłce —
+    // Wysyłka ostrzeżeń. retention_notice_at ustawiamy dopiero po udanej wysyłce -
     // tydzień do usunięcia liczy się tylko wtedy, gdy autor faktycznie dostał maila.
     // Nieudana wysyłka = ogłoszenie wraca do kolejki jutro.
     // ---------------------------
@@ -83,7 +83,7 @@ class ApplyAnimalRetention extends Command
                         continue;
                     }
 
-                    // ** Zapis z pominięciem Eloquenta — bez ruszania updated_at
+                    // ** Zapis z pominięciem Eloquenta - bez ruszania updated_at
                     // i bez przeliczania search_index (event saved w modelu)
                     Animal::whereKey($animal->id)->toBase()->update(['retention_notice_at' => $noticeAt]);
                     $sent++;
@@ -94,7 +94,7 @@ class ApplyAnimalRetention extends Command
     }
 
     // ** Usuwa wszystkie ogłoszenia z zapytania przez Eloquenta (żeby odpalił hook
-    // kasujący pliki zdjęć). Błąd przy jednym nie przerywa reszty — spróbujemy jutro.
+    // kasujący pliki zdjęć). Błąd przy jednym nie przerywa reszty - spróbujemy jutro.
     protected function deleteAll(Builder $query): int
     {
         $count = 0;
@@ -130,7 +130,7 @@ class ApplyAnimalRetention extends Command
             ->where(fn (Builder $query) => $this->whereExpired($query));
     }
 
-    // ** Ostrzeżone co najmniej GRACE_DAYS dni temu (liczone po dniach kalendarzowych —
+    // ** Ostrzeżone co najmniej GRACE_DAYS dni temu (liczone po dniach kalendarzowych -
     // ostrzeżenie z dnia D usuwamy w przebiegu D+7, niezależnie od godziny wysyłki).
     // Przedłużenie czyści retention_notice_at, więc przedłużone tu nie trafią.
     protected function noticeExpiredQuery(): Builder
@@ -141,7 +141,7 @@ class ApplyAnimalRetention extends Command
             ->where('retention_notice_at', '<=', now()->subDays(self::GRACE_DAYS)->endOfDay());
     }
 
-    // ** Zamknięte (resolved) po terminie — oba statusy, bez ostrzegania
+    // ** Zamknięte (resolved) po terminie - oba statusy, bez ostrzegania
     protected function resolvedExpiredQuery(): Builder
     {
         return Animal::query()
@@ -149,7 +149,7 @@ class ApplyAnimalRetention extends Command
             ->where(fn (Builder $query) => $this->whereExpired($query));
     }
 
-    // ** Termin minął: przedłużony (retention_until) albo domyślny — EXPIRE_YEARS od zatwierdzenia
+    // ** Termin minął: przedłużony (retention_until) albo domyślny - EXPIRE_YEARS od zatwierdzenia
     // (created_at, bo Animal powstaje dopiero w ModerationService::approve())
     protected function whereExpired(Builder $query): Builder
     {

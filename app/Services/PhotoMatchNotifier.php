@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\URL;
 
 // ---------------------------
 // Zlecenia "poszukaj podobnych i napisz do autora" (tabela match_requests).
-// queue() — po potwierdzeniu e-maila nowego zgłoszenia (AnimalEditController::confirmEmail).
-// process() — z php artisan match:notify: po ZATWIERDZENIU zgłoszenia przez moderatora,
+// queue() - po potwierdzeniu e-maila nowego zgłoszenia (AnimalEditController::confirmEmail).
+// process() - z php artisan match:notify: po ZATWIERDZENIU zgłoszenia przez moderatora,
 // gdy zdjęcia mają już wektory (liczy je match:embed od razu po potwierdzeniu e-maila),
 // szuka kandydatów i wysyła mail TYLKO gdy coś przekracza próg.
 // ---------------------------
@@ -24,7 +24,7 @@ class PhotoMatchNotifier
 {
     public function __construct(private PhotoMatchService $matcher, private MatchSearchLogger $logger) {}
 
-    // ** Czy obiecujemy autorowi wyszukiwanie — moduł włączony i są zdjęcia do porównania.
+    // ** Czy obiecujemy autorowi wyszukiwanie - moduł włączony i są zdjęcia do porównania.
     // Ten sam warunek decyduje o tekstach komunikatów, żeby nie obiecywać czegoś, czego nie zrobimy
     public static function willSearch(AnimalEdit $edit): bool
     {
@@ -41,13 +41,13 @@ class PhotoMatchNotifier
     }
 
     // ---------------------------
-    // Realizacja jednego zlecenia — zwraca jego status po przetworzeniu
+    // Realizacja jednego zlecenia - zwraca jego status po przetworzeniu
     // ---------------------------
     public function process(MatchRequest $request): string
     {
         $edit = $request->animalEdit;
 
-        // ** Mail idzie dopiero PO zatwierdzeniu — moderator decyduje, czy autor w ogóle coś
+        // ** Mail idzie dopiero PO zatwierdzeniu - moderator decyduje, czy autor w ogóle coś
         // dostanie (spam, odrzucone). Wektory liczą się wcześniej, więc po zatwierdzeniu
         // mail wychodzi w ciągu minuty. Oczekujące czekają, ale nie w nieskończoność
         if ($edit?->mod_status === 'pending') {
@@ -63,7 +63,7 @@ class PhotoMatchNotifier
             return $this->finish($request, 'skipped');
         }
 
-        // ** Termin liczony od zatwierdzenia — wolna moderacja (np. weekend) nie może
+        // ** Termin liczony od zatwierdzenia - wolna moderacja (np. weekend) nie może
         // sprawić, że mail przepadnie; liczy się tylko czekanie na wektory po zatwierdzeniu
         if ($approvedAt->lt(now()->subHours(config('noskiem_match.notify.ttl_hours')))) {
             return $this->finish($request, 'expired');
@@ -72,7 +72,7 @@ class PhotoMatchNotifier
         try {
             $out = $this->matcher->search($query);
 
-            // ** Zdjęcia jeszcze w kolejce match:embed — spróbujemy w kolejnym uruchomieniu
+            // ** Zdjęcia jeszcze w kolejce match:embed - spróbujemy w kolejnym uruchomieniu
             if ($out['status'] === 'pending') {
                 return 'queued';
             }
@@ -81,7 +81,7 @@ class PhotoMatchNotifier
                 return $this->finish($request, $out['status']);
             }
 
-            // ** Log PRZED decyzją o mailu — także wyszukiwania bez wyników ponad progiem
+            // ** Log PRZED decyzją o mailu - także wyszukiwania bez wyników ponad progiem
             // (z kandydatami poniżej progu) są potrzebne do kalibracji
             $search = $this->logger->record($out, $query, 'notify', $request);
 
@@ -109,7 +109,7 @@ class PhotoMatchNotifier
     /**
      * Zatwierdzone ogłoszenie i moment zatwierdzenia. Po zatwierdzeniu zdjęcia są
      * przepięte na nowy Animal (ModerationService::approve), a animal_edits.animal_id
-     * zostaje null — ogłoszenie znajdujemy przez log moderacji.
+     * zostaje null - ogłoszenie znajdujemy przez log moderacji.
      *
      * @return array{0: ?Animal, 1: ?\Illuminate\Support\Carbon}
      */
@@ -124,12 +124,12 @@ class PhotoMatchNotifier
 
         $animal = Animal::find($edit->animal_id ?? $log?->animal_id);
 
-        // ** Brak wpisu w logu (stare dane) — liczymy od ostatniej zmiany zgłoszenia (zatwierdzenia)
+        // ** Brak wpisu w logu (stare dane) - liczymy od ostatniej zmiany zgłoszenia (zatwierdzenia)
         return [$animal, $log?->created_at ?? $edit->updated_at];
     }
 
-    // ** Dane do maila jako zwykłe tablice — widok nie odpytuje bazy. Linki przez
-    // podpisany endpoint kliknięć (MatchClickController) — zapis pozycji, potem przekierowanie
+    // ** Dane do maila jako zwykłe tablice - widok nie odpytuje bazy. Linki przez
+    // podpisany endpoint kliknięć (MatchClickController) - zapis pozycji, potem przekierowanie
     protected function mailItems(array $shown, MatchSearch $search): array
     {
         $mv = app(PhotoEmbeddingService::class)->modelVersion();
@@ -143,7 +143,7 @@ class PhotoMatchNotifier
 
                 return [
                     'title'       => $animal->generated_title,
-                    // ** Bez wygasania — maile czyta się też po tygodniach
+                    // ** Bez wygasania - maile czyta się też po tygodniach
                     'url'         => URL::signedRoute('matches.click', ['matchSearch' => $search->id, 'position' => $r['position']]),
                     'photo_url'   => $this->bestPhotoUrl($animal, $r['best_photo_index'], $mv),
                     'level'       => $r['level'],

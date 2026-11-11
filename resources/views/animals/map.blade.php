@@ -1,5 +1,5 @@
 @php
-    // ** Rasy do filtrowania po stronie klienta (Alpine) w zależności od wybranego gatunku —
+    // ** Rasy do filtrowania po stronie klienta (Alpine) w zależności od wybranego gatunku -
     // ta sama struktura co w formularzu zgłoszenia (resources/views/animals/create.blade.php)
     $breedsForJs = $breeds->map(fn ($b) => [
         'id' => $b->id,
@@ -10,7 +10,7 @@
 
 @extends('layouts.public')
 
-@section('title', 'Mapa zaginionych / odnalezionych zwierzaków — Noskiem.pl')
+@section('title', 'Mapa zaginionych / odnalezionych zwierzaków - Noskiem.pl')
 
 @push('head-assets')
     @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
@@ -19,7 +19,7 @@
 @section('content')
 
     {{-- ---------------------------
-         Mapa wszystkich zatwierdzonych ogłoszeń — filtry działają po stronie przeglądarki
+         Mapa wszystkich zatwierdzonych ogłoszeń - filtry działają po stronie przeglądarki
          (bez przeładowania strony), żeby zmiana filtra nie resetowała widoku mapy
          --------------------------- --}}
     <div
@@ -36,7 +36,7 @@
         </p>
 
         {{-- ---------------------------
-             Filtry — te same kryteria co na /animals, ale bez przycisku "Filtruj": każda
+             Filtry - te same kryteria co na /animals, ale bez przycisku "Filtruj": każda
              zmiana od razu aktualizuje pinezki na mapie
              --------------------------- --}}
         <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -64,7 +64,7 @@
                 </template>
             </select>
 
-            {{-- ** Województwo + Miasto — komponent ma własny stan Alpine, więc synchronizujemy
+            {{-- ** Województwo + Miasto - komponent ma własny stan Alpine, więc synchronizujemy
                  go z filtrami mapy przez zdarzenie 'city-picker-change' (patrz city-picker.js) --}}
             <div @city-picker-change="onCityPickerChange($event.detail)" class="contents">
                 <x-city-picker
@@ -112,7 +112,7 @@
         </div>
 
         {{-- ---------------------------
-             Mapa — legenda kolorów + kontener Leaflet z pinezkami
+             Mapa - legenda kolorów + kontener Leaflet z pinezkami
              --------------------------- --}}
         <div class="mt-4 flex items-center gap-4 text-[12px] text-[#616657]">
             <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-[#994d0a]"></span> Zaginione</span>

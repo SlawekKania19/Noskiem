@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 // ---------------------------
 // Model reprezentujący słownik zachowań zwierzęcia (np. "agresywny", "przyjazny").
-// Wartości zasilają przyciski szybkiego dodawania w formularzu zgłoszenia —
+// Wartości zasilają przyciski szybkiego dodawania w formularzu zgłoszenia -
 // pole "behavior" na Animal/AnimalEdit jest zwykłym tekstem, nie relacją.
 // ---------------------------
 

@@ -1,19 +1,19 @@
 @php
     // ---------------------------
-    // Pojedynczy plakat (tylko ogłoszenia "Zaginął" — patrz PosterController).
+    // Pojedynczy plakat (tylko ogłoszenia "Zaginął" - patrz PosterController).
     // Renderowany raz (A4) lub dwa razy obok siebie (A5, $position 'left'/'right').
     // Dane wejściowe: $animal, $photoLayout ('none'|'side'|'row'), $photosData (data-URI[]),
     // $qrData, $logoData, $showUrl, $position
     // ---------------------------
 
-    // ** Wariant kompaktowy — połówka kartki w formacie A5
+    // ** Wariant kompaktowy - połówka kartki w formacie A5
     $compact = $position !== null;
 
-    // ** Nagłówek "ZAGINĄŁ KOT" — dla gatunku "Inne" neutralne "ZWIERZAK"
+    // ** Nagłówek "ZAGINĄŁ KOT" - dla gatunku "Inne" neutralne "ZWIERZAK"
     $speciesName = $animal->species?->name_pl;
     $headline = 'ZAGINĄŁ '.mb_strtoupper($speciesName && $speciesName !== 'Inne' ? $speciesName : 'zwierzak');
 
-    // ** Pod nagłówkiem imię + rasa (bez "Rasa nieznana" — nic nie wnosi na plakacie)
+    // ** Pod nagłówkiem imię + rasa (bez "Rasa nieznana" - nic nie wnosi na plakacie)
     $breedName = $animal->breed?->breed_pl;
     $breedName = $breedName && $breedName !== 'Rasa nieznana' ? $breedName : null;
 
@@ -27,7 +27,7 @@
         $location = trim($location.' (woj. '.mb_strtolower($animal->voivodeship->name_pl).')');
     }
 
-    // ** Teksty skracane, żeby dane zmieściły się nad boxem kontaktu — na plakacie
+    // ** Teksty skracane, żeby dane zmieściły się nad boxem kontaktu - na plakacie
     // i tak liczy się zdjęcie + kontakt. Limity sprawdzone na najgorszym przypadku
     // (rząd 4 zdjęć + długie znaki/zachowanie/miejsce).
     $limit = fn (?string $text, int $chars) => \Illuminate\Support\Str::limit((string) $text, $chars);
@@ -44,8 +44,8 @@
     $where = ['Gdzie', $location, 'dot'];
     $desc = ['Opis', $description, null];
 
-    // ** Układ boczny (1–2 zdjęcia) — wąska kolumna obok zdjęć, więc prawie wszystko
-    // pod sobą. Pozostałe układy — pełna szerokość, dwie kolumny jak w projekcie.
+    // ** Układ boczny (1–2 zdjęcia) - wąska kolumna obok zdjęć, więc prawie wszystko
+    // pod sobą. Pozostałe układy - pełna szerokość, dwie kolumny jak w projekcie.
     $rows = $photoLayout === 'side'
         ? [[$colors, $chip], [$marks], [$behaviorCell], [$date], [$where], [$desc]]
         : [[$colors, $chip], [$marks], [$behaviorCell], [$date, $where], [$desc]];
@@ -57,21 +57,21 @@
     )));
 
     // ---------------------------
-    // Wymiary zdjęć w mm — proporcje zgodne z kadrami w PosterRenderer::CROPS
+    // Wymiary zdjęć w mm - proporcje zgodne z kadrami w PosterRenderer::CROPS
     // (single 2:3, stacked 800×584, row 4:5)
     // ---------------------------
     $contentWidth = $compact ? 130.5 : 184;
     $gap = $compact ? 2.2 : 3;
     $sideCol = $compact ? 56 : 84;                  // szerokość lewej kolumny ze zdjęciami
     $sideGutter = $compact ? 4.5 : 6;               // odstęp zdjęcia od tekstu
-    $textCol = $contentWidth - $sideCol - $sideGutter; // obie kolumny jawnie — inaczej dompdf rozdziela miejsce po swojemu
+    $textCol = $contentWidth - $sideCol - $sideGutter; // obie kolumny jawnie - inaczej dompdf rozdziela miejsce po swojemu
     $sideHeight = $sideCol * 1.5;                   // pojedyncze zdjęcie 2:3
     $stackedHeight = ($sideHeight - $gap) / 2;      // dwa jedno pod drugim = ta sama wysokość
     $rowCount = count($photosData);
     $rowWidth = $rowCount ? ($contentWidth - $gap * ($rowCount - 1)) / $rowCount : 0;
     $mm = fn (float $value) => round($value, 2).'mm';
 
-    // ** Telefon w formacie z projektu ("600 123 456") — polski kierunkowy pomijamy
+    // ** Telefon w formacie z projektu ("600 123 456") - polski kierunkowy pomijamy
     $phone = $animal->formatted_phone
         ? str_replace('-', ' ', preg_replace('/^\+48 /', '', $animal->formatted_phone))
         : null;
@@ -140,7 +140,7 @@
             <table>
                 <tr>
                     <td>
-                        {{-- ** Bez imienia/nazwiska i bez e-maila — tylko telefon, a gdy autor
+                        {{-- ** Bez imienia/nazwiska i bez e-maila - tylko telefon, a gdy autor
                              go nie podał, link do ogłoszenia (kontakt przez formularz na stronie) --}}
                         @if ($phone)
                             <div class="contact-label">Widziałeś? Zadzwoń:</div>

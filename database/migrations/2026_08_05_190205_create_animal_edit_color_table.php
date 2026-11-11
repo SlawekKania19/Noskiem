@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // ---------------------------
-// Pivot kolorów dla zgłoszeń w trakcie moderacji (animal_edits) — analogiczny do animal_color,
+// Pivot kolorów dla zgłoszeń w trakcie moderacji (animal_edits) - analogiczny do animal_color,
 // ale dla AnimalEdit. Bez niego formularz zgłoszenia nie ma jak zapisać wybranych kolorów,
 // zanim zgłoszenie zostanie zatwierdzone i przeniesione do animals.
 // ---------------------------

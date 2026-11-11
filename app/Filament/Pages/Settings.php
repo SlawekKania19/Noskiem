@@ -51,10 +51,10 @@ class Settings extends Page implements HasForms
             'hero_headline_found' => Setting::get('hero_headline_found', 'Znalazłeś zwierzaka? Pomóż mu wrócić do domu.'),
             'hero_description_lost' => Setting::get('hero_description_lost', 'Przeszukaj bazę znalezionych i widzianych zwierząt z całej Polski, zanim dodasz własne ogłoszenie.'),
             'hero_description_found' => Setting::get('hero_description_found', 'Dodaj ogłoszenie o znalezionym zwierzaku, żeby jak najszybciej trafiło do właściciela.'),
-            'create_form_hint_lost' => Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej — im więcej szczegółów, tym większa szansa na odnalezienie.'),
-            'create_form_hint_found' => Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie — Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.'),
-            'create_form_location_hint_lost' => Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni — to zwiększa szansę na odnalezienie.'),
-            'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę — pomoże to właścicielowi je zidentyfikować.'),
+            'create_form_hint_lost' => Setting::get('create_form_hint_lost', 'Opisz zwierzę jak najdokładniej - im więcej szczegółów, tym większa szansa na odnalezienie.'),
+            'create_form_hint_found' => Setting::get('create_form_hint_found', 'Dziękujemy za zgłoszenie - Twoja pomoc zwiększa szansę, że zwierzę wróci do domu.'),
+            'create_form_location_hint_lost' => Setting::get('create_form_location_hint_lost', 'Wskaż miejsce, w którym zwierzę widziano po raz ostatni - to zwiększa szansę na odnalezienie.'),
+            'create_form_location_hint_found' => Setting::get('create_form_location_hint_found', 'Wskaż dokładne miejsce, w którym znalazłeś zwierzę - pomoże to właścicielowi je zidentyfikować.'),
             'animal_title_template_lost' => Setting::get('animal_title_template_lost', TitleGenerator::DEFAULT_TEMPLATE_LOST),
             'animal_title_template_found' => Setting::get('animal_title_template_found', TitleGenerator::DEFAULT_TEMPLATE_FOUND),
             'approval_time_sample_size' => Setting::get('approval_time_sample_size', '10'),
@@ -63,7 +63,7 @@ class Settings extends Page implements HasForms
             'rate_limit_phone_max' => Setting::get('rate_limit_phone_max', '20'),
             'partners_visible' => Setting::get('partners_visible', '5'),
             'partners_interval' => Setting::get('partners_interval', '4'),
-            'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas — odpowiadamy najszybciej jak to możliwe."),
+            'contact_page_intro' => Setting::get('contact_page_intro', "Masz pytanie, sugestię albo chcesz nawiązać współpracę? Napisz do nas - odpowiadamy najszybciej jak to możliwe."),
             'maintenance_enabled' => Setting::get('maintenance_enabled') === '1',
             'maintenance_until' => Setting::get('maintenance_until'),
             'maintenance_message' => Setting::get('maintenance_message'),
@@ -85,31 +85,31 @@ class Settings extends Page implements HasForms
                             ->required(),
 
                         TextInput::make('hero_headline_lost')
-                            ->label('Nagłówek Hero — tryb "Szukam"')
+                            ->label('Nagłówek Hero - tryb "Szukam"')
                             ->required()
                             ->maxLength(255),
 
                         Textarea::make('hero_description_lost')
-                            ->label('Opis Hero — tryb "Szukam"')
+                            ->label('Opis Hero - tryb "Szukam"')
                             ->required()
                             ->rows(2),
 
                         TextInput::make('hero_headline_found')
-                            ->label('Nagłówek Hero — tryb "Znalazłem"')
+                            ->label('Nagłówek Hero - tryb "Znalazłem"')
                             ->required()
                             ->maxLength(255),
 
                         Textarea::make('hero_description_found')
-                            ->label('Opis Hero — tryb "Znalazłem"')
+                            ->label('Opis Hero - tryb "Znalazłem"')
                             ->required()
                             ->rows(2),
                     ]),
 
                 Section::make('Tytuł ogłoszenia')
-                    ->description('Tytuł nie jest już wpisywany ręcznie przez użytkownika — generuje się automatycznie z poniższego szablonu. Osobny szablon dla "Zaginiony" i "Znaleziony", bo przy znalezieniu imię zwierzaka prawie nigdy nie jest znane.')
+                    ->description('Tytuł nie jest już wpisywany ręcznie przez użytkownika - generuje się automatycznie z poniższego szablonu. Osobny szablon dla "Zaginiony" i "Znaleziony", bo przy znalezieniu imię zwierzaka prawie nigdy nie jest znane.')
                     ->schema([
                         TextInput::make('animal_title_template_lost')
-                            ->label('Szablon tytułu — status "Zaginiony"')
+                            ->label('Szablon tytułu - status "Zaginiony"')
                             ->required()
                             ->maxLength(255)
                             ->live()
@@ -120,11 +120,11 @@ class Settings extends Page implements HasForms
                             ->content(fn (Get $get) => TitleGenerator::example($get('animal_title_template_lost') ?: TitleGenerator::DEFAULT_TEMPLATE_LOST, 'lost')),
 
                         TextInput::make('animal_title_template_found')
-                            ->label('Szablon tytułu — status "Znaleziony"')
+                            ->label('Szablon tytułu - status "Znaleziony"')
                             ->required()
                             ->maxLength(255)
                             ->live()
-                            ->helperText('Dostępne tagi: '.implode(', ', array_keys(TitleGenerator::TAGS)).'. Unikaj [Imię] — przy zgłoszeniu znalezienia zwykle nieznane.'),
+                            ->helperText('Dostępne tagi: '.implode(', ', array_keys(TitleGenerator::TAGS)).'. Unikaj [Imię] - przy zgłoszeniu znalezienia zwykle nieznane.'),
 
                         Placeholder::make('animal_title_template_found_preview')
                             ->label('Podgląd (na przykładowych danych)')
@@ -135,28 +135,28 @@ class Settings extends Page implements HasForms
                     ->description('Tekst pod przełącznikiem Zaginiony/Znaleziony na stronie dodawania ogłoszenia')
                     ->schema([
                         Textarea::make('create_form_hint_lost')
-                            ->label('Tekst — status "Zaginiony"')
+                            ->label('Tekst - status "Zaginiony"')
                             ->required()
                             ->rows(2),
 
                         Textarea::make('create_form_hint_found')
-                            ->label('Tekst — status "Znaleziony"')
+                            ->label('Tekst - status "Znaleziony"')
                             ->required()
                             ->rows(2),
 
                         Textarea::make('create_form_location_hint_lost')
-                            ->label('Tekst pod "Lokalizacja" — status "Zaginiony"')
+                            ->label('Tekst pod "Lokalizacja" - status "Zaginiony"')
                             ->required()
                             ->rows(2),
 
                         Textarea::make('create_form_location_hint_found')
-                            ->label('Tekst pod "Lokalizacja" — status "Znaleziony"')
+                            ->label('Tekst pod "Lokalizacja" - status "Znaleziony"')
                             ->required()
                             ->rows(2),
                     ]),
 
                 Section::make('Czas moderacji')
-                    ->description('Średni czas zatwierdzenia (od zgłoszenia do zatwierdzenia) pokazywany w mailu potwierdzającym nowe zgłoszenie — liczony z ostatnich N zatwierdzonych ogłoszeń.')
+                    ->description('Średni czas zatwierdzenia (od zgłoszenia do zatwierdzenia) pokazywany w mailu potwierdzającym nowe zgłoszenie - liczony z ostatnich N zatwierdzonych ogłoszeń.')
                     ->schema([
                         TextInput::make('approval_time_sample_size')
                             ->label('Liczba ostatnich zgłoszeń do liczenia średniej')
@@ -167,7 +167,7 @@ class Settings extends Page implements HasForms
                     ]),
 
                 Section::make('Ochrona przed spamem')
-                    ->description('Limit liczby zgłoszeń na 10 minut z jednego adresu IP — ochrona przed botami.')
+                    ->description('Limit liczby zgłoszeń na 10 minut z jednego adresu IP - ochrona przed botami.')
                     ->schema([
                         TextInput::make('rate_limit_animals_max')
                             ->label('Zgłoszenia ogłoszeń / 10 min')
@@ -202,7 +202,7 @@ class Settings extends Page implements HasForms
                                 '5' => '5',
                                 '7' => '7',
                             ])
-                            ->helperText('Na tablecie pasek pokazuje 3 banery, na telefonie 1 — niezależnie od tego ustawienia.')
+                            ->helperText('Na tablecie pasek pokazuje 3 banery, na telefonie 1 - niezależnie od tego ustawienia.')
                             ->required(),
 
                         TextInput::make('partners_interval')
@@ -215,14 +215,14 @@ class Settings extends Page implements HasForms
                     ]),
 
                 Section::make('Tryb serwisowy')
-                    ->description('Po włączeniu wszyscy odwiedzający widzą stronę "Przerwa techniczna" (kod 503). Zalogowani administratorzy i panel działają normalnie — tryb wyłącza się tutaj.')
+                    ->description('Po włączeniu wszyscy odwiedzający widzą stronę "Przerwa techniczna" (kod 503). Zalogowani administratorzy i panel działają normalnie - tryb wyłącza się tutaj.')
                     ->schema([
                         Toggle::make('maintenance_enabled')
                             ->label('Tryb serwisowy włączony')
                             ->live()
                             ->onColor('danger'),
 
-                        // ** Bez daty nie da się włączyć trybu — odwiedzający ma wiedzieć, kiedy wrócić
+                        // ** Bez daty nie da się włączyć trybu - odwiedzający ma wiedzieć, kiedy wrócić
                         DateTimePicker::make('maintenance_until')
                             ->label('Planowany powrót strony')
                             ->seconds(false)
@@ -264,7 +264,7 @@ class Settings extends Page implements HasForms
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
-            // Przełączniki (bool) zapisujemy jako '1'/'0' — (string) false dałoby pusty ciąg
+            // Przełączniki (bool) zapisujemy jako '1'/'0' - (string) false dałoby pusty ciąg
             Setting::set($key, is_bool($value) ? ($value ? '1' : '0') : (string) $value);
         }
 

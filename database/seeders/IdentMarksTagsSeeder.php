@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class IdentMarksTagsSeeder extends Seeder
 {
-    // ** firstOrCreate zamiast insert — seeder jest uruchamiany przy każdym deployu
+    // ** firstOrCreate zamiast insert - seeder jest uruchamiany przy każdym deployu
     // (deploy-qa.yml), więc musi być bezpieczny do wielokrotnego wykonania
     public function run(): void
     {

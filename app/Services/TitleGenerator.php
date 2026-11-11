@@ -7,12 +7,12 @@ use App\Models\Setting;
 // ---------------------------
 // Generuje tytuł ogłoszenia na podstawie szablonu z tagami, edytowalnego
 // w panelu (App\Filament\Pages\Settings). Użytkownik formularza publicznego
-// nie wpisuje tytułu samodzielnie — jest wyliczany z danych zgłoszenia.
+// nie wpisuje tytułu samodzielnie - jest wyliczany z danych zgłoszenia.
 // ---------------------------
 
 class TitleGenerator
 {
-    // ** Osobne szablony i klucze ustawień dla "zaginął" i "znaleziony" — przy znalezieniu
+    // ** Osobne szablony i klucze ustawień dla "zaginął" i "znaleziony" - przy znalezieniu
     // imię zwierzaka prawie nigdy nie jest znane, więc domyślny szablon go nie zawiera
     public const DEFAULT_TEMPLATE_LOST = '[Status]: [Imię] – [Gatunek], [Miejscowość]';
 
@@ -57,7 +57,7 @@ class TitleGenerator
         ],
     ];
 
-    // Generuje tytuł na podstawie szablonu zapisanego w ustawieniach — osobnego dla statusu lost/found
+    // Generuje tytuł na podstawie szablonu zapisanego w ustawieniach - osobnego dla statusu lost/found
     public static function generate(array $values): string
     {
         $status = $values['status'] ?? 'lost';
@@ -67,7 +67,7 @@ class TitleGenerator
         return self::render(Setting::get($key, $default), $values);
     }
 
-    // Przykładowy tytuł do podglądu w panelu — na stałych, przykładowych danych dla danego statusu
+    // Przykładowy tytuł do podglądu w panelu - na stałych, przykładowych danych dla danego statusu
     public static function example(string $template, string $status = 'lost'): string
     {
         return self::render($template, self::EXAMPLE_VALUES[$status] ?? self::EXAMPLE_VALUES['lost']);

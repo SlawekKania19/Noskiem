@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 // ---------------------------
 // Wczytuje listę województw z oficjalnego rejestru TERC (GUS).
-// Wiersz województwa w TERC.csv ma puste kolumny POW/GMI/RODZ — tylko WOJ i NAZWA.
+// Wiersz województwa w TERC.csv ma puste kolumny POW/GMI/RODZ - tylko WOJ i NAZWA.
 // Angielskie nazwy nie występują w TERC, więc zachowujemy je ze starej, ręcznej listy.
 // ---------------------------
 
@@ -46,7 +46,7 @@ class VoivodeshipsSeeder extends Seeder
         fgetcsv($file, separator: ';');
 
         while (($row = fgetcsv($file, separator: ';')) !== false) {
-            // Wiersz województwa: WOJ;POW;GMI;RODZ;NAZWA;NAZWA_DOD;STAN_NA — POW/GMI/RODZ puste
+            // Wiersz województwa: WOJ;POW;GMI;RODZ;NAZWA;NAZWA_DOD;STAN_NA - POW/GMI/RODZ puste
             if (count($row) < 5 || $row[1] !== '' || $row[2] !== '' || $row[3] !== '') {
                 continue;
             }

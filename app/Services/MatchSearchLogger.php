@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 // ---------------------------
 // Zapis wyszukiwania podobnych zwierząt do logów (match_searches + match_search_results).
 // Logujemy WSZYSTKIE wyniki zwrócone przez Pythona: pokazane oraz top log_floor_n
-// poniżej progu — do późniejszego sprawdzenia, czy próg nie ukrywał prawdziwych par.
+// poniżej progu - do późniejszego sprawdzenia, czy próg nie ukrywał prawdziwych par.
 // ---------------------------
 
 class MatchSearchLogger
@@ -36,7 +36,7 @@ class MatchSearchLogger
                 'channel'              => $channel,
             ]);
 
-            // ** Jednym zapytaniem na partię — przy log_floor_n = 50 to i tak mało wierszy
+            // ** Jednym zapytaniem na partię - przy log_floor_n = 50 to i tak mało wierszy
             foreach (array_chunk($out['results'], 200) as $chunk) {
                 MatchSearchResult::insert(array_map(fn (array $r) => [
                     'match_search_id'  => $search->id,

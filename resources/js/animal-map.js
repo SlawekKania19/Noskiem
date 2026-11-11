@@ -5,7 +5,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // ---------------------------
 // Domyślna ikona Leaflet próbuje wykryć ścieżkę do grafik przez CSS, co nie działa
-// pod Vite (stąd "połamana" ikonka) — podajemy zbundlowane URL-e jawnie.
+// pod Vite (stąd "połamana" ikonka) - podajemy zbundlowane URL-e jawnie.
 // ---------------------------
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -18,13 +18,13 @@ L.Icon.Default.mergeOptions({
 // Inicjalizacja mapy Leaflet z pojedynczą, nieprzesuwalną pinezką (tryb tylko do odczytu).
 // Współdzielone między widokiem szczegółów ogłoszenia a formularzem zgłoszenia (Krok 8).
 //
-// options.sightings (opcjonalnie) — punkty zgłoszeń "też widziałem" ([{lat, lng, popup, isLatest}]),
+// options.sightings (opcjonalnie) - punkty zgłoszeń "też widziałem" ([{lat, lng, popup, isLatest}]),
 // rysowane jako kropki w innym kolorze niż główna pinezka. Zgłoszenie z isLatest=true
-// (najpóźniejsza data zdarzenia spośród ogłoszenia i wszystkich zgłoszeń — liczona w Blade)
+// (najpóźniejsza data zdarzenia spośród ogłoszenia i wszystkich zgłoszeń - liczona w Blade)
 // dostaje trzeci, wyróżniający kolor.
 //
-// options.path (opcjonalnie) — punkty ([{lat, lng}]) już posortowane wg RZECZYWISTEJ daty
-// zdarzenia (nie zakładamy, że ogłoszenie jest chronologicznie pierwsze) — łączone przerywaną
+// options.path (opcjonalnie) - punkty ([{lat, lng}]) już posortowane wg RZECZYWISTEJ daty
+// zdarzenia (nie zakładamy, że ogłoszenie jest chronologicznie pierwsze) - łączone przerywaną
 // linią jako przybliżona trasa zwierzaka, nie prawdziwy tor GPS (patrz animals/show.blade.php).
 // ---------------------------
 export function initAnimalMap(elementId, lat, lng, options = {}) {
@@ -41,7 +41,7 @@ export function initAnimalMap(elementId, lat, lng, options = {}) {
         maxZoom: 19,
     }).addTo(map);
 
-    // ** Pinezka nieprzesuwalna — lokalizacja jest tu tylko prezentowana, nie edytowana
+    // ** Pinezka nieprzesuwalna - lokalizacja jest tu tylko prezentowana, nie edytowana
     L.marker([lat, lng], { draggable: false }).addTo(map);
 
     const sightings = options.sightings ?? [];
@@ -82,7 +82,7 @@ export function initAnimalMap(elementId, lat, lng, options = {}) {
 window.initAnimalMap = initAnimalMap;
 
 // ---------------------------
-// Tryb edycji (formularz zgłoszenia) — kliknięcie na mapie ustawia pinezkę
+// Tryb edycji (formularz zgłoszenia) - kliknięcie na mapie ustawia pinezkę
 // i wypełnia ukryte pola latitude/longitude. Pinezka nie jest przeciągalna,
 // jedynym sposobem zmiany położenia jest kolejne kliknięcie na mapie.
 // ---------------------------
@@ -144,9 +144,9 @@ export function initLocationPicker(elementId, options = {}) {
 window.initLocationPicker = initLocationPicker;
 
 // ---------------------------
-// Przycisk "Użyj mojej bieżącej lokalizacji" — przeglądarkowe Geolocation API.
+// Przycisk "Użyj mojej bieżącej lokalizacji" - przeglądarkowe Geolocation API.
 // Wymaga bezpiecznego originu (https lub localhost), więc na starcie sprawdzamy
-// tylko dostępność API — przycisk celowo nie jest ukrywany przy braku zgody,
+// tylko dostępność API - przycisk celowo nie jest ukrywany przy braku zgody,
 // błąd użytkownik zobaczy dopiero po kliknięciu (patrz locateErrorMessage).
 // ---------------------------
 function setupLocateButton(buttonId, errorId, map, setPosition) {
@@ -205,7 +205,7 @@ function setupLocateButton(buttonId, errorId, map, setPosition) {
 function locateErrorMessage(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            return 'Brak zgody na dostęp do lokalizacji — sprawdź uprawnienia witryny w przeglądarce.';
+            return 'Brak zgody na dostęp do lokalizacji - sprawdź uprawnienia witryny w przeglądarce.';
         case error.POSITION_UNAVAILABLE:
             return 'Nie udało się ustalić Twojej lokalizacji.';
         case error.TIMEOUT:
@@ -218,11 +218,11 @@ function locateErrorMessage(error) {
 // ---------------------------
 // Odwrotne geokodowanie pinezki (lat/lng -> województwo/miejscowość) przez Nominatim,
 // pośredniczy nasz backend (GET /location/reverse). Wynik trafia do pola "Opis lokalizacji"
-// oraz — przez zdarzenie DOM — do komponentu <x-city-picker> (osobny zakres Alpine).
+// oraz - przez zdarzenie DOM - do komponentu <x-city-picker> (osobny zakres Alpine).
 // Błędy są ciche: to tylko podpowiedź, formularz da się wypełnić ręcznie.
 // ---------------------------
 async function resolveLocation(lat, lng, options = {}) {
-    // ** Start/koniec zgłaszamy zawsze (finally) — formularz pokazuje spinner przy polu
+    // ** Start/koniec zgłaszamy zawsze (finally) - formularz pokazuje spinner przy polu
     // "Opis lokalizacji" na czas zapytania, patrz x-data w create/edit.blade.php
     window.dispatchEvent(new CustomEvent('location-resolving'));
 
@@ -251,7 +251,7 @@ async function resolveLocation(lat, lng, options = {}) {
 
         window.dispatchEvent(new CustomEvent('location-resolved', { detail: data }));
     } catch {
-        // ** Ciszej się nie da — to tylko podpowiedź, nie blokujemy formularza
+        // ** Ciszej się nie da - to tylko podpowiedź, nie blokujemy formularza
     } finally {
         window.dispatchEvent(new CustomEvent('location-resolved-end'));
     }

@@ -154,16 +154,16 @@ class MatchLoggingTest extends TestCase
         $this->artisan('match:notify');
         $search = MatchSearch::sole();
 
-        // ** Bez podpisu / z podmienioną pozycją — 403, nic nie zapisujemy
+        // ** Bez podpisu / z podmienioną pozycją - 403, nic nie zapisujemy
         $this->get(route('matches.click', ['matchSearch' => $search->id, 'position' => 1]))->assertForbidden();
         $signed = URL::signedRoute('matches.click', ['matchSearch' => $search->id, 'position' => 1]);
         $this->get(str_replace('/klik/1', '/klik/2', $signed))->assertForbidden();
 
-        // ** Poprawnie podpisana, ale pozycja spoza listy — 404
+        // ** Poprawnie podpisana, ale pozycja spoza listy - 404
         $this->get(URL::signedRoute('matches.click', ['matchSearch' => $search->id, 'position' => 7]))->assertNotFound();
         $this->assertSame(0, MatchEvent::count());
 
-        // ** Ogłoszenie odnalezione od czasu maila — klik zapisany, przekierowanie na listę
+        // ** Ogłoszenie odnalezione od czasu maila - klik zapisany, przekierowanie na listę
         $a->update(['mod_status' => 'resolved']);
         $this->get($signed)->assertRedirect(route('animals.index'));
         $this->assertSame(1, MatchEvent::count());

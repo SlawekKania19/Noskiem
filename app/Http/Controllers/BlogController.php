@@ -9,7 +9,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 // ---------------------------
-// Blog — publiczna lista i pojedyncze wpisy. Widoczne tylko wpisy opublikowane
+// Blog - publiczna lista i pojedyncze wpisy. Widoczne tylko wpisy opublikowane
 // (scope Post::published). Treść wpisów zarządzana z panelu (PostResource).
 // ---------------------------
 
@@ -39,7 +39,7 @@ class BlogController extends Controller
         ]);
     }
 
-    // Kanał RSS — ostatnie opublikowane wpisy
+    // Kanał RSS - ostatnie opublikowane wpisy
     public function feed()
     {
         $posts = Post::published()
@@ -64,7 +64,7 @@ class BlogController extends Controller
 
         $post->load(['author', 'category']);
 
-        // ** Kilka innych opublikowanych wpisów z tej samej kategorii — blok „Zobacz też"
+        // ** Kilka innych opublikowanych wpisów z tej samej kategorii - blok „Zobacz też"
         $related = $post->blog_category_id
             ? Post::published()
                 ->where('blog_category_id', $post->blog_category_id)
@@ -78,7 +78,7 @@ class BlogController extends Controller
         return view('blog.show', compact('post', 'related'));
     }
 
-    // Strona autora — profil + jego opublikowane artykuły
+    // Strona autora - profil + jego opublikowane artykuły
     public function author(User $user)
     {
         abort_unless($user->hasPublicAuthorProfile(), 404);
@@ -111,7 +111,7 @@ class BlogController extends Controller
         return $n.($few ? ' opublikowane artykuły' : ' opublikowanych artykułów');
     }
 
-    // ** Zapytanie bazowe listy — opublikowane, z autorem i kategorią, od najnowszych
+    // ** Zapytanie bazowe listy - opublikowane, z autorem i kategorią, od najnowszych
     private function publishedPosts(?BlogCategory $category): Builder
     {
         return Post::published()
@@ -120,7 +120,7 @@ class BlogController extends Controller
             ->latest('published_at');
     }
 
-    // ** Kategorie do paska filtrów — tylko te z co najmniej jednym opublikowanym wpisem
+    // ** Kategorie do paska filtrów - tylko te z co najmniej jednym opublikowanym wpisem
     private function activeCategories()
     {
         return BlogCategory::query()

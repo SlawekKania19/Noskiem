@@ -16,6 +16,6 @@
     </table>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
-        Możesz odpowiedzieć bezpośrednio na tego maila — trafi prosto do {{ $senderName }}.
+        Możesz odpowiedzieć bezpośrednio na tego maila - trafi prosto do {{ $senderName }}.
     </p>
 @endsection

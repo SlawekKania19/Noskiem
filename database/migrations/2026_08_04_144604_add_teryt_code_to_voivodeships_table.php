@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('voivodeships', function (Blueprint $table) {
-            // Kod TERC województwa (np. "24" dla śląskiego) — źródło: rejestr TERC GUS
+            // Kod TERC województwa (np. "24" dla śląskiego) - źródło: rejestr TERC GUS
             $table->string('teryt_code', 2)->nullable()->unique()->after('id');
         });
     }

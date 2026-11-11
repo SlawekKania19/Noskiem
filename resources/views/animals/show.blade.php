@@ -13,17 +13,17 @@
     $cardTitle = $animal->title;
     $locationLabel = $animal->location_text ?: ($animal->city->name_pl ?? null);
 
-    // ** Zdjęcia — główne na pierwszym miejscu
+    // ** Zdjęcia - główne na pierwszym miejscu
     $photos = $animal->photos->sortByDesc('is_main')->values();
 
-    // ** Punkty zgłoszeń "też widziałem" do naniesienia na główną mapę — tylko z
+    // ** Punkty zgłoszeń "też widziałem" do naniesienia na główną mapę - tylko z
     // uzupełnioną lokalizacją, w kolejności dat (już posortowane w AnimalController)
     //
-    // ** Najnowsze zgłoszenie — to, którego data zdarzenia (date_seen) jest późniejsza
-    // niż data zdarzenia z ogłoszenia (date_event) i najpóźniejsza spośród wszystkich —
+    // ** Najnowsze zgłoszenie - to, którego data zdarzenia (date_seen) jest późniejsza
+    // niż data zdarzenia z ogłoszenia (date_event) i najpóźniejsza spośród wszystkich -
     // dostaje osobny kolor na mapie, bo to ono pokazuje, gdzie zwierzaka widziano ostatnio
     // (niebieska pinezka to zawsze lokalizacja z ogłoszenia, nie "ostatnia znana"). Przy
-    // remisie dat — tak jak w $mapPathPoints — decyduje kolejność zgłoszeń (created_at)
+    // remisie dat - tak jak w $mapPathPoints - decyduje kolejność zgłoszeń (created_at)
     $latestSighting = $animal->sightings
         ->filter(fn ($s) => $s->latitude && $s->longitude && $s->date_seen)
         ->filter(fn ($s) => $animal->date_event === null || $s->date_seen->gt($animal->date_event))
@@ -35,15 +35,15 @@
         ->map(fn ($s) => [
             'lat' => $s->latitude,
             'lng' => $s->longitude,
-            'popup' => e($s->contact_name).' — '.($s->date_seen?->locale('pl')->translatedFormat('d.m.Y') ?? ''),
+            'popup' => e($s->contact_name).' - '.($s->date_seen?->locale('pl')->translatedFormat('d.m.Y') ?? ''),
             'isLatest' => $latestSighting !== null && $s->is($latestSighting),
         ])
         ->values();
 
-    // ** Trasa na mapie — punkty posortowane wg RZECZYWISTEJ daty zdarzenia (data_event
+    // ** Trasa na mapie - punkty posortowane wg RZECZYWISTEJ daty zdarzenia (data_event
     // ogłoszenia razem z date_seen zgłoszeń), nie wg kolejności w tabeli. Ogłoszenie nie
-    // zawsze jest chronologicznie pierwsze — ktoś mógł zgłosić "widziałem" ze starszą datą
-    // niż data zdarzenia z ogłoszenia. Przy remisie dat (częste — data to tylko dzień, bez
+    // zawsze jest chronologicznie pierwsze - ktoś mógł zgłosić "widziałem" ze starszą datą
+    // niż data zdarzenia z ogłoszenia. Przy remisie dat (częste - data to tylko dzień, bez
     // godziny) drugie kryterium to kolejność zgłoszeń (created_at), żeby trasa nie "mieszała
     // się" losowo między odświeżeniami strony
     $mapPathPoints = collect([
@@ -61,7 +61,7 @@
 
 @extends('layouts.public')
 
-@section('title', $cardTitle.' — Noskiem.pl')
+@section('title', $cardTitle.' - Noskiem.pl')
 
 @push('head-assets')
     @vite(['resources/css/leaflet.css', 'resources/js/maps.js'])
@@ -95,9 +95,9 @@
         <p class="mt-1 text-[13px] text-[#8f9485]">Dodano {{ $animal->created_at->locale('pl')->translatedFormat('d F Y') }}</p>
 
         {{-- ---------------------------
-             Wydrukuj plakat — dostępne dla każdego (nie tylko autora). Modal z wyborem
+             Wydrukuj plakat - dostępne dla każdego (nie tylko autora). Modal z wyborem
              formatu; wejście na stronę z ?print=1 (link z maila o zatwierdzeniu) otwiera
-             modal od razu. Tylko dla "Zaginął" — dla znalezionych plakatów nie generujemy.
+             modal od razu. Tylko dla "Zaginął" - dla znalezionych plakatów nie generujemy.
              --------------------------- --}}
         @if ($animal->status === 'lost')
         <div x-data="{ posterOpen: {{ request()->boolean('print') ? 'true' : 'false' }} }">
@@ -114,7 +114,7 @@
                 Wydrukuj plakat
             </button>
 
-            {{-- ** Modal wyboru formatu — wzór jak pozostałe modale w tym widoku
+            {{-- ** Modal wyboru formatu - wzór jak pozostałe modale w tym widoku
                  (fixed inset-0 z-[1100], zamykanie Esc / klik w tło) --}}
             <div
                 x-show="posterOpen"
@@ -137,7 +137,7 @@
                     <p class="mt-1 text-[13px] text-[#8f9485]">Plakat wygeneruje się jako plik PDF gotowy do druku.</p>
 
                     <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {{-- ** A4 — jeden plakat na całą kartkę --}}
+                        {{-- ** A4 - jeden plakat na całą kartkę --}}
                         <a
                             href="{{ route('animals.poster', $animal) }}?format=a4"
                             target="_blank"
@@ -159,7 +159,7 @@
                             <span class="text-[12px] text-[#616657]">Cały plakat na kartce A4</span>
                         </a>
 
-                        {{-- ** A5 — dwa identyczne plakaty na kartce A4 --}}
+                        {{-- ** A5 - dwa identyczne plakaty na kartce A4 --}}
                         <a
                             href="{{ route('animals.poster', $animal) }}?format=a5"
                             target="_blank"
@@ -181,7 +181,7 @@
                                 <rect x="42" y="40" width="27" height="7" rx="1.5" fill="#283618"/>
                             </svg>
                             <span class="text-[14px] font-semibold text-[#283618]">A5</span>
-                            <span class="text-[12px] text-[#616657]">Dwa identyczne plakaty na kartce A4 — do przecięcia</span>
+                            <span class="text-[12px] text-[#616657]">Dwa identyczne plakaty na kartce A4 - do przecięcia</span>
                         </a>
                     </div>
                 </div>
@@ -190,7 +190,7 @@
         @endif
 
         {{-- ---------------------------
-             Galeria zdjęć (tabela photos) — miniatury kwadratowe (mniej agresywny crop niż
+             Galeria zdjęć (tabela photos) - miniatury kwadratowe (mniej agresywny crop niż
              stały h-40/h-48 przy zmiennej liczbie kolumn), klik otwiera lightbox z pełnym zdjęciem
              (object-contain, bez obcinania) i nawigacją strzałkami
              --------------------------- --}}
@@ -223,7 +223,7 @@
                     @endforeach
                 </div>
 
-                {{-- ** Lightbox — z-[1100], bo mapa Leaflet niżej na stronie używa z-index do 1000 --}}
+                {{-- ** Lightbox - z-[1100], bo mapa Leaflet niżej na stronie używa z-index do 1000 --}}
                 <div
                     x-show="open"
                     x-cloak
@@ -270,7 +270,7 @@
         </div>
 
         {{-- ---------------------------
-             Mapa lokalizacji (Figma: node 22:238) — tylko do odczytu, pinezka nieprzesuwalna
+             Mapa lokalizacji (Figma: node 22:238) - tylko do odczytu, pinezka nieprzesuwalna
              --------------------------- --}}
         @if ($animal->latitude && $animal->longitude)
             <div class="mt-6">
@@ -288,9 +288,9 @@
                         @if ($latestSighting)
                             ·
                             <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#ef4444] align-middle"></span>
-                            czerwona kropka to najnowsze zgłoszenie (najpóźniejsza data zdarzenia) — tam zwierzaka widziano ostatnio
+                            czerwona kropka to najnowsze zgłoszenie (najpóźniejsza data zdarzenia) - tam zwierzaka widziano ostatnio
                         @endif
-                        — przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
+                        - przerywana linia to przybliżona trasa wg dat zgłoszeń, nie prawdziwy tor GPS
                     </p>
                 @endif
             </div>
@@ -305,7 +305,7 @@
             </script>
         @endif
 
-        {{-- ** Pasek informujący o zgłoszeniach "też widziałem" — widoczny tylko jeśli
+        {{-- ** Pasek informujący o zgłoszeniach "też widziałem" - widoczny tylko jeśli
              takie istnieją, żeby ktoś przewijający stronę wiedział, że warto zjechać
              niżej (patrz kotwica #sightings przy timeline) --}}
         @if ($animal->status === 'found' && $animal->sightings->isNotEmpty())
@@ -324,7 +324,7 @@
                  Opis, data zdarzenia, znaki szczególne
                  --------------------------- --}}
             <div class="lg:col-span-2">
-                {{-- ** Szczegóły — powtórzenie gatunku/rasy/lokalizacji z nagłówka + kolory, żeby
+                {{-- ** Szczegóły - powtórzenie gatunku/rasy/lokalizacji z nagłówka + kolory, żeby
                      były widoczne też w treści, a nie tylko w skróconej formie nad zdjęciami --}}
                 <h2 class="text-[16px] font-semibold text-[#283618]">Szczegóły</h2>
                 <dl class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -387,7 +387,7 @@
                  Kontakt do zgłaszającego (+ przycisk "też widziałem" nad całym blokiem)
                  --------------------------- --}}
             <div class="lg:self-start">
-                {{-- ** Zgłoszenie "też widziałem" — tylko dla ogłoszeń "Znaleziony"; dla
+                {{-- ** Zgłoszenie "też widziałem" - tylko dla ogłoszeń "Znaleziony"; dla
                      "Zaginiony" formularz kontaktowy poniżej wystarcza (patrz SightingController) --}}
                 @if ($animal->status === 'found')
                     <a
@@ -419,7 +419,7 @@
                 >
                     <h2 class="text-[16px] font-semibold text-[#283618]">Kontakt</h2>
 
-                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami — patrz
+                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami - patrz
                          AnimalController::phone; sam numer nie trafia do źródła HTML strony) --}}
                     @if ($animal->contact_phone)
                         <div class="mt-4">
@@ -437,7 +437,7 @@
                         </div>
                     @endif
 
-                    {{-- ** Formularz "napisz wiadomość" — zapis do tabeli messages --}}
+                    {{-- ** Formularz "napisz wiadomość" - zapis do tabeli messages --}}
                     <div class="mt-6">
                         @include('animals.partials.contact-form', ['action' => route('messages.store', $animal)])
                     </div>
@@ -446,7 +446,7 @@
         </div>
 
         {{-- ---------------------------
-             Timeline "też widziałem" — pełna szerokość pod ogłoszeniem (nie w kolumnie
+             Timeline "też widziałem" - pełna szerokość pod ogłoszeniem (nie w kolumnie
              głównej), tylko dla "Znaleziony" (patrz SightingController), zatwierdzone
              zgłoszenia od najstarszego
              --------------------------- --}}
@@ -505,7 +505,7 @@
                                 </script>
                             @endif
 
-                            {{-- ** Miniatury stałej wielkości (nie skalują się z szerokością karty) —
+                            {{-- ** Miniatury stałej wielkości (nie skalują się z szerokością karty) -
                                  klik otwiera ten sam lightbox co w głównej galerii zdjęć ogłoszenia --}}
                             @if ($sighting->photos->isNotEmpty())
                                 <div class="mt-3 flex flex-wrap gap-2">
@@ -574,7 +574,7 @@
                             </button>
 
                             {{-- ** Modal z tym samym formularzem kontaktowym co karta Kontakt, ale do autora TEGO
-                                 zgłoszenia — szerokość dopasowana do karty Kontakt, wyraźne tło i obramowanie,
+                                 zgłoszenia - szerokość dopasowana do karty Kontakt, wyraźne tło i obramowanie,
                                  żeby nie zlewał się z resztą strony --}}
                             <div
                                 x-show="contactOpen"
@@ -593,7 +593,7 @@
                                             aria-label="Zamknij"
                                         >&times;</button>
                                     </div>
-                                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami — patrz
+                                    {{-- ** Telefon dociągany dopiero po kliknięciu (ochrona przed botami - patrz
                                          SightingController::phone; sam numer nie trafia do źródła HTML strony) --}}
                                     @if ($sighting->contact_phone)
                                         <div class="mt-4">

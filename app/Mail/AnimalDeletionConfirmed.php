@@ -9,8 +9,8 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 // Potwierdzenie trwałego usunięcia ogłoszenia (przez samego zgłaszającego,
 // AnimalEditController::destroySelf()). Celowo przyjmuje zwykłe skalary, nie model
-// Animal — w momencie wysyłki rekord już nie istnieje w bazie, więc przekazywanie
-// modelu byłoby mylące (i niebezpieczne, gdyby to kiedyś zostało zqueue'owane —
+// Animal - w momencie wysyłki rekord już nie istnieje w bazie, więc przekazywanie
+// modelu byłoby mylące (i niebezpieczne, gdyby to kiedyś zostało zqueue'owane -
 // SerializesModels próbowałby doładować z bazy nieistniejący już rekord).
 // ---------------------------
 class AnimalDeletionConfirmed extends Mailable
@@ -27,7 +27,7 @@ class AnimalDeletionConfirmed extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Ogłoszenie zostało usunięte — '.config('app.name'))
+            ->subject('Ogłoszenie zostało usunięte - '.config('app.name'))
             ->replyTo('kontakt@noskiem.org', 'Noskiem.org')
             ->view('emails.animal-deleted');
     }

@@ -14,7 +14,7 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            // ** Bez usuwania własnego konta — patrz też blokada roli Admin w formularzu
+            // ** Bez usuwania własnego konta - patrz też blokada roli Admin w formularzu
             DeleteAction::make()->visible(fn () => $this->record->id !== auth()->id()),
         ];
     }

@@ -35,7 +35,7 @@
             <p class="mt-2 line-clamp-3 text-[13px] leading-relaxed text-[#616657]">{{ $post->excerpt }}</p>
         @endif
 
-        {{-- ** Metryczka na dole karty — dosuwana w dół (mt-auto), żeby karty w rzędzie
+        {{-- ** Metryczka na dole karty - dosuwana w dół (mt-auto), żeby karty w rzędzie
              miały równą stopkę. Każda informacja w osobnym wierszu. --}}
         <div class="mt-auto pt-4 space-y-0.5 text-[12px] text-[#8f9485]">
             @if ($post->author)

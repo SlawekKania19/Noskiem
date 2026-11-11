@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('animals', function (Blueprint $table) {
             // Moment ostatniego comiesięcznego przypomnienia (animals:send-reminders).
-            // Null = jeszcze nie wysłano — wtedy miesiąc liczymy od created_at (zatwierdzenia).
+            // Null = jeszcze nie wysłano - wtedy miesiąc liczymy od created_at (zatwierdzenia).
             $table->timestamp('last_reminder_at')->nullable()->after('mod_status');
         });
     }

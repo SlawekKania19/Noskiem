@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""noskiem_match — CLI wywoływane z Laravela (php artisan match:embed).
+"""noskiem_match - CLI wywoływane z Laravela (php artisan match:embed).
 
 Użycie:
   python cli.py embed --root /sciezka/storage/app/public [--threads 1] [--nice 10]
@@ -25,7 +25,7 @@ Użycie:
       stdout: {"status":"ok","results":[{listing_id,score,bonus,rank,level,shown,
                position,breed_match,color_overlap,best_photo_index}], ...}
 
-Python nie łączy się z bazą — kolejkę i zapis wektorów prowadzi PHP.
+Python nie łączy się z bazą - kolejkę i zapis wektorów prowadzi PHP.
 Zgodne z Pythonem 3.9 (hosting).
 """
 import argparse
@@ -44,7 +44,7 @@ def load_cfg():
 
 
 def emit(obj):
-    # ** flush po każdej linii — PHP czyta wyniki na bieżąco i zapisuje je od razu,
+    # ** flush po każdej linii - PHP czyta wyniki na bieżąco i zapisuje je od razu,
     # więc przerwany proces nie gubi już policzonych zdjęć
     sys.stdout.write(json.dumps(obj, ensure_ascii=False) + "\n")
     sys.stdout.flush()
@@ -73,9 +73,9 @@ def safe_path(root, rel):
 
 
 def _load_trim():
-    """malloc_trim z glibc (Linux). Po każdym zdjęciu oddaje systemowi zwolnioną pamięć —
+    """malloc_trim z glibc (Linux). Po każdym zdjęciu oddaje systemowi zwolnioną pamięć -
     bez tego RSS rośnie z każdym zdjęciem przez fragmentację (pomiar na hostingu:
-    1,5 GB po 14 zdjęciach przy ~1 GB dla pojedynczego). Poza glibc — brak operacji."""
+    1,5 GB po 14 zdjęciach przy ~1 GB dla pojedynczego). Poza glibc - brak operacji."""
     try:
         import ctypes
         return ctypes.CDLL("libc.so.6").malloc_trim
@@ -92,7 +92,7 @@ def release_memory():
 
 
 def lower_priority(nice):
-    # ** Niższy priorytet CPU (nice) — przy obciążeniu serwera strona WWW ma pierwszeństwo
+    # ** Niższy priorytet CPU (nice) - przy obciążeniu serwera strona WWW ma pierwszeństwo
     if nice and hasattr(os, "nice"):
         try:
             os.nice(int(nice))
@@ -106,7 +106,7 @@ def make_embedder(cfg, threads):
 
 
 # ---------------------------
-# embed — przetwarza zadania ze stdin, wynik każdego zdjęcia od razu na stdout
+# embed - przetwarza zadania ze stdin, wynik każdego zdjęcia od razu na stdout
 # ---------------------------
 def cmd_embed(args, cfg, embedder=None, stdin=None):
     root = Path(args.root).resolve()
@@ -125,7 +125,7 @@ def cmd_embed(args, cfg, embedder=None, stdin=None):
         line = line.strip()
         if not line:
             continue
-        # ** Limit czasu sprawdzany PRZED kolejnym zdjęciem — reszta czeka na następne uruchomienie
+        # ** Limit czasu sprawdzany PRZED kolejnym zdjęciem - reszta czeka na następne uruchomienie
         if args.max_seconds and time.monotonic() - started > args.max_seconds:
             stopped = "max_seconds"
             break
@@ -140,7 +140,7 @@ def cmd_embed(args, cfg, embedder=None, stdin=None):
                   "dim": int(vec.shape[0]), "crop_found": bool(found),
                   "ms": int((time.monotonic() - t) * 1000)})
             processed += 1
-        except Exception as e:  # noqa: BLE001 — uszkodzony plik nie zatrzymuje całej partii
+        except Exception as e:  # noqa: BLE001 - uszkodzony plik nie zatrzymuje całej partii
             failed += 1
             emit({"event": "result", "photo_id": photo_id, "status": "error",
                   "error": f"{type(e).__name__}: {e}"[:500]})
@@ -152,7 +152,7 @@ def cmd_embed(args, cfg, embedder=None, stdin=None):
 
 
 # ---------------------------
-# bench — pomiar czasu i RAM-u na hostingu
+# bench - pomiar czasu i RAM-u na hostingu
 # ---------------------------
 def cmd_bench(args, cfg):
     root = Path(args.root).resolve()
@@ -178,7 +178,7 @@ def cmd_bench(args, cfg):
 
 
 # ---------------------------
-# search — ranking kandydatów (tylko numpy, bez torcha)
+# search - ranking kandydatów (tylko numpy, bez torcha)
 # ---------------------------
 def cmd_search(args, cfg, stdin=None):
     import numpy as np
@@ -188,7 +188,7 @@ def cmd_search(args, cfg, stdin=None):
     req = json.load(stdin or sys.stdin)
     dim = int(req["dim"])
 
-    # ** Wektory w pliku binarnym (float32 LE, wiersz po wierszu) — przy tysiącach
+    # ** Wektory w pliku binarnym (float32 LE, wiersz po wierszu) - przy tysiącach
     # kandydatów JSON z liczbami byłby kilkadziesiąt razy większy i wolniejszy
     raw = np.fromfile(req["vectors_file"], dtype="<f4")
     if dim <= 0 or raw.size % dim:

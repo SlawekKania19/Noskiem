@@ -7,7 +7,7 @@ use App\Models\AnimalEdit;
 use Illuminate\Support\Collection;
 
 // ---------------------------
-// Wyszukuje inne zgłoszenia (Animal + AnimalEdit) z tym samym adresem e-mail —
+// Wyszukuje inne zgłoszenia (Animal + AnimalEdit) z tym samym adresem e-mail -
 // pomocne przy moderacji do wykrywania prób "podbicia" pozycji przez wielokrotne
 // dodawanie tego samego zwierzaka. Duplikat może być zarówno już zatwierdzonym
 // ogłoszeniem (Animal), jak i inną oczekującą/odrzuconą propozycją (AnimalEdit).

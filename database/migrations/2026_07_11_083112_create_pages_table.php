@@ -9,7 +9,7 @@ return new class extends Migration
     // ---------------------------
     // Tabela statycznych podstron (np. "cookies", w przyszłości "regulamin"),
     // edytowalnych z panelu Filament (App\Filament\Resources\PageResource).
-    // Slug jest ustalany tylko przy tworzeniu — patrz komentarz w modelu Page.
+    // Slug jest ustalany tylko przy tworzeniu - patrz komentarz w modelu Page.
     // ---------------------------
 
     public function up(): void

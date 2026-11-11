@@ -13,7 +13,7 @@ use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-// Słownik ras — powiązane z gatunkiem
+// Słownik ras - powiązane z gatunkiem
 class BreedResource extends Resource
 {
     use \App\Filament\Concerns\RestrictedToAdmin;

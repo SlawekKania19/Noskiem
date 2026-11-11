@@ -19,10 +19,10 @@ class StatsOverviewWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        // ** Liczniki według statusu moderacji — zgłoszenia (nowe i edycje) żyją w AnimalEdit,
+        // ** Liczniki według statusu moderacji - zgłoszenia (nowe i edycje) żyją w AnimalEdit,
         // dopiero po zatwierdzeniu trafiają/aktualizują rekord w Animal (zawsze mod_status=approved).
         // Liczymy przez getEloquentQuery() resource'u, żeby pominąć zgłoszenia z niepotwierdzonym
-        // e-mailem — tak samo jak robi to lista moderacji, inaczej liczby by się nie zgadzały
+        // e-mailem - tak samo jak robi to lista moderacji, inaczej liczby by się nie zgadzały
         $pending  = AnimalEditResource::getEloquentQuery()->where('mod_status', 'pending')->count();
         $approved = Animal::where('mod_status', 'approved')->count();
         $rejected = AnimalEditResource::getEloquentQuery()->where('mod_status', 'rejected')->count();
@@ -31,7 +31,7 @@ class StatsOverviewWidget extends BaseWidget
         $lost  = Animal::where('mod_status', 'approved')->where('status', 'lost')->count();
         $found = Animal::where('mod_status', 'approved')->where('status', 'found')->count();
 
-        // ** Wiadomości — nowe dziś i łącznie
+        // ** Wiadomości - nowe dziś i łącznie
         $messagesToday = Message::whereDate('created_at', today())->count();
         $messagesTotal = Message::count();
 

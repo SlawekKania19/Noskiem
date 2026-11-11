@@ -18,7 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Validator;
 
 // ---------------------------
-// Partnerzy wspierający serwis — pozycje paska z logotypami nad stopką.
+// Partnerzy wspierający serwis - pozycje paska z logotypami nad stopką.
 // Cała obsługa siedzi na jednej stronie (tabela + modale), bo rekord ma
 // tylko kilka pól.
 // ---------------------------
@@ -44,7 +44,7 @@ class PartnerResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                // ** Bez logo pasek wyświetla samą nazwę — logo jest opcjonalne
+                // ** Bez logo pasek wyświetla samą nazwę - logo jest opcjonalne
                 FileUpload::make('logo_path')
                     ->label('Logo')
                     ->image()
@@ -54,7 +54,7 @@ class PartnerResource extends Resource
                     ->maxSize(2048)
                     ->helperText('Najlepiej PNG lub SVG z przezroczystym tłem, poziome proporcje. Maksymalnie 2 MB. Bez logo w pasku pojawi się sama nazwa partnera.'),
 
-                // ** Admin może wpisać samą domenę — https:// dopisujemy po wyjściu z pola
+                // ** Admin może wpisać samą domenę - https:// dopisujemy po wyjściu z pola
                 // (żeby było widać, co się zapisze) i sprawdzamy dopiero znormalizowany adres.
                 // Model dodatkowo normalizuje przy zapisie (Partner::url()).
                 TextInput::make('url')
@@ -100,7 +100,7 @@ class PartnerResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                // ** Link klikalny wprost z tabeli — szybciej niż wchodzenie w edycję, żeby sprawdzić dokąd prowadzi
+                // ** Link klikalny wprost z tabeli - szybciej niż wchodzenie w edycję, żeby sprawdzić dokąd prowadzi
                 Tables\Columns\TextColumn::make('url')
                     ->label('Link')
                     ->url(fn (Partner $record) => $record->url)
@@ -133,7 +133,7 @@ class PartnerResource extends Resource
             ->reorderable('sort')
             ->defaultSort('sort')
             ->emptyStateHeading('Brak partnerów')
-            ->emptyStateDescription('Dodaj pierwszego partnera — pasek nad stopką pokaże się dopiero, gdy będzie co wyświetlić.');
+            ->emptyStateDescription('Dodaj pierwszego partnera - pasek nad stopką pokaże się dopiero, gdy będzie co wyświetlić.');
     }
 
     public static function getPages(): array

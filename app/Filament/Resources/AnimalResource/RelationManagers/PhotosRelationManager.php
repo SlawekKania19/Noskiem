@@ -44,7 +44,7 @@ class PhotosRelationManager extends RelationManager
                     ->limit(50),
             ])
             ->actions([
-                // Ustaw jako główne — zeruje is_main na pozostałych zdjęciach
+                // Ustaw jako główne - zeruje is_main na pozostałych zdjęciach
                 Actions\Action::make('set_main')
                     ->label('Ustaw jako główne')
                     ->icon('heroicon-o-star')
@@ -58,7 +58,7 @@ class PhotosRelationManager extends RelationManager
                         Notification::make()->title('Ustawiono jako zdjęcie główne')->success()->send();
                     }),
 
-                // Usuwanie — kasuje rekord i plik z dysku
+                // Usuwanie - kasuje rekord i plik z dysku
                 Actions\DeleteAction::make()
                     ->using(function ($record) {
                         Storage::disk('public')->delete($record->path);

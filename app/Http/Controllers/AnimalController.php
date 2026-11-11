@@ -39,7 +39,7 @@ class AnimalController extends Controller
             ->get();
 
         // ** Listy słownikowe do formularza filtrów. Miejscowości nie wczytujemy w całości
-        // (rejestr SIMC ma ~100 tys. rekordów) — pole podpowiada się przez GET /cities/search,
+        // (rejestr SIMC ma ~100 tys. rekordów) - pole podpowiada się przez GET /cities/search,
         // tu dociągamy tylko nazwę ewentualnie już wybranej (z query stringa filtra).
         return view('animals.index', [
             'animals' => $animals,
@@ -52,7 +52,7 @@ class AnimalController extends Controller
     }
 
     // Wyświetla mapę wszystkich zatwierdzonych ogłoszeń z pinezkami (GET /map). Filtry działają
-    // po stronie przeglądarki (Alpine) — cały zbiór trafia do widoku od razu, dzięki temu zmiana
+    // po stronie przeglądarki (Alpine) - cały zbiór trafia do widoku od razu, dzięki temu zmiana
     // filtra nie resetuje przybliżenia/przesunięcia mapy tak jak przeładowanie strony na /animals.
     public function map(Request $request)
     {
@@ -89,12 +89,12 @@ class AnimalController extends Controller
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'colors' => Color::orderBy('name')->get(),
-            // ** Wstępny filtr statusu z query stringa — obsługuje link "Zobacz na mapie" ze strony głównej
+            // ** Wstępny filtr statusu z query stringa - obsługuje link "Zobacz na mapie" ze strony głównej
             'initialStatus' => $request->get('status', ''),
         ]);
     }
 
-    // Zwraca listę zatwierdzonych ogłoszeń w formacie JSON — używane przez GET /api/animals.
+    // Zwraca listę zatwierdzonych ogłoszeń w formacie JSON - używane przez GET /api/animals.
     public function indexJson()
     {
         return Animal::where('mod_status', 'approved')
@@ -108,9 +108,9 @@ class AnimalController extends Controller
     {
         $animal->load([
             'species', 'breed', 'voivodeship', 'city', 'photos', 'colors',
-            // ** Timeline "też widziałem" pod ogłoszeniem — tylko zatwierdzone, od najstarszego
+            // ** Timeline "też widziałem" pod ogłoszeniem - tylko zatwierdzone, od najstarszego
             // ** Sortowanie po dacie zdarzenia, a przy remisie po kolejności zgłoszeń
-            // (created_at) — bez tego MySQL nie gwarantuje stabilnej kolejności remisów
+            // (created_at) - bez tego MySQL nie gwarantuje stabilnej kolejności remisów
             'sightings' => fn ($query) => $query->where('mod_status', 'approved')
                 ->with('photos')
                 ->orderBy('date_seen')
@@ -120,7 +120,7 @@ class AnimalController extends Controller
         return view('animals.show', compact('animal'));
     }
 
-    // Zwraca numer telefonu kontaktowego w formacie JSON — dociągany dopiero po kliknięciu
+    // Zwraca numer telefonu kontaktowego w formacie JSON - dociągany dopiero po kliknięciu
     // "Pokaż numer" (patrz animals/show.blade.php), żeby nie siedział otwarcie w źródle HTML.
     // Limit prób w routes/web.php (throttle:reveal-phone) chroni przed hurtowym zbieraniem numerów.
     public function phone(Animal $animal)
@@ -130,7 +130,7 @@ class AnimalController extends Controller
         return response()->json(['phone' => $animal->formatted_phone]);
     }
 
-    // Zwraca szczegóły ogłoszenia w formacie JSON — używane przez GET /api/animals/{animal}.
+    // Zwraca szczegóły ogłoszenia w formacie JSON - używane przez GET /api/animals/{animal}.
     public function showJson(Animal $animal)
     {
         return $animal->load([

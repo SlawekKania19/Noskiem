@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Bezpłatna baza chipów — Noskiem.pl')
+@section('title', 'Bezpłatna baza chipów - Noskiem.pl')
 
 @section('content')
 
     {{-- ---------------------------
-         Bezpłatna baza chipów — wyszukiwarka po numerze + formularz rejestracji
+         Bezpłatna baza chipów - wyszukiwarka po numerze + formularz rejestracji
          (patrz ChipRegistrationController)
          --------------------------- --}}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -13,11 +13,11 @@
         <h1 class="text-[24px] font-semibold text-[#283618]">Bezpłatna baza chipów</h1>
         <p class="mt-1 text-[14px] text-[#616657]">
             Znalazłeś zwierzaka z chipem? Sprawdź numer w naszej bazie. Masz zwierzaka z chipem?
-            Zarejestruj go bezpłatnie — wpis pojawi się w bazie po zatwierdzeniu przez moderatora.
+            Zarejestruj go bezpłatnie - wpis pojawi się w bazie po zatwierdzeniu przez moderatora.
         </p>
 
         {{-- ---------------------------
-             Wyszukiwarka po numerze chipa — wynik (max. jeden) dociągany AJAX-em
+             Wyszukiwarka po numerze chipa - wynik (max. jeden) dociągany AJAX-em
              z chips.search, telefon osobno z chips.phone po kliknięciu
              --------------------------- --}}
         <section
@@ -97,11 +97,11 @@
             </p>
 
             <p x-show="searched && ! result && ! error" x-cloak class="mt-4 text-[14px] text-[#616657]">
-                Nie znaleźliśmy tego numeru w naszej bazie. Sprawdź, czy numer jest poprawny — możesz też
+                Nie znaleźliśmy tego numeru w naszej bazie. Sprawdź, czy numer jest poprawny - możesz też
                 zapytać weterynarza o sprawdzenie w innych bazach.
             </p>
 
-            {{-- ** Wynik — wszystkie wartości przez x-text (escapowane), bez x-html --}}
+            {{-- ** Wynik - wszystkie wartości przez x-text (escapowane), bez x-html --}}
             <template x-if="result">
                 <div class="mt-4 rounded-xl bg-[#f5f5f0] p-4">
                     <p class="text-[12px] uppercase tracking-wide text-[#8f9485]">Chip nr <span x-text="result.chip_number"></span></p>
@@ -110,15 +110,15 @@
                     <dl class="mt-3 grid grid-cols-1 gap-3 text-[14px] sm:grid-cols-3">
                         <div>
                             <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Gatunek</dt>
-                            <dd class="text-[#283618]" x-text="result.species || '—'"></dd>
+                            <dd class="text-[#283618]" x-text="result.species || '-'"></dd>
                         </div>
                         <div>
                             <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Rasa</dt>
-                            <dd class="text-[#283618]" x-text="result.breed || '—'"></dd>
+                            <dd class="text-[#283618]" x-text="result.breed || '-'"></dd>
                         </div>
                         <div>
                             <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Miejscowość</dt>
-                            <dd class="text-[#283618]" x-text="[result.city, result.voivodeship].filter(Boolean).join(', ') || '—'"></dd>
+                            <dd class="text-[#283618]" x-text="[result.city, result.voivodeship].filter(Boolean).join(', ') || '-'"></dd>
                         </div>
                     </dl>
 
@@ -157,7 +157,7 @@
         >
             @csrf
 
-            {{-- ** Honeypot — wypełnione = spam (patrz ChipRegistrationController::store) --}}
+            {{-- ** Honeypot - wypełnione = spam (patrz ChipRegistrationController::store) --}}
             <div style="position:absolute; left:-9999px;" aria-hidden="true">
                 <label for="website">Strona www</label>
                 <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MatchSearch extends Model
 {
-    // ** Log tylko dopisywany — bez updated_at
+    // ** Log tylko dopisywany - bez updated_at
     public const UPDATED_AT = null;
 
     protected $fillable = [

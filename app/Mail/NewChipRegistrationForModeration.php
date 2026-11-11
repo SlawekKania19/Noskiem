@@ -22,7 +22,7 @@ class NewChipRegistrationForModeration extends Mailable
     public function build(): self
     {
         return $this
-            ->subject('Nowe zgłoszenie do bazy chipów czeka na moderację — '.config('app.name'))
+            ->subject('Nowe zgłoszenie do bazy chipów czeka na moderację - '.config('app.name'))
             ->with(['moderationUrl' => route('filament.admin.resources.chip-registrations.view', $this->registration)])
             ->view('emails.chip-moderation-pending');
     }

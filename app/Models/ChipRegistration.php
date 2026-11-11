@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 // ---------------------------
-// Model wpisu w bezpłatnej bazie chipów. Niezależny od ogłoszeń (Animal) — po
+// Model wpisu w bezpłatnej bazie chipów. Niezależny od ogłoszeń (Animal) - po
 // zatwierdzeniu jest wyszukiwalny wyłącznie po numerze chipa. Edycja przez
 // właściciela (token) ląduje w pending_changes i wymaga ponownej moderacji.
 // ---------------------------
 
 class ChipRegistration extends Model
 {
-    // ** Polecana długość numeru wg ISO 11784/11785 — krótsze (starsze chipy) dopuszczamy
+    // ** Polecana długość numeru wg ISO 11784/11785 - krótsze (starsze chipy) dopuszczamy
     public const STANDARD_CHIP_LENGTH = 15;
 
     // ** Pola, które właściciel może zmienić przez link z tokenem (trafiają do pending_changes)
@@ -53,7 +53,7 @@ class ChipRegistration extends Model
         'submitter_ip',
     ];
 
-    // ** Tokeny/kontakt/IP/naklejka — dane wrażliwe, nigdy w JSON
+    // ** Tokeny/kontakt/IP/naklejka - dane wrażliwe, nigdy w JSON
     protected $hidden = [
         'edit_token',
         'submitter_ip',
@@ -96,7 +96,7 @@ class ChipRegistration extends Model
         return Attribute::get(fn () => PhoneFormatter::format($this->contact_phone));
     }
 
-    // ** Pliki naklejek (bieżąca + z oczekującej edycji) znikają razem z wpisem —
+    // ** Pliki naklejek (bieżąca + z oczekującej edycji) znikają razem z wpisem -
     // bez tego zostawałyby osierocone pliki na dysku prywatnym
     protected static function booted(): void
     {
@@ -116,7 +116,7 @@ class ChipRegistration extends Model
             ->whereKeyNot($this->id);
     }
 
-    // Czy ten sam numer chipa jest już zatwierdzony w innym wpisie — sygnał dla
+    // Czy ten sam numer chipa jest już zatwierdzony w innym wpisie - sygnał dla
     // moderatora, żeby rozstrzygnął na podstawie zdjęcia naklejki
     public function hasChipConflict(): bool
     {

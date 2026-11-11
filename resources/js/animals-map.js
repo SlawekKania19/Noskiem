@@ -1,5 +1,5 @@
 // ---------------------------
-// Mapa wszystkich zatwierdzonych ogłoszeń (GET /map) — pinezki kolorowane wg statusu
+// Mapa wszystkich zatwierdzonych ogłoszeń (GET /map) - pinezki kolorowane wg statusu
 // (lost/found), z podglądem po kliknięciu. Filtry działają w całości po stronie
 // przeglądarki na już wczytanym zbiorze, dzięki temu zmiana filtra nie resetuje
 // przybliżenia/przesunięcia mapy tak jak przeładowanie strony na /animals.
@@ -21,7 +21,7 @@ const STATUS_BADGE_CLASSES = {
 };
 
 export default function animalsMap({ animals = [], breeds = [], initialStatus = '' } = {}) {
-    // ** Obiekty Leaflet trzymamy POZA zwracanym stanem Alpine — Alpine (jak Vue) głęboko
+    // ** Obiekty Leaflet trzymamy POZA zwracanym stanem Alpine - Alpine (jak Vue) głęboko
     // owija przypisane obiekty w reaktywne Proxy, co koliduje z wewnętrznym śledzeniem
     // tożsamości obiektów w Leaflet (m.in. L.Util.stamp/_leaflet_id) i psuje m.in. popupy
     // po kliknięciu w pinezkę. Ten sam powód, dla którego animal-map.js w ogóle nie używa Alpine.
@@ -39,7 +39,7 @@ export default function animalsMap({ animals = [], breeds = [], initialStatus = 
         status: initialStatus,
         colorId: '',
 
-        // ** Rasy zawężone do wybranego gatunku — ta sama logika co w formularzu zgłoszenia
+        // ** Rasy zawężone do wybranego gatunku - ta sama logika co w formularzu zgłoszenia
         get filteredBreeds() {
             return this.breeds.filter((b) => !this.speciesId || String(b.species_id) === String(this.speciesId));
         },
@@ -69,7 +69,7 @@ export default function animalsMap({ animals = [], breeds = [], initialStatus = 
             }
         },
 
-        // ** Nasłuch zdarzenia z <x-city-picker> — komponent ma własny, odizolowany stan Alpine
+        // ** Nasłuch zdarzenia z <x-city-picker> - komponent ma własny, odizolowany stan Alpine
         onCityPickerChange(detail) {
             this.voivodeshipId = detail.voivodeshipId;
             this.cityId = detail.cityId;
@@ -96,7 +96,7 @@ export default function animalsMap({ animals = [], breeds = [], initialStatus = 
             markersLayer = L.layerGroup().addTo(map);
 
             // ** Przycisk "Przybliż" w popupie to zwykły HTML (string wstawiany przez bindPopup),
-            // więc nie da się go spiąć z Alpine — łapiemy klik po otwarciu popupu i czytamy
+            // więc nie da się go spiąć z Alpine - łapiemy klik po otwarciu popupu i czytamy
             // współrzędne z atrybutów data-* zamiast trzymać osobny handler na marker
             map.on('popupopen', (e) => {
                 const zoomButton = e.popup.getElement()?.querySelector('.js-pin-zoom');
@@ -129,7 +129,7 @@ export default function animalsMap({ animals = [], breeds = [], initialStatus = 
             });
 
             // ** Dopasowanie widoku mapy tylko raz, przy pierwszym renderze (uwzględnia ewentualny
-            // filtr startowy z URL) — kolejne zmiany filtrów nie mogą już ruszać mapą użytkownika
+            // filtr startowy z URL) - kolejne zmiany filtrów nie mogą już ruszać mapą użytkownika
             if (!hasFitBounds && visible.length) {
                 hasFitBounds = true;
                 map.fitBounds(visible.map((a) => [a.lat, a.lng]), { padding: [30, 30], maxZoom: 14 });
@@ -153,7 +153,7 @@ function pinIcon(status) {
     });
 }
 
-// ** Treść ogłoszenia (tytuł, lokalizacja) pochodzi od zgłaszającego — escapujemy przed
+// ** Treść ogłoszenia (tytuł, lokalizacja) pochodzi od zgłaszającego - escapujemy przed
 // wstrzyknięciem do HTML popupu, żeby nie otworzyć furtki na XSS
 function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, (char) => ({
