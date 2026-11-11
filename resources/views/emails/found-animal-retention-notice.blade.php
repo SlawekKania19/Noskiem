@@ -46,6 +46,6 @@
     </p>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
-        Dziękujemy, że pomagasz zwierzakom wrócić do domu,<br>Zespół noskiem.org
+        Dziękujemy, że pomagasz zwierzakom wrócić do domu,<br>Zespół @include('emails.partials.brand')
     </p>
 @endsection

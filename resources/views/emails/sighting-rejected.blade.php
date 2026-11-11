@@ -21,6 +21,6 @@
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
         Masz pytania? Po prostu odpowiedz na tego maila.<br>
-        Pozdrawiamy,<br>Zespół noskiem.org
+        Pozdrawiamy,<br>Zespół @include('emails.partials.brand')
     </p>
 @endsection

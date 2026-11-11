@@ -70,6 +70,6 @@
     </table>
 
     <p style="margin:0; font-size:14px; line-height:1.6; color:#616657;">
-        Trzymamy kciuki,<br>Zespół noskiem.org
+        Trzymamy kciuki,<br>Zespół @include('emails.partials.brand')
     </p>
 @endsection
