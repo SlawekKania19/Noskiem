@@ -155,7 +155,7 @@
             @include('home.listings', [
                 'status' => 'found',
                 'title' => 'Widziane',
-                'rotatedTitle' => 'Wciąż czekają na właściciela',
+                'rotatedTitle' => 'Wciąż nie znaleźliśmy właściciela',
                 'emptyText' => 'Brak znalezionych zwierząt w bazie.',
                 'latest' => $sections['found']['latest'],
                 'rotated' => $sections['found']['rotated'],

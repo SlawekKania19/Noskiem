@@ -30,12 +30,7 @@
 {{-- ** Grupa 2: starsze ogłoszenia z losowania - tylko gdy są jakieś poza "Ostatnio dodane" --}}
 @if ($rotated->isNotEmpty())
     <div class="mt-10 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-        <div>
-            <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#8f9485]">{{ $rotatedTitle }}</h3>
-            <p class="mt-1 text-[12px] text-[#8f9485]">
-                Starsze ogłoszenia - wybór zmienia się co jakiś czas, żeby żadne nie zostało zapomniane.
-            </p>
-        </div>
+        <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#8f9485]">{{ $rotatedTitle }}</h3>
 
         {{-- ** Okolica odwiedzającego: stan (włączona / nie) renderuje serwer z ciasteczka,
              Alpine tylko obsługuje kliknięcia (homeLocation w home.blade.php) --}}
