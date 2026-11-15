@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\ChipRegistration;
 use Illuminate\Bus\Queueable;
+use App\Mail\Concerns\HasUnsubscribeLink;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 class ChipRegistrationApproved extends Mailable
 {
-    use Queueable, SerializesModels;
+    use HasUnsubscribeLink, Queueable, SerializesModels;
 
     public function __construct(public ChipRegistration $registration, public bool $isEdit = false)
     {

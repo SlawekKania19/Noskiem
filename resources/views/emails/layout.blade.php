@@ -23,6 +23,13 @@
                     <tr>
                         <td style="padding:20px 32px; background-color:#f4f4ef; border-top:1px solid #e5e5dc;">
                             <p style="margin:0; font-size:12px; color:#8f9485;">„Znajdziemy go noskiem" - @include('emails.partials.brand', ['color' => '#8f9485'])</p>
+                            {{-- ** Tylko w mailach do użytkowników (Mail\Concerns\HasUnsubscribeLink) --}}
+                            @isset($unsubscribeUrl)
+                                <p style="margin:8px 0 0; font-size:12px; color:#8f9485;">
+                                    <a href="{{ $unsubscribeUrl }}" style="color:#8f9485; text-decoration:underline;">Kliknij, aby zrezygnować z subskrypcji</a>
+                                    - usuniemy wtedy Twoje ogłoszenia i dane z noskiem.org.
+                                </p>
+                            @endisset
                         </td>
                     </tr>
                 </table>

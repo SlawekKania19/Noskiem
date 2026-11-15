@@ -6,6 +6,7 @@ use App\Models\AnimalEdit;
 use App\Services\ApprovalTimeEstimator;
 use App\Services\PhotoMatchNotifier;
 use Illuminate\Bus\Queueable;
+use App\Mail\Concerns\HasUnsubscribeLink;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -22,7 +23,7 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 class AnimalSubmissionReceived extends Mailable
 {
-    use Queueable, SerializesModels;
+    use HasUnsubscribeLink, Queueable, SerializesModels;
 
     public function __construct(public AnimalEdit $animalEdit)
     {

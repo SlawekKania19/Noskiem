@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\AnimalEdit;
 use Illuminate\Bus\Queueable;
+use App\Mail\Concerns\HasUnsubscribeLink;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 class MatchCandidatesFound extends Mailable
 {
-    use Queueable, SerializesModels;
+    use HasUnsubscribeLink, Queueable, SerializesModels;
 
     /**
      * @param  array<int, array{title:string,url:string,photo_url:?string,photo_position:string,level:string,location:?string,date:?string,distance_km:float}>  $items

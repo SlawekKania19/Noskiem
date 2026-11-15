@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\Message;
 use App\Models\Sighting;
 use Illuminate\Bus\Queueable;
+use App\Mail\Concerns\HasUnsubscribeLink;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -18,7 +19,7 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 class NewContactMessage extends Mailable
 {
-    use Queueable, SerializesModels;
+    use HasUnsubscribeLink, Queueable, SerializesModels;
 
     // ** Nazwa właściwości NIE może być $message - to zarezerwowana nazwa w widokach
     // maili (Illuminate\Mail\Message wstrzykiwane automatycznie), więc kolizja

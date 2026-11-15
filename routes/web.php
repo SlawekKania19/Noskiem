@@ -18,6 +18,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SightingController;
+use App\Http\Controllers\UnsubscribeController;
 
 // ---------------------------
 // STRONA GŁÓWNA
@@ -255,6 +256,20 @@ Route::get('/dopasowania/wypisz/{animal}', [MatchOptOutController::class, 'show'
 Route::post('/dopasowania/wypisz/{animal}', [MatchOptOutController::class, 'store'])
     ->middleware(['signed', 'throttle:30,1'])
     ->name('matches.opt-out.store');
+
+// ---------------------------
+// REZYGNACJA Z SUBSKRYPCJI - link w stopce maili. Usuwa wszystkie dane powiązane
+// z adresem e-mail, więc GET pokazuje listę i ostrzeżenie, usunięcie dopiero po POST
+// (skanery linków). Token = zaszyfrowany adres, patrz UnsubscribeController
+// ---------------------------
+
+Route::get('/rezygnacja/{token}', [UnsubscribeController::class, 'show'])
+    ->middleware('throttle:30,1')
+    ->name('unsubscribe.show');
+
+Route::post('/rezygnacja/{token}', [UnsubscribeController::class, 'destroy'])
+    ->middleware('throttle:10,1')
+    ->name('unsubscribe.destroy');
 
 // ---------------------------
 // BREEZE – trasy logowania/rejestracji

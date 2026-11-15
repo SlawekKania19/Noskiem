@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\Animal;
 use Illuminate\Bus\Queueable;
+use App\Mail\Concerns\HasUnsubscribeLink;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 // ---------------------------
 class AnimalSubmissionApproved extends Mailable
 {
-    use Queueable, SerializesModels;
+    use HasUnsubscribeLink, Queueable, SerializesModels;
 
     public function __construct(public Animal $animal)
     {
