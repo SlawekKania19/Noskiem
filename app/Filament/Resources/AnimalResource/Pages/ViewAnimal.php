@@ -4,6 +4,7 @@ namespace App\Filament\Resources\AnimalResource\Pages;
 
 use App\Filament\Actions\MatchPreviewAction;
 use App\Filament\Actions\PhotoFocusAction;
+use App\Filament\Concerns\HandlesMatchExclusions;
 use App\Filament\Resources\AnimalResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ViewRecord;
 // Strona podglądu ogłoszenia z zakładką zdjęć (relation manager)
 class ViewAnimal extends ViewRecord
 {
+    use HandlesMatchExclusions;
+
     protected static string $resource = AnimalResource::class;
 
     protected function getHeaderActions(): array

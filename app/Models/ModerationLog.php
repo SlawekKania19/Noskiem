@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\MatchExclusions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -21,7 +22,17 @@ class ModerationLog extends Model
         'comment',
     ];
 
-    // ** Casty 
+    // ** Po zatwierdzeniu zgłoszenia odrzucone propozycje AI przechodzą na nowe ogłoszenie
+    protected static function booted(): void
+    {
+        static::created(function (ModerationLog $log) {
+            if ($log->action === 'approved' && $log->animal_edit_id && $log->animal_id) {
+                app(MatchExclusions::class)->carryOver($log->animal_edit_id, $log->animal_id);
+            }
+        });
+    }
+
+    // ** Casty
 
     protected $casts = [
         'action' => 'string',

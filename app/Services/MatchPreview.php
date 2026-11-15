@@ -18,7 +18,33 @@ use App\Models\MatchSearch;
 
 class MatchPreview
 {
-    public function __construct(private PhotoMatchService $matcher) {}
+    public function __construct(
+        private PhotoMatchService $matcher,
+        private MatchExclusions $exclusions,
+    ) {}
+
+    // ---------------------------
+    // Przypomnienie przy "Zatwierdź": ile pozycji pójdzie w mailu do autora.
+    // null - nie da się teraz powiedzieć (moduł wyłączony, brak zdjęć, wektory w kolejce, błąd)
+    // ---------------------------
+    public function shownCount(AnimalEdit $edit): ?int
+    {
+        if (! PhotoMatchNotifier::willSearch($edit)) {
+            return null;
+        }
+
+        try {
+            $out = $this->exclusions->apply($edit, $this->matcher->search($edit));
+        } catch (\Throwable $e) {
+            report($e);
+
+            return null;
+        }
+
+        return $out['status'] === 'ok'
+            ? count(array_filter($out['results'], fn ($r) => $r['shown']))
+            : null;
+    }
 
     public function build(Animal|AnimalEdit $record): array
     {
@@ -36,7 +62,7 @@ class MatchPreview
     protected function live(Animal|AnimalEdit $record): array
     {
         try {
-            $out = $this->matcher->search($record);
+            $out = $this->exclusions->apply($record, $this->matcher->search($record));
         } catch (\Throwable $e) {
             report($e);
 

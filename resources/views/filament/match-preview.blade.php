@@ -16,7 +16,8 @@
         'failed' => 'błąd - mail nie poszedł',
     ];
     $shownCount = collect($live['rows'])->where('shown', true)->count();
-    $belowCount = count($live['rows']) - $shownCount;
+    $excludedCount = collect($live['rows'])->where('excluded', true)->count();
+    $belowCount = count($live['rows']) - $shownCount - $excludedCount;
 @endphp
 
 <style>
@@ -28,6 +29,8 @@
     .nm-row { display: flex; gap: .75rem; align-items: center; padding: .5rem; border-radius: .5rem; border: 1px solid var(--gray-200); }
     .dark .nm-row { border-color: var(--gray-700); }
     .nm-row.nm-below { opacity: .65; }
+    .nm-row.nm-excluded { opacity: .5; border-style: dashed; }
+    .nm-row.nm-excluded .nm-thumb { filter: grayscale(1); }
     .nm-pos { width: 1.75rem; text-align: center; font-weight: 600; color: var(--gray-500); flex-shrink: 0; }
     .nm-thumb { width: 64px; height: 64px; object-fit: cover; border-radius: .375rem; flex-shrink: 0; background: var(--gray-100); }
     .dark .nm-thumb { background: var(--gray-800); }
@@ -52,6 +55,9 @@
             <strong>Wyniki na teraz</strong> - te same filtry i progi co przy mailu do autora.
             Wyszukiwanie niczego nie zapisuje i nie wysyła.
         @endif
+        <br>
+        Niepasującą propozycję odrzuć przyciskiem <strong>„Nie pokazuj”</strong> - nie trafi do maila
+        ani do autora tego zgłoszenia, ani do autora tamtego ogłoszenia.
     </div>
 
     {{-- ---------------------------
@@ -113,7 +119,11 @@
 
                     <div class="nm-list">
                         @foreach ($live['rows'] as $row)
-                            @include('filament.match-preview-row', ['row' => $row, 'below' => ! $row['shown']])
+                            @include('filament.match-preview-row', [
+                                'row' => $row,
+                                'below' => ! $row['shown'] && ! ($row['excluded'] ?? false),
+                                'toggle' => true,
+                            ])
                         @endforeach
                     </div>
                 @endif

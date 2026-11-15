@@ -51,6 +51,7 @@ class MatchSearchLogger
                     'color_overlap'    => $r['color_overlap'],
                     'distance_km'      => $r['distance_km'] ?? null,
                     'best_photo_index' => $r['best_photo_index'] ?? null,
+                    'excluded'         => $r['excluded'] ?? false,
                 ], $chunk));
             }
 

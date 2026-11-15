@@ -15,11 +15,12 @@ class MatchSearchResult extends Model
 
     protected $fillable = [
         'match_search_id', 'animal_id', 'score', 'bonus', 'rank', 'level', 'shown',
-        'position', 'breed_match', 'color_overlap', 'distance_km', 'best_photo_index',
+        'position', 'breed_match', 'color_overlap', 'distance_km', 'best_photo_index', 'excluded',
     ];
 
     protected $casts = [
         'shown' => 'boolean',
+        'excluded' => 'boolean',
         'breed_match' => 'boolean',
     ];
 

@@ -1,12 +1,16 @@
 {{-- Jeden kandydat w panelu "Podobne (AI)" (filament/match-preview.blade.php).
-     $below - kandydat poniżej progu, widoczny tylko po zaznaczeniu przełącznika --}}
+     $below - kandydat poniżej progu, widoczny tylko po zaznaczeniu przełącznika
+     $toggle - przycisk "Nie pokazuj" / "Przywróć" (tylko wyniki na żywo, nie historia maili;
+     metoda toggleMatchExclusion() z App\Filament\Concerns\HandlesMatchExclusions) --}}
 @php
+    $toggle ??= false;
+    $excluded = $row['excluded'] ?? false;
     $levelLabel = ['strong' => 'bardzo podobne', 'possible' => 'możliwe', 'below' => 'poniżej progu'];
     $levelColor = ['strong' => 'success', 'possible' => 'warning', 'below' => 'gray'];
     $statusLabel = ['lost' => 'Zaginiony', 'found' => 'Znaleziony'];
 @endphp
 
-<div class="nm-row {{ $below ? 'nm-below' : '' }}" @if ($below) x-show="showBelow" x-cloak @endif>
+<div class="nm-row {{ $below ? 'nm-below' : '' }} {{ $excluded ? 'nm-excluded' : '' }}" @if ($below) x-show="showBelow" x-cloak @endif>
     <div class="nm-pos">{{ $row['position'] ?? '–' }}</div>
 
     @if ($row['photo_url'])
@@ -47,8 +51,27 @@
 
     <div class="nm-score">
         <strong>{{ number_format($row['score'], 3, ',', '') }}</strong>
-        <x-filament::badge :color="$levelColor[$row['level']] ?? 'gray'" size="sm">
-            {{ $levelLabel[$row['level']] ?? $row['level'] }}
-        </x-filament::badge>
+        @if ($excluded)
+            <x-filament::badge color="danger" size="sm">
+                odrzucone{{ ! empty($row['excluded_by']) ? ' ('.$row['excluded_by'].')' : '' }}
+            </x-filament::badge>
+        @else
+            <x-filament::badge :color="$levelColor[$row['level']] ?? 'gray'" size="sm">
+                {{ $levelLabel[$row['level']] ?? $row['level'] }}
+            </x-filament::badge>
+        @endif
+
+        {{-- ** Odrzucić można to, co poszłoby w mailu; cofnąć - każde odrzucone --}}
+        @if ($toggle && ($excluded || $row['shown']))
+            <x-filament::button
+                size="xs"
+                color="gray"
+                :icon="$excluded ? 'heroicon-m-arrow-uturn-left' : 'heroicon-m-eye-slash'"
+                wire:click="toggleMatchExclusion({{ (int) $row['listing_id'] }})"
+                wire:loading.attr="disabled"
+            >
+                {{ $excluded ? 'Przywróć' : 'Nie pokazuj' }}
+            </x-filament::button>
+        @endif
     </div>
 </div>

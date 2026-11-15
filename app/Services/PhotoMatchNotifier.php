@@ -27,6 +27,7 @@ class PhotoMatchNotifier
         private PhotoMatchService $matcher,
         private MatchSearchLogger $logger,
         private MatchOwnerNotifier $owners,
+        private MatchExclusions $exclusions,
     ) {}
 
     // ** Czy obiecujemy autorowi wyszukiwanie - moduł włączony i są zdjęcia do porównania.
@@ -75,7 +76,8 @@ class PhotoMatchNotifier
         }
 
         try {
-            $out = $this->matcher->search($query);
+            // ** Bez kandydatów odrzuconych przez moderatora ("Nie pokazuj" w oknie "Podobne (AI)")
+            $out = $this->exclusions->apply($query, $this->matcher->search($query));
 
             // ** Zdjęcia jeszcze w kolejce match:embed - spróbujemy w kolejnym uruchomieniu
             if ($out['status'] === 'pending') {
