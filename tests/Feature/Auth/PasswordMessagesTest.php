@@ -33,7 +33,7 @@ class PasswordMessagesTest extends TestCase
 
     public function test_weak_password_on_registration_is_reported_in_polish(): void
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/agenci', [
             'name' => 'Test Osoba',
             'email' => 'test.osoba@example.test',
             'password' => 'slabe',
@@ -47,7 +47,7 @@ class PasswordMessagesTest extends TestCase
 
     public function test_generic_validation_message_is_in_polish(): void
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/agenci', [
             'name' => '',
             'email' => 'nie-email',
             'password' => 'x',
@@ -55,7 +55,7 @@ class PasswordMessagesTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors([
-            'name' => 'Pole imię i nazwisko jest wymagane.',
+            'name' => 'Pole imię jest wymagane.',
             'email' => 'Pole adres e-mail musi być prawidłowym adresem e-mail.',
         ]);
     }

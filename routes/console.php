@@ -37,3 +37,9 @@ Schedule::command('match:embed')
 Schedule::command('match:notify')
     ->everyMinute()
     ->withoutOverlapping(10);
+
+// ** Agenci noskiem: prośby o pomoc - nowe ogłoszenia "Zaginął" w obszarach działania
+// agentów, jeden zbiorczy mail na agenta (patrz NotifyAgents, config/noskiem_agents.php)
+Schedule::command('agents:notify')
+    ->hourly()
+    ->withoutOverlapping();

@@ -30,7 +30,7 @@ class HomepageListings
     {
         return Animal::where('mod_status', 'approved')
             ->where('status', $status)
-            ->with(self::RELATIONS)
+            ->with(self::RELATIONS)->withCount('searchingAgents')
             ->latest()
             ->limit($limit)
             ->get();
@@ -73,7 +73,7 @@ class HomepageListings
 
         $order = $ids->flip();
 
-        return Animal::with(self::RELATIONS)
+        return Animal::with(self::RELATIONS)->withCount('searchingAgents')
             ->findMany($ids->all())
             ->sortBy(fn (Animal $animal) => $order[$animal->id])
             ->values();

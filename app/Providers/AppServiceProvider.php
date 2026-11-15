@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Mail\PasswordResetLink;
 use App\Models\Setting;
+use Illuminate\Auth\Notifications\ResetPassword;
 use App\Support\MatchSettings;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Icons\Heroicon;
@@ -30,9 +32,24 @@ class AppServiceProvider extends ServiceProvider
         $this->registerRateLimiters();
         $this->registerPasswordDefaults();
         $this->registerIcons();
+        $this->registerPasswordResetMail();
 
         // ** Ustawienia dopasowań z panelu "Dopasowanie AI" nadpisują config/noskiem_match.php
         MatchSettings::apply();
+    }
+
+    // ---------------------------
+    // Mail "zmiana hasła" po polsku, w naszym szablonie (domyślny Laravela jest po
+    // angielsku). Dotyczy Agentów noskiem i kont panelu - wspólny reset hasła
+    // ---------------------------
+    protected function registerPasswordResetMail(): void
+    {
+        ResetPassword::toMailUsing(function ($user, string $token) {
+            $url = url(route('password.reset', ['token' => $token, 'email' => $user->getEmailForPasswordReset()], false));
+            $minutes = (int) config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
+
+            return (new PasswordResetLink($url, $minutes))->to($user->email, $user->name);
+        });
     }
 
     // ---------------------------

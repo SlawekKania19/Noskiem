@@ -95,6 +95,37 @@
         <p class="mt-1 text-[13px] text-[#8f9485]">Dodano {{ $animal->created_at->locale('pl')->translatedFormat('d F Y') }}</p>
 
         {{-- ---------------------------
+             Agenci noskiem: licznik widzą wszyscy, przycisk "Szukam" tylko zalogowany
+             aktywny agent (AgentPanelController::toggleSearch). Tylko aktywne "Zaginął".
+             --------------------------- --}}
+        @if ($animal->status === 'lost' && $animal->mod_status === 'approved' && ($animal->searching_agents_count > 0 || $agent))
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#dbe9d8] px-4 py-3">
+                <p class="text-[13px] font-medium text-[#3f6212]">
+                    @if ($animal->searching_agents_count > 0)
+                        🔎 {{ \App\Support\AgentsLabel::searching($animal->searching_agents_count) }}
+                    @else
+                        Jesteś w okolicy? Daj znać właścicielowi, że pomagasz szukać.
+                    @endif
+                </p>
+
+                @if ($agent)
+                    <form method="POST" action="{{ route('agent.search.toggle', $animal) }}">
+                        @csrf
+                        @if ($agentSearching)
+                            <button type="submit" class="cursor-pointer rounded-xl border border-[#3f6212] px-4 py-2 text-[13px] font-semibold text-[#3f6212] transition hover:bg-[#cde0c8]">
+                                ✓ Szukasz - kliknij, aby zrezygnować
+                            </button>
+                        @else
+                            <button type="submit" class="cursor-pointer rounded-xl bg-[#283618] px-5 py-2 text-[13px] font-semibold text-[#fefae0] shadow-[0px_3px_10px_0px_rgba(40,54,24,0.2)] transition hover:bg-[#1e2812] active:transform-[scale(0.97)] active:bg-[#161f0c]">
+                                Szukam
+                            </button>
+                        @endif
+                    </form>
+                @endif
+            </div>
+        @endif
+
+        {{-- ---------------------------
              Wydrukuj plakat - dostępne dla każdego (nie tylko autora). Modal z wyborem
              formatu; wejście na stronę z ?print=1 (link z maila o zatwierdzeniu) otwiera
              modal od razu. Tylko dla "Zaginął" - dla znalezionych plakatów nie generujemy.

@@ -140,6 +140,12 @@
                     <a href="{{ route('blog.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsBlog ? $mobileNavActive : $mobileNavIdle }}">Blog</a>
                     <a href="{{ route('chips.index') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ $navIsChips ? $mobileNavActive : $mobileNavIdle }}">Baza chipów</a>
                     <a href="{{ route('contact.show') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ request()->routeIs('contact.show') ? $mobileNavActive : $mobileNavIdle }}">Kontakt</a>
+                    {{-- ** Agenci noskiem - na desktopie link jest w stopce --}}
+                    @if (auth()->user()?->is_agent)
+                        <a href="{{ route('agent.panel') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ request()->routeIs('agent.panel') ? $mobileNavActive : $mobileNavIdle }}">Panel agenta</a>
+                    @else
+                        <a href="{{ route('agents.register') }}" @click="mobileNavOpen = false" class="{{ $mobileNavBase }} {{ request()->routeIs('agents.register') ? $mobileNavActive : $mobileNavIdle }}">Agenci noskiem</a>
+                    @endif
                 </nav>
             </div>
         </header>
@@ -218,9 +224,20 @@
                             <li><a href="{{ route('contact.show') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Kontakt</a></li>
                         </ul>
                     </div>
-                    {{-- Wolna kolumna - link do kontaktu jest w kolumnie „Informacje".
-                         Zostawiamy pusty slot do wykorzystania w przyszłości (np. social media). --}}
-                    <div></div>
+                    {{-- Agenci noskiem - rejestracja dla gości, panel dla zalogowanego agenta --}}
+                    <div>
+                        <p class="font-semibold text-[13px] uppercase tracking-wide text-[#c9cdb8]">Agenci noskiem</p>
+                        <ul class="mt-3 space-y-2 text-[14px]">
+                            @if (auth()->user()?->is_agent)
+                                <li><a href="{{ route('agent.panel') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Panel agenta</a></li>
+                            @else
+                                <li><a href="{{ route('agents.register') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Zostań agentem</a></li>
+                                @guest
+                                    <li><a href="{{ route('login') }}" class="transition-colors hover:underline active:text-[#c9cdb8]">Zaloguj się</a></li>
+                                @endguest
+                            @endif
+                        </ul>
+                    </div>
                 </div>
                 <div class="mt-10 border-t border-white/10 pt-6 text-[12px] text-[#c9cdb8]">
                     &copy; {{ date('Y') }} noskiem.org. Wszelkie prawa zastrzeżone.

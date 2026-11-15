@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CardPreviewController;
+use App\Http\Controllers\AgentAccountController;
+use App\Http\Controllers\AgentPanelController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalEditController;
 use App\Http\Controllers\BlogController;
@@ -32,15 +34,50 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
 
-    // Po zalogowaniu Breeze przekierowuje tu - przenosimy od razu do Filament
+    // Po zalogowaniu Breeze przekierowuje tu - konta panelu przenosimy do Filament,
+    // Agentów noskiem (bez ról w panelu) do ich własnego panelu
     Route::get('/dashboard', function () {
-        return redirect('/admin');
+        return auth()->user()->isAgentOnly() ? redirect()->route('agent.panel') : redirect('/admin');
     })->middleware('verified')->name('dashboard');
+
+    // ---------------------------
+    // Panel Agenta noskiem: konto, obszary działania, przycisk "Szukam"
+    // ---------------------------
+    Route::get('/agent', [AgentPanelController::class, 'show'])->name('agent.panel');
+    Route::patch('/agent', [AgentPanelController::class, 'update'])->name('agent.update');
+    Route::post('/agent/potwierdzenie', [AgentAccountController::class, 'resend'])
+        ->middleware('throttle:3,10')
+        ->name('agent.resend');
+    Route::post('/agent/obszary', [AgentPanelController::class, 'storeArea'])->name('agent.areas.store');
+    Route::patch('/agent/obszary/{area}', [AgentPanelController::class, 'updateArea'])->name('agent.areas.update');
+    Route::delete('/agent/obszary/{area}', [AgentPanelController::class, 'destroyArea'])->name('agent.areas.destroy');
+    Route::post('/animals/{animal}/szukam', [AgentPanelController::class, 'toggleSearch'])
+        ->middleware('throttle:30,1')
+        ->name('agent.search.toggle');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// ---------------------------
+// AGENCI NOSKIEM - strona informacyjna z rejestracją, potwierdzenie e-maila
+// i wyłączenie powiadomień (linki podpisane, bez logowania)
+// ---------------------------
+
+Route::get('/agenci', [AgentAccountController::class, 'create'])->name('agents.register');
+Route::post('/agenci', [AgentAccountController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('agents.store');
+Route::get('/agenci/potwierdz/{user}/{hash}', [AgentAccountController::class, 'verify'])
+    ->middleware(['signed', 'throttle:10,1'])
+    ->name('agents.verify');
+Route::get('/agenci/powiadomienia/{user}', [AgentAccountController::class, 'optOut'])
+    ->middleware('signed')
+    ->name('agents.opt-out');
+Route::post('/agenci/powiadomienia/{user}', [AgentAccountController::class, 'optOutStore'])
+    ->middleware(['signed', 'throttle:10,1'])
+    ->name('agents.opt-out.store');
 
 // ---------------------------
 // PUBLICZNE – tylko odczyt

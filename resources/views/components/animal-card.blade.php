@@ -77,5 +77,11 @@
         @if ($locationLabel)
             <p class="mt-1 line-clamp-2 text-[11px] text-[#8f9485] sm:truncate sm:line-clamp-none" title="{{ $locationLabel }}">📍 {{ $cardLocationLabel }}</p>
         @endif
+
+        {{-- ** Agenci noskiem, którzy kliknęli "Szukam" - tylko gdy zapytanie doliczyło
+             licznik (withCount('searchingAgents')) i ktoś faktycznie szuka --}}
+        @if (($animal->searching_agents_count ?? 0) > 0)
+            <p class="mt-1 text-[11px] font-semibold text-[#3f6212]">🔎 {{ \App\Support\AgentsLabel::searching($animal->searching_agents_count, short: true) }}</p>
+        @endif
     </div>
 </a>

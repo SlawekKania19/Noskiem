@@ -15,6 +15,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Password;
 
 // ---------------------------
@@ -39,6 +40,17 @@ class UserResource extends Resource
     public static function canDelete($record): bool
     {
         return static::canViewAny() && $record->id !== auth()->id();
+    }
+
+    // ** Konta wyłącznie Agentów noskiem (rejestracja publiczna, bez ról) mają własną
+    // zakładkę - AgentResource. Tu zostają konta panelu
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where(fn (Builder $query) => $query
+            ->where('is_agent', false)
+            ->orWhere('is_admin', true)
+            ->orWhere('is_moderator', true)
+            ->orWhere('is_author', true));
     }
 
     public static function form(Schema $schema): Schema

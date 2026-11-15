@@ -23,6 +23,8 @@ class AnimalController extends Controller
 
         $animals = Animal::where('mod_status', 'approved')
             ->with(['species', 'breed', 'voivodeship', 'city', 'photos'])
+            // ** Licznik "X agentów już szuka" na karcie (components/animal-card.blade.php)
+            ->withCount('searchingAgents')
             ->when($searchTerm !== '', fn ($q) => $q
                 ->whereRaw('MATCH(search_index) AGAINST(? IN BOOLEAN MODE)', [$searchTerm])
                 ->orderByRaw('MATCH(search_index) AGAINST(? IN BOOLEAN MODE) DESC', [$searchTerm]))
@@ -117,7 +119,15 @@ class AnimalController extends Controller
                 ->orderBy('created_at'),
         ]);
 
-        return view('animals.show', compact('animal'));
+        // ** Agenci noskiem: licznik "już szuka" i stan przycisku "Szukam" zalogowanego agenta
+        $animal->loadCount('searchingAgents');
+        $agent = auth()->user()?->isActiveAgent() ? auth()->user() : null;
+
+        return view('animals.show', [
+            'animal' => $animal,
+            'agent' => $agent,
+            'agentSearching' => $agent !== null && $animal->searchingAgents()->whereKey($agent->id)->exists(),
+        ]);
     }
 
     // Zwraca numer telefonu kontaktowego w formacie JSON - dociągany dopiero po kliknięciu

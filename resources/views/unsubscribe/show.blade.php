@@ -42,6 +42,9 @@
                 <li>Zgłoszenia „widziałem": {{ $deleted['sightings'] }}</li>
                 <li>Wpisy w bazie chipów: {{ $deleted['chips'] }}</li>
                 <li>Wysłane wiadomości: {{ $deleted['messages'] }}</li>
+                @if ($deleted['agent'] ?? 0)
+                    <li>Konto Agenta noskiem: usunięte</li>
+                @endif
             </ul>
 
             <a href="{{ route('home') }}" class="mt-8 inline-block rounded-xl border border-[#283618] px-6 py-2.5 text-[13px] font-semibold text-[#283618] transition hover:bg-[#f5f5f0]">
@@ -151,6 +154,16 @@
                         </li>
                     @endforeach
                 </ul>
+            @endif
+
+            {{-- ** Konto Agenta noskiem pod tym samym adresem --}}
+            @if ($data['agent'])
+                <h2 class="mt-8 text-[16px] font-semibold text-[#283618]">Konto Agenta noskiem</h2>
+                <p class="mt-2 text-[14px] text-[#616657]">
+                    Usuniemy konto agenta razem z obszarami działania ({{ $data['agent']->agent_areas_count }})
+                    i oznaczeniami „Szukam”. Jeśli chcesz tylko przestać dostawać prośby o pomoc,
+                    wystarczy wyłączyć powiadomienia w panelu agenta.
+                </p>
             @endif
 
             @if ($data['messagesCount'] > 0)

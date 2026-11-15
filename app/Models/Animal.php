@@ -64,9 +64,16 @@ class Animal extends Model
         'retention_until' => 'datetime',
         'retention_notice_at' => 'datetime',
         'match_notify_opt_out_at' => 'datetime',
+        'agent_notified_at' => 'datetime',
     ];
 
     // ** Relacje
+
+    // Agenci noskiem, którzy kliknęli "Szukam" (licznik na karcie i stronie ogłoszenia)
+    public function searchingAgents(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'agent_searches');
+    }
 
     public function species(): BelongsTo
     {

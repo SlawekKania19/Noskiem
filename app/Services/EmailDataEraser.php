@@ -7,6 +7,7 @@ use App\Models\AnimalEdit;
 use App\Models\ChipRegistration;
 use App\Models\Message;
 use App\Models\Sighting;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\DB;
 // Rezygnacja z subskrypcji = bezpowrotne usunięcie wszystkich danych powiązanych z adresem
 // e-mail: ogłoszeń (ze zdjęciami, historią edycji, zgłoszeniami "widziałem" pod nimi
 // i wiadomościami), oczekujących zgłoszeń, własnych zgłoszeń "widziałem", wpisów
-// w bazie chipów i wiadomości wysłanych z tego adresu. Patrz UnsubscribeController.
+// w bazie chipów, wiadomości wysłanych z tego adresu i konta Agenta noskiem.
+// Patrz UnsubscribeController.
 // Adres porównujemy bez rozróżniania wielkości liter (Jan@x.pl == jan@x.pl).
 // ---------------------------
 class EmailDataEraser
@@ -33,6 +35,8 @@ class EmailDataEraser
             'sightings'     => $this->byEmail(Sighting::query(), $email)->with('animal')->orderByDesc('created_at')->get(),
             'chips'         => $this->byEmail(ChipRegistration::query(), $email)->orderByDesc('created_at')->get(),
             'messagesCount' => Message::whereRaw('LOWER(email) = ?', [$this->normalize($email)])->count(),
+            // ** Konto Agenta noskiem pod tym adresem (obszary działania, oznaczenia "Szukam")
+            'agent'         => $this->agent($email),
         ];
     }
 
@@ -40,7 +44,7 @@ class EmailDataEraser
     public function isEmpty(array $data): bool
     {
         return $data['animals']->isEmpty() && $data['submissions']->isEmpty() && $data['sightings']->isEmpty()
-            && $data['chips']->isEmpty() && $data['messagesCount'] === 0;
+            && $data['chips']->isEmpty() && $data['messagesCount'] === 0 && $data['agent'] === null;
     }
 
     // ---------------------------
@@ -70,7 +74,12 @@ class EmailDataEraser
 
             $messages = Message::whereRaw('LOWER(email) = ?', [$this->normalize($email)])->delete();
 
+            // ** Konto agenta - z rolą w panelu zostaje, traci tylko dane agenta (User::removeAgent)
+            $agent = $this->agent($email);
+            $agent?->removeAgent();
+
             return [
+                'agent'       => $agent ? 1 : 0,
                 'animals'     => $animals->count(),
                 'submissions' => $edits->whereNull('animal_id')->count(),
                 'sightings'   => $sightings->count(),
@@ -83,6 +92,14 @@ class EmailDataEraser
     public function normalize(string $email): string
     {
         return mb_strtolower(trim($email));
+    }
+
+    private function agent(string $email): ?User
+    {
+        return User::where('is_agent', true)
+            ->whereRaw('LOWER(email) = ?', [$this->normalize($email)])
+            ->withCount('agentAreas')
+            ->first();
     }
 
     private function byEmail(Builder $query, string $email): Builder
