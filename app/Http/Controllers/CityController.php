@@ -20,12 +20,21 @@ class CityController extends Controller
             'q'              => 'required|string|min:3|max:100',
         ]);
 
+        // ** Przy tej samej nazwie kolejność: miasta przed wsiami, potem alfabetycznie po gminie
         $cities = City::where('voivodeship_id', $data['voivodeship_id'])
             ->where('name_pl', 'like', $data['q'].'%')
             ->orderBy('name_pl')
+            ->orderByRaw("CASE WHEN kind = 'miasto' THEN 0 ELSE 1 END")
+            ->orderBy('gmina')
             ->limit(20)
-            ->get(['id', 'name_pl']);
+            ->get(['id', 'name_pl', 'kind', 'gmina', 'powiat', 'is_ambiguous']);
 
-        return response()->json($cities);
+        // ** details - dopisek rozróżniający (np. "wieś, gm. Gnojnik, pow. brzeski") albo null
+        return response()->json($cities->map(fn (City $city) => [
+            'id'      => $city->id,
+            'name_pl' => $city->name_pl,
+            'details' => $city->details,
+            'label'   => $city->label,
+        ]));
     }
 }

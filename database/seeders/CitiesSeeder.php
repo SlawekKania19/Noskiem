@@ -2,13 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\City;
 use App\Models\Voivodeship;
+use App\Support\TerytRegistry;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 // ---------------------------
-// Wczytuje pełną listę miejscowości z oficjalnego rejestru SIMC (GUS), ok. 100 tys. wierszy.
-// Kolumny: WOJ;POW;GMI;RODZ_GMI;RM;MZ;NAZWA;SYM;SYMPOD;STAN_NA
+// Wczytuje listę samodzielnych miejscowości z oficjalnego rejestru SIMC (GUS), ok. 54 tys. wierszy.
+// Części miejscowości (przysiółki, części wsi, dzielnice - SYM != SYMPOD) pomijamy - mnożyły
+// powtórzenia nazw w podpowiedziach, a dla ogłoszenia wystarczy miejscowość nadrzędna.
+// Gminę i powiat bierzemy z rejestru TERC - rozróżniają miejscowości o tej samej nazwie.
 // Wstawiane partiami (chunk), żeby nie budować jednego ogromnego zapytania INSERT.
 // ---------------------------
 
@@ -18,39 +22,30 @@ class CitiesSeeder extends Seeder
 
     public function run(): void
     {
-        $path = database_path('data/SIMC.csv');
-
-        if (! file_exists($path)) {
-            throw new \Exception("Brak pliku: $path");
-        }
-
-        // Mapa kod TERC województwa -> id, żeby powiązać wiersze SIMC z wojewódz­twami zasianymi wcześniej
+        // Mapa kod TERC województwa -> id, żeby powiązać wiersze SIMC z województwami zasianymi wcześniej
         $voivodeshipIdByTerc = Voivodeship::pluck('id', 'teryt_code')->all();
 
-        $file = fopen($path, 'r');
-
-        // Pomijamy nagłówek
-        fgetcsv($file, separator: ';');
+        $units = TerytRegistry::units();
 
         $buffer = [];
 
-        while (($row = fgetcsv($file, separator: ';')) !== false) {
-            // Pomijamy puste/niekompletne linie
-            if (count($row) < 9 || $row[6] === '') {
+        foreach (TerytRegistry::localities() as $locality) {
+            if ($locality['is_part']) {
                 continue;
             }
 
-            $voivodeshipId = $voivodeshipIdByTerc[$row[0]] ?? null;
+            $voivodeshipId = $voivodeshipIdByTerc[$locality['woj']] ?? null;
 
             if ($voivodeshipId === null) {
                 continue;
             }
 
             $buffer[] = [
-                'teryt_sym'      => $row[7],
-                'name_pl'        => $row[6],
+                'teryt_sym'      => $locality['sym'],
+                'name_pl'        => $locality['name'],
                 'name_en'        => null,
                 'voivodeship_id' => $voivodeshipId,
+                ...TerytRegistry::details($locality, $units),
             ];
 
             if (count($buffer) >= self::CHUNK_SIZE) {
@@ -63,6 +58,7 @@ class CitiesSeeder extends Seeder
             DB::table('cities')->insert($buffer);
         }
 
-        fclose($file);
+        // ** Flaga powtarzającej się nazwy - liczona po wgraniu całości
+        City::recomputeAmbiguity();
     }
 }

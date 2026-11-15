@@ -73,7 +73,7 @@ class Geocoder
             ? City::where('voivodeship_id', $voivodeship->id)->find($request->input('city_id'))
             : null;
 
-        $hit = $this->search($request->input($textField), $city?->name_pl, $voivodeship);
+        $hit = $this->search($request->input($textField), $city?->geocodeName(), $voivodeship);
 
         if ($hit) {
             $request->merge([

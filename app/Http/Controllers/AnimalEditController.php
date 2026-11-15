@@ -59,7 +59,7 @@ class AnimalEditController extends Controller
             'colors' => Color::orderBy('name')->get(),
             'behaviors' => Behavior::orderBy('name')->get(),
             'identMarksTags' => IdentMarksTag::orderBy('name')->get(),
-            'selectedCityName' => City::find(old('city_id'))?->name_pl,
+            'selectedCityName' => City::find(old('city_id'))?->label,
         ]);
     }
 
@@ -232,7 +232,7 @@ class AnimalEditController extends Controller
             'colors' => Color::orderBy('name')->get(),
             'behaviors' => Behavior::orderBy('name')->get(),
             'identMarksTags' => IdentMarksTag::orderBy('name')->get(),
-            'selectedCityName' => City::find($selectedCityId)?->name_pl,
+            'selectedCityName' => City::find($selectedCityId)?->label,
         ]);
     }
 

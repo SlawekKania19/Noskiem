@@ -70,7 +70,7 @@ class LocationController extends Controller
         // Dopasowanie po dokładnej nazwie - nazewnictwo OSM i SIMC zwykle się pokrywa,
         // ale przy rozbieżności zostawiamy city_id puste i podpowiadamy tekst do ręcznego wyboru
         $city = ($voivodeship && $localityName)
-            ? City::where('voivodeship_id', $voivodeship->id)->where('name_pl', $localityName)->first()
+            ? $this->matchCity($voivodeship, $localityName, $address)
             : null;
 
         $locationTextSuggestion = collect([$street, $district, $localityName])->filter()->implode(', ') ?: null;
@@ -79,9 +79,58 @@ class LocationController extends Controller
             'resolved' => (bool) $voivodeship,
             'voivodeship_id' => $voivodeship?->id,
             'city_id' => $city?->id,
-            'city_name' => $city?->name_pl ?? $localityName,
+            'city_name' => $city?->label ?? $localityName,
             'location_text_suggestion' => $locationTextSuggestion,
         ]);
+    }
+
+    // ---------------------------
+    // Szuka miejscowości o nazwie z OSM w województwie. Przy kilku o tej samej nazwie
+    // (np. "Dąbrowa") zawężamy po gminie ("municipality": "gmina Gnojnik"), a potem po powiecie
+    // ("county": "powiat brzeski"). Jeśli nadal nie da się wskazać jednej - zwracamy null,
+    // żeby użytkownik wybrał ręcznie, zamiast podstawiać przypadkową.
+    // ---------------------------
+    private function matchCity(Voivodeship $voivodeship, string $localityName, array $address): ?City
+    {
+        $candidates = City::where('voivodeship_id', $voivodeship->id)->where('name_pl', $localityName)->get();
+
+        if ($candidates->count() <= 1) {
+            return $candidates->first();
+        }
+
+        $filters = [
+            'gmina'  => $this->stripPrefix($address['municipality'] ?? null, 'gmina'),
+            'powiat' => $this->stripPrefix($address['county'] ?? null, 'powiat'),
+        ];
+
+        foreach ($filters as $column => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            $narrowed = $candidates->filter(fn (City $c) => mb_strtolower((string) $c->$column) === mb_strtolower($value));
+
+            if ($narrowed->count() === 1) {
+                return $narrowed->first();
+            }
+
+            // ** Zawężamy dalej tylko gdy filtr coś zostawił - inaczej OSM i TERC różnią się nazewnictwem
+            if ($narrowed->isNotEmpty()) {
+                $candidates = $narrowed;
+            }
+        }
+
+        return null;
+    }
+
+    // ** "gmina Gnojnik" -> "Gnojnik", "powiat brzeski" -> "brzeski"
+    private function stripPrefix(?string $value, string $prefix): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return trim(preg_replace('/^'.$prefix.'\s+/iu', '', $value));
     }
 
     // ---------------------------
@@ -102,7 +151,7 @@ class LocationController extends Controller
             ? City::where('voivodeship_id', $voivodeship->id)->find($data['city_id'] ?? null)
             : null;
 
-        $hit = $geocoder->search($data['q'] ?? null, $city?->name_pl, $voivodeship);
+        $hit = $geocoder->search($data['q'] ?? null, $city?->geocodeName(), $voivodeship);
 
         if (! $hit) {
             return response()->json(['found' => false]);

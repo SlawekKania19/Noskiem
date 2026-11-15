@@ -33,7 +33,7 @@ class ChipRegistrationController extends Controller
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'selectedCityName' => City::find(old('city_id'))?->name_pl,
+            'selectedCityName' => City::find(old('city_id'))?->label,
         ]);
     }
 
@@ -155,7 +155,7 @@ class ChipRegistrationController extends Controller
             'species' => Species::orderBy('sortkey')->get(),
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'selectedCityName' => City::find(old('city_id', $values['city_id'] ?? null))?->name_pl,
+            'selectedCityName' => City::find(old('city_id', $values['city_id'] ?? null))?->label,
         ]);
     }
 

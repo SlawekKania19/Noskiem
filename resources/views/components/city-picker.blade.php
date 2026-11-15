@@ -76,11 +76,14 @@
             class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-[#e5e5dc] bg-white py-1 shadow-lg"
         >
             <template x-for="city in results" :key="city.id">
+                {{-- Przy powtarzającej się nazwie dopisek z gminą/powiatem pod nazwą --}}
                 <li
                     @click="select(city)"
                     class="cursor-pointer px-3 py-2 text-[14px] text-[#283618] hover:bg-[#f5f5f0]"
-                    x-text="city.name_pl"
-                ></li>
+                >
+                    <span x-text="city.name_pl"></span>
+                    <span x-show="city.details" x-text="city.details" class="block text-[12px] text-[#8f9485]"></span>
+                </li>
             </template>
         </ul>
 

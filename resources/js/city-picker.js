@@ -63,7 +63,7 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             this.cityId = '';
             clearTimeout(this.debounceTimer);
 
-            if (!this.voivodeshipId || this.query.trim().length < 3) {
+            if (!this.voivodeshipId || this.searchTerm().length < 3) {
                 this.results = [];
                 this.open = false;
                 this.$dispatch('city-picker-change', { voivodeshipId: this.voivodeshipId, cityId: this.cityId });
@@ -79,7 +79,7 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             try {
                 const params = new URLSearchParams({
                     voivodeship_id: this.voivodeshipId,
-                    q: this.query.trim(),
+                    q: this.searchTerm(),
                 });
 
                 const response = await fetch(`/cities/search?${params}`, {
@@ -95,9 +95,15 @@ export default function cityPicker({ voivodeshipId = '', cityId = '', cityName =
             }
         },
 
+        // ** Szukamy po samej nazwie - dopisek "(gm. ..., pow. ...)" z poprzedniego wyboru odcinamy
+        searchTerm() {
+            return this.query.replace(/\s*\(.*$/, '').trim();
+        },
+
         select(city) {
             this.cityId = String(city.id);
-            this.query = city.name_pl;
+            // ** Pełna etykieta - przy kilku "Dąbrowach" widać, którą wybrano
+            this.query = city.label ?? city.name_pl;
             this.results = [];
             this.open = false;
             this.$dispatch('city-picker-change', { voivodeshipId: this.voivodeshipId, cityId: this.cityId });

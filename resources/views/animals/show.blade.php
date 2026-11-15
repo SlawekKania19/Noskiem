@@ -350,7 +350,7 @@
                     @if ($animal->city)
                         <div>
                             <dt class="text-[12px] uppercase tracking-wide text-[#8f9485]">Miejscowość</dt>
-                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->city->name_pl }}</dd>
+                            <dd class="mt-1 text-[14px] text-[#283618]">{{ $animal->city->label }}</dd>
                         </div>
                     @endif
                     @if ($animal->voivodeship)

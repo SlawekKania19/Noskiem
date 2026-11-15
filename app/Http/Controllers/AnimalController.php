@@ -45,7 +45,7 @@ class AnimalController extends Controller
             'animals' => $animals,
             'species' => Species::orderBy('sortkey')->get(),
             'voivodeships' => Voivodeship::orderBy('name_pl')->get(),
-            'selectedCityName' => City::find($request->city_id)?->name_pl,
+            'selectedCityName' => City::find($request->city_id)?->label,
             'breeds' => Breed::orderBy('breed_pl')->get(),
             'colors' => Color::orderBy('name')->get(),
         ]);
