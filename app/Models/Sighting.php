@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Support\Stats;
 
 // ---------------------------
 // Model reprezentujący zgłoszenie "też widziałem" pod ogłoszeniem (Animal ze
@@ -53,6 +54,25 @@ class Sighting extends Model
     ];
 
     // ** Relacje
+
+    // ** Dziennik statystyk (App\Support\Stats) - od potwierdzenia e-maila, województwo z ogłoszenia
+    protected static function booted(): void
+    {
+        $record = fn (Sighting $sighting) => Stats::record('sighting_submitted', [
+            'listing_status' => $sighting->animal?->status,
+            'species_id'     => $sighting->species_id,
+            'voivodeship_id' => $sighting->animal?->voivodeship_id,
+            'subject_id'     => $sighting->id,
+        ]);
+
+        static::created(fn (Sighting $sighting) => $sighting->email_verified_at !== null ? $record($sighting) : null);
+
+        static::updated(function (Sighting $sighting) use ($record) {
+            if ($sighting->wasChanged('email_verified_at') && $sighting->getOriginal('email_verified_at') === null && $sighting->email_verified_at !== null) {
+                $record($sighting);
+            }
+        });
+    }
 
     public function animal(): BelongsTo
     {

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use App\Support\Stats;
 
 // ---------------------------
 // Model wpisu w bezpłatnej bazie chipów. Niezależny od ogłoszeń (Animal) - po
@@ -100,6 +101,21 @@ class ChipRegistration extends Model
     // bez tego zostawałyby osierocone pliki na dysku prywatnym
     protected static function booted(): void
     {
+        // ** Dziennik statystyk (App\Support\Stats) - od potwierdzenia e-maila
+        $record = fn (ChipRegistration $registration) => Stats::record('chip_registered', [
+            'species_id'     => $registration->species_id,
+            'voivodeship_id' => $registration->voivodeship_id,
+            'subject_id'     => $registration->id,
+        ]);
+
+        static::created(fn (ChipRegistration $registration) => $registration->email_verified_at !== null ? $record($registration) : null);
+
+        static::updated(function (ChipRegistration $registration) use ($record) {
+            if ($registration->wasChanged('email_verified_at') && $registration->getOriginal('email_verified_at') === null && $registration->email_verified_at !== null) {
+                $record($registration);
+            }
+        });
+
         static::deleted(function (ChipRegistration $registration) {
             Storage::disk('local')->delete(array_filter([
                 $registration->sticker_photo_path,

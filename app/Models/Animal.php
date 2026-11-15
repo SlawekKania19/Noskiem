@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Support\Stats;
 
 // ---------------------------
 // Model reprezentujący zwierzęta zgłaszane do systemu. Zawiera informacje o statusie, opisie, dacie zdarzenia, lokalizacji oraz kontakcie do zgłaszającego.
@@ -132,6 +133,20 @@ class Animal extends Model
         // więc pliki zostałyby na dysku jako sieroty. Kasujemy je zawczasu, zanim baza
         // usunie rekordy, bo potem nie mielibyśmy już skąd odczytać ścieżek.
         static::deleting(fn (Animal $animal) => $animal->deleteRelatedPhotoFiles());
+
+        // ** Dziennik statystyk (App\Support\Stats) - przetrwa usunięcie ogłoszenia
+        static::created(fn (Animal $animal) => Stats::record('animal_published', Stats::fromListing($animal)));
+
+        static::updated(function (Animal $animal) {
+            if ($animal->wasChanged('mod_status') && $animal->mod_status === 'resolved') {
+                Stats::record('animal_resolved', [
+                    ...Stats::fromListing($animal),
+                    'days' => (int) $animal->created_at?->diffInDays(now()),
+                ]);
+            }
+        });
+
+        static::deleted(fn (Animal $animal) => Stats::record('animal_deleted', Stats::fromListing($animal)));
     }
 
     // ** Pliki wszystkich zdjęć powiązanych z ogłoszeniem: własnych, z oczekujących edycji

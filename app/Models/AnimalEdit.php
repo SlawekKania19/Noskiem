@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Support\Stats;
 
 // ---------------------------
 // Model reprezentujący edycję zgłoszenia zwierzęcia.
@@ -63,6 +64,31 @@ class AnimalEdit extends Model
     ];
 
     // ** Relacje
+
+    // ** Dziennik statystyk (App\Support\Stats) - tylko nowe zgłoszenia (bez animal_id), nie edycje.
+    // Zgłoszenie liczymy od potwierdzenia e-maila - niepotwierdzone to zwykle spam/porzucone
+    protected static function booted(): void
+    {
+        static::created(function (AnimalEdit $edit) {
+            if ($edit->animal_id === null && $edit->email_verified_at !== null) {
+                Stats::record('animal_submitted', Stats::fromListing($edit));
+            }
+        });
+
+        static::updated(function (AnimalEdit $edit) {
+            if ($edit->animal_id !== null) {
+                return;
+            }
+
+            if ($edit->wasChanged('email_verified_at') && $edit->getOriginal('email_verified_at') === null && $edit->email_verified_at !== null) {
+                Stats::record('animal_submitted', Stats::fromListing($edit));
+            }
+
+            if ($edit->wasChanged('mod_status') && $edit->mod_status === 'rejected') {
+                Stats::record('animal_rejected', Stats::fromListing($edit));
+            }
+        });
+    }
 
     public function animal(): BelongsTo
     {

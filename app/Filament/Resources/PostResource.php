@@ -261,6 +261,12 @@ class PostResource extends Resource
                     ->sortable()
                     ->placeholder('-'),
 
+                // ** Odsłony łącznie (App\Services\PostViewCounter) - per okres na stronie Statystyki
+                Tables\Columns\TextColumn::make('views_count')
+                    ->label('Odsłony')
+                    ->numeric(thousandsSeparator: ' ')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Edytowano')
                     ->dateTime('d.m.Y H:i')

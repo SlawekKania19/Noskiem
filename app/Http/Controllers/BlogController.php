@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogCategory;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\PostViewCounter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -63,6 +64,9 @@ class BlogController extends Controller
         }
 
         $post->load(['author', 'category']);
+
+        // ** Odsłona do statystyk w panelu (bez botów, zalogowanych i odświeżeń w sesji)
+        app(PostViewCounter::class)->record($post, request());
 
         // ** Kilka innych opublikowanych wpisów z tej samej kategorii - blok „Zobacz też"
         $related = $post->blog_category_id
